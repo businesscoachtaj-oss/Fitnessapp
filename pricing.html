@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CT Fitness — Pricing</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c0c0c;--surface:#141414;--surface2:#1c1c1c;
+  --border:#252525;--border2:#333;--border3:#444;
+  --white:#fff;--off-white:#e8e4de;--muted:#666;--muted2:#444;
+  --red:#CD0404;--red2:#e03333;--green:#4caf7d;--blue:#7eb8e0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;overflow-x:hidden;}
+
+/* HERO */
+.page-hero{padding:72px 40px 60px;max-width:900px;margin:0 auto;text-align:center;}
+.eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:6px;text-transform:uppercase;color:var(--red);margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:12px;}
+.eyebrow::before,.eyebrow::after{content:'';width:24px;height:1px;background:var(--red);}
+.page-title{font-family:'Playfair Display',serif;font-size:clamp(42px,6vw,72px);font-weight:900;line-height:1;margin-bottom:18px;}
+.page-title em{font-style:italic;color:var(--red);}
+.page-sub{font-size:17px;color:var(--muted);line-height:1.8;max-width:520px;margin:0 auto;}
+
+/* PRICING CARDS */
+.pricing-section{padding:0 40px 80px;max-width:1100px;margin:0 auto;}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+
+.price-card{background:var(--surface);border:1px solid var(--border2);overflow:hidden;position:relative;transition:border-color 0.3s;}
+.price-card:hover{border-color:var(--border3);}
+.price-card.featured{border-color:rgba(205,4,4,0.4);}
+.price-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--border2);}
+.price-card.featured::before{background:var(--red);}
+
+.featured-badge{position:absolute;top:20px;right:20px;padding:4px 12px;background:rgba(205,4,4,0.12);border:1px solid rgba(205,4,4,0.3);font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);}
+
+.pc-header{padding:32px 32px 24px;}
+.pc-icon{font-size:32px;margin-bottom:16px;display:block;}
+.pc-type{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--red);margin-bottom:8px;}
+.pc-name{font-family:'Playfair Display',serif;font-size:34px;font-weight:900;line-height:1.1;margin-bottom:12px;}
+.pc-desc{font-size:15px;color:var(--muted);line-height:1.7;}
+
+.pc-price-wrap{margin:0 32px 24px;padding:20px 24px;background:var(--surface2);border:1px solid var(--border);}
+.pc-price-row{display:flex;align-items:baseline;gap:6px;margin-bottom:4px;}
+.pc-price{font-family:'Playfair Display',serif;font-size:54px;font-weight:900;line-height:1;}
+.pc-per{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.pc-billing{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-top:4px;}
+.pc-saving{font-size:13px;color:var(--green);margin-top:6px;}
+
+.pc-features{padding:0 32px 24px;}
+.pc-features-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.pc-feature{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);}
+.pc-feature:last-child{border-bottom:none;}
+.pc-feat-dot{width:5px;height:5px;background:var(--red);flex-shrink:0;margin-top:6px;}
+.pc-feat-text{font-size:14px;color:var(--muted);line-height:1.6;}
+.pc-feat-text strong{color:var(--off-white);}
+
+.pc-cta{padding:0 32px 32px;}
+.pc-btn{display:block;width:100%;padding:16px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:900;letter-spacing:4px;text-transform:uppercase;cursor:pointer;border:none;transition:all 0.2s;text-decoration:none;}
+.pc-btn-primary{background:var(--white);color:#000;}
+.pc-btn-primary:hover{background:var(--red);color:#fff;}
+.pc-btn-secondary{background:transparent;color:var(--muted);border:1px solid var(--border2);}
+.pc-btn-secondary:hover{color:var(--white);border-color:var(--border3);}
+
+/* COMPARE TABLE */
+.compare-section{padding:0 40px 80px;max-width:900px;margin:0 auto;}
+.compare-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--muted);margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.compare-table{width:100%;border-collapse:collapse;}
+.compare-table th{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);}
+.compare-table th:not(:first-child){text-align:center;color:var(--red);}
+.compare-table td{padding:12px 16px;border-bottom:1px solid var(--border);font-size:14px;color:var(--muted);}
+.compare-table td:not(:first-child){text-align:center;}
+.compare-table tr:last-child td{border-bottom:none;}
+.check{color:var(--green);font-size:16px;}
+.cross{color:var(--muted2);font-size:14px;}
+
+/* FAQ */
+.faq-section{padding:0 40px 80px;max-width:760px;margin:0 auto;}
+.faq-item{border-bottom:1px solid var(--border);padding:20px 0;}
+.faq-q{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--off-white);margin-bottom:8px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;}
+.faq-q:hover{color:var(--white);}
+.faq-arrow{color:var(--red);font-size:18px;flex-shrink:0;transition:transform 0.2s;}
+.faq-a{font-size:15px;color:var(--muted);line-height:1.8;display:none;padding-top:4px;}
+.faq-item.open .faq-a{display:block;}
+.faq-item.open .faq-arrow{transform:rotate(45deg);}
+
+/* GUARANTEE */
+.guarantee{margin:0 40px 80px;padding:32px 40px;background:linear-gradient(135deg,rgba(205,4,4,0.07),transparent);border:1px solid rgba(205,4,4,0.2);display:flex;align-items:center;gap:32px;flex-wrap:wrap;}
+.guarantee-icon{font-size:48px;flex-shrink:0;}
+.guarantee-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;margin-bottom:8px;}
+.guarantee-body{font-size:15px;color:var(--muted);line-height:1.7;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .pricing-grid{grid-template-columns:1fr;}
+  .page-hero,.pricing-section,.compare-section,.faq-section{padding-left:20px;padding-right:20px;}
+  .guarantee{margin-left:20px;margin-right:20px;padding:24px 20px;flex-direction:column;text-align:center;}
+  .pc-header,.pc-price-wrap,.pc-features,.pc-cta{padding-left:20px;padding-right:20px;}
+  .pc-price-wrap{margin-left:20px;margin-right:20px;}
+}
+
+/* ── UNIVERSAL MOBILE FIX ── */
+@media(max-width:768px){
+  html{ font-size:100% !important; }
+  /* Headers */
+  .header{padding:14px 16px !important;flex-wrap:wrap;gap:8px;}
+  header{padding:10px 14px !important;}
+  .header-title h1{font-size:24px !important;line-height:1.1;}
+  .logo-ct{font-size:22px !important;}
+  /* Hero strips */
+  .hero-strip{padding:16px !important;grid-template-columns:1fr !important;gap:12px !important;}
+  .hero-stat{padding:10px 14px !important;}
+  /* Form and results panels */
+  .form-panel{padding:20px 16px 40px !important;}
+  .results-panel{padding:20px 16px 40px !important;}
+  .form-content{padding:20px 16px 40px !important;}
+  .results-content{padding:20px 16px 40px !important;}
+  /* Services sections */
+  .services-section,.why-section,.expect-section,.creds-section,.contact-section{padding:32px 16px !important;}
+  .hero-strip .hero-heading{font-size:32px !important;}
+  .hero-strip .hero-body{font-size:15px !important;}
+  .services-grid,.why-grid,.expect-grid{grid-template-columns:1fr !important;}
+  /* Grids */
+  .form-grid-3{grid-template-columns:1fr 1fr !important;}
+  .form-grid-2{grid-template-columns:1fr 1fr !important;}
+  .results-grid{grid-template-columns:1fr !important;}
+  .macro-row{grid-template-columns:1fr !important;}
+  .goal-grid{grid-template-columns:1fr 1fr !important;}
+  .bf-cards-grid{grid-template-columns:1fr !important;}
+  .lean-row{grid-template-columns:1fr 1fr !important;}
+  .exercise-grid{grid-template-columns:1fr !important;}
+  .result-cards-grid{grid-template-columns:1fr !important;}
+  .vol-grid{grid-template-columns:1fr !important;}
+  .schedule-grid{grid-template-columns:repeat(3,1fr) !important;}
+  .tip-list{grid-template-columns:1fr !important;}
+  .key-card{grid-template-columns:1fr !important;}
+  .muscle-grid-desktop{grid-template-columns:1fr 1fr !important;}
+  /* Unit toggles */
+  .unit-toggle-wrap{flex-wrap:wrap;}
+  /* Ensure nothing overflows */
+  img,canvas,video,iframe{max-width:100% !important;}
+  table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+}
+@media(max-width:480px){
+  html{ font-size:100% !important; }
+  .header{padding:10px 12px !important;}
+  .form-grid-3{grid-template-columns:1fr !important;}
+  .form-grid-2{grid-template-columns:1fr !important;}
+  .goal-grid{grid-template-columns:1fr !important;}
+  .lean-row{grid-template-columns:1fr !important;}
+  .schedule-grid{grid-template-columns:1fr 1fr !important;}
+  .muscle-grid-desktop{grid-template-columns:1fr !important;}
+  .visual-grid{grid-template-columns:1fr !important;}
+  .day-selector{grid-template-columns:repeat(2,1fr) !important;}
+  .gender-row{grid-template-columns:1fr 1fr !important;}
+  .rh-right{min-width:0 !important;width:100% !important;}
+  .std-lbl{min-width:60px !important;font-size:10px !important;}
+  .std-val{min-width:50px !important;font-size:10px !important;}
+  /* Services */
+  .services-section,.why-section,.expect-section,.creds-section,.contact-section{padding:24px 12px !important;}
+  .sec-heading{font-size:28px !important;}
+}
+</style>
+</head>
+<body>
+
+<!-- Nav injected by nav.js -->
+
+<div class="page-hero">
+  <div class="eyebrow">Invest in Yourself</div>
+  <h1 class="page-title">Simple, <em>Transparent</em> Pricing</h1>
+  <p class="page-sub">No lock-in contracts. Cancel anytime. Every plan includes a personalised program built around your goals, schedule, and experience level.</p>
+</div>
+
+<div class="pricing-section">
+  <div class="pricing-grid">
+
+    <!-- ONLINE COACHING -->
+    <div class="price-card">
+      <div class="pc-header">
+        <span class="pc-icon">💻</span>
+        <div class="pc-type">Remote</div>
+        <div class="pc-name">Online Coaching</div>
+        <div class="pc-desc">Full coaching experience from anywhere. A personalised program, weekly check-ins, and direct access to Taj — all delivered online.</div>
+      </div>
+      <div class="pc-price-wrap">
+        <div class="pc-price-row">
+          <span class="pc-price">$50</span>
+          <span class="pc-per">/ week</span>
+        </div>
+        <div class="pc-billing">Billed weekly · Cancel anytime</div>
+        <div class="pc-saving">≈ $200/month — most popular</div>
+      </div>
+      <div class="pc-features">
+        <div class="pc-features-title">What's included</div>
+        <div class="pc-feature"><div class="pc-feat-dot"></div><div class="pc-feat-text"><strong>Personalised training program</strong> built for your goals and schedule</div></div>
+        <div class="pc-feature"><div class="pc-feat-dot"></div><div class="pc-feat-text"><strong>15-minute weekly video check-in</strong> to review progress and adjust</div></div>
+        <div class="pc-feature"><div class="pc-feat-dot"></div><div class="pc-feat-text"><strong>Nutrition guidance</strong> — calorie targets, macros, protein recommendations</div></div>
+        <div class="pc-feature"><div class="pc-feat-dot"></div><div class="pc-feat-text"><strong>Direct messaging access</strong> — questions answered within 24hrs</div></div>
+        <div class="pc-feature"><div class="pc-feat-dot"></div><div class="pc-feat-text"><strong>Program adjustments</strong> as you progress and adapt</div></div>
+        <div class="pc-feature"><div class="pc-feat-dot"></div><div class="pc-feat-text">Access to all CT Fitness tools and calculators</div></div>
+      </div>
+      <div class="pc-cta">
+        <a class="pc-btn pc-btn-secondary" id="btnOnline" href="signup.html?plan=online">Start Online Coaching →</a>
+      </div>
+    </div>
+
+    <!-- 1:1 PT -->
+    <div class="price-card featured">
+      <div class="featured-badge">&#9670; In Person</div>
+      <div class="pc-header">
+        <span class="pc-icon">🏋</span>
+        <div class="pc-type">Face to Face</div>
+        <div class="pc-name">1:1 Personal Training</div>
+        <div class="pc-desc">Train with Taj in person at Crows Nest, Sydney. Hands-on coaching, real-time form correction, and full program management.</div>
+      </div>
+      <div class="pc-price-wrap">
+        <div class="pc-price-row">
+          <span class="pc-price">$90</span>
+          <span class="pc-per">/ session</span>
+        </div>
+        <div class="pc-billing">Billed weekly · 2 sessions per week default</div>
+        <div class="pc-saving">$180/week · 45 min sessions</div>
+      </div>
+      <div class="pc-features">
+        <div class="pc-features-title">What's included</div>
+        <div class="pc-feature"><div class="pc-feat-dot"></div><div class="pc-feat-text"><strong>45-minute 1:1 sessions</strong> at 455 Pacific Highway, Crows Nest</div></div>
+        <div class="pc-feature"><div class="pc-feat-dot"></div><div class="pc-feat-text"><strong>Real-time form coaching</strong> and technique correction every session</div></div>
+        <div class="pc-feature"><div class="pc-feat-dot"></div><div class="pc-feat-text"><strong>Fully personalised program</strong> designed around your body and goals</div></div>
+        <div class="pc-feature"><div class="pc-feat-dot"></div><div class="pc-feat-text"><strong>Nutrition guidance</strong> included as part of the program</div></div>
+        <div class="pc-feature"><div class="pc-feat-dot"></div><div class="pc-feat-text"><strong>Progress tracking</strong> every session — weight, reps, sets logged</div></div>
+        <div class="pc-feature"><div class="pc-feat-dot"></div><div class="pc-feat-text"><strong>Injury-aware programming</strong> — lower body injury management certified</div></div>
+      </div>
+      <div class="pc-cta">
+        <a class="pc-btn pc-btn-primary" id="btnPT" href="signup.html?plan=pt">Book 1:1 Training →</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- COMPARE -->
+<div class="compare-section">
+  <div class="compare-title">&#9670; Plan Comparison</div>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>Online Coaching</th>
+        <th>1:1 PT</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Personalised program</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>Nutrition guidance</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>Weekly check-in</td><td>15 min video call</td><td>Every session</td></tr>
+      <tr><td>In-person sessions</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>Real-time form correction</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>Direct messaging</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>Program adjustments</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>Cancel anytime</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>Location</td><td>Anywhere</td><td>Crows Nest, Sydney</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- GUARANTEE -->
+<div class="guarantee">
+  <div class="guarantee-icon">◆</div>
+  <div>
+    <div class="guarantee-title">No Lock-In. No Risk.</div>
+    <div class="guarantee-body">Cancel your subscription anytime — no fees, no questions. If you're not getting results in the first 4 weeks, Taj will work with you until you are. Coaching is a partnership, not a transaction.</div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="faq-section">
+  <div class="compare-title">&#9670; Frequently Asked Questions</div>
+
+  <div class="faq-item">
+    <div class="faq-q">How does weekly billing work? <span class="faq-arrow">+</span></div>
+    <div class="faq-a">Your card is automatically charged each week on the same day you signed up. Payments are processed securely through Stripe — CT Fitness never stores your card details. You can cancel at any time from your member dashboard and your access continues until the end of the billing period.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Can I pause my subscription? <span class="faq-arrow">+</span></div>
+    <div class="faq-a">Yes — if you're travelling, injured, or just need a break, you can pause your subscription from your dashboard. Pausing stops billing and resumes when you're ready. Just give Taj a heads-up so he can adjust your program on return.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What happens after I sign up? <span class="faq-arrow">+</span></div>
+    <div class="faq-a">Once payment is confirmed, Taj will reach out within 24 hours to complete an onboarding form covering your goals, training history, schedule and any injuries. Your first program is usually delivered within 48 hours.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Is online coaching as effective as in-person? <span class="faq-arrow">+</span></div>
+    <div class="faq-a">For most people, yes — especially if you already have some training experience. The program, guidance and accountability are identical. The main difference is real-time form correction, which is why in-person PT is recommended for complete beginners or those with complex movement issues.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Do I need a gym membership? <span class="faq-arrow">+</span></div>
+    <div class="faq-a">For online coaching, programs can be written for any environment — commercial gym, home gym, or minimal equipment. For in-person PT, sessions are at Crows Nest (455 Pacific Highway) which has full equipment access.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Can I switch between plans? <span class="faq-arrow">+</span></div>
+    <div class="faq-a">Absolutely. You can upgrade from online coaching to in-person PT or downgrade at any time. Changes take effect at the start of the next billing cycle. Just message Taj or update from your member dashboard.</div>
+  </div>
+</div>
+
+<script src="nav.js" onload="CTNav.init('pricing')" onerror="console.warn('nav.js not found')"></script>
+<script>
+// FAQ accordion
+document.querySelectorAll('.faq-q').forEach(function(q){
+  q.addEventListener('click', function(){
+    var item = q.parentElement;
+    var wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(function(i){ i.classList.remove('open'); });
+    if(!wasOpen) item.classList.add('open');
+  });
+});
+</script>
+</body>
+</html>
