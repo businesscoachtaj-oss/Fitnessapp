@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CT Fitness — Member Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --bg:#0c0c0c;--surface:#141414;--surface2:#1c1c1c;
+  --border:#252525;--border2:#333;--border3:#444;
+  --white:#fff;--off-white:#e8e4de;--muted:#666;--muted2:#444;
+  --red:#CD0404;--red2:#e03333;--green:#4caf7d;--blue:#7eb8e0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;overflow-x:hidden;min-height:100vh;}
+
+/* LOADING */
+.loading-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;flex-direction:column;gap:16px;}
+.loading-logo{font-family:'Playfair Display',serif;font-size:32px;font-weight:900;letter-spacing:2px;}
+.loading-spinner{width:32px;height:32px;border:2px solid var(--border2);border-top-color:var(--red);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* WELCOME BANNER */
+.welcome-banner{background:linear-gradient(135deg,rgba(205,4,4,0.12),rgba(205,4,4,0.04));border-bottom:1px solid rgba(205,4,4,0.25);padding:16px 40px;display:none;align-items:center;justify-content:space-between;gap:12px;}
+.welcome-banner.show{display:flex;}
+.wb-text{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--off-white);}
+.wb-text span{color:var(--red);}
+.wb-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;padding:4px;}
+
+/* PAGE */
+.dash-wrap{max-width:1100px;margin:0 auto;padding:40px 40px 80px;}
+
+/* PAGE HEADER */
+.dash-header{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:40px;flex-wrap:wrap;}
+.dash-greeting{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,44px);font-weight:900;line-height:1.1;}
+.dash-greeting span{color:var(--red);font-style:italic;}
+.dash-sub{font-size:15px;color:var(--muted);margin-top:6px;}
+.signout-btn{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);background:none;border:1px solid var(--border2);padding:10px 16px;cursor:pointer;transition:all 0.2s;}
+.signout-btn:hover{color:var(--white);border-color:var(--border3);}
+
+/* STATUS CARDS ROW */
+.status-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px;}
+.stat-card{background:var(--surface);border:1px solid var(--border);padding:20px 22px;}
+.stat-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.stat-value{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;line-height:1;color:var(--white);}
+.stat-value.green{color:var(--green);}
+.stat-value.red{color:var(--red);}
+.stat-sub{font-size:13px;color:var(--muted2);margin-top:4px;}
+
+/* MAIN GRID */
+.dash-grid{display:grid;grid-template-columns:2fr 1fr;gap:20px;}
+
+/* SUBSCRIPTION CARD */
+.dash-card{background:var(--surface);border:1px solid var(--border2);overflow:hidden;}
+.dash-card-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.dash-card-title{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--muted);}
+.dash-card-body{padding:24px;}
+
+/* Plan display */
+.plan-display{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px;}
+.pd-left{}
+.pd-plan{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;margin-bottom:4px;}
+.pd-price{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.pd-status{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;}
+.pd-status.active{color:var(--green);background:rgba(76,175,125,0.1);border:1px solid rgba(76,175,125,0.3);}
+.pd-status.paused{color:var(--blue);background:rgba(126,184,224,0.1);border:1px solid rgba(126,184,224,0.3);}
+.pd-status.cancelled{color:var(--muted);background:rgba(102,102,102,0.1);border:1px solid rgba(102,102,102,0.3);}
+.pd-status::before{content:'●';font-size:8px;}
+
+.next-billing{padding:14px 16px;background:var(--surface2);border:1px solid var(--border);margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;}
+.nb-label{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
+.nb-date{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:1px;color:var(--off-white);}
+
+.action-btns{display:flex;gap:8px;flex-wrap:wrap;}
+.action-btn{flex:1;min-width:120px;padding:12px 16px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border:none;transition:all 0.2s;text-align:center;text-decoration:none;}
+.action-btn-primary{background:var(--white);color:#000;}
+.action-btn-primary:hover{background:var(--red);color:#fff;}
+.action-btn-secondary{background:transparent;color:var(--muted);border:1px solid var(--border2);}
+.action-btn-secondary:hover{color:var(--white);border-color:var(--border3);}
+.action-btn-danger{background:transparent;color:#e05555;border:1px solid rgba(224,85,85,0.3);}
+.action-btn-danger:hover{background:rgba(224,85,85,0.08);}
+
+/* Quick links sidebar */
+.quick-links{display:flex;flex-direction:column;gap:8px;}
+.quick-link{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--surface2);border:1px solid var(--border);text-decoration:none;color:inherit;transition:all 0.2s;}
+.quick-link:hover{border-color:var(--border3);background:var(--surface);}
+.ql-icon{font-size:20px;width:32px;text-align:center;flex-shrink:0;}
+.ql-text{}
+.ql-title{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--off-white);margin-bottom:2px;}
+.ql-sub{font-size:12px;color:var(--muted2);}
+
+/* Onboarding checklist */
+.checklist{display:flex;flex-direction:column;gap:0;}
+.check-item{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);}
+.check-item:last-child{border-bottom:none;}
+.check-box{width:22px;height:22px;border:2px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all 0.2s;}
+.check-box.done{background:var(--green);border-color:var(--green);color:#000;}
+.check-text{flex:1;}
+.check-title{font-size:14px;color:var(--off-white);margin-bottom:2px;}
+.check-sub{font-size:12px;color:var(--muted2);}
+.check-link{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);text-decoration:none;flex-shrink:0;}
+.check-link:hover{color:var(--red2);}
+
+/* Profile section */
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.profile-field{background:var(--surface2);border:1px solid var(--border);padding:14px 16px;}
+.pf-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--muted2);margin-bottom:4px;}
+.pf-value{font-size:15px;color:var(--off-white);}
+
+/* No subscription state */
+.no-sub{text-align:center;padding:48px 24px;}
+.no-sub-icon{font-size:48px;margin-bottom:16px;}
+.no-sub-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;margin-bottom:8px;}
+.no-sub-body{font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:24px;}
+
+/* Toast */
+.toast{position:fixed;bottom:32px;right:32px;padding:14px 20px;background:var(--surface);border:1px solid var(--border2);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;z-index:500;transform:translateY(80px);opacity:0;transition:all 0.3s;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{border-color:rgba(76,175,125,0.4);color:var(--green);}
+
+@media(max-width:900px){
+  .dash-grid{grid-template-columns:1fr;}
+  .status-row{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:600px){
+  .dash-wrap{padding:24px 20px 60px;}
+  .status-row{grid-template-columns:1fr;}
+  .welcome-banner{padding:14px 20px;}
+  .profile-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- Nav injected by nav.js -->
+
+<!-- Loading screen -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loading-logo">CT FITNESS</div>
+  <div class="loading-spinner"></div>
+</div>
+
+<!-- Welcome banner (shown after signup) -->
+<div class="welcome-banner" id="welcomeBanner">
+  <div class="wb-text">&#9670; Welcome to CT Fitness! <span>Taj will be in touch within 24 hours to get you started.</span></div>
+  <button class="wb-close" id="wbClose">✕</button>
+</div>
+
+<div class="dash-wrap" id="dashWrap" style="display:none;">
+
+  <!-- Header -->
+  <div class="dash-header">
+    <div>
+      <div class="dash-greeting">Welcome back, <span id="greetName">—</span></div>
+      <div class="dash-sub" id="dashSub">Here's your coaching overview.</div>
+    </div>
+    <button class="signout-btn" id="btnSignout">Sign Out</button>
+  </div>
+
+  <!-- Stats row -->
+  <div class="status-row">
+    <div class="stat-card">
+      <div class="stat-label">Plan</div>
+      <div class="stat-value" id="statPlan">—</div>
+      <div class="stat-sub" id="statPlanSub">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Status</div>
+      <div class="stat-value green" id="statStatus">—</div>
+      <div class="stat-sub" id="statStatusSub">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Next Payment</div>
+      <div class="stat-value" id="statNextPay">—</div>
+      <div class="stat-sub" id="statNextPaySub">—</div>
+    </div>
+  </div>
+
+  <!-- Main grid -->
+  <div class="dash-grid">
+
+    <!-- Left column -->
+    <div style="display:flex;flex-direction:column;gap:20px;">
+
+      <!-- Subscription card -->
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-card-title">&#9670; Your Subscription</div>
+        </div>
+        <div class="dash-card-body" id="subCardBody">
+
+          <!-- Active state -->
+          <div id="subActive" style="display:none;">
+            <div class="plan-display">
+              <div class="pd-left">
+                <div class="pd-plan" id="pdPlanName">—</div>
+                <div class="pd-price" id="pdPlanPrice">—</div>
+              </div>
+              <div class="pd-status active" id="pdStatus">Active</div>
+            </div>
+            <div class="next-billing">
+              <div class="nb-label">Next billing date</div>
+              <div class="nb-date" id="nbDate">—</div>
+            </div>
+            <div class="action-btns">
+              <button class="action-btn action-btn-primary" id="btnManageBilling">Manage Billing</button>
+              <button class="action-btn action-btn-secondary" id="btnSwitchPlan">Switch Plan</button>
+              <button class="action-btn action-btn-danger" id="btnCancel">Cancel</button>
+            </div>
+          </div>
+
+          <!-- No subscription state -->
+          <div id="subNone" style="display:none;">
+            <div class="no-sub">
+              <div class="no-sub-icon">💪</div>
+              <div class="no-sub-title">Ready to Start?</div>
+              <div class="no-sub-body">Choose a coaching plan and start training with Taj. Personalised programming from day one.</div>
+              <a class="action-btn action-btn-primary" href="pricing.html" style="display:inline-block;padding:14px 32px;">View Plans →</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Onboarding checklist -->
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-card-title">&#9670; Getting Started</div>
+        </div>
+        <div class="dash-card-body">
+          <div class="checklist">
+            <div class="check-item" id="chk1">
+              <div class="check-box done" id="chkBox1">✓</div>
+              <div class="check-text">
+                <div class="check-title">Create your account</div>
+                <div class="check-sub">Account set up and ready</div>
+              </div>
+            </div>
+            <div class="check-item" id="chk2">
+              <div class="check-box" id="chkBox2"></div>
+              <div class="check-text">
+                <div class="check-title">Choose a coaching plan</div>
+                <div class="check-sub">Select online coaching or 1:1 PT</div>
+              </div>
+              <a class="check-link" href="pricing.html" id="chkLink2">View Plans →</a>
+            </div>
+            <div class="check-item">
+              <div class="check-box" id="chkBox3"></div>
+              <div class="check-text">
+                <div class="check-title">Complete your onboarding form</div>
+                <div class="check-sub">Taj will send this within 24hrs of sign-up</div>
+              </div>
+            </div>
+            <div class="check-item">
+              <div class="check-box" id="chkBox4"></div>
+              <div class="check-text">
+                <div class="check-title">Receive your first program</div>
+                <div class="check-sub">Built around your goals and schedule</div>
+              </div>
+            </div>
+            <div class="check-item">
+              <div class="check-box" id="chkBox5"></div>
+              <div class="check-text">
+                <div class="check-title">Book your first session / check-in</div>
+                <div class="check-sub">Taj will reach out to schedule</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile -->
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-card-title">&#9670; Your Profile</div>
+          <button class="action-btn action-btn-secondary" id="btnEditProfile" style="padding:8px 14px;font-size:11px;flex:unset;">Edit</button>
+        </div>
+        <div class="dash-card-body">
+          <div class="profile-grid">
+            <div class="profile-field"><div class="pf-label">First Name</div><div class="pf-value" id="pfFirst">—</div></div>
+            <div class="profile-field"><div class="pf-label">Last Name</div><div class="pf-value" id="pfLast">—</div></div>
+            <div class="profile-field" style="grid-column:1/-1;"><div class="pf-label">Email</div><div class="pf-value" id="pfEmail">—</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right column — quick links -->
+    <div style="display:flex;flex-direction:column;gap:20px;">
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-card-title">&#9670; Free Tools</div>
+        </div>
+        <div class="dash-card-body" style="padding:12px;">
+          <div class="quick-links">
+            <a class="quick-link" href="workout-planner.html">
+              <div class="ql-icon">📋</div>
+              <div class="ql-text"><div class="ql-title">Workout Planner</div><div class="ql-sub">Plan & track your training</div></div>
+            </a>
+            <a class="quick-link" href="calorie-calculator.html">
+              <div class="ql-icon">🔥</div>
+              <div class="ql-text"><div class="ql-title">Calorie Calculator</div><div class="ql-sub">TDEE & macro targets</div></div>
+            </a>
+            <a class="quick-link" href="training-split.html">
+              <div class="ql-icon">📅</div>
+              <div class="ql-text"><div class="ql-title">Training Split</div><div class="ql-sub">Volume-based programming</div></div>
+            </a>
+            <a class="quick-link" href="strength-standards.html">
+              <div class="ql-icon">🏋</div>
+              <div class="ql-text"><div class="ql-title">Strength Standards</div><div class="ql-sub">Where do your lifts rank?</div></div>
+            </a>
+            <a class="quick-link" href="body-fat.html">
+              <div class="ql-icon">📊</div>
+              <div class="ql-text"><div class="ql-title">Body Fat Estimator</div><div class="ql-sub">Navy, visual & BMI methods</div></div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Taj -->
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-card-title">&#9670; Contact Taj</div>
+        </div>
+        <div class="dash-card-body">
+          <p style="font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:16px;">Have a question? Need to reschedule? Get in touch directly.</p>
+          <a class="action-btn action-btn-primary" href="/cdn-cgi/l/email-protection#c2a0b7b1abaca7b1b1a1ada3a1aab6a3a882a5afa3abaeeca1adaf" style="display:block;text-align:center;padding:12px;">Email Taj →</a>
+          <div style="margin-top:10px;font-size:12px;color:var(--muted2);text-align:center;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1f7d6a6c76717a6c6c7c707e7c776b7e755f78727e7673317c7072">[email&#160;protected]</a><br>0426 023 523</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="nav.js" onload="CTNav.init('dashboard')" onerror="console.warn('nav.js not found')"></script>
+<script>
+// ─── CONFIG ─────────────────────────────────────────────────────────────────
+var SUPABASE_URL  = 'https://oqwyemyvmqubzbawcgfj.supabase.co';
+var SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9xd3llbXl2bXF1YnpiYXdjZ2ZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5MTA1ODEsImV4cCI6MjA4ODQ4NjU4MX0.AghBMaHcRa9H0ZEbiT6qWCB_1Mpw4EN5rtJPjCTuXTA';
+// ─────────────────────────────────────────────────────────────────────────────
+
+var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+var PLAN_LABELS = {
+  pt:     { name:'1:1 Personal Training', price:'$180 / week', short:'1:1 PT' },
+  online: { name:'Online Coaching',       price:'$50 / week',  short:'Online' }
+};
+
+function init() {
+  // Check welcome param
+  var params = new URLSearchParams(window.location.search);
+  if(params.get('welcome') === '1') {
+    document.getElementById('welcomeBanner').classList.add('show');
+    window.history.replaceState({}, '', 'dashboard.html');
+  }
+
+  document.getElementById('wbClose').addEventListener('click', function(){
+    document.getElementById('welcomeBanner').classList.remove('show');
+  });
+
+  supabase.auth.getSession().then(function(res) {
+    if(!res.data.session) {
+      window.location.href = 'signup.html';
+      return;
+    }
+    loadDashboard(res.data.session.user);
+  });
+
+  document.getElementById('btnSignout').addEventListener('click', function(){
+    supabase.auth.signOut().then(function(){ window.location.href = 'index.html'; });
+  });
+}
+
+function loadDashboard(user) {
+  var meta = user.user_metadata || {};
+  var firstName = meta.first_name || user.email.split('@')[0];
+  var lastName  = meta.last_name  || '';
+  var plan      = meta.plan || null;
+
+  document.getElementById('greetName').textContent = firstName;
+  document.getElementById('pfFirst').textContent   = firstName;
+  document.getElementById('pfLast').textContent    = lastName || '—';
+  document.getElementById('pfEmail').textContent   = user.email;
+
+  // Load subscription from Supabase
+  supabase.from('subscriptions')
+    .select('*')
+    .eq('user_id', user.id)
+    .single()
+    .then(function(res) {
+      document.getElementById('loadingScreen').style.display = 'none';
+      document.getElementById('dashWrap').style.display = 'block';
+
+      if(res.data && res.data.status === 'active') {
+        showActiveSub(res.data);
+      } else {
+        showNoSub(plan);
+      }
+    })
+    .catch(function() {
+      document.getElementById('loadingScreen').style.display = 'none';
+      document.getElementById('dashWrap').style.display = 'block';
+      showNoSub(plan);
+    });
+}
+
+function showActiveSub(sub) {
+  var planInfo = PLAN_LABELS[sub.plan] || { name: sub.plan, price: '—', short: sub.plan };
+  var nextDate = sub.next_billing_date ? new Date(sub.next_billing_date).toLocaleDateString('en-AU', {day:'numeric',month:'long',year:'numeric'}) : '—';
+
+  document.getElementById('statPlan').textContent       = planInfo.short;
+  document.getElementById('statPlanSub').textContent    = planInfo.price;
+  document.getElementById('statStatus').textContent     = 'Active';
+  document.getElementById('statStatus').className       = 'stat-value green';
+  document.getElementById('statStatusSub').textContent  = 'Subscription running';
+  document.getElementById('statNextPay').textContent    = nextDate;
+  document.getElementById('statNextPaySub').textContent = 'Auto-debit scheduled';
+
+  document.getElementById('pdPlanName').textContent  = planInfo.name;
+  document.getElementById('pdPlanPrice').textContent = planInfo.price;
+  document.getElementById('nbDate').textContent      = nextDate;
+
+  document.getElementById('subActive').style.display = 'block';
+  document.getElementById('subNone').style.display   = 'none';
+
+  // Checklist
+  document.getElementById('chkBox2').classList.add('done');
+  document.getElementById('chkBox2').textContent = '✓';
+  document.getElementById('chkLink2').style.display = 'none';
+
+  // Action buttons
+  document.getElementById('btnManageBilling').addEventListener('click', function(){
+    fetch('/.netlify/functions/customer-portal', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ customerId: sub.stripe_customer_id })
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(data){ if(data.url) window.location.href = data.url; });
+  });
+
+  document.getElementById('btnSwitchPlan').addEventListener('click', function(){
+    window.location.href = 'pricing.html';
+  });
+
+  document.getElementById('btnCancel').addEventListener('click', function(){
+    if(confirm('Are you sure you want to cancel your subscription? Access continues until the end of the billing period.')) {
+      fetch('/.netlify/functions/cancel-subscription', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ subscriptionId: sub.stripe_subscription_id })
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        if(data.success) {
+          document.getElementById('pdStatus').textContent = 'Cancels ' + nextDate;
+          document.getElementById('pdStatus').className = 'pd-status paused';
+          showToast('Subscription cancelled. Access until ' + nextDate, 'success');
+        }
+      });
+    }
+  });
+}
+
+function showNoSub(plan) {
+  document.getElementById('statPlan').textContent      = plan ? PLAN_LABELS[plan]?.short || '—' : 'None';
+  document.getElementById('statPlanSub').textContent   = 'No active plan';
+  document.getElementById('statStatus').textContent    = 'Inactive';
+  document.getElementById('statStatus').className      = 'stat-value red';
+  document.getElementById('statStatusSub').textContent = 'No active subscription';
+  document.getElementById('statNextPay').textContent   = '—';
+  document.getElementById('statNextPaySub').textContent= 'Subscribe to start';
+  document.getElementById('subNone').style.display    = 'block';
+  document.getElementById('subActive').style.display  = 'none';
+}
+
+function showToast(msg, 
