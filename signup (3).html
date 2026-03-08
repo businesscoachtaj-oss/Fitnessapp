@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CT Fitness — Sign Up / Log In</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --bg:#0c0c0c;--surface:#141414;--surface2:#1c1c1c;
+  --border:#252525;--border2:#333;--border3:#444;
+  --white:#fff;--off-white:#e8e4de;--muted:#666;--muted2:#444;
+  --red:#CD0404;--red2:#e03333;--green:#4caf7d;--blue:#7eb8e0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;overflow-x:hidden;min-height:100vh;}
+.page-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:80px 20px;}
+.signup-shell{width:100%;max-width:960px;display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border2);}
+.brand-panel{background:var(--surface);padding:48px 40px;border-right:1px solid var(--border2);display:flex;flex-direction:column;justify-content:space-between;}
+.bp-logo{font-family:'Playfair Display',serif;font-size:32px;font-weight:900;letter-spacing:2px;margin-bottom:6px;}
+.bp-sub{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--muted);}
+.bp-heading{font-family:'Playfair Display',serif;font-size:38px;font-weight:900;line-height:1.1;margin:40px 0 16px;}
+.bp-heading em{font-style:italic;color:var(--red);}
+.bp-body{font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:32px;}
+.bp-perks{display:flex;flex-direction:column;gap:10px;}
+.bp-perk{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--muted);line-height:1.5;}
+.bp-perk-dot{width:4px;height:4px;background:var(--red);flex-shrink:0;margin-top:6px;}
+.bp-perk strong{color:var(--off-white);}
+.bp-bottom{margin-top:40px;padding-top:24px;border-top:1px solid var(--border);}
+.bp-contact{font-size:13px;color:var(--muted2);line-height:1.7;}
+.bp-contact a{color:var(--muted);text-decoration:none;}
+.auth-form{background:var(--surface2);padding:48px 40px;}
+.auth-tabs{display:flex;border:1px solid var(--border2);overflow:hidden;margin-bottom:32px;}
+.auth-tab{flex:1;padding:13px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:transparent;color:var(--muted);border:none;cursor:pointer;transition:all 0.2s;}
+.auth-tab.active{background:var(--white);color:#000;}
+.auth-heading{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;margin-bottom:6px;}
+.auth-sub{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:28px;}
+.form-field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;}
+.form-label{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
+.form-input{background:var(--surface);border:1px solid var(--border2);color:var(--white);padding:13px 14px;font-family:'Barlow',sans-serif;font-size:16px;outline:none;transition:border-color 0.2s;border-radius:0;-webkit-appearance:none;width:100%;}
+.form-input:focus{border-color:var(--red);}
+.form-input::placeholder{color:var(--border3);}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.submit-btn{width:100%;padding:16px;background:var(--white);color:#000;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:900;letter-spacing:4px;text-transform:uppercase;cursor:pointer;border:none;transition:all 0.2s;margin-top:8px;}
+.submit-btn:hover{background:var(--red);color:#fff;}
+.submit-btn:disabled{opacity:0.5;cursor:not-allowed;}
+.auth-status{margin-top:12px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;display:none;padding:10px 14px;border:1px solid;}
+.auth-status.error{color:#e05555;border-color:rgba(224,85,85,0.3);background:rgba(224,85,85,0.05);display:block;}
+.auth-status.success{color:var(--green);border-color:rgba(76,175,125,0.3);background:rgba(76,175,125,0.05);display:block;}
+.auth-status.info{color:var(--blue);border-color:rgba(126,184,224,0.3);background:rgba(126,184,224,0.05);display:block;}
+.form-note{font-size:12px;color:var(--muted2);line-height:1.6;margin-top:12px;text-align:center;}
+.form-note a{color:var(--muted);text-decoration:underline;cursor:pointer;}
+.forgot-link{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);background:none;border:none;cursor:pointer;padding:0;margin-top:4px;transition:color 0.2s;display:block;text-align:right;}
+.forgot-link:hover{color:var(--muted);}
+@media(max-width:768px){
+  .page-wrap{padding:40px 16px;}
+  .signup-shell{grid-template-columns:1fr;}
+  .brand-panel{border-right:none;border-bottom:1px solid var(--border2);padding:28px 20px;}
+  .auth-form{padding:28px 20px;}
+  .bp-heading{font-size:28px;margin:24px 0 12px;}
+  .form-row-2{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <div class="signup-shell">
+    <div class="brand-panel">
+      <div>
+        <div class="bp-logo">CT FITNESS</div>
+        <div class="bp-sub">Coach Taj Donaldson</div>
+        <h2 class="bp-heading">Your <em>Coaching</em> Hub</h2>
+        <p class="bp-body">Create a free account to access your personalised dashboard, track your progress, and manage your coaching with Taj.</p>
+        <div class="bp-perks">
+          <div class="bp-perk"><div class="bp-perk-dot"></div><div><strong>Free tools</strong> — calorie calculator, training split, strength standards &amp; more</div></div>
+          <div class="bp-perk"><div class="bp-perk-dot"></div><div><strong>Workout planner</strong> — plan and track your weekly training</div></div>
+          <div class="bp-perk"><div class="bp-perk-dot"></div><div><strong>Coaching dashboard</strong> — manage your plan and contact Taj directly</div></div>
+          <div class="bp-perk"><div class="bp-perk-dot"></div><div><strong>100% free</strong> — no credit card required</div></div>
+        </div>
+      </div>
+      <div class="bp-bottom">
+        <div class="bp-contact">Questions? <a href="mailto:businesscoachtaj@gmail.com">businesscoachtaj@gmail.com</a><br>0426 023 523 · Crows Nest, Sydney NSW</div>
+      </div>
+    </div>
+    <div class="auth-form">
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabSignup">Create Account</button>
+        <button class="auth-tab" id="tabLogin">Log In</button>
+      </div>
+      <div id="signupForm">
+        <div class="auth-heading">Create Account</div>
+        <div class="auth-sub">Free forever. No credit card required.</div>
+        <div class="form-row-2">
+          <div class="form-field"><label class="form-label">First Name</label><input class="form-input" id="fFirstName" type="text" placeholder="First name" autocomplete="given-name"></div>
+          <div class="form-field"><label class="form-label">Last Name</label><input class="form-input" id="fLastName" type="text" placeholder="Last name" autocomplete="family-name"></div>
+        </div>
+        <div class="form-field"><label class="form-label">Email</label><input class="form-input" id="fEmail" type="email" placeholder="you@email.com" autocomplete="email"></div>
+        <div class="form-field"><label class="form-label">Password</label><input class="form-input" id="fPassword" type="password" placeholder="Min. 8 characters" autocomplete="new-password"></div>
+        <button class="submit-btn" id="btnSignup">Create Account →</button>
+        <div class="auth-status" id="signupStatus"></div>
+        <p class="form-note">Already have an account? <a id="switchToLogin">Log in →</a></p>
+      </div>
+      <div id="loginForm" style="display:none;">
+        <div class="auth-heading">Welcome Back</div>
+        <div class="auth-sub">Log in to your CT Fitness account.</div>
+        <div class="form-field"><label class="form-label">Email</label><input class="form-input" id="fLoginEmail" type="email" placeholder="you@email.com" autocomplete="email"></div>
+        <div class="form-field"><label class="form-label">Password</label><input class="form-input" id="fLoginPassword" type="password" placeholder="Your password" autocomplete="current-password"><button class="forgot-link" id="btnForgot">Forgot password?</button></div>
+        <button class="submit-btn" id="btnLogin">Log In →</button>
+        <div class="auth-status" id="loginStatus"></div>
+        <p class="form-note">Don't have an account? <a id="switchToSignup">Create one →</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="nav.js" onload="CTNav.init('signup')" onerror="console.warn('nav.js not found')"></script>
+<script>
+var SUPABASE_URL  = 'https://oqwyemyvmqubzbawcgfj.supabase.co';
+var SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9xd3llbXl2bXF1YnpiYXdjZ2ZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5MTA1ODEsImV4cCI6MjA4ODQ4NjU4MX0.AghBMaHcRa9H0ZEbiT6qWCB_1Mpw4EN5rtJPjCTuXTA';
+var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+function init() {
+  supabase.auth.getSession().then(function(res){
+    if(res.data.session) window.location.href = 'dashboard.html';
+  });
+  document.getElementById('tabSignup').addEventListener('click', function(){ showTab('signup'); });
+  document.getElementById('tabLogin').addEventListener('click', function(){ showTab('login'); });
+  document.getElementById('switchToLogin').addEventListener('click', function(){ showTab('login'); });
+  document.getElementById('switchToSignup').addEventListener('click', function(){ showTab('signup'); });
+  document.getElementById('btnSignup').addEventListener('click', handleSignup);
+  document.getElementById('btnLogin').addEventListener('click', handleLogin);
+  document.getElementById('btnForgot').addEventListener('click', handleForgot);
+  document.getElementById('fPassword').addEventListener('keydown', function(e){ if(e.key==='Enter') handleSignup(); });
+  document.getElementById('fLoginPassword').addEventListener('keydown', function(e){ if(e.key==='Enter') handleLogin(); });
+}
+
+function showTab(tab) {
+  var s = tab === 'signup';
+  document.getElementById('tabSignup').classList.toggle('active', s);
+  document.getElementById('tabLogin').classList.toggle('active', !s);
+  document.getElementById('signupForm').style.display = s ? 'block' : 'none';
+  document.getElementById('loginForm').style.display  = s ? 'none'  : 'block';
+}
+
+function handleSignup() {
+  var firstName = document.getElementById('fFirstName').value.trim();
+  var lastName  = document.getElementById('fLastName').value.trim();
+  var email     = document.getElementById('fEmail').value.trim();
+  var password  = document.getElementById('fPassword').value;
+  var status    = document.getElementById('signupStatus');
+  var btn       = document.getElementById('btnSignup');
+  if(!firstName || !email || !password){ setStatus(status,'error','Please fill in all fields.'); return; }
+  if(password.length < 8){ setStatus(status,'error','Password must be at least 8 characters.'); return; }
+  btn.disabled = true; btn.textContent = 'Creating account…';
+  setStatus(status,'info','Creating your account…');
+  supabase.auth.signUp({ email: email, password: password, options:{ data:{ first_name: firstName, last_name: lastName } } }).then(function(res){
+    btn.disabled = false; btn.textContent = 'Create Account →';
+    if(res.error){ setStatus(status,'error', res.error.message); return; }
+    if(res.data.user && res.data.session){ window.location.href = 'dashboard.html?welcome=1'; }
+    else { setStatus(status,'success','Check your email to confirm your account, then log in.'); }
+  });
+}
+
+function handleLogin() {
+  var email    = document.getElementById('fLoginEmail').value.trim();
+  var password = document.getElementById('fLoginPassword').value;
+  var status   = document.getElementById('loginStatus');
+  var btn      = document.getElementById('btnLogin');
+  if(!email || !password){ setStatus(status,'error','Please enter your email and password.'); return; }
+  btn.disabled = true; btn.textContent = 'Logging in…';
+  setStatus(status,'info','Logging in…');
+  supabase.auth.signInWithPassword({ email: email, password: password }).then(function(res){
+    btn.disabled = false; btn.textContent = 'Log In →';
+    if(res.error){ setStatus(status,'error', res.error.message); return; }
+    window.location.href = 'dashboard.html';
+  });
+}
+
+function handleForgot() {
+  var email = document.getElementById('fLoginEmail').value.trim();
+  var status = document.getElementById('loginStatus');
+  if(!email){ setStatus(status,'error','Enter your email address above first.'); return; }
+  supabase.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + '/Fitnessapp/signup.html' }).then(function(res){
+    if(res.error){ setStatus(status,'error', res.error.message); return; }
+    setStatus(status,'success','Password reset email sent — check your inbox.');
+  });
+}
+
+function setStatus(el, type, msg) { el.textContent = msg; el.className = 'auth-status ' + type; }
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
