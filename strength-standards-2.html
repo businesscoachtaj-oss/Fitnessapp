@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CT Fitness — Strength Standards</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c0c0c;--surface:#141414;--surface2:#1c1c1c;--surface3:#222;
+  --border:#252525;--border2:#333;--border3:#444;
+  --white:#fff;--off-white:#e8e4de;--muted:#666;--muted2:#444;
+  --red:#CD0404;--red2:#e03333;--green:#4caf7d;--blue:#7eb8e0;--purple:#9b7ec8;
+  --c-untrained:#444;--c-novice:#7eb8e0;--c-intermediate:#4caf7d;--c-advanced:#CD0404;--c-elite:#c9a96e;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;overflow-x:hidden;}
+
+/* PANELS */
+.form-panel{display:block;overflow-y:auto;min-height:100vh;}
+.form-panel.hidden{display:none;}
+.results-panel{display:none;overflow-y:auto;min-height:100vh;}
+.results-panel.show{display:block;}
+
+/* HEADER */
+.header{padding:26px 40px 22px;border-bottom:1px solid var(--border);display:flex;align-items:flex-end;justify-content:space-between;background:rgba(12,12,12,0.97);}
+.logo-ct{font-family:'Playfair Display',serif;font-size:30px;font-weight:900;letter-spacing:2px;}
+.logo-sub{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:5px;color:var(--muted);text-transform:uppercase;margin-top:3px;}
+.header-right{text-align:right;}
+.header-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--red);margin-bottom:4px;}
+.header-right h1{font-family:'Playfair Display',serif;font-size:38px;font-weight:900;line-height:1;}
+
+/* FORM CONTENT */
+.form-content{padding:32px 40px 60px;max-width:1400px;margin:0 auto;}
+
+/* Section labels */
+.sec-title{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--red);margin-bottom:14px;padding-bottom:9px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.sec-num{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--muted2);}
+
+/* Unit toggle */
+.unit-toggle{display:flex;border:1px solid var(--border2);overflow:hidden;margin-bottom:28px;width:fit-content;}
+.ut-btn{padding:10px 28px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:transparent;color:var(--muted);border:none;transition:all 0.2s;}
+.ut-btn.active{background:var(--white);color:#000;}
+
+/* Gender */
+.gender-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;}
+.gender-btn{padding:16px;border:1px solid var(--border2);background:transparent;cursor:pointer;text-align:center;transition:all 0.2s;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.gender-btn.active{border-color:var(--red);background:rgba(205,4,4,0.06);}
+.gender-icon{font-size:30px;line-height:1;color:var(--border3);}
+.gender-btn.active .gender-icon{color:var(--red);}
+.gender-lbl{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--border3);}
+.gender-btn.active .gender-lbl{color:var(--red);}
+
+/* Form grid */
+.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:24px;}
+.form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
+.form-field{display:flex;flex-direction:column;gap:6px;}
+.form-label{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
+.form-input{background:var(--surface2);border:1px solid var(--border2);color:var(--white);padding:11px 13px;font-family:'Barlow',sans-serif;font-size:20px;outline:none;transition:border-color 0.2s;border-radius:0;-webkit-appearance:none;width:100%;}
+.form-input:focus{border-color:var(--red);}
+.form-input::placeholder{color:var(--red);opacity:0.35;}
+.input-hint{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;color:var(--muted);margin-top:2px;}
+
+/* Exercise variant grid */
+.exercise-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;}
+.exercise-group{border:1px solid var(--border);background:var(--surface);padding:18px;}
+.eg-title{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.variant-opts{display:flex;flex-direction:column;gap:7px;}
+.variant-btn{display:flex;align-items:center;gap:10px;padding:11px 13px;border:1px solid var(--border2);background:transparent;cursor:pointer;transition:all 0.2s;text-align:left;width:100%;}
+.variant-btn.active{border-color:var(--red);background:rgba(205,4,4,0.05);}
+.vb-dot{width:8px;height:8px;border:1px solid var(--border3);flex-shrink:0;transition:all 0.2s;}
+.variant-btn.active .vb-dot{background:var(--red);border-color:var(--red);}
+.vb-name{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);transition:color 0.2s;}
+.variant-btn.active .vb-name{color:var(--off-white);}
+
+/* Calculate button */
+.calc-btn{width:100%;padding:20px;background:var(--white);color:#000;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:900;letter-spacing:5px;text-transform:uppercase;cursor:pointer;border:none;transition:all 0.2s;margin-top:8px;}
+.calc-btn:hover{background:var(--red);color:var(--white);}
+.error-msg{color:#e05555;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;display:none;}
+.error-msg.show{display:block;}
+
+/* ── RESULTS ── */
+.results-content{padding:32px 40px 60px;max-width:1400px;margin:0 auto;}
+
+.recalc-btn{display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px solid var(--border2);color:var(--muted);padding:10px 20px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;margin-bottom:28px;transition:all 0.2s;}
+.recalc-btn:hover{border-color:var(--white);color:var(--white);}
+
+/* Hero */
+.r-hero{background:linear-gradient(135deg,rgba(205,4,4,0.1),rgba(205,4,4,0.03));border:1px solid rgba(205,4,4,0.25);padding:28px 32px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;gap:32px;}
+.rh-left{}
+.rh-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--red);margin-bottom:8px;}
+.rh-name{font-family:'Playfair Display',serif;font-size:42px;font-weight:900;line-height:1;margin-bottom:6px;}
+.rh-sub{font-size:15px;color:var(--muted);line-height:1.6;}
+.rh-right{display:flex;gap:20px;flex-shrink:0;}
+.rh-stat{text-align:center;padding:14px 20px;border:1px solid var(--border2);background:var(--surface2);}
+.rh-stat-val{font-family:'Playfair Display',serif;font-size:30px;font-weight:900;color:var(--off-white);line-height:1;}
+.rh-stat-lbl{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:4px;}
+
+/* Level legend */
+.level-legend{display:flex;gap:0;margin-bottom:24px;border:1px solid var(--border);}
+.ll-item{flex:1;padding:10px 14px;border-right:1px solid var(--border);text-align:center;}
+.ll-item:last-child{border-right:none;}
+.ll-dot{width:10px;height:10px;margin:0 auto 6px;border-radius:50%;}
+.ll-name{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;}
+.ll-desc{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.4;}
+
+/* Results sections */
+.r-sec-label{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+
+/* Exercise result cards grid */
+.result-cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px;}
+
+/* Single exercise card */
+.ex-card{background:var(--surface);border:1px solid var(--border2);padding:0;overflow:hidden;}
+.ex-card-header{padding:16px 18px 12px;border-bottom:1px solid var(--border);}
+.ex-card-category{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:4px;}
+.ex-card-name{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--off-white);}
+
+/* Your level badge */
+.ex-card-level{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:4px 10px;border:1px solid;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;}
+
+/* Standards bar */
+.standards-wrap{padding:14px 18px 16px;}
+.std-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.std-row:last-child{margin-bottom:0;}
+.std-lbl{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;min-width:88px;flex-shrink:0;}
+.std-bar-wrap{flex:1;height:6px;background:var(--border);position:relative;}
+.std-bar-fill{height:100%;transition:width 0.8s ease;}
+.std-val{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;min-width:80px;text-align:right;flex-shrink:0;}
+.std-row.you-row .std-lbl{color:var(--off-white);}
+.you-marker{position:absolute;top:-4px;width:3px;height:14px;background:var(--white);box-shadow:0 0 6px rgba(255,255,255,0.5);}
+
+/* Your lift input row */
+.your-lift-row{padding:12px 18px;background:var(--surface2);border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.yl-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);flex-shrink:0;}
+.yl-input{background:var(--surface);border:1px solid var(--border2);color:var(--white);padding:7px 10px;font-family:'Barlow',sans-serif;font-size:16px;outline:none;transition:border-color 0.2s;border-radius:0;-webkit-appearance:none;width:90px;}
+.yl-input:focus{border-color:var(--red);}
+.yl-unit{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
+.yl-result{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-left:auto;}
+
+/* Info box */
+.info-box{background:var(--surface2);border:1px solid var(--border);padding:20px 24px;margin-bottom:20px;}
+.ib-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:10px;}
+.ib-body{font-size:14px;color:var(--muted);line-height:1.7;}
+.ib-body strong{color:var(--off-white);}
+
+/* Toast */
+.toast{position:fixed;bottom:22px;right:22px;background:var(--surface2);border:1px solid var(--border2);border-left:3px solid var(--red);padding:11px 18px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;z-index:999;transform:translateX(120%);opacity:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);display:flex;align-items:center;gap:8px;}
+.toast.show{transform:translateX(0);opacity:1;}
+
+/* ── RESPONSIVE ADJUSTMENTS FOR APP SHELL ── */
+
+
+
+/* ── UNIVERSAL MOBILE FIX ── */
+
+/* ══ MOBILE RESPONSIVE ══ */
+
+.inline-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
+.inline-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.inline-grid-2-sm{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+
+/* ══ UNIVERSAL MOBILE OVERRIDES ══ */
+@media(max-width:768px){
+  html{font-size:100% !important;}
+  body{overflow-x:hidden !important;}
+  /* All multi-column grids → single column */
+  .form-cols{grid-template-columns:1fr !important;}
+  .form-grid-3{grid-template-columns:1fr 1fr !important;}
+  .results-grid{grid-template-columns:1fr !important;}
+  .macro-row{grid-template-columns:1fr !important;}
+  .goal-grid{grid-template-columns:1fr 1fr !important;}
+  .services-grid{grid-template-columns:1fr !important;}
+  .why-grid{grid-template-columns:1fr !important;}
+  .expect-grid{grid-template-columns:1fr !important;}
+  .contact-grid{grid-template-columns:1fr !important;}
+  .exercise-grid{grid-template-columns:1fr !important;}
+  .result-cards-grid{grid-template-columns:1fr !important;}
+  .vol-grid{grid-template-columns:1fr !important;}
+  .tip-list{grid-template-columns:1fr !important;}
+  .muscle-grid-desktop{grid-template-columns:1fr 1fr !important;}
+  .schedule-grid{grid-template-columns:repeat(3,1fr) !important;}
+  .day-selector{grid-template-columns:repeat(3,1fr) !important;}
+  .about-grid{grid-template-columns:1fr !important;}
+  .phil-inner{grid-template-columns:1fr !important;}
+  .tools-grid{grid-template-columns:1fr 1fr !important;}
+  .hero-stats{flex-direction:column !important;}
+  .planner-layout,.progress-layout{grid-template-columns:1fr !important;}
+  .planner-sidebar,.progress-sidebar{display:none !important;}
+  .stats-row{grid-template-columns:1fr 1fr !important;}
+  /* Padding resets */
+  .form-panel,.results-panel,.form-content,.results-content,.main{padding-left:16px !important;padding-right:16px !important;max-width:100% !important;}
+  .services-section,.why-section,.expect-section,.creds-section,.contact-section,.enquiry-section{padding-left:16px !important;padding-right:16px !important;}
+  .header{padding:12px 16px !important;flex-wrap:wrap !important;}
+  header{padding:10px 14px !important;flex-wrap:wrap !important;}
+  /* Inline grids */
+  .inline-grid-2{grid-template-columns:1fr !important;gap:20px !important;}
+  .inline-grid-4{grid-template-columns:1fr 1fr !important;}
+  .inline-grid-2-sm{grid-template-columns:1fr !important;}
+}
+@media(max-width:480px){
+  .form-grid-3,.form-grid-2{grid-template-columns:1fr !important;}
+  .goal-grid{grid-template-columns:1fr !important;}
+  .muscle-grid-desktop{grid-template-columns:1fr !important;}
+  .schedule-grid{grid-template-columns:1fr 1fr !important;}
+  .day-selector{grid-template-columns:repeat(2,1fr) !important;}
+  .tools-grid{grid-template-columns:1fr !important;}
+  .stats-row{grid-template-columns:1fr !important;}
+  .lean-row{grid-template-columns:1fr !important;}
+  .inline-grid-4{grid-template-columns:1fr !important;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════ FORM PANEL ═══════════════════════════════════ -->
+<div class="form-panel" id="formPanel">
+
+
+<div class="form-content">
+
+  <!-- UNIT TOGGLE -->
+  <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px;">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);">Units</div>
+    <div class="unit-toggle" style="margin-bottom:0;">
+      <button class="ut-btn active" id="btnMetric">Metric (kg)</button>
+      <button class="ut-btn" id="btnImperial">Imperial (lb)</button>
+    </div>
+  </div>
+
+  <div class="inline-grid-2">
+    <div>
+      <!-- GENDER -->
+      <div class="sec-title"><span class="sec-num">01</span> Biological Sex</div>
+      <div class="gender-row" style="margin-bottom:24px;">
+        <button class="gender-btn active" id="genderMale">
+          <div class="gender-icon">♂</div>
+          <div class="gender-lbl">Male</div>
+        </button>
+        <button class="gender-btn" id="genderFemale">
+          <div class="gender-icon">♀</div>
+          <div class="gender-lbl">Female</div>
+        </button>
+      </div>
+
+      <!-- AGE + BODYWEIGHT -->
+      <div class="sec-title"><span class="sec-num">02</span> Your Stats</div>
+      <div class="form-grid-2">
+        <div class="form-field">
+          <label class="form-label">Age</label>
+          <input class="form-input" id="fAge" type="number" inputmode="numeric" placeholder="28" min="14" max="80">
+          <div class="input-hint">years</div>
+        </div>
+        <div class="form-field">
+          <label class="form-label">Bodyweight</label>
+          <input class="form-input" id="fBW" type="number" inputmode="decimal" placeholder="80" min="30" max="250">
+          <div class="input-hint" id="bwUnit">kg</div>
+        </div>
+      </div>
+
+      <!-- EXPERIENCE -->
+      <div class="sec-title"><span class="sec-num">03</span> Training Age</div>
+      <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:28px;">
+        <button class="variant-btn active" data-exp="untrained" id="expUntrained"><div class="vb-dot"></div><div class="vb-name">Never trained / just starting out</div></button>
+        <button class="variant-btn" data-exp="novice" id="expNovice"><div class="vb-dot"></div><div class="vb-name">Novice — under 1 year consistent training</div></button>
+        <button class="variant-btn" data-exp="intermediate" id="expIntermediate"><div class="vb-dot"></div><div class="vb-name">Intermediate — 1–3 years</div></button>
+        <button class="variant-btn" data-exp="advanced" id="expAdvanced"><div class="vb-dot"></div><div class="vb-name">Advanced — 3+ years</div></button>
+        <button class="variant-btn" data-exp="elite" id="expElite"><div class="vb-dot"></div><div class="vb-name">Elite — competitive / high-level athlete</div></button>
+      </div>
+    </div>
+
+    <div>
+      <!-- EXERCISE VARIANTS -->
+      <div class="sec-title"><span class="sec-num">04</span> Choose Your Variants</div>
+      <div class="exercise-grid" id="exerciseGrid">
+
+        <div class="exercise-group">
+          <div class="eg-title">&#9670; Overhead Press</div>
+          <div class="variant-opts">
+            <button class="variant-btn active" data-group="ohp" data-variant="Barbell OHP"><div class="vb-dot"></div><div class="vb-name">Barbell OHP</div></button>
+            <button class="variant-btn" data-group="ohp" data-variant="Dumbbell OHP"><div class="vb-dot"></div><div class="vb-name">Dumbbell OHP</div></button>
+          </div>
+        </div>
+
+        <div class="exercise-group">
+          <div class="eg-title">&#9670; Squat</div>
+          <div class="variant-opts">
+            <button class="variant-btn active" data-group="squat" data-variant="Back Squat"><div class="vb-dot"></div><div class="vb-name">Barbell Back Squat</div></button>
+            <button class="variant-btn" data-group="squat" data-variant="Front Squat"><div class="vb-dot"></div><div class="vb-name">Barbell Front Squat</div></button>
+          </div>
+        </div>
+
+        <div class="exercise-group">
+          <div class="eg-title">&#9670; Bench Press</div>
+          <div class="variant-opts">
+            <button class="variant-btn active" data-group="bench" data-variant="Barbell Bench"><div class="vb-dot"></div><div class="vb-name">Barbell Bench Press</div></button>
+            <button class="variant-btn" data-group="bench" data-variant="Dumbbell Bench"><div class="vb-dot"></div><div class="vb-name">Dumbbell Bench Press</div></button>
+          </div>
+        </div>
+
+        <div class="exercise-group">
+          <div class="eg-title">&#9670; Pull-Up / Chin-Up</div>
+          <div class="variant-opts">
+            <button class="variant-btn active" data-group="pullup" data-variant="Overhand Pull-Up"><div class="vb-dot"></div><div class="vb-name">Overhand Pull-Up</div></button>
+            <button class="variant-btn" data-group="pullup" data-variant="Underhand Chin-Up"><div class="vb-dot"></div><div class="vb-name">Underhand Chin-Up</div></button>
+          </div>
+        </div>
+
+        <div class="exercise-group">
+          <div class="eg-title">&#9670; Row</div>
+          <div class="variant-opts">
+            <button class="variant-btn active" data-group="row" data-variant="Barbell Bent-Over Row"><div class="vb-dot"></div><div class="vb-name">Barbell Bent-Over Row</div></button>
+            <button class="variant-btn" data-group="row" data-variant="DB Single-Arm Row"><div class="vb-dot"></div><div class="vb-name">Dumbbell Single-Arm Row</div></button>
+          </div>
+        </div>
+
+        <div class="exercise-group">
+          <div class="eg-title">&#9670; Lunge</div>
+          <div class="variant-opts">
+            <button class="variant-btn active" data-group="lunge" data-variant="Reverse Lunge"><div class="vb-dot"></div><div class="vb-name">Reverse Lunge</div></button>
+            <button class="variant-btn" data-group="lunge" data-variant="Static Lunge"><div class="vb-dot"></div><div class="vb-name">Static Lunge</div></button>
+          </div>
+        </div>
+
+        <div class="exercise-group" style="grid-column:1/-1;">
+          <div class="eg-title">&#9670; Carry</div>
+          <div class="variant-opts" class="inline-grid-2">
+            <button class="variant-btn active" data-group="carry" data-variant="Farmers Carry"><div class="vb-dot"></div><div class="vb-name">Farmers Carry (both hands)</div></button>
+            <button class="variant-btn" data-group="carry" data-variant="Suitcase Carry"><div class="vb-dot"></div><div class="vb-name">Suitcase Carry (single hand)</div></button>
+          </div>
+
+        <div class="ex-group">
+          <div class="eg-title">&#9670; Deadlift</div>
+          <div class="variant-opts" class="inline-grid-2">
+            <button class="variant-btn active" data-group="deadlift" data-variant="Conventional Deadlift"><div class="vb-dot"></div><div class="vb-name">Conventional Deadlift</div></button>
+            <button class="variant-btn" data-group="deadlift" data-variant="Trap Bar Deadlift"><div class="vb-dot"></div><div class="vb-name">Trap Bar Deadlift</div></button>
+          </div>
+        </div>
+
+        <div class="ex-group">
+          <div class="eg-title">&#9670; Hip Hinge</div>
+          <div class="variant-opts" class="inline-grid-2">
+            <button class="variant-btn active" data-group="hinge" data-variant="Hip Thrust"><div class="vb-dot"></div><div class="vb-name">Hip Thrust</div></button>
+            <button class="variant-btn" data-group="hinge" data-variant="Romanian Deadlift"><div class="vb-dot"></div><div class="vb-name">Romanian Deadlift (RDL)</div></button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="error-msg" id="formError">Please enter your age and bodyweight to continue.</div>
+      <button class="calc-btn" id="calcBtn">Calculate My Strength Standards →</button>
+    </div>
+  </div>
+
+</div><!-- end form-panel -->
+
+
+<!-- ═══════════════════════════════════ RESULTS PANEL ═══════════════════════════════════ -->
+<div class="results-panel" id="resultsPanel">
+<div class="results-content">
+  <button class="recalc-btn" id="recalcBtn">← Recalculate</button>
+
+  <!-- Hero -->
+  <div class="r-hero">
+    <div class="rh-left">
+      <div class="rh-eyebrow">&#9670; Strength Profile</div>
+      <div class="rh-name" id="rName">—</div>
+      <div class="rh-sub" id="rSub">—</div>
+    </div>
+    <div class="rh-right">
+      <div class="rh-stat">
+        <div class="rh-stat-val" id="rBW">—</div>
+        <div class="rh-stat-lbl" id="rBWLbl">Bodyweight</div>
+      </div>
+      <div class="rh-stat">
+        <div class="rh-stat-val" id="rAge">—</div>
+        <div class="rh-stat-lbl">Age</div>
+      </div>
+      <div class="rh-stat">
+        <div class="rh-stat-val" id="rLevel">—</div>
+        <div class="rh-stat-lbl">Your Level</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Level legend -->
+  <div class="level-legend">
+    <div class="ll-item"><div class="ll-dot" style="background:var(--c-untrained)"></div><div class="ll-name" style="color:var(--c-untrained)">Untrained</div><div class="ll-desc">No prior training</div></div>
+    <div class="ll-item"><div class="ll-dot" style="background:var(--c-novice)"></div><div class="ll-name" style="color:var(--c-novice)">Novice</div><div class="ll-desc">0–1 year</div></div>
+    <div class="ll-item"><div class="ll-dot" style="background:var(--c-intermediate)"></div><div class="ll-name" style="color:var(--c-intermediate)">Intermediate</div><div class="ll-desc">1–3 years</div></div>
+    <div class="ll-item"><div class="ll-dot" style="background:var(--c-advanced)"></div><div class="ll-name" style="color:var(--c-advanced)">Advanced</div><div class="ll-desc">3+ years</div></div>
+    <div class="ll-item"><div class="ll-dot" style="background:var(--c-elite)"></div><div class="ll-name" style="color:var(--c-elite)">Elite</div><div class="ll-desc">Competitive level</div></div>
+  </div>
+
+  <!-- RM TOGGLE -->
+  <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);">Standards based on</div>
+    <div class="unit-toggle" style="margin-bottom:0;">
+      <button class="ut-btn active" id="btn1RM">1RM</button>
+      <button class="ut-btn" id="btn5RM">5RM</button>
+    </div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted2);" id="rmNote">One rep max</div>
+  </div>
+  <div class="r-sec-label" id="rSecLabel">Your Standards — Enter your 1RM to see where you rank</div>
+  <div class="result-cards-grid" id="resultCardsGrid"></div>
+
+  <!-- Info box -->
+  <div class="info-box">
+    <div class="ib-title">&#9670; How These Standards Are Calculated</div>
+    <div class="ib-body">
+      Standards are based on <strong>bodyweight multipliers</strong> derived from NSCA guidelines, Kilgore & Rippetoe strength standards, and ExRx performance data. Values shown as <strong>1RM (one rep max)</strong> by default — toggle to <strong>5RM</strong> to compare working weights (Epley formula: 5RM ≈ 1RM × 0.867). <strong>Pull-ups and chin-ups</strong> are always in reps at bodyweight. <strong>Carries</strong> are total load for 30 metres. Dumbbell exercises show per-dumbbell load. <strong>Age adjustment</strong> applies from 35+.
+    </div>
+  </div>
+
+</div>
+</div><!-- end results-panel -->
+
+<div class="toast" id="toast"><span id="toastIcon">✓</span><span id="toastMsg">Done</span></div>
+
+<script>
+// ── State ──
+var unit = 'metric'; // metric | imperial
+var gender = 'male';
+var age = null, bw = null;
+var expLevel = 'untrained'; // untrained novice intermediate advanced elite
+var variants = { ohp:'Barbell OHP', squat:'Back Squat', bench:'Barbell Bench', pullup:'Overhand Pull-Up', row:'Barbell Bent-Over Row', lunge:'Reverse Lunge', carry:'Farmers Carry', deadlift:'Conventional Deadlift', hinge:'Hip Thrust' };
+
+// ── Standards Data ──
+// Bodyweight multipliers [untrained, novice, intermediate, advanced, elite]
+// Pull-ups/chin-ups use reps (unit:'reps')
+var STANDARDS = {
+  'Barbell OHP':         { male:[0.35,0.55,0.80,1.05,1.30], female:[0.20,0.35,0.50,0.70,0.90] },
+  'Dumbbell OHP':        { male:[0.15,0.22,0.32,0.44,0.55], female:[0.08,0.14,0.20,0.29,0.38], note:'per dumbbell' },
+  'Back Squat':          { male:[0.75,1.25,1.50,1.75,2.10], female:[0.50,0.75,1.00,1.25,1.60] },
+  'Front Squat':         { male:[0.60,1.00,1.20,1.45,1.75], female:[0.40,0.60,0.85,1.05,1.35] },
+  'Barbell Bench':       { male:[0.50,0.75,1.00,1.25,1.55], female:[0.25,0.50,0.75,1.00,1.20] },
+  'Dumbbell Bench':      { male:[0.20,0.30,0.42,0.55,0.68], female:[0.10,0.20,0.30,0.42,0.52], note:'per dumbbell' },
+  'Overhand Pull-Up':    { male:[0,3,8,15,22],              female:[0,1,4,10,16],               unit:'reps' },
+  'Underhand Chin-Up':   { male:[0,4,10,18,25],             female:[0,2,6,12,18],               unit:'reps' },
+  'Barbell Bent-Over Row':{ male:[0.50,0.75,1.00,1.25,1.50],female:[0.25,0.45,0.65,0.90,1.10] },
+  'DB Single-Arm Row':   { male:[0.20,0.35,0.50,0.65,0.80], female:[0.10,0.18,0.28,0.40,0.52], note:'per dumbbell' },
+  'Reverse Lunge':       { male:[0.40,0.65,0.90,1.10,1.35], female:[0.25,0.45,0.65,0.85,1.05] },
+  'Static Lunge':        { male:[0.35,0.60,0.85,1.05,1.25], female:[0.20,0.40,0.60,0.80,1.00] },
+  'Farmers Carry':       { male:[0.50,0.75,1.00,1.50,2.00], female:[0.25,0.45,0.65,1.00,1.35], note:'total load, 30m' },
+  'Suitcase Carry':      { male:[0.25,0.40,0.55,0.75,1.00], female:[0.12,0.22,0.35,0.50,0.65], note:'single hand, 30m' },
+  'Conventional Deadlift':{ male:[1.00,1.50,1.75,2.25,2.75],  female:[0.60,0.90,1.20,1.65,2.10] },
+  'Trap Bar Deadlift':    { male:[1.10,1.60,1.90,2.40,2.90],  female:[0.65,1.00,1.30,1.75,2.20] },
+  'Hip Thrust':           { male:[0.75,1.25,1.75,2.25,2.75],  female:[0.50,1.00,1.50,2.00,2.50] },
+  'Romanian Deadlift':    { male:[0.60,0.90,1.20,1.60,2.00],  female:[0.35,0.60,0.85,1.15,1.50] }
+};
+
+var LEVEL_NAMES  = ['Untrained','Novice','Intermediate','Advanced','Elite'];
+var LEVEL_KEYS   = ['untrained','novice','intermediate','advanced','elite'];
+var LEVEL_COLORS = ['#444','#7eb8e0','#4caf7d','#CD0404','#c9a96e'];
+
+var CATEGORY_LABELS = {
+  'Barbell OHP':'Overhead Press','Dumbbell OHP':'Overhead Press',
+  'Back Squat':'Squat','Front Squat':'Squat',
+  'Barbell Bench':'Bench Press','Dumbbell Bench':'Bench Press',
+  'Overhand Pull-Up':'Pull-Up','Underhand Chin-Up':'Chin-Up',
+  'Barbell Bent-Over Row':'Row','DB Single-Arm Row':'Row',
+  'Reverse Lunge':'Lunge','Static Lunge':'Lunge',
+  'Farmers Carry':'Carry','Suitcase Carry':'Carry',
+  'Conventional Deadlift':'Deadlift','Trap Bar Deadlift':'Deadlift',
+  'Hip Thrust':'Hip Hinge','Romanian Deadlift':'Hip Hinge'
+};
+
+// Age adjustment factor
+function ageFactor(a) {
+  if(!a || a < 35) return 1.0;
+  if(a < 40) return 0.97;
+  if(a < 45) return 0.93;
+  if(a < 50) return 0.88;
+  if(a < 55) return 0.83;
+  return 0.78;
+}
+
+// Convert kg→lb
+function toDisplay(kg) {
+  return unit === 'imperial' ? Math.round(kg * 2.2046) : Math.round(kg);
+}
+function fromDisplay(val) {
+  return unit === 'imperial' ? val / 2.2046 : val;
+}
+
+// Get standard value for a variant at a given level (returns kg or reps)
+function getStd(variant, levelIdx, bwKg) {
+  var d = STANDARDS[variant];
+  if(!d) return 0;
+  var vals = d[gender];
+  if(d.unit === 'reps') return vals[levelIdx]; // reps — no BW scaling
+  return Math.round(vals[levelIdx] * bwKg * ageFactor(age) * 10) / 10;
+}
+
+// Determine which level bracket a lift falls into
+function classifyLift(variant, liftKg, bwKg) {
+  var d = STANDARDS[variant];
+  var vals = d[gender];
+  var af = ageFactor(age);
+  for(var i = 4; i >= 0; i--) {
+    var threshold = d.unit === 'reps' ? vals[i] : vals[i] * bwKg * af;
+    if(liftKg >= threshold) return i;
+  }
+  return -1;
+}
+
+// ── UI helpers ──
+function setUnit(u) {
+  unit = u;
+  document.getElementById('btnMetric').classList.toggle('active', u === 'metric');
+  document.getElementById('btnImperial').classList.toggle('active', u === 'imperial');
+  document.getElementById('bwUnit').textContent = u === 'metric' ? 'kg' : 'lb';
+  document.getElementById('fBW').placeholder = u === 'metric' ? '80' : '175';
+}
+
+function setGender(g) {
+  gender = g;
+  document.getElementById('genderMale').classList.toggle('active', g === 'male');
+  document.getElementById('genderFemale').classList.toggle('active', g === 'female');
+}
+
+function setExp(e) {
+  expLevel = e;
+  document.querySelectorAll('[data-exp]').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.exp === e);
+  });
+}
+
+function setVariant(group, variant) {
+  variants[group] = variant;
+  document.querySelectorAll('[data-group="'+group+'"]').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.variant === variant);
+  });
+}
+
+// ── Calculate ──
+function calculate() {
+  var ageVal = parseInt(document.getElementById('fAge').value);
+  var bwVal  = parseFloat(document.getElementById('fBW').value);
+  var err = document.getElementById('formError');
+
+  if(!ageVal || ageVal < 14 || ageVal > 80 || !bwVal || bwVal < 20) {
+    err.classList.add('show');
+    if(!ageVal) highlight('fAge'); else highlight('fBW');
+    return;
+  }
+  err.classList.remove('show');
+  age = ageVal;
+  bw = unit === 'imperial' ? bwVal / 2.2046 : bwVal; // always store in kg internally
+
+  // Populate hero
+  var expIdx = LEVEL_KEYS.indexOf(expLevel);
+  document.getElementById('rName').textContent = (gender === 'male' ? '♂' : '♀') + ' ' + ageVal + ' yrs · ' + (unit === 'imperial' ? Math.round(bwVal) + ' lb' : bwVal + ' kg');
+  document.getElementById('rSub').textContent = 'Standards adjusted for age, sex, and bodyweight. Enter your lifts below to see your level.';
+  document.getElementById('rBW').textContent = (unit === 'imperial' ? Math.round(bwVal) : bwVal) + (unit === 'imperial' ? ' lb' : ' kg');
+  document.getElementById('rBWLbl').textContent = 'Bodyweight';
+  document.getElementById('rAge').textContent = ageVal;
+  document.getElementById('rLevel').textContent = LEVEL_NAMES[expIdx];
+
+  // Build result cards
+  var html = '';
+  var chosenVariants = [variants.ohp, variants.squat, variants.bench, variants.pullup, variants.row, variants.lunge, variants.carry, variants.deadlift, variants.hinge];
+
+  chosenVariants.forEach(function(variant) {
+    var d = STANDARDS[variant];
+    var isReps = d.unit === 'reps';
+    var unitLabel = isReps ? 'reps' : (unit === 'imperial' ? 'lb' : 'kg');
+    var note = d.note || '';
+
+    // Compute all 5 standard values
+    var stdVals = LEVEL_KEYS.map(function(lk, i) {
+      return isReps ? d[gender][i] : toDisplay(getStd(variant, i, bw));
+    });
+    var maxVal = stdVals[4];
+
+    // Bars
+    var barsHtml = LEVEL_KEYS.map(function(lk, i) {
+      var val = stdVals[i];
+      var pct = maxVal > 0 ? Math.round((val / maxVal) * 100) : 0;
+      var color = LEVEL_COLORS[i];
+      var dispVal = isReps ? val + ' reps' : val + ' ' + unitLabel;
+      return '<div class="std-row">' +
+        '<div class="std-lbl" style="color:'+color+'">'+LEVEL_NAMES[i]+'</div>' +
+        '<div class="std-bar-wrap"><div class="std-bar-fill" style="width:'+pct+'%;background:'+color+'"></div></div>' +
+        '<div class="std-val" style="color:'+color+'">'+dispVal+'</div>' +
+      '</div>';
+    }).join('');
+
+    var cardId = 'card_' + variant.replace(/[^a-zA-Z0-9]/g,'_');
+    var inputId = 'lift_' + variant.replace(/[^a-zA-Z0-9]/g,'_');
+    var resultId = 'res_' + variant.replace(/[^a-zA-Z0-9]/g,'_');
+
+    html += '<div class="ex-card" id="'+cardId+'">' +
+      '<div class="ex-card-header">' +
+        '<div class="ex-card-category">'+CATEGORY_LABELS[variant]+'</div>' +
+        '<div class="ex-card-name">'+variant+'</div>' +
+        (note ? '<div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-top:3px;">' + note + '</div>' : '') +
+        '<div class="ex-card-level" id="badge_'+cardId+'" style="display:none;"></div>' +
+      '</div>' +
+      '<div class="standards-wrap">'+barsHtml+'</div>' +
+      '<div class="your-lift-row">' +
+        '<div class="yl-label">Your '+(isReps?'reps':'lift')+'</div>' +
+        '<input class="yl-input" id="'+inputId+'" type="number" inputmode="decimal" placeholder="'+(isReps?'10':'—')+'" data-variant="'+variant+'" data-card="'+cardId+'">' +
+        '<div class="yl-unit">'+unitLabel+'</div>' +
+        '<div class="yl-result" id="'+resultId+'"></div>' +
+      '</div>' +
+    '</div>';
+  });
+
+  document.getElementById('resultCardsGrid').innerHTML = html;
+
+  // Attach live-update listeners to lift inputs
+  document.querySelectorAll('.yl-input').forEach(function(inp) {
+    inp.addEventListener('input', function() { updateLiftResult(inp); });
+  });
+
+  // Flip panels
+  document.getElementById('formPanel').classList.add('hidden');
+  var rp = document.getElementById('resultsPanel');
+  rp.classList.add('show');
+  rp.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+  showToast('✓', 'Standards calculated!');
+}
+
+function updateLiftResult(inp) {
+  var variant = inp.dataset.variant;
+  var cardId  = inp.dataset.card;
+  var d = STANDARDS[variant];
+  var isReps = d.unit === 'reps';
+  var val = parseFloat(inp.value);
+  var resultEl = document.getElementById('res_' + variant.replace(/[^a-zA-Z0-9]/g,'_'));
+  var badgeEl  = document.getElementById('badge_' + cardId);
+
+  if(!val || val <= 0) {
+    resultEl.textContent = '';
+    badgeEl.style.display = 'none';
+    return;
+  }
+
+  // Convert input to kg for classification (reps stay as reps)
+  var liftKg = liftToOneRM(val, isReps);
+  var levelIdx = classifyLift(variant, liftKg, bw);
+
+  if(levelIdx < 0) {
+    resultEl.textContent = 'Below untrained';
+    resultEl.style.color = '#666';
+    badgeEl.style.display = 'none';
+    return;
+  }
+
+  var color = LEVEL_COLORS[levelIdx];
+  var name  = LEVEL_NAMES[levelIdx];
+
+  resultEl.textContent = '▶ ' + name;
+  resultEl.style.color = color;
+
+  badgeEl.textContent = name;
+  badgeEl.style.display = 'inline-flex';
+  badgeEl.style.borderColor = color;
+  badgeEl.style.color = color;
+  badgeEl.style.background = 'rgba('+hexToRgb(color)+',0.08)';
+}
+
+function hexToRgb(hex) {
+  var r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+  return r+','+g+','+b;
+}
+
+function recalculate() {
+  document.getElementById('resultsPanel').classList.remove('show');
+  document.getElementById('formPanel').classList.remove('hidden');
+}
+
+function highlight(id) {
+  var el = document.getElementById(id);
+  el.style.borderColor = '#e05555';
+  el.focus();
+  setTimeout(function(){ el.style.borderColor = ''; }, 1500);
+}
+
+var toastTimer;
+function showToast(icon, msg) {
+  var t = document.getElementById('toast');
+  document.getElementById('toastIcon').textContent = icon;
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+
+// ── Event listeners ──
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('btnMetric').addEventListener('click', function(){ setUnit('metric'); });
+  document.getElementById('btnImperial').addEventListener('click', function(){ setUnit('imperial'); });
+  document.getElementById('genderMale').addEventListener('click', function(){ setGender('male'); });
+  document.getElementById('genderFemale').addEventListener('click', function(){ setGender('female'); });
+  document.getElementById('calcBtn').addEventListener('click', calculate);
+  document.getElementById('recalcBtn').addEventListener('click', recalculate);
+  document.getElementById('btn1RM').addEventListener('click', function(){ setRmMode('1rm'); });
+  document.getElementById('btn5RM').addEventListener('click', function(){ setRmMode('5rm'); });
+
+  document.querySelectorAll('[data-exp]').forEach(function(b) {
+    b.addEventListener('click', function(){ setExp(b.dataset.exp); });
+  });
+
+  document.querySelectorAll('[data-group]').forEach(function(b) {
+    b.addEventListener('click', function(){ setVariant(b.dataset.group, b.dataset.variant); });
+  });
+});
+
+// ── RM Mode ──
+var rmMode = '1rm'; // '1rm' | '5rm'
+var EPLEY_5RM = 0.867; // 5RM ≈ 1RM * 0.867
+
+function setRmMode(mode) {
+  rmMode = mode;
+  document.getElementById('btn1RM').classList.toggle('active', mode === '1rm');
+  document.getElementById('btn5RM').classList.toggle('active', mode === '5rm');
+  document.getElementById('rmNote').textContent = mode === '1rm' ? 'One rep max' : 'Five rep max (Epley)';
+  document.getElementById('rSecLabel').textContent = mode === '1rm'
+    ? 'Your Standards — Enter your 1RM to see where you rank'
+    : 'Your Standards — Enter your 5RM to see where you rank';
+  rebuildCards();
+}
+
+// Convert stored 1RM standard to display value in current rmMode
+function stdToDisplay(val1rm, isReps) {
+  if (isReps) return val1rm;
+  var kg = rmMode === '5rm' ? val1rm * EPLEY_5RM : val1rm;
+  return toDisplay(kg);
+}
+
+// Convert user-entered lift to 1RM equivalent for classification
+function liftToOneRM(val, isReps) {
+  if (isReps) return val;
+  var kg = unit === 'imperial' ? val / 2.2046 : val;
+  return rmMode === '5rm' ? kg / EPLEY_5RM : kg;
+}
+
+function rebuildCards() {
+  var chosenVariants = [variants.ohp, variants.squat, variants.bench, variants.pullup, variants.row, variants.lunge, variants.carry, variants.deadlift, variants.hinge];
+  var unitLabel_rm = unit === 'imperial' ? 'lb' : 'kg';
+  var html = '';
+
+  chosenVariants.forEach(function(variant) {
+    var d = STANDARDS[variant];
+    var isReps = d.unit === 'reps';
+    var unitLabel = isReps ? 'reps' : unitLabel_rm;
+    var note = d.note || '';
+
+    var stdVals = LEVEL_KEYS.map(function(lk, i) {
+      var raw = isReps ? d[gender][i] : getStd(variant, i, bw);
+      return isReps ? raw : stdToDisplay(raw, false);
+    });
+    var maxVal = stdVals[4];
+
+    var barsHtml = LEVEL_KEYS.map(function(lk, i) {
+      var val = stdVals[i];
+      var pct = maxVal > 0 ? Math.round((val / maxVal) * 100) : 0;
+      var color = LEVEL_COLORS[i];
+      var dispVal = isReps ? val + ' reps' : val + ' ' + unitLabel;
+      return '<div class="std-row">' +
+        '<div class="std-lbl" style="color:' + color + '">' + LEVEL_NAMES[i] + '</div>' +
+        '<div class="std-bar-wrap"><div class="std-bar-fill" style="width:' + pct + '%;background:' + color + '"></div></div>' +
+        '<div class="std-val" style="color:' + color + '">' + dispVal + '</div>' +
+        '</div>';
+    }).join('');
+
+    var cardId = 'card_' + variant.replace(/[^a-zA-Z0-9]/g, '_');
+    var inputId = 'lift_' + variant.replace(/[^a-zA-Z0-9]/g, '_');
+    var resultId = 'res_' + variant.replace(/[^a-zA-Z0-9]/g, '_');
+
+    html += '<div class="ex-card" id="' + cardId + '">' +
+      '<div class="ex-card-header">' +
+        '<div class="ex-card-category">' + CATEGORY_LABELS[variant] + '</div>' +
+        '<div class="ex-card-name">' + variant + '</div>' +
+        (note ? '<div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-top:3px;">' + note + '</div>' : '') +
+        '<div class="ex-card-level" id="badge_' + cardId + '" style="display:none;"></div>' +
+      '</div>' +
+      '<div class="standards-wrap">' + barsHtml + '</div>' +
+      '<div class="your-lift-row">' +
+        '<div class="yl-label">Your ' + (isReps ? 'reps' : (rmMode === '1rm' ? '1RM' : '5RM')) + '</div>' +
+        '<input class="yl-input" id="' + inputId + '" type="number" inputmode="decimal" placeholder="' + (isReps ? '10' : '—') + '" data-variant="' + variant + '" data-card="' + cardId + '">' +
+        '<div class="yl-unit">' + unitLabel + '</div>' +
+        '<div class="yl-result" id="' + resultId + '"></div>' +
+      '</div>' +
+    '</div>';
+  });
+
+  document.getElementById('resultCardsGrid').innerHTML = html;
+
+  document.querySelectorAll('.yl-input').forEach(function(inp) {
+    inp.addEventListener('input', function() { updateLiftResult(inp); });
+  });
+}
+</script>
+
+
+<script src="nav.js" onload="CTNav.init('strength')" onerror="console.warn('nav.js not found')"></script>
+</body>
+</html>
