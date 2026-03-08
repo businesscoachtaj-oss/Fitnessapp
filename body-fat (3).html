@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CT Fitness — Body Fat Estimator</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c0c0c;--surface:#141414;--surface2:#1c1c1c;--surface3:#222;
+  --border:#252525;--border2:#333;--border3:#444;
+  --white:#ffffff;--off-white:#e8e4de;--muted:#666;--muted2:#444;
+  --gold:#CD0404;--gold2:#e03333;--green:#4caf7d;--red:#e05555;--blue:#7eb8e0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{font-size:100%;}
+body{background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden;}
+
+/* HEADER */
+.header{padding:28px 40px 24px;border-bottom:1px solid var(--border);display:flex;align-items:flex-end;justify-content:space-between;}
+.logo-ct{font-family:'Playfair Display',serif;font-size:33px;font-weight:900;letter-spacing:2px;}
+.logo-sub{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:5px;color:var(--muted);text-transform:uppercase;margin-top:3px;}
+.header-title{text-align:right;}
+.header-title .eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
+.header-title h1{font-family:'Playfair Display',serif;font-size:42px;font-weight:900;line-height:1;}
+
+/* PANELS */
+.form-panel{overflow-y:auto;min-height:300px;}
+.form-panel.hidden{display:none;}
+.results-panel{overflow-y:auto;min-height:300px;display:none;}
+.results-panel.show{display:block;}
+
+/* FORM CONTENT */
+.form-content{padding:36px 40px 60px;max-width:1100px;margin:0 auto;}
+.sec-title{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.sec-num{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;color:var(--muted2);}
+
+/* Unit toggle */
+.unit-toggle-wrap{display:flex;align-items:center;gap:12px;margin-bottom:28px;}
+.unit-toggle-lbl{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
+.unit-toggle{display:flex;border:1px solid var(--border2);overflow:hidden;}
+.ut-btn{padding:8px 20px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:transparent;color:var(--muted);border:none;transition:all 0.2s;}
+.ut-btn.active{background:var(--white);color:#000;}
+.ut-btn:not(.active):hover{color:var(--white);}
+
+/* Gender */
+.gender-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;}
+.gender-btn{padding:14px;border:1px solid var(--border2);background:transparent;cursor:pointer;text-align:center;transition:all 0.2s;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.gender-btn:hover{border-color:var(--border3);}
+.gender-btn.active{border-color:var(--gold);background:rgba(205,4,4,0.06);}
+.gender-icon{font-size:33px;line-height:1;color:var(--border3);}
+.gender-btn.active .gender-icon{color:var(--gold);}
+.gender-lbl{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--border3);}
+.gender-btn.active .gender-lbl{color:var(--gold);}
+
+/* Form grids */
+.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:24px;}
+.form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
+.form-field{display:flex;flex-direction:column;gap:6px;}
+.form-label{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
+.form-input{background:var(--surface2);border:1px solid var(--border2);color:var(--white);padding:11px 13px;font-family:'Barlow',sans-serif;font-size:21px;outline:none;transition:border-color 0.2s;border-radius:0;-webkit-appearance:none;width:100%;}
+.form-input:focus{border-color:var(--gold);}
+.form-input::placeholder{color:var(--gold);opacity:0.4;}
+.input-unit{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;color:var(--muted);margin-top:3px;}
+
+/* Method toggle */
+.method-toggle{display:flex;border:1px solid var(--border2);overflow:hidden;margin-bottom:24px;}
+.mt-btn{flex:1;padding:14px 12px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:transparent;color:var(--muted);border:none;border-right:1px solid var(--border2);transition:all 0.2s;display:flex;flex-direction:column;align-items:center;gap:5px;}
+.mt-btn:last-child{border-right:none;}
+.mt-btn.active{background:rgba(205,4,4,0.08);color:var(--gold);}
+.mt-btn:not(.active):hover{color:var(--white);background:var(--surface2);}
+.mt-icon{font-size:22px;}
+.mt-label{font-size:13px;}
+.mt-sub{font-size:11px;color:var(--muted2);font-family:'Barlow',sans-serif;font-weight:400;letter-spacing:0;text-transform:none;}
+.mt-btn.active .mt-sub{color:rgba(205,4,4,0.6);}
+
+/* Method panels */
+.method-panel{display:none;}
+.method-panel.active{display:block;}
+
+/* Measurement guide box */
+.measure-guide{background:var(--surface2);border:1px solid var(--border);padding:16px 20px;margin-bottom:20px;}
+.mg-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.mg-steps{display:flex;flex-direction:column;gap:8px;}
+.mg-step{display:flex;gap:12px;align-items:flex-start;}
+.mg-step-num{font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:var(--muted2);flex-shrink:0;width:22px;}
+.mg-step-text{font-size:14px;color:var(--muted);line-height:1.6;}
+.mg-step-text strong{color:var(--off-white);}
+
+/* Visual selector */
+.visual-intro{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:16px;}
+.visual-grid{display:grid;gap:8px;margin-bottom:8px;}
+.vis-card{border:1px solid var(--border2);background:var(--surface);cursor:pointer;padding:14px 16px;transition:all 0.2s;display:flex;align-items:center;gap:16px;}
+.vis-card:hover{border-color:var(--border3);}
+.vis-card.active{border-color:var(--gold);background:rgba(205,4,4,0.05);}
+.vis-pct{font-family:'Playfair Display',serif;font-size:30px;font-weight:900;color:var(--muted2);flex-shrink:0;width:70px;line-height:1;}
+.vis-card.active .vis-pct{color:var(--gold);}
+.vis-name{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--off-white);margin-bottom:3px;}
+.vis-card.active .vis-name{color:var(--gold);}
+.vis-desc{font-size:13px;color:var(--muted);line-height:1.5;}
+
+/* Error */
+.error-msg{color:var(--red);font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:4px;display:none;}
+.error-msg.show{display:block;}
+
+/* Calc button */
+.calc-btn{width:100%;padding:18px;background:var(--white);color:#000;font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;letter-spacing:4px;text-transform:uppercase;cursor:pointer;border:none;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:12px;}
+.calc-btn:hover{background:var(--gold);color:#fff;}
+.calc-btn .cb-arrow{font-size:24px;transition:transform 0.2s;}
+.calc-btn:hover .cb-arrow{transform:translateX(4px);}
+
+/* ── RESULTS ── */
+.results-content{padding:36px 40px 60px;max-width:1200px;margin:0 auto;}
+.recalc-btn{display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px solid var(--border2);color:var(--muted);padding:9px 18px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;margin-bottom:28px;transition:all 0.2s;}
+.recalc-btn:hover{border-color:var(--white);color:var(--white);}
+
+/* Hero result */
+.result-hero{background:linear-gradient(135deg,rgba(205,4,4,0.12) 0%,rgba(205,4,4,0.04) 100%);border:1px solid rgba(205,4,4,0.3);padding:28px 32px;margin-bottom:24px;display:grid;grid-template-columns:auto 1fr auto;gap:32px;align-items:center;}
+.rh-left{text-align:center;}
+.rh-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.rh-pct{font-family:'Playfair Display',serif;font-size:96px;font-weight:900;line-height:1;color:var(--white);}
+.rh-pct-unit{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
+.rh-mid{}
+.rh-cat-name{font-family:'Playfair Display',serif;font-size:42px;font-weight:900;line-height:1.1;margin-bottom:8px;}
+.rh-cat-desc{font-size:16px;color:var(--muted);line-height:1.7;max-width:500px;}
+.rh-right{display:flex;flex-direction:column;gap:12px;min-width:180px;}
+.rh-stat{background:rgba(0,0,0,0.4);border:1px solid var(--border2);padding:14px 18px;}
+.rh-stat-lbl{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.rh-stat-val{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;line-height:1;color:var(--off-white);}
+.rh-stat-sub{font-size:13px;color:var(--muted2);margin-top:2px;}
+
+/* Spectrum bar */
+.spectrum-wrap{margin-bottom:28px;}
+.r-sec-lbl{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.spectrum-bar{height:20px;display:flex;overflow:hidden;border:1px solid var(--border2);position:relative;margin-bottom:6px;}
+.spec-seg{height:100%;position:relative;transition:opacity 0.3s;}
+.spec-marker{position:absolute;top:-4px;width:4px;height:28px;background:var(--white);box-shadow:0 0 10px rgba(255,255,255,0.8);transition:left 0.6s ease;pointer-events:none;}
+.spectrum-labels{display:flex;gap:0;}
+.spec-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;flex:1;text-align:center;color:var(--muted2);}
+
+/* BF level cards — full width accordion-style panels */
+.bf-level-cards{display:flex;flex-direction:column;gap:12px;margin-bottom:28px;}
+.bf-card{border:1px solid var(--border2);background:var(--surface);overflow:hidden;transition:border-color 0.3s;}
+.bf-card.is-you{border-color:var(--gold);box-shadow:0 0 0 1px rgba(205,4,4,0.2);}
+.bf-card-header{display:grid;grid-template-columns:160px 1fr auto;align-items:center;padding:16px 20px;gap:20px;cursor:default;}
+.bch-range{font-family:'Playfair Display',serif;font-size:30px;font-weight:900;line-height:1;}
+.bch-meta{display:flex;flex-direction:column;gap:3px;}
+.bch-name{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;letter-spacing:2px;text-transform:uppercase;}
+.bch-appearance{font-size:14px;color:var(--muted);line-height:1.5;}
+.bch-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0;}
+.you-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:rgba(205,4,4,0.1);border:1px solid rgba(205,4,4,0.4);font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);}
+.bf-card-body{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border-top:1px solid var(--border);}
+.bf-body-col{padding:18px 20px;border-right:1px solid var(--border);}
+.bf-body-col:last-child{border-right:none;}
+.bbc-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.bbc-text{font-size:14px;color:var(--muted);line-height:1.7;}
+.bbc-text strong{color:var(--off-white);}
+.sport-tag{display:inline-flex;padding:3px 9px;border:1px solid var(--border2);font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin:2px 2px 2px 0;}
+.neg-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;}
+.neg-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0;margin-top:6px;}
+.neg-text{font-size:13px;color:var(--muted);line-height:1.6;}
+
+/* Lean mass row */
+.lean-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:28px;}
+.lean-stat{background:var(--surface2);border:1px solid var(--border2);padding:16px 20px;}
+.ls-lbl{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.ls-val{font-family:'Playfair Display',serif;font-size:36px;font-weight:900;line-height:1;color:var(--off-white);}
+.ls-unit{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
+
+/* Disclaimer */
+.disclaimer{background:var(--surface2);border:1px solid var(--border2);border-left:3px solid var(--muted2);padding:14px 20px;margin-top:8px;}
+.disclaimer p{font-size:14px;color:var(--muted);line-height:1.7;}
+.disclaimer strong{color:var(--off-white);}
+
+/* Email section */
+.email-section{background:var(--surface2);border:1px solid var(--border2);padding:18px;margin-top:20px;}
+.email-title{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.email-desc{font-size:16px;color:var(--muted);margin-bottom:12px;line-height:1.6;}
+.email-row{display:flex;gap:8px;}
+.email-input{flex:1;background:var(--surface);border:1px solid var(--border2);color:var(--white);padding:10px 12px;font-family:'Barlow',sans-serif;font-size:20px;outline:none;border-radius:0;-webkit-appearance:none;transition:border-color 0.2s;}
+.email-input:focus{border-color:var(--gold);}
+.email-input::placeholder{color:var(--border3);}
+.email-send-btn{padding:10px 18px;background:var(--gold);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:900;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border:none;transition:all 0.2s;white-space:nowrap;flex-shrink:0;}
+.email-send-btn:hover{background:var(--gold2);}
+.email-send-btn:disabled{opacity:0.5;cursor:not-allowed;}
+.email-status{margin-top:8px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;text-transform:uppercase;display:none;}
+.email-status.success{color:var(--green);display:block;}
+.email-status.error{color:var(--red);display:block;}
+
+/* Toast */
+.toast{position:fixed;bottom:22px;right:22px;background:var(--surface2);border:1px solid var(--border2);border-left:3px solid var(--gold);padding:11px 18px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;z-index:999;transform:translateX(120%);opacity:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);display:flex;align-items:center;gap:8px;color:var(--off-white);}
+.toast.show{transform:translateX(0);opacity:1;}
+
+/* ── RESPONSIVE ADJUSTMENTS FOR APP SHELL ── */
+
+
+
+/* ── UNIVERSAL MOBILE FIX ── */
+
+/* ══ MOBILE RESPONSIVE ══ */
+
+/* ══ MOBILE ══ */
+
+.inline-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
+.inline-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.inline-grid-2-sm{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+
+/* ══ UNIVERSAL MOBILE OVERRIDES ══ */
+@media(max-width:768px){
+  html{font-size:100% !important;}
+  body{overflow-x:hidden !important;}
+  /* All multi-column grids → single column */
+  .form-cols{grid-template-columns:1fr !important;}
+  .form-grid-3{grid-template-columns:1fr 1fr !important;}
+  .results-grid{grid-template-columns:1fr !important;}
+  .macro-row{grid-template-columns:1fr !important;}
+  .goal-grid{grid-template-columns:1fr 1fr !important;}
+  .services-grid{grid-template-columns:1fr !important;}
+  .why-grid{grid-template-columns:1fr !important;}
+  .expect-grid{grid-template-columns:1fr !important;}
+  .contact-grid{grid-template-columns:1fr !important;}
+  .exercise-grid{grid-template-columns:1fr !important;}
+  .result-cards-grid{grid-template-columns:1fr !important;}
+  .vol-grid{grid-template-columns:1fr !important;}
+  .tip-list{grid-template-columns:1fr !important;}
+  .muscle-grid-desktop{grid-template-columns:1fr 1fr !important;}
+  .schedule-grid{grid-template-columns:repeat(3,1fr) !important;}
+  .day-selector{grid-template-columns:repeat(3,1fr) !important;}
+  .about-grid{grid-template-columns:1fr !important;}
+  .phil-inner{grid-template-columns:1fr !important;}
+  .tools-grid{grid-template-columns:1fr 1fr !important;}
+  .hero-stats{flex-direction:column !important;}
+  .planner-layout,.progress-layout{grid-template-columns:1fr !important;}
+  .planner-sidebar,.progress-sidebar{display:none !important;}
+  .stats-row{grid-template-columns:1fr 1fr !important;}
+  /* Padding resets */
+  .form-panel,.results-panel,.form-content,.results-content,.main{padding-left:16px !important;padding-right:16px !important;max-width:100% !important;}
+  .services-section,.why-section,.expect-section,.creds-section,.contact-section,.enquiry-section{padding-left:16px !important;padding-right:16px !important;}
+  .header{padding:12px 16px !important;flex-wrap:wrap !important;}
+  header{padding:10px 14px !important;flex-wrap:wrap !important;}
+  /* Inline grids */
+  .inline-grid-2{grid-template-columns:1fr !important;gap:20px !important;}
+  .inline-grid-4{grid-template-columns:1fr 1fr !important;}
+  .inline-grid-2-sm{grid-template-columns:1fr !important;}
+}
+@media(max-width:480px){
+  .form-grid-3,.form-grid-2{grid-template-columns:1fr !important;}
+  .goal-grid{grid-template-columns:1fr !important;}
+  .muscle-grid-desktop{grid-template-columns:1fr !important;}
+  .schedule-grid{grid-template-columns:1fr 1fr !important;}
+  .day-selector{grid-template-columns:repeat(2,1fr) !important;}
+  .tools-grid{grid-template-columns:1fr !important;}
+  .stats-row{grid-template-columns:1fr !important;}
+  .lean-row{grid-template-columns:1fr !important;}
+  .inline-grid-4{grid-template-columns:1fr !important;}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div>
+    <div class="logo-ct">CT FITNESS</div>
+    <div class="logo-sub">Taj Donaldson · Personal Trainer</div>
+  </div>
+  <div class="header-title">
+    <div class="eyebrow">&#9670; Science-Based</div>
+    <h1>Body Fat Estimator</h1>
+  </div>
+</header>
+
+<!-- ════════════════ FORM PANEL ════════════════ -->
+<div class="form-panel" id="formPanel">
+<div class="form-content">
+  <div class="inline-grid-2">
+
+    <!-- LEFT COL -->
+    <div>
+      <!-- Units -->
+      <div class="unit-toggle-wrap">
+        <span class="unit-toggle-lbl">Units</span>
+        <div class="unit-toggle">
+          <button class="ut-btn active" id="btnMetric">Metric (cm / kg)</button>
+          <button class="ut-btn" id="btnImperial">Imperial (in / lb)</button>
+        </div>
+      </div>
+
+      <!-- Gender -->
+      <div class="sec-title"><span class="sec-num">01</span> Biological Sex</div>
+      <div class="gender-row">
+        <button class="gender-btn active" id="btnMale"><div class="gender-icon">♂</div><div class="gender-lbl">Male</div></button>
+        <button class="gender-btn" id="btnFemale"><div class="gender-icon">♀</div><div class="gender-lbl">Female</div></button>
+      </div>
+
+      <!-- Measurements -->
+      <div class="sec-title"><span class="sec-num">02</span> Your Stats</div>
+      <div class="form-grid-3">
+        <div class="form-field">
+          <label class="form-label">Age</label>
+          <input class="form-input" id="fAge" type="number" inputmode="numeric" placeholder="28" min="16" max="80">
+          <div class="input-unit">years</div>
+        </div>
+        <div class="form-field">
+          <label class="form-label">Height</label>
+          <input class="form-input" id="fHeight" type="number" inputmode="decimal" placeholder="175">
+          <div class="input-unit" id="lblHeight">cm</div>
+        </div>
+        <div class="form-field">
+          <label class="form-label">Weight</label>
+          <input class="form-input" id="fWeight" type="number" inputmode="decimal" placeholder="80">
+          <div class="input-unit" id="lblWeight">kg</div>
+        </div>
+      </div>
+
+      <!-- Method -->
+      <div class="sec-title"><span class="sec-num">03</span> Estimation Method</div>
+      <div class="method-toggle">
+        <button class="mt-btn active" id="btnNavy">
+          <span class="mt-icon">📏</span>
+          <span class="mt-label">Navy Tape Method</span>
+          <span class="mt-sub">Neck · Waist · Hips — ±3% accurate</span>
+        </button>
+        <button class="mt-btn" id="btnVisual">
+          <span class="mt-icon">👁</span>
+          <span class="mt-label">Visual Assessment</span>
+          <span class="mt-sub">Select what matches your physique — ±5%</span>
+        </button>
+        <button class="mt-btn" id="btnBMI">
+          <span class="mt-icon">⚖️</span>
+          <span class="mt-label">BMI-Based Estimate</span>
+          <span class="mt-sub">Height + weight only — ±5–8%</span>
+        </button>
+      </div>
+
+      <!-- NAVY PANEL -->
+      <div class="method-panel active" id="navyPanel">
+        <div class="measure-guide">
+          <div class="mg-title">&#9670; How to Measure Correctly</div>
+          <div class="mg-steps">
+            <div class="mg-step"><div class="mg-step-num">1</div><div class="mg-step-text"><strong>Neck:</strong> Measure just below the larynx (Adam's apple), tilting the tape slightly downward at the front. Keep it snug but not tight.</div></div>
+            <div class="mg-step"><div class="mg-step-num">2</div><div class="mg-step-text"><strong>Waist (men):</strong> At the narrowest point, usually just above the navel. Exhale normally. <strong>Waist (women):</strong> Measure at the navel.</div></div>
+            <div class="mg-step" id="hipStep"><div class="mg-step-num">3</div><div class="mg-step-text"><strong>Hips (women only):</strong> At the widest point around the hips and buttocks. Keep feet together.</div></div>
+          </div>
+        </div>
+        <div class="form-grid-2" id="navyGrid">
+          <div class="form-field">
+            <label class="form-label">Waist</label>
+            <input class="form-input" id="fWaist" type="number" inputmode="decimal" placeholder="82">
+            <div class="input-unit" id="lblWaist">cm</div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Neck</label>
+            <input class="form-input" id="fNeck" type="number" inputmode="decimal" placeholder="38">
+            <div class="input-unit" id="lblNeck">cm</div>
+          </div>
+          <div class="form-field" id="hipFieldWrap" style="display:none;">
+            <label class="form-label">Hips (females)</label>
+            <input class="form-input" id="fHips" type="number" inputmode="decimal" placeholder="96">
+            <div class="input-unit" id="lblHips">cm</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISUAL PANEL -->
+      <div class="method-panel" id="visualPanel">
+        <div class="visual-intro">Select the description that most closely matches your current physique. Be objective — this estimate is for your benefit.</div>
+        <div class="visual-grid" id="visualGridMale" style="grid-template-columns:1fr 1fr;">
+          <!-- Injected by JS -->
+        </div>
+        <div class="visual-grid" id="visualGridFemale" style="grid-template-columns:1fr 1fr;display:none;">
+          <!-- Injected by JS -->
+        </div>
+        <div style="font-size:13px;color:var(--muted2);margin-top:6px;line-height:1.6;">Visual estimates carry a ±4–6% margin of error. For greater accuracy, use the Navy Tape method.</div>
+      </div>
+
+      <!-- BMI PANEL -->
+      <div class="method-panel" id="bmiPanel">
+        <div class="measure-guide">
+          <div class="mg-title">&#9670; How BMI-Based Estimation Works</div>
+          <div class="mg-steps">
+            <div class="mg-step"><div class="mg-step-num">1</div><div class="mg-step-text">Your BMI is calculated from height and weight (already entered above).</div></div>
+            <div class="mg-step"><div class="mg-step-num">2</div><div class="mg-step-text">The <strong>Deurenberg formula</strong> then converts BMI to BF% using your age and sex: <span style="color:var(--off-white);font-family:'Barlow Condensed',sans-serif;">BF% = (1.20 × BMI) + (0.23 × Age) − (10.8 × sex) − 5.4</span></div></div>
+            <div class="mg-step"><div class="mg-step-num">3</div><div class="mg-step-text"><strong>Limitation:</strong> BMI cannot distinguish fat from muscle. Muscular individuals will be overestimated; very sedentary individuals may be underestimated. Use as a rough guide only.</div></div>
+          </div>
+        </div>
+        <div style="padding:14px 16px;background:rgba(205,4,4,0.05);border:1px solid rgba(205,4,4,0.2);font-size:13px;color:var(--muted);line-height:1.7;">
+          <strong style="color:var(--gold);">No extra measurements needed</strong> — this method uses only height, weight, age and sex entered above. Accuracy: ±5–8%.
+        </div>
+      </div>
+
+      <div class="error-msg" id="formError">Please fill in all required fields.</div>
+      <button class="calc-btn" id="calcBtn" style="margin-top:16px;">Estimate My Body Fat <span class="cb-arrow">→</span></button>
+    </div>
+
+    <!-- RIGHT COL — explainer -->
+    <div>
+      <div class="sec-title"><span class="sec-num" style="color:var(--muted2);">&#9670;</span> About Body Fat %</div>
+      <div style="font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:22px;">Body fat percentage is the proportion of your total bodyweight made up of fat tissue. Unlike weight or BMI, it distinguishes between fat mass and lean mass — making it one of the most useful metrics for health, performance, and physique goals.</div>
+
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px;">
+        <div style="padding:16px;border:1px solid var(--border);background:var(--surface);border-left:3px solid var(--gold);">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Navy Tape Method</div>
+          <div style="font-size:14px;color:var(--muted);line-height:1.6;">Developed by the US Navy for field assessments. Uses circumference measurements to estimate BF% via a validated logarithmic formula. Accuracy: <strong style="color:var(--off-white);">±3–4%</strong> vs DEXA.</div>
+        </div>
+        <div style="padding:16px;border:1px solid var(--border);background:var(--surface);border-left:3px solid var(--muted2);">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Visual Assessment</div>
+          <div style="font-size:14px;color:var(--muted);line-height:1.6;">Select the range that best matches your physique. Less precise at <strong style="color:var(--off-white);">±4–6%</strong>, but useful when measurements aren't available or as a quick sanity check.</div>
+        </div>
+        <div style="padding:16px;border:1px solid var(--border);background:var(--surface);border-left:3px solid #7eb8e0;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:6px;">BMI-Based Estimate</div>
+          <div style="font-size:14px;color:var(--muted);line-height:1.6;">Uses the Deurenberg formula to convert your BMI into a BF% estimate. Requires only height, weight, age and sex. Accuracy: <strong style="color:var(--off-white);">±5–8%</strong>. <strong style="color:#e05555;">Not reliable for very muscular individuals</strong> — BMI cannot distinguish fat from lean mass.</div>
+        </div>
+        <div style="padding:16px;border:1px solid var(--border);background:var(--surface);border-left:3px solid var(--blue);">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:6px;">Gold Standard (Clinical)</div>
+          <div style="font-size:14px;color:var(--muted);line-height:1.6;">DEXA scan (<strong style="color:var(--off-white);">±1–2%</strong>), hydrostatic weighing, and Bod Pod offer clinical-grade accuracy. Typically $50–$200 at specialist facilities.</div>
+        </div>
+      </div>
+
+      <div style="background:var(--surface2);border:1px solid var(--border2);padding:18px;">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">&#9670; Healthy Ranges (ACE Guidelines)</div>
+        <table style="width:100%;border-collapse:collapse;">
+          <thead>
+            <tr>
+              <th style="text-align:left;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:6px 0;border-bottom:1px solid var(--border);">Category</th>
+              <th style="text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:6px 0;border-bottom:1px solid var(--border);">Men</th>
+              <th style="text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:6px 0;border-bottom:1px solid var(--border);">Women</th>
+            </tr>
+          </thead>
+          <tbody id="aceTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div><!-- end form panel -->
+
+<!-- ════════════════ RESULTS PANEL ════════════════ -->
+<div class="results-panel" id="resultsPanel">
+<div class="results-content">
+  <button class="recalc-btn" id="recalcBtn">← Recalculate</button>
+
+  <!-- Hero -->
+  <div class="result-hero">
+    <div class="rh-left">
+      <div class="rh-eyebrow">Estimated BF%</div>
+      <div class="rh-pct" id="rPct">—</div>
+      <div class="rh-pct-unit">Percent</div>
+    </div>
+    <div class="rh-mid">
+      <div class="rh-cat-name" id="rCatName">—</div>
+      <div class="rh-cat-desc" id="rCatDesc">—</div>
+    </div>
+    <div class="rh-right">
+      <div class="rh-stat">
+        <div class="rh-stat-lbl">Fat Mass</div>
+        <div class="rh-stat-val" id="rFatMass">—</div>
+        <div class="rh-stat-sub" id="rFatMassSub">kg of fat</div>
+      </div>
+      <div class="rh-stat">
+        <div class="rh-stat-lbl">Lean Mass</div>
+        <div class="rh-stat-val" id="rLeanMass">—</div>
+        <div class="rh-stat-sub" id="rLeanMassSub">kg lean tissue</div>
+      </div>
+      <div class="rh-stat">
+        <div class="rh-stat-lbl">Method</div>
+        <div class="rh-stat-val" id="rMethod" style="font-size:17px;padding-top:4px;">—</div>
+        <div class="rh-stat-sub" id="rAccuracy">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lean mass breakdown -->
+  <div class="lean-row">
+    <div class="lean-stat">
+      <div class="ls-lbl">Total Weight</div>
+      <div class="ls-val" id="lsWeight">—</div>
+      <div class="ls-unit" id="lsWeightU">kg</div>
+    </div>
+    <div class="lean-stat">
+      <div class="ls-lbl">Fat Mass</div>
+      <div class="ls-val" id="lsFat">—</div>
+      <div class="ls-unit" id="lsFatU">kg</div>
+    </div>
+    <div class="lean-stat">
+      <div class="ls-lbl">Lean Mass</div>
+      <div class="ls-val" id="lsLean">—</div>
+      <div class="ls-unit" id="lsLeanU">kg lean</div>
+    </div>
+    <div class="lean-stat">
+      <div class="ls-lbl">Ideal BF Range</div>
+      <div class="ls-val" id="lsIdeal" style="font-size:24px;padding-top:6px;">—</div>
+      <div class="ls-unit">for your gender</div>
+    </div>
+  </div>
+
+  <!-- Spectrum -->
+  <div class="r-sec-lbl">Body Fat Spectrum — Where You Sit</div>
+  <div class="spectrum-wrap">
+    <div class="spectrum-bar" id="spectrumBar"></div>
+    <div class="spectrum-labels" id="spectrumLabels"></div>
+  </div>
+
+  <!-- Level cards -->
+  <div class="r-sec-lbl" style="margin-top:28px;">All Body Fat Levels — What Each Range Means</div>
+  <div class="bf-level-cards" id="bfCards"></div>
+
+  <!-- Email -->
+  <div class="email-section">
+    <div class="email-title">&#9670; Receive Your Results by Email</div>
+    <div class="email-desc">Enter your email and we'll send your body fat estimate, lean mass breakdown, and full level breakdown straight to your inbox.</div>
+    <div class="email-row">
+      <input class="email-input" id="emailInput" type="email" placeholder="your@email.com">
+      <button class="email-send-btn" id="sendEmailBtn">Send Results</button>
+    </div>
+    <div class="email-status" id="emailStatus"></div>
+  </div>
+
+  <div class="disclaimer" style="margin-top:16px;">
+    <p><strong>Disclaimer:</strong> All body fat estimates carry a margin of error (±3–6% depending on method). These results are for informational purposes only and should not replace professional medical advice. Individual variation in fat distribution, hydration, and anatomy significantly affects accuracy. Consult a qualified health professional before making major changes to your diet or training.</p>
+  </div>
+</div>
+</div><!-- end results panel -->
+
+<div class="toast" id="toast"><span id="toastIcon">✓</span><span id="toastMsg">Done</span></div>
+
+<!-- EmailJS -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+// ─── CONFIG ───────────────────────────────────────────
+var EMAILJS_PUBLIC_KEY  = 'U266Bd5p6A5eEeLhv';
+var EMAILJS_SERVICE_ID  = 'service_z67h1ff';
+var EMAILJS_TEMPLATE_ID = 'template_8se6hps';
+(function(){ if(typeof emailjs!=='undefined') emailjs.init(EMAILJS_PUBLIC_KEY); })();
+
+// ─── STATE ────────────────────────────────────────────
+var unit = 'metric';
+var gender = 'male';
+var method = 'navy';
+var visualBF = null;
+var lastResult = null;
+
+// ─── BF DATA ─────────────────────────────────────────
+var BF_DATA = {
+  male: [
+    {
+      id:'essential', range:'2–5%', min:0, max:6,
+      name:'Essential Fat', color:'#c04040',
+      appearance:'Paper-thin skin, extreme muscle striations visible everywhere, veins running across all muscle groups. The body operates at its physiological minimum. Seen only on competition day during peak week.',
+      sports:['Competitive bodybuilders (contest day)','Physique competitors'],
+      benefits:'Absolute peak muscular visibility. The pinnacle of "stage lean." Required for competitive bodybuilding success.',
+      negatives:[
+        'Dangerous to maintain — hormone production collapses',
+        'Testosterone suppression, libido loss',
+        'Immune system severely compromised',
+        'Extreme fatigue, brain fog, mood swings',
+        'Joint pain, elevated cortisol, risk of organ damage long-term'
+      ]
+    },
+    {
+      id:'veryLean', range:'6–9%', min:6, max:10,
+      name:'Competition Lean', color:'#b85530',
+      appearance:'Sharp muscle separation visible across chest, shoulders and back. Full six-pack clearly defined. Visible vascularity on forearms and biceps. Face appears gaunt. Looks exceptional in photos under lighting.',
+      sports:['Bodybuilders (off-peak)','Fitness/physique models on shoot day','Combat sport athletes making weight'],
+      benefits:'Exceptional aesthetic definition. Ideal for photo shoots, fitness media, and competitive events. Maximum muscle-to-fat visual contrast.',
+      negatives:[
+        'Extremely difficult to maintain without strict dieting',
+        'Hormonal disruption likely below 7%',
+        'Reduced strength and workout performance',
+        'Social restrictions and psychological stress',
+        'Irritability, poor sleep quality'
+      ]
+    },
+    {
+      id:'athletic', range:'10–14%', min:10, max:15,
+      name:'Athletic / Very Lean', color:'#b07030',
+      appearance:'Visible six-pack in normal lighting. Clear muscle definition throughout. Light vascularity on arms. Lean, athletic build that reads as "fit" in everyday clothes. Sustainable and healthy.',
+      sports:['Track and field athletes (sprinters, jumpers)','Gymnasts','Competitive swimmers','Cyclists','MMA fighters (off-season)','Natural bodybuilders'],
+      benefits:'Optimal zone for performance athletes — strong hormonal function, excellent power-to-weight ratio, peak aerobic and anaerobic capacity. Best range for most training goals.',
+      negatives:[
+        'Requires consistent training and nutritional discipline to maintain',
+        'Can feel socially restrictive',
+        'May be harder to sustain over age 40 without effort'
+      ]
+    },
+    {
+      id:'fit', range:'15–19%', min:15, max:20,
+      name:'Fit / Active', color:'#8a9030',
+      appearance:'Athletic build. Abs visible when flexed or in good lighting. Minimal excess fat. Looks "in shape" to most people. Healthy, energetic appearance.',
+      sports:['Rugby players','Football and soccer athletes','Basketball players','CrossFit athletes','Recreational weightlifters','Endurance runners'],
+      benefits:'Excellent all-round range. Low health risk, great performance capacity, no significant dietary restriction required. Easy to maintain with consistent training.',
+      negatives:[
+        'None clinically — this is a genuinely healthy range',
+        'Abs not visible at rest without flexing',
+        'Slight performance deficit vs 10–14% in weight-class sports'
+      ]
+    },
+    {
+      id:'average', range:'20–24%', min:20, max:25,
+      name:'Average', color:'#508050',
+      appearance:'Soft midsection visible, limited muscle definition, some fat around the waist and lower abdomen. Comfortable, non-athletic appearance. The statistical average for adult males in most Western countries.',
+      sports:['Recreational sport participants','General gym beginners'],
+      benefits:'Generally healthy. Low disease risk. No special effort required to maintain this range with a moderate lifestyle.',
+      negatives:[
+        'Reduced insulin sensitivity vs leaner ranges',
+        'Lower testosterone levels on average vs 10–15%',
+        'Increased cardiovascular risk compared to athletic ranges',
+        'Energy and recovery may be suboptimal'
+      ]
+    },
+    {
+      id:'aboveAvg', range:'25–29%', min:25, max:30,
+      name:'Above Average', color:'#4070a0',
+      appearance:'Noticeable belly fat, soft upper body, little to no muscle definition visible. Face may appear fuller. The body carries excess fat without major functional impairment.',
+      sports:['Low-intensity recreational activity only'],
+      benefits:'Limited performance benefits. Still mobile and functional.',
+      negatives:[
+        'Elevated risk of cardiovascular disease',
+        'Increasing insulin resistance and risk of type 2 diabetes',
+        'Reduced energy, stamina and athletic capacity',
+        'Higher systemic inflammation markers',
+        'Reduced testosterone and libido'
+      ]
+    },
+    {
+      id:'obese', range:'30%+', min:30, max:100,
+      name:'Obese Range', color:'#5060c0',
+      appearance:'Substantial excess fat across the entire body. Midsection, chest and face significantly affected. Mobility and daily function impacted.',
+      sports:['Not applicable at competitive level'],
+      benefits:'No performance or health benefits.',
+      negatives:[
+        'High risk of cardiovascular disease and stroke',
+        'Type 2 diabetes — significantly elevated risk',
+        'Sleep apnoea and breathing difficulties',
+        'Joint stress and reduced mobility',
+        'Hormonal imbalances and infertility risk',
+        'Reduced life expectancy without lifestyle intervention',
+        'Medical guidance strongly recommended'
+      ]
+    }
+  ],
+  female: [
+    {
+      id:'essential', range:'10–13%', min:0, max:14,
+      name:'Essential Fat', color:'#c04040',
+      appearance:'Extreme muscularity with full striations. Virtually no subcutaneous fat. Rare even in elite sport — seen only on competition day. Women require more essential fat than men due to sex-specific fat deposits (mammary, pelvic) essential for hormonal function.',
+      sports:['Female competitive bodybuilders (contest day)'],
+      benefits:'Maximum muscular visibility on competition day only.',
+      negatives:[
+        'Amenorrhoea — complete loss of menstrual cycle',
+        'Female Athlete Triad: amenorrhoea, low energy availability, bone density loss',
+        'Severe oestrogen suppression',
+        'Immune system collapse',
+        'Life-threatening if maintained long-term — medical emergency'
+      ]
+    },
+    {
+      id:'veryLean', range:'14–17%', min:14, max:18,
+      name:'Competition Lean', color:'#b85530',
+      appearance:'Visible muscle separation and definition across the entire body. Clear ab definition, lean limbs, prominent vascularity. The physique model or figure competitor range. Exceptional-looking but difficult and potentially unhealthy to sustain.',
+      sports:['Figure and bikini competitors','Elite female gymnasts','Sprinters and track athletes'],
+      benefits:'Outstanding aesthetic definition. Ideal for competitive bodybuilding, photo shoots and physique events.',
+      negatives:[
+        'Hormonal disruption highly likely',
+        'Menstrual irregularity or loss',
+        'Elevated cortisol, mood disruption',
+        'Requires extreme dietary discipline to maintain',
+        'Not recommended long-term without medical monitoring'
+      ]
+    },
+    {
+      id:'athletic', range:'18–22%', min:18, max:23,
+      name:'Athletic / Very Lean', color:'#b07030',
+      appearance:'Toned and visibly defined. Some ab definition, especially when flexed. Clear muscle tone on arms, shoulders and legs. Looks strong and athletic year-round. The ideal performance range for most female athletes.',
+      sports:['Competitive swimmers','Cyclists','Distance runners','Tennis players','MMA athletes','Fitness athletes and CrossFit'],
+      benefits:'Optimal zone for female athletic performance. Strong hormonal function, excellent power-to-weight ratio, high energy availability. Best range for most training and body composition goals.',
+      negatives:[
+        'Requires consistent training and nutritional awareness to maintain',
+        'Some dietary discipline needed, especially with age'
+      ]
+    },
+    {
+      id:'fit', range:'23–27%', min:23, max:28,
+      name:'Fit / Active', color:'#8a9030',
+      appearance:'Fit, healthy and toned. Minimal excess fat, athletic structure. Looks "in shape" without a visible six-pack. Strong and energetic appearance.',
+      sports:['Team sport athletes','CrossFit athletes','Recreational gym-goers','Endurance runners'],
+      benefits:'Excellent health range. Low disease risk, normal hormonal function, good energy levels. Sustainable without extreme restriction.',
+      negatives:[
+        'None clinically — genuinely healthy range',
+        'Ab definition not visible at rest'
+      ]
+    },
+    {
+      id:'average', range:'28–34%', min:28, max:35,
+      name:'Average', color:'#508050',
+      appearance:'Soft and curved figure with minimal visible muscle tone. Comfortable, everyday appearance. The statistical average for adult women in most Western countries.',
+      sports:['Low-intensity recreational exercise'],
+      benefits:'Within normal healthy range at lower end. Maintained easily with moderate activity.',
+      negatives:[
+        'Some increased cardiometabolic risk at the upper end',
+        'Reduced insulin sensitivity',
+        'Energy levels may be lower than in leaner ranges'
+      ]
+    },
+    {
+      id:'aboveAvg', range:'35–39%', min:35, max:40,
+      name:'Above Average', color:'#4070a0',
+      appearance:'Significant fat deposits throughout body. Reduced muscle definition, lower energy and mobility. Increasing health risk territory.',
+      sports:['Low-intensity recreational activity only'],
+      benefits:'Limited.',
+      negatives:[
+        'Elevated cardiovascular disease risk',
+        'Increased type 2 diabetes risk',
+        'Lower energy and exercise tolerance',
+        'Joint stress and reduced mobility',
+        'Hormonal disruption possible'
+      ]
+    },
+    {
+      id:'obese', range:'40%+', min:40, max:100,
+      name:'Obese Range', color:'#5060c0',
+      appearance:'Substantial excess fat across the body. Daily function and mobility significantly impacted.',
+      sports:['Not applicable at competitive level'],
+      benefits:'No performance or health benefits.',
+      negatives:[
+        'High cardiovascular disease risk',
+        'Type 2 diabetes — significantly elevated risk',
+        'Sleep apnoea and respiratory issues',
+        'Joint stress and mobility impairment',
+        'Hormonal imbalances',
+        'Reduced quality of life and life expectancy',
+        'Medical guidance strongly recommended'
+      ]
+    }
+  ]
+};
+
+// ACE reference ranges
+var ACE_TABLE = [
+  {cat:'Essential Fat', male:'2–5%',   female:'10–13%', color:'#c04040'},
+  {cat:'Athletes',      male:'6–13%',  female:'14–20%', color:'#b07030'},
+  {cat:'Fitness',       male:'14–17%', female:'21–24%', color:'#8a9030'},
+  {cat:'Acceptable',    male:'18–24%', female:'25–31%', color:'#508050'},
+  {cat:'Obese',         male:'25%+',   female:'32%+',   color:'#4070a0'}
+];
+
+// Visual option sets
+var VISUAL_MALE = [
+  {bf:5,  name:'Stage Lean',    desc:'Extreme striations, near-zero fat, veins everywhere. Competition day only.'},
+  {bf:8,  name:'Very Lean',     desc:'Sharp muscle separation, full six-pack, visible vascularity. Fitness model lean.'},
+  {bf:12, name:'Athletic',      desc:'Clear definition, visible abs with good lighting. Lean and athletic.'},
+  {bf:17, name:'Fit',           desc:'Athletic build, abs visible when flexed, minimal excess fat.'},
+  {bf:22, name:'Average',       desc:'Soft midsection, limited muscle definition. Normal for most men.'},
+  {bf:27, name:'Above Average', desc:'Noticeable belly fat, soft body, little definition.'},
+  {bf:35, name:'High',          desc:'Substantial excess fat across the body.'}
+];
+var VISUAL_FEMALE = [
+  {bf:12, name:'Stage Lean',    desc:'Extreme definition and striations. Competition day only. Very rare.'},
+  {bf:16, name:'Very Lean',     desc:'Clear muscle separation, visible abs. Figure competitor lean.'},
+  {bf:20, name:'Athletic',      desc:'Toned and defined, ab tone when flexed. Strong athletic physique.'},
+  {bf:25, name:'Fit',           desc:'Fit and healthy, toned appearance, no visible excess fat.'},
+  {bf:31, name:'Average',       desc:'Soft and curved, minimal muscle tone. Typical adult female.'},
+  {bf:37, name:'Above Average', desc:'Noticeable fat deposits, reduced energy and mobility.'},
+  {bf:43, name:'High',          desc:'Substantial excess fat with health implications.'}
+];
+
+// ─── INIT ─────────────────────────────────────────────
+function init() {
+  buildVisualGrids();
+  buildAceTable();
+  bindEvents();
+}
+
+function buildAceTable() {
+  var html = '';
+  ACE_TABLE.forEach(function(r){
+    html += '<tr style="border-bottom:1px solid var(--border);">' +
+      '<td style="padding:7px 0;font-size:14px;color:var(--off-white);">' + r.cat + '</td>' +
+      '<td style="padding:7px 0;text-align:center;font-family:\'Barlow Condensed\',sans-serif;font-size:15px;font-weight:700;color:' + r.color + ';">' + r.male + '</td>' +
+      '<td style="padding:7px 0;text-align:center;font-family:\'Barlow Condensed\',sans-serif;font-size:15px;font-weight:700;color:' + r.color + ';">' + r.female + '</td>' +
+    '</tr>';
+  });
+  document.getElementById('aceTable').innerHTML = html;
+}
+
+function buildVisualGrids() {
+  ['male','female'].forEach(function(g){
+    var opts = g === 'male' ? VISUAL_MALE : VISUAL_FEMALE;
+    var id = g === 'male' ? 'visualGridMale' : 'visualGridFemale';
+    var html = opts.map(function(o){
+      return '<div class="vis-card" data-bf="' + o.bf + '" data-gender="' + g + '">' +
+        '<div class="vis-pct">' + o.bf + '%</div>' +
+        '<div><div class="vis-name">' + o.name + '</div><div class="vis-desc">' + o.desc + '</div></div>' +
+      '</div>';
+    }).join('');
+    document.getElementById(id).innerHTML = html;
+  });
+}
+
+function bindEvents() {
+  document.getElementById('btnMetric').addEventListener('click', function(){ setUnit('metric'); });
+  document.getElementById('btnImperial').addEventListener('click', function(){ setUnit('imperial'); });
+  document.getElementById('btnMale').addEventListener('click', function(){ setGender('male'); });
+  document.getElementById('btnFemale').addEventListener('click', function(){ setGender('female'); });
+  document.getElementById('btnNavy').addEventListener('click', function(){ setMethod('navy'); });
+  document.getElementById('btnVisual').addEventListener('click', function(){ setMethod('visual'); });
+  document.getElementById('btnBMI').addEventListener('click', function(){ setMethod('bmi'); });
+  document.getElementById('calcBtn').addEventListener('click', calculate);
+  document.getElementById('recalcBtn').addEventListener('click', recalculate);
+  document.getElementById('sendEmailBtn').addEventListener('click', sendEmail);
+
+  document.querySelectorAll('.vis-card').forEach(function(c){
+    c.addEventListener('click', function(){
+      visualBF = parseInt(c.dataset.bf);
+      document.querySelectorAll('.vis-card[data-gender="' + c.dataset.gender + '"]').forEach(function(x){ x.classList.remove('active'); });
+      c.classList.add('active');
+    });
+  });
+}
+
+function setUnit(u) {
+  unit = u;
+  document.getElementById('btnMetric').classList.toggle('active', u==='metric');
+  document.getElementById('btnImperial').classList.toggle('active', u==='imperial');
+  var m = u === 'metric';
+  document.getElementById('lblHeight').textContent = m ? 'cm' : 'inches';
+  document.getElementById('lblWeight').textContent = m ? 'kg' : 'lbs';
+  document.getElementById('lblWaist').textContent  = m ? 'cm' : 'inches';
+  document.getElementById('lblNeck').textContent   = m ? 'cm' : 'inches';
+  document.getElementById('lblHips').textContent   = m ? 'cm' : 'inches';
+  document.getElementById('fHeight').placeholder   = m ? '175' : '69';
+  document.getElementById('fWeight').placeholder   = m ? '80'  : '176';
+  document.getElementById('fWaist').placeholder    = m ? '82'  : '32';
+  document.getElementById('fNeck').placeholder     = m ? '38'  : '15';
+  document.getElementById('fHips').placeholder     = m ? '96'  : '38';
+}
+
+function setGender(g) {
+  gender = g;
+  document.getElementById('btnMale').classList.toggle('active', g==='male');
+  document.getElementById('btnFemale').classList.toggle('active', g==='female');
+  document.getElementById('hipFieldWrap').style.display = g === 'female' ? 'flex' : 'none';
+  document.getElementById('hipStep').style.display      = g === 'female' ? 'flex' : 'none';
+  document.getElementById('visualGridMale').style.display   = g === 'male' ? 'grid' : 'none';
+  document.getElementById('visualGridFemale').style.display = g === 'female' ? 'grid' : 'none';
+  visualBF = null;
+}
+
+function setMethod(m) {
+  method = m;
+  document.getElementById('btnNavy').classList.toggle('active', m==='navy');
+  document.getElementById('btnVisual').classList.toggle('active', m==='visual');
+  document.getElementById('btnBMI').classList.toggle('active', m==='bmi');
+  document.getElementById('navyPanel').classList.toggle('active', m==='navy');
+  document.getElementById('visualPanel').classList.toggle('active', m==='visual');
+  document.getElementById('bmiPanel').classList.toggle('active', m==='bmi');
+}
+
+// ─── Navy formula ──────────────────────────────────────
+function navyBF(g, heightCm, waistCm, neckCm, hipsCm) {
+  if (g === 'male') {
+    var diff = waistCm - neckCm;
+    if (diff <= 0) return null;
+    return Math.max(2, Math.min(50, 86.010 * Math.log10(diff) - 70.041 * Math.log10(heightCm) + 36.76));
+  } else {
+    var sum = waistCm + hipsCm - neckCm;
+    if (sum <= 0) return null;
+    return Math.max(10, Math.min(65, 163.205 * Math.log10(sum) - 97.684 * Math.log10(heightCm) - 78.387));
+  }
+}
+
+function toCm(inches) { return inches * 2.54; }
+function toKg(lbs)    { return lbs / 2.2046; }
+function toLbs(kg)     { return kg * 2.2046; }
+function round1(n)     { return Math.round(n * 10) / 10; }
+
+// ─── CALCULATE ────────────────────────────────────────
+function calculate() {
+  var err = document.getElementById('formError');
+  err.classList.remove('show');
+
+  var age = parseInt(document.getElementById('fAge').value);
+  var hRaw = parseFloat(document.getElementById('fHeight').value);
+  var wRaw = parseFloat(document.getElementById('fWeight').value);
+
+  if (!age || age < 16 || age > 90) { showErr('Please enter a valid age (16–90).'); return; }
+  if (!hRaw || hRaw < 1)            { showErr('Please enter your height.'); return; }
+  if (!wRaw || wRaw < 1)            { showErr('Please enter your weight.'); return; }
+
+  var hCm = unit === 'imperial' ? toCm(hRaw) : hRaw;
+  var wKg = unit === 'imperial' ? toKg(wRaw) : wRaw;
+
+  var bf, methodLabel, accuracy;
+
+  if (method === 'navy') {
+    var waistRaw = parseFloat(document.getElementById('fWaist').value);
+    var neckRaw  = parseFloat(document.getElementById('fNeck').value);
+    var hipsRaw  = gender === 'female' ? parseFloat(document.getElementById('fHips').value) : 0;
+    if (!waistRaw) { showErr('Please enter your waist measurement.'); return; }
+    if (!neckRaw)  { showErr('Please enter your neck measurement.'); return; }
+    if (gender === 'female' && !hipsRaw) { showErr('Please enter your hip measurement.'); return; }
+    var waistCm = unit === 'imperial' ? toCm(waistRaw) : waistRaw;
+    var neckCm  = unit === 'imperial' ? toCm(neckRaw)  : neckRaw;
+    var hipsCm  = unit === 'imperial' ? toCm(hipsRaw)  : hipsRaw;
+    bf = navyBF(gender, hCm, waistCm, neckCm, hipsCm);
+    if (bf === null) { showErr('Waist must be larger than neck. Please re-check your measurements.'); return; }
+    bf = round1(bf);
+    methodLabel = 'US Navy Tape';
+    accuracy    = '±3–4% accuracy';
+  } else if (method === 'bmi') {
+    var bmi = wKg / ((hCm / 100) * (hCm / 100));
+    var sexFactor = gender === 'male' ? 1 : 0;
+    bf = round1((1.20 * bmi) + (0.23 * age) - (10.8 * sexFactor) - 5.4);
+    bf = Math.max(gender === 'male' ? 3 : 10, Math.min(60, bf));
+    methodLabel = 'BMI-Based (Deurenberg)';
+    accuracy    = '±5–8% — unreliable for muscular individuals';
+  } else {
+    if (visualBF === null) { showErr('Please select a visual body fat level.'); return; }
+    bf          = visualBF;
+    methodLabel = 'Visual Assessment';
+    accuracy    = '±4–6% accuracy';
+  }
+
+  var fatKg  = round1(wKg * bf / 100);
+  var leanKg = round1(wKg - fatKg);
+  var idealRange = gender === 'male' ? '10–20%' : '18–28%';
+
+  // Cat
+  var cats = BF_DATA[gender];
+  var cat = cats[cats.length-1];
+  for (var i = 0; i < cats.length; i++) {
+    if (bf >= cats[i].min && bf < cats[i].max) { cat = cats[i]; break; }
+  }
+
+  // Display units
+  var wDisp  = unit === 'imperial' ? round1(toLbs(wKg))   + ' lb' : wKg + ' kg';
+  var fDisp  = unit === 'imperial' ? round1(toLbs(fatKg))  + ' lb' : fatKg + ' kg';
+  var lDisp  = unit === 'imperial' ? round1(toLbs(leanKg)) + ' lb' : leanKg + ' kg';
+
+  // Store for email
+  lastResult = { bf: bf, cat: cat, fatKg: fatKg, leanKg: leanKg, wKg: wKg, methodLabel: methodLabel, accuracy: accuracy, gender: gender, age: age, idealRange: idealRange };
+
+  // Populate hero
+  document.getElementById('rPct').textContent     = bf;
+  document.getElementById('rCatName').textContent = cat.name;
+  document.getElementById('rCatName').style.color = cat.color;
+  document.getElementById('rCatDesc').textContent = cat.appearance;
+  document.getElementById('rFatMass').textContent = unit==='imperial' ? round1(toLbs(fatKg)) : fatKg;
+  document.getElementById('rFatMassSub').textContent = (unit==='imperial'?'lb':'kg') + ' of fat';
+  document.getElementById('rLeanMass').textContent = unit==='imperial' ? round1(toLbs(leanKg)) : leanKg;
+  document.getElementById('rLeanMassSub').textContent = (unit==='imperial'?'lb':'kg') + ' lean tissue';
+  document.getElementById('rMethod').textContent  = methodLabel;
+  document.getElementById('rAccuracy').textContent = accuracy;
+
+  // Lean row
+  document.getElementById('lsWeight').textContent = unit==='imperial' ? round1(toLbs(wKg)) : wKg;
+  document.getElementById('lsWeightU').textContent = unit==='imperial' ? 'lbs' : 'kg';
+  document.getElementById('lsFat').textContent    = unit==='imperial' ? round1(toLbs(fatKg)) : fatKg;
+  document.getElementById('lsFatU').textContent   = unit==='imperial' ? 'lbs' : 'kg';
+  document.getElementById('lsLean').textContent   = unit==='imperial' ? round1(toLbs(leanKg)) : leanKg;
+  document.getElementById('lsLeanU').textContent  = unit==='imperial' ? 'lbs lean' : 'kg lean';
+  document.getElementById('lsIdeal').textContent  = idealRange;
+
+  buildSpectrum(bf, gender);
+  buildCards(bf, gender);
+
+  // Flip panels
+  document.getElementById('formPanel').classList.add('hidden');
+  var rp = document.getElementById('resultsPanel');
+  rp.classList.add('show');
+  rp.scrollTop = 0;
+  showToast('✓', 'Estimate calculated!');
+}
+
+function showErr(msg) {
+  var err = document.getElementById('formError');
+  err.textContent = msg;
+  err.classList.add('show');
+}
+
+function buildSpectrum(bf, g) {
+  var cats = BF_DATA[g];
+  var maxVal = g === 'male' ? 40 : 50;
+  var totalRange = maxVal;
+  var barHtml = '';
+  var labHtml = '';
+  cats.forEach(function(c){
+    var span = Math.min(c.max, maxVal) - c.min;
+    var pct = (span / totalRange) * 100;
+    if (pct <= 0) return;
+    barHtml += '<div class="spec-seg" style="width:' + pct + '%;background:' + c.color + ';opacity:0.75;"></div>';
+    labHtml += '<div class="spec-label" style="width:' + pct + '%;color:' + c.color + ';font-size:11px;">' + c.min + '%</div>';
+  });
+  // Marker
+  var markerPct = Math.min(97, (bf / totalRange) * 100);
+  barHtml += '<div class="spec-marker" style="left:' + markerPct + '%;"></div>';
+  document.getElementById('spectrumBar').innerHTML = barHtml;
+  document.getElementById('spectrumLabels').innerHTML = labHtml;
+}
+
+function buildCards(bf, g) {
+  var cats = BF_DATA[g];
+  var html = '';
+  cats.forEach(function(c){
+    var isYou = bf >= c.min && bf < c.max;
+    var negsHtml = c.negatives.map(function(n){
+      return '<div class="neg-item"><div class="neg-dot" style="background:' + c.color + ';"></div><div class="neg-text">' + n + '</div></div>';
+    }).join('');
+    var sportsHtml = (Array.isArray(c.sports) && c.sports.length)
+      ? c.sports.map(function(s){ return '<span class="sport-tag">' + s + '</span>'; }).join('')
+      : '<span style="font-size:13px;color:var(--muted2);">Not applicable at competitive level</span>';
+    html += '<div class="bf-card' + (isYou ? ' is-you' : '') + '">' +
+      '<div class="bf-card-header" style="background:' + (isYou ? 'rgba(205,4,4,0.04)' : '') + ';">' +
+        '<div>' +
+          '<div class="bch-range" style="color:' + c.color + ';">' + c.range + '</div>' +
+          '<div class="bch-name" style="color:' + c.color + ';">' + c.name + '</div>' +
+          (isYou ? '<div class="you-badge" style="margin-top:8px;">&#9670; You are here</div>' : '') +
+        '</div>' +
+        '<div class="bch-meta">' +
+          '<div class="bbc-title">Appearance</div>' +
+          '<div class="bch-appearance">' + c.appearance + '</div>' +
+        '</div>' +
+        '<div></div>' +
+      '</div>' +
+      '<div class="bf-card-body">' +
+        '<div class="bf-body-col">' +
+          '<div class="bbc-title">Who This Suits / Sports</div>' +
+          '<div>' + sportsHtml + '</div>' +
+          '<div style="margin-top:10px;"><div class="bbc-title" style="margin-bottom:6px;">Benefits</div><div class="bbc-text">' + c.benefits + '</div></div>' +
+        '</div>' +
+        '<div class="bf-body-col" style="grid-column:span 2;">' +
+          '<div class="bbc-title">Considerations & Health Risks</div>' +
+          negsHtml +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  });
+  document.getElementById('bfCards').innerHTML = html;
+}
+
+function recalculate() {
+  document.getElementById('resultsPanel').classList.remove('show');
+  document.getElementById('formPanel').classList.remove('hidden');
+}
+
+// ─── EMAIL ────────────────────────────────────────────
+function buildEmailBody() {
+  if (!lastResult) return '';
+  var r = lastResult;
+  var cats = BF_DATA[r.gender];
+  var lines = [
+    'CT FITNESS — BODY FAT ESTIMATE',
+    '================================',
+    '',
+    'RESULT: ' + r.bf + '% — ' + r.cat.name,
+    'Method: ' + r.methodLabel + ' (' + r.accuracy + ')',
+    'Gender: ' + r.gender.charAt(0).toUpperCase() + r.gender.slice(1) + '  |  Age: ' + r.age,
+    '',
+    'BODY COMPOSITION BREAKDOWN',
+    '--------------------------',
+    'Total Weight: ' + r.wKg + ' kg',
+    'Fat Mass:     ' + r.fatKg + ' kg (' + r.bf + '%)',
+    'Lean Mass:    ' + r.leanKg + ' kg (' + (100 - r.bf) + '%)',
+    'Ideal Range:  ' + r.idealRange + ' (for your gender)',
+    '',
+    'ABOUT YOUR RANGE: ' + r.cat.name.toUpperCase(),
+    r.cat.appearance,
+    '',
+    'Sports / Who this suits:',
+    (r.cat.sports || []).map(function(s){ return '  • ' + s; }).join('\n'),
+    '',
+    'Considerations:',
+    r.cat.negatives.map(function(n){ return '  • ' + n; }).join('\n'),
+    '',
+    'ALL BODY FAT LEVELS REFERENCE',
+    '==============================',
+  ];
+  cats.forEach(function(c){
+    var mark = (r.bf >= c.min && r.bf < c.max) ? ' ← YOU' : '';
+    lines.push(c.range + ' — ' + c.name + mark);
+  });
+  lines.push('', '—', 'Generated by CT Fitness Strength Tools', 'Coach Taj Donaldson | businesscoachtaj@gmail.com | 0426 023 523');
+  return lines.join('\n');
+}
+
+function sendEmail() {
+  var email  = document.getElementById('emailInput').value.trim();
+  var status = document.getElementById('emailStatus');
+  var btn    = document.getElementById('sendEmailBtn');
+  if (!email || !email.includes('@')) {
+    document.getElementById('emailInput').style.borderColor = 'var(--red)';
+    setTimeout(function(){ document.getElementById('emailInput').style.borderColor = ''; }, 1500);
+    status.textContent = 'Please enter a valid email address.';
+    status.className = 'email-status error';
+    return;
+  }
+  if (!lastResult) {
+    status.textContent = 'Calculate your result first.';
+    status.className = 'email-status error';
+    return;
+  }
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  status.className = 'email-status';
+  var params = {
+    to_email: email,
+    to_name:  'Athlete',
+    tdee:     lastResult.bf + '% Body Fat — ' + lastResult.cat.name,
+    maintain: lastResult.methodLabel,
+    cut_500:'', cut_250:'', bulk_250:'', bulk_500:'',
+    prot_min:'', prot_opt:'', prot_max:'', prot_rec:'',
+    macro_p:'', macro_c:'', macro_f:'',
+    bmr: lastResult.wKg + ' kg total / ' + lastResult.fatKg + ' kg fat / ' + lastResult.leanKg + ' kg lean',
+    lbm:'', formula:'',
+    full_results: buildEmailBody()
+  };
+  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params)
+    .then(function(){
+      btn.disabled = false;
+      btn.textContent = 'Send Results';
+      status.textContent = '✓ Sent! Check your inbox.';
+      status.className = 'email-status success';
+    })
+    .catch(function(err){
+      btn.disabled = false;
+      btn.textContent = 'Send Results';
+      status.textContent = '✕ Failed — please email businesscoachtaj@gmail.com directly.';
+      status.className = 'email-status error';
+      console.error(err);
+    });
+}
+
+// ─── Toast ────────────────────────────────────────────
+var toastTimer;
+function showToast(icon, msg) {
+  var t = document.getElementById('toast');
+  document.getElementById('toastIcon').textContent = icon;
+  document.getElementById('toastMsg').textContent  = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 2600);
+}
+
+// ─── Boot ─────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+
+<script src="nav.js" onload="CTNav.init('bodyfat')" onerror="console.warn('nav.js not found')"></script>
+</body>
+</html>
