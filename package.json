@@ -1,0 +1,9 @@
+{
+  "name": "ct-fitness",
+  "version": "1.0.0",
+  "description": "CT Fitness — Coach Taj Donaldson",
+  "dependencies": {
+    "stripe": "^14.0.0",
+    "@supabase/supabase-js": "^2.0.0"
+  }
+}
