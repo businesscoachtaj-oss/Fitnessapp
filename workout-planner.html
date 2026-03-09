@@ -26,7 +26,14 @@ header{display:flex;align-items:center;justify-content:space-between;padding:16p
 .editor-toggle.active .e-dot{background:var(--gold);box-shadow:0 0 5px var(--gold);}
 .page{display:none;}.page.active{display:block;}
 /* PLANNER */
-.date-nav-wrap{background:var(--bg);position:sticky;top:var(--date-nav-top,141px);z-index:99;border-bottom:1px solid var(--border);}
+.date-nav-wrap{background:var(--bg);position:sticky;top:var(--date-nav-top,148px);z-index:99;border-bottom:1px solid var(--border);}
+.date-nav-wrap .week-nav{transition:all 0.25s;}
+.date-nav-wrap .date-nav{overflow:hidden;max-height:80px;transition:max-height 0.3s ease,opacity 0.25s ease;opacity:1;}
+.date-nav-wrap.collapsed .date-nav{max-height:0;opacity:0;pointer-events:none;}
+.date-nav-wrap.collapsed .date-nav-toggle-icon{transform:rotate(180deg);}
+.date-nav-toggle{display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 14px;cursor:pointer;border:none;background:transparent;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:color 0.2s;flex-shrink:0;}
+.date-nav-toggle:hover{color:var(--white);}
+.date-nav-toggle-icon{font-size:10px;transition:transform 0.3s;display:inline-block;}
 .week-nav{display:flex;align-items:center;justify-content:space-between;padding:8px 36px 0;gap:12px;}
 .week-nav-label{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--muted);flex:1;text-align:center;}
 .week-nav-label span{color:var(--gold);}
@@ -80,8 +87,8 @@ header{display:flex;align-items:center;justify-content:space-between;padding:16p
 .complete-btn{width:28px;height:28px;border:1px solid var(--border2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;color:transparent;font-size:20px;font-weight:700;}
 .complete-btn:hover{border-color:var(--green);color:var(--green);}
 .complete-btn.done{border-color:var(--green);background:var(--green);color:#fff;}
-.ex-panel{border-top:1px solid var(--border);max-height:0;overflow:hidden;transition:max-height 0.4s ease,padding 0.3s;padding:0 18px;}
-.ex-panel.open{max-height:500px;padding:12px 18px 16px;}
+.ex-panel{border-top:1px solid var(--border);max-height:0;overflow:hidden;transition:max-height 0.6s ease,padding 0.3s;padding:0 18px;}
+.ex-panel.open{max-height:9999px;padding:12px 18px 16px;}
 .ex-grid-hdr{display:grid;grid-template-columns:1fr 50px 50px 50px;gap:8px;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:2px;}
 .ex-h{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-align:center;}
 .ex-h:first-child{text-align:left;}
@@ -382,12 +389,16 @@ select.form-input option{background:#1c1c1c;}
 
 <!-- PLANNER -->
 <div class="page active" id="page-planner">
-  <div class="date-nav-wrap">
+  <div class="date-nav-wrap" id="dateNavWrap">
     <div class="week-nav">
       <button class="week-arrow" id="weekPrev" onclick="changeWeek(-1)">&#8592; Prev</button>
       <div class="week-nav-label" id="weekLabel">This Week</div>
       <button class="week-today-btn" id="weekTodayBtn" onclick="goToToday()" style="display:none">Today</button>
       <button class="week-arrow" id="weekNext" onclick="changeWeek(1)">Next &#8594;</button>
+      <button class="date-nav-toggle" onclick="toggleDateNav()" title="Show/hide day picker">
+        <span id="dateNavToggleLabel">HIDE</span>
+        <span class="date-nav-toggle-icon" id="dateNavToggleIcon">&#9650;</span>
+      </button>
     </div>
     <nav class="date-nav" id="dateNav"></nav>
   </div>
@@ -944,12 +955,14 @@ function toggleSetDone(dayKey,wIdx,exIdx,sIdx){
   if(!Array.isArray(ex.sets)||!ex.sets[sIdx])return;
   ex.sets[sIdx].done=!ex.sets[sIdx].done;
   setDay(dayKey,ws);
-  buildDateNav();renderPlanner();renderWeekGrid();updateBadges();
-  // Re-open the panel
-  setTimeout(function(){
-    var panel=document.getElementById('ep'+wIdx);
-    if(panel)panel.classList.add('open');
-  },10);
+  // Update DOM in place — no full re-render, no scroll jump
+  var rowEl=document.getElementById('sr_'+wIdx+'_'+exIdx+'_'+sIdx);
+  if(rowEl){
+    rowEl.classList.toggle('set-done', ex.sets[sIdx].done);
+    var btn=rowEl.querySelector('.set-done-btn');
+    if(btn) btn.classList.toggle('active', ex.sets[sIdx].done);
+  }
+  updateBadges();
 }
 
 function addSet(dayKey,wIdx,exIdx){
@@ -959,8 +972,10 @@ function addSet(dayKey,wIdx,exIdx){
   if(!Array.isArray(ex.sets))ex.sets=[];
   ex.sets.push({reps:'',kg:'',done:false});
   setDay(dayKey,ws);
+  var scrollY=window.scrollY;
   buildDateNav();renderPlanner();renderWeekGrid();updateBadges();
   setTimeout(function(){
+    window.scrollTo(0,scrollY);
     var panel=document.getElementById('ep'+wIdx);
     if(panel)panel.classList.add('open');
   },10);
@@ -994,8 +1009,10 @@ function saveAddExToWorkout(){
   ws[addExTarget.wIdx].exercises.push({name:name,repTarget:repTarget,sets:setArr,muscleName:''});
   setDay(addExTarget.dayKey,ws);
   closeAddExToWorkout();
+  var scrollY=window.scrollY;
   buildDateNav();renderPlanner();renderWeekGrid();updateBadges();
   setTimeout(function(){
+    window.scrollTo(0,scrollY);
     var panel=document.getElementById('ep'+addExTarget.wIdx);
     if(panel)panel.classList.add('open');
   },10);
@@ -1436,11 +1453,23 @@ function renderAll(){
 function setStickyTops(){
   var isMobile = window.innerWidth <= 480;
   var navH = isMobile ? 70 : 84;
-  var appHeader = document.querySelector('header');
-  var appHeaderH = appHeader ? appHeader.offsetHeight : 57;
-  var dateNavTop = navH + appHeaderH;
   document.documentElement.style.setProperty('--nav-h', navH + 'px');
-  document.documentElement.style.setProperty('--date-nav-top', dateNavTop + 'px');
+  // date-nav-wrap sits below the app header — measure after render
+  var appHeader = document.querySelector('header');
+  if(appHeader){
+    var appHeaderH = appHeader.offsetHeight;
+    document.documentElement.style.setProperty('--date-nav-top', (navH + appHeaderH) + 'px');
+  }
+}
+
+function toggleDateNav(){
+  var wrap=document.getElementById('dateNavWrap');
+  var label=document.getElementById('dateNavToggleLabel');
+  var icon=document.getElementById('dateNavToggleIcon');
+  wrap.classList.toggle('collapsed');
+  var collapsed=wrap.classList.contains('collapsed');
+  label.textContent=collapsed?'SHOW':'HIDE';
+  localStorage.setItem('dateNavCollapsed', collapsed?'1':'0');
 }
 
 // === INIT ===
@@ -1449,6 +1478,13 @@ activeDayKey=toKey(today);
 
 window.addEventListener('load', function(){
   setStickyTops();
+  // Restore collapsed state
+  if(localStorage.getItem('dateNavCollapsed')==='1'){
+    var wrap=document.getElementById('dateNavWrap');
+    var label=document.getElementById('dateNavToggleLabel');
+    var icon=document.getElementById('dateNavToggleIcon');
+    if(wrap){wrap.classList.add('collapsed');label.textContent='SHOW';}
+  }
   initSupabase();
 });
 
