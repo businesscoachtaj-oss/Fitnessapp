@@ -226,8 +226,8 @@ body{background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;ove
         </div>
         <div class="dash-card-body">
           <p style="font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:16px;">Questions about training, nutrition or coaching? Get in touch directly.</p>
-          <a class="action-btn" href="/cdn-cgi/l/email-protection#046671776d6a617777676b65676c70656e446369656d682a676b69">Email Taj →</a>
-          <div class="contact-detail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c6a4b3b5afa8a3b5b5a5a9a7a5aeb2a7ac86a1aba7afaae8a5a9ab">[email&#160;protected]</a><br>0426 023 523</div>
+          businesscoachtaj@gmail.com
+          <div class="contact-detail">businesscoachtaj@gmail.com<br>0426 023 523</div>
         </div>
       </div>
 
@@ -235,13 +235,16 @@ body{background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;ove
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="nav.js" onload="CTNav.init('dashboard')" onerror="console.warn('nav.js not found')"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nav.js" onload="CTNav.init('dashboard')" onerror="console.warn('nav.js not found')"></script>
 <script>
 var SUPABASE_URL  = 'https://oqwyemyvmqubzbawcgfj.supabase.co';
 var SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9xd3llbXl2bXF1YnpiYXdjZ2ZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5MTA1ODEsImV4cCI6MjA4ODQ4NjU4MX0.AghBMaHcRa9H0ZEbiT6qWCB_1Mpw4EN5rtJPjCTuXTA';
-var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+var sb = null;
 
-function init() {
+function initSupabase() {
+  if(!window.supabase) { setTimeout(initSupabase, 50); return; }
+  sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
   var params = new URLSearchParams(window.location.search);
   if(params.get('welcome') === '1') {
     document.getElementById('welcomeBanner').classList.add('show');
@@ -250,12 +253,12 @@ function init() {
   document.getElementById('wbClose').addEventListener('click', function(){
     document.getElementById('welcomeBanner').classList.remove('show');
   });
-  supabase.auth.getSession().then(function(res) {
-    if(!res.data.session) { window.location.href = 'signup.html'; return; }
-    loadDashboard(res.data.session.user);
-  });
   document.getElementById('btnSignout').addEventListener('click', function(){
-    supabase.auth.signOut().then(function(){ window.location.href = 'index.html'; });
+    sb.auth.signOut().then(function(){ window.location.href = 'index.html'; });
+  });
+  sb.auth.getSession().then(function(res) {
+    if(!res.data || !res.data.session) { window.location.href = 'signup.html'; return; }
+    loadDashboard(res.data.session.user);
   });
 }
 
@@ -265,7 +268,17 @@ function loadDashboard(user) {
   var lastName  = meta.last_name  || '';
   var joined    = new Date(user.created_at).toLocaleDateString('en-AU', {day:'numeric',month:'long',year:'numeric'});
 
-  document.getElementById('greetName').textContent = firstName;
-  document.getElementById('pfFirst').textContent   = firstName;
-  document.getElementById('pfLast').textContent    = lastName || '—';
-  document.getElementById('pfEmail').textContent   = 
+  document.getElementById('greetName').textContent  = firstName;
+  document.getElementById('pfFirst').textContent    = firstName;
+  document.getElementById('pfLast').textContent     = lastName || '—';
+  document.getElementById('pfEmail').textContent    = user.email;
+  document.getElementById('pfJoined').textContent   = joined;
+  // Hide loading screen, show content
+  document.getElementById('loadingScreen').style.display = 'none';
+  document.getElementById('dashWrap').style.display   = 'block';
+}
+
+window.addEventListener('load', initSupabase);
+</script>
+</body>
+</html>
