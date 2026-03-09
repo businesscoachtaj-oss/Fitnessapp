@@ -6,329 +6,498 @@
 <title>CT Fitness — Sculpt & Shape: Glutes, Shoulders & Abs</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0c0c0c;--surface:#141414;--surface2:#1c1c1c;--surface3:#222;--border:#252525;--border2:#333;--border3:#444;--white:#fff;--off-white:#e8e4de;--muted:#666;--muted2:#444;--red:#CD0404;--red2:#e03333;--green:#4caf7d;--blue:#7eb8e0;--gold:#CD0404;}
+:root{
+  --bg:#0c0c0c;--surface:#141414;--surface2:#1c1c1c;--surface3:#222;
+  --border:#252525;--border2:#333;--border3:#444;
+  --white:#fff;--off-white:#e8e4de;--muted:#666;--muted2:#444;
+  --red:#CD0404;--red2:#e03333;--green:#4caf7d;--blue:#7eb8e0;
+  --amber:#d4a843;--purple:#9b7fe8;
+}
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden;}
 
 /* ── HERO ── */
-.hero{position:relative;min-height:92vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 0 80px;overflow:hidden;}
-.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0c0c0c 0%,#1a0a0a 40%,#0c0c0c 100%);}
-.hero-accent{position:absolute;top:0;right:0;width:45%;height:100%;background:linear-gradient(180deg,rgba(205,4,4,0.06) 0%,transparent 70%);}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);background-size:60px 60px;opacity:1;}
+.hero{position:relative;min-height:94vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 0 72px;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:var(--bg);}
+.hero-noise{position:absolute;inset:0;opacity:0.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");}
+.hero-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.018) 1px,transparent 1px);background-size:80px 80px;}
+.hero-glow{position:absolute;bottom:-80px;right:-80px;width:700px;height:700px;background:radial-gradient(circle,rgba(205,4,4,0.08) 0%,transparent 70%);pointer-events:none;}
+.hero-glow-2{position:absolute;top:-60px;left:-60px;width:500px;height:500px;background:radial-gradient(circle,rgba(126,184,224,0.04) 0%,transparent 70%);pointer-events:none;}
 .hero-content{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 48px;width:100%;}
-.program-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:24px;}
+.program-eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:28px;}
 .eyebrow-tag{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--red);border:1px solid rgba(205,4,4,0.4);padding:4px 12px;}
-.eyebrow-line{width:40px;height:1px;background:var(--red);opacity:0.5;}
-.hero-title{font-family:'Playfair Display',serif;font-size:clamp(52px,7vw,96px);font-weight:900;line-height:0.9;letter-spacing:-2px;margin-bottom:16px;}
-.hero-title span{color:var(--red);}
-.hero-subtitle{font-family:'Barlow Condensed',sans-serif;font-size:clamp(16px,2.5vw,22px);font-weight:400;letter-spacing:6px;text-transform:uppercase;color:var(--muted);margin-bottom:40px;}
-.hero-stats{display:flex;gap:0;margin-bottom:48px;}
-.hero-stat{padding:20px 32px;border:1px solid var(--border2);border-right:none;background:rgba(20,20,20,0.8);}
-.hero-stat:last-child{border-right:1px solid var(--border2);}
-.hero-stat-val{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:var(--white);line-height:1;}
-.hero-stat-val span{color:var(--red);}
-.hero-stat-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-top:4px;}
+.eyebrow-divider{width:1px;height:14px;background:var(--border3);}
+.eyebrow-sub{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(56px,8vw,110px);font-weight:900;line-height:0.88;letter-spacing:-3px;margin-bottom:20px;}
+.hero-title .t1{display:block;color:var(--white);}
+.hero-title .t2{display:block;color:var(--red);}
+.hero-sub{font-family:'Barlow Condensed',sans-serif;font-size:clamp(13px,1.8vw,17px);font-weight:400;letter-spacing:7px;text-transform:uppercase;color:var(--muted);margin-bottom:36px;}
+.priority-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:44px;}
+.p-pill{display:flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;}
+.p-pill .dot{width:6px;height:6px;border-radius:50%;}
+.p-pill.glutes{color:var(--red);border-color:rgba(205,4,4,0.35);}.p-pill.glutes .dot{background:var(--red);}
+.p-pill.shoulders{color:var(--blue);border-color:rgba(126,184,224,0.35);}.p-pill.shoulders .dot{background:var(--blue);}
+.p-pill.abs{color:var(--purple);border-color:rgba(155,127,232,0.35);}.p-pill.abs .dot{background:var(--purple);}
+.p-pill.maintain{color:var(--muted);border-color:var(--border2);}.p-pill.maintain .dot{background:var(--muted2);}
 .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;}
-.btn-hero-primary{display:inline-flex;align-items:center;gap:10px;background:var(--red);color:var(--white);padding:16px 32px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;transition:all 0.2s;}
-.btn-hero-primary:hover{background:var(--red2);}
-.btn-hero-secondary{display:inline-flex;align-items:center;gap:10px;background:transparent;color:var(--white);padding:16px 32px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:1px solid var(--border2);cursor:pointer;transition:all 0.2s;}
-.btn-hero-secondary:hover{border-color:var(--white);background:rgba(255,255,255,0.04);}
-.btn-icon-svg{font-size:18px;}
-.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0.3;}
-.hero-scroll span{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;}
-.hero-scroll-line{width:1px;height:40px;background:var(--white);animation:scrollPulse 2s ease-in-out infinite;}
-@keyframes scrollPulse{0%,100%{opacity:0.3;transform:scaleY(1);}50%{opacity:1;transform:scaleY(0.5);}}
+.btn-primary{display:inline-flex;align-items:center;gap:10px;background:var(--red);color:var(--white);padding:15px 30px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;transition:background 0.2s;}
+.btn-primary:hover{background:var(--red2);}
+.btn-secondary{display:inline-flex;align-items:center;gap:10px;background:transparent;color:var(--white);padding:15px 30px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:1px solid var(--border2);cursor:pointer;transition:all 0.2s;}
+.btn-secondary:hover{border-color:var(--white);}
+.hero-scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0.25;}
+.hero-scroll-hint span{font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;}
+.scroll-line{width:1px;height:36px;background:var(--white);animation:pulse 2s ease infinite;}
+@keyframes pulse{0%,100%{opacity:.25}50%{opacity:1}}
 
-/* ── SECTION SHARED ── */
-section{max-width:1200px;margin:0 auto;padding:80px 48px;}
-.section-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--red);margin-bottom:12px;}
-.section-title{font-family:'Playfair Display',serif;font-size:clamp(32px,4vw,52px);font-weight:700;margin-bottom:32px;line-height:1.1;}
-.section-divider{width:100%;height:1px;background:var(--border);margin:0;}
+/* ── SHARED ── */
+.section-wrap{max-width:1200px;margin:0 auto;padding:80px 48px;}
+.section-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,48px);font-weight:700;line-height:1.1;margin-bottom:32px;}
+.divider{width:100%;height:1px;background:var(--border);}
 
-/* ── OVERVIEW ── */
-.overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);}
-.overview-cell{background:var(--surface);padding:32px;display:flex;flex-direction:column;gap:6px;}
-.ov-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
-.ov-val{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--white);}
-.ov-sub{font-size:13px;color:var(--muted);font-family:'Barlow',sans-serif;margin-top:2px;}
+/* ── SCIENCE ── */
+.science-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);}
+.sci-card{background:var(--surface);padding:28px 24px;}
+.sci-icon{font-size:22px;margin-bottom:10px;}
+.sci-title{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--white);margin-bottom:8px;}
+.sci-body{font-size:13px;color:var(--muted);line-height:1.7;}
+.sci-body strong{color:var(--off-white);}
 
-/* ── FOCUS TARGETS ── */
-.focus-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:40px;}
-.focus-card{background:var(--surface);padding:32px 28px;}
-.focus-rank{font-family:'Playfair Display',serif;font-size:64px;font-weight:700;color:rgba(205,4,4,0.12);line-height:1;margin-bottom:8px;}
-.focus-name{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--white);margin-bottom:8px;}
-.focus-desc{font-size:14px;color:var(--muted);line-height:1.6;}
-.focus-muscles{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;}
-.muscle-tag{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);border:1px solid rgba(205,4,4,0.3);padding:2px 8px;}
+/* ── TARGET CARDS ── */
+.target-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:40px;}
+.target-card{background:var(--surface);padding:28px 22px;position:relative;}
+.target-color-line{height:2px;margin-bottom:16px;}
+.target-rank{font-family:'Playfair Display',serif;font-size:52px;font-weight:700;line-height:1;margin-bottom:6px;opacity:0.12;}
+.target-name{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+.target-freq{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+.target-desc{font-size:12px;color:var(--muted);line-height:1.65;}
+.target-sets{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;}
+.set-chip{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;border:1px solid;}
 
-/* ── SPLIT OVERVIEW ── */
-.split-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
-.split-day{background:var(--surface);padding:24px 16px;text-align:center;position:relative;}
-.split-day.rest{background:var(--bg);}
-.split-day-num{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
-.split-day-name{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--white);margin-bottom:6px;}
-.split-day.rest .split-day-name{color:var(--muted2);}
-.split-day-focus{font-size:12px;color:var(--muted);line-height:1.4;}
-.split-bar{position:absolute;top:0;left:0;right:0;height:3px;}
+/* ── VOLUME TABLE ── */
+.vol-table{width:100%;border-collapse:collapse;}
+.vol-table th{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted2);padding:8px 14px;border-bottom:1px solid var(--border2);text-align:center;}
+.vol-table th:first-child{text-align:left;}
+.vol-table td{padding:10px 14px;border-bottom:1px solid var(--border);font-family:'Barlow Condensed',sans-serif;font-size:13px;text-align:center;color:var(--off-white);}
+.vol-table td:first-child{text-align:left;font-weight:700;}
+.vol-table tr:last-child td{border-bottom:none;}
+.vol-table tr:hover td{background:var(--surface2);}
+.phase-header td{background:var(--surface2)!important;color:var(--muted)!important;font-size:10px!important;letter-spacing:3px!important;text-transform:uppercase!important;padding:6px 14px!important;}
 
-/* ── WEEK SCHEDULE ── */
-.week-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:0;overflow-x:auto;scrollbar-width:none;}
+/* ── PHASE CARDS ── */
+.phase-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+.phase-card{background:var(--surface);padding:28px 22px;position:relative;overflow:hidden;}
+.phase-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.phase-card.p1::before{background:var(--muted2);}
+.phase-card.p2::before{background:var(--blue);}
+.phase-card.p3::before{background:var(--red);}
+.phase-card.p4::before{background:linear-gradient(90deg,var(--amber),var(--muted2));}
+.phase-num{font-family:'Playfair Display',serif;font-size:52px;font-weight:700;color:rgba(255,255,255,0.05);line-height:1;margin-bottom:4px;}
+.phase-weeks{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.phase-name{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--white);margin-bottom:12px;}
+.phase-specs{font-size:12px;color:var(--muted);line-height:1.9;}
+.phase-specs strong{color:var(--off-white);display:block;}
+
+/* ── RPE GUIDE ── */
+.rpe-guide{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+.rpe-cell{background:var(--surface);padding:18px 14px;text-align:center;}
+.rpe-num{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;margin-bottom:4px;}
+.rpe-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.rpe-desc{font-size:11px;color:var(--muted);line-height:1.5;}
+
+/* ── SPLIT ── */
+.split-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+.split-card{background:var(--surface);padding:20px 14px;text-align:center;position:relative;}
+.split-card.rest{background:var(--bg);}
+.split-top-bar{height:3px;position:absolute;top:0;left:0;right:0;}
+.split-day-num{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.split-day-name{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--white);margin-bottom:6px;line-height:1.2;}
+.split-day-focus{font-size:11px;color:var(--muted);line-height:1.5;}
+.split-priority-dots{display:flex;justify-content:center;gap:4px;margin-top:10px;}
+.sp-dot{width:5px;height:5px;border-radius:50%;}
+
+/* ── WEEK TABS ── */
+.week-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
 .week-tabs::-webkit-scrollbar{display:none;}
-.week-tab{padding:12px 20px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all 0.2s;background:none;border-top:none;border-left:none;border-right:none;}
+.week-tab{padding:11px 18px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all 0.2s;background:none;border-top:none;border-left:none;border-right:none;}
 .week-tab:hover{color:var(--white);}
 .week-tab.active{color:var(--white);border-bottom-color:var(--red);}
-.week-content{display:none;}
-.week-content.active{display:block;}
+.week-content{display:none;}.week-content.active{display:block;}
+.phase-banner{border:1px solid var(--border);border-top:none;padding:11px 20px;display:flex;align-items:center;gap:16px;margin-bottom:1px;}
+.pb-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.pb-text{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.pb-text strong{color:var(--off-white);}
+
+/* ── DAY ACCORDION ── */
 .day-accordion{border:1px solid var(--border);border-bottom:none;}
 .day-row{border-bottom:1px solid var(--border);}
-.day-header{display:flex;align-items:center;gap:16px;padding:16px 20px;cursor:pointer;transition:background 0.2s;user-select:none;}
-.day-header:hover{background:var(--surface);}
-.day-header.open{background:var(--surface);}
-.day-color-bar{width:3px;height:36px;flex-shrink:0;}
+.day-header{display:flex;align-items:center;gap:14px;padding:14px 20px;cursor:pointer;transition:background 0.2s;user-select:none;}
+.day-header:hover,.day-header.open{background:var(--surface);}
+.day-color-bar{width:3px;height:34px;flex-shrink:0;}
 .day-info{flex:1;}
-.day-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
-.day-name{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--white);}
-.day-meta{display:flex;gap:12px;margin-top:2px;}
-.day-chip{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);background:var(--surface2);border:1px solid var(--border);padding:2px 8px;}
-.day-chevron{font-size:12px;color:var(--muted);transition:transform 0.25s;}
+.day-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
+.day-title{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--white);}
+.day-chips{display:flex;gap:8px;margin-top:3px;flex-wrap:wrap;}
+.day-chip{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);background:var(--surface2);border:1px solid var(--border);padding:1px 7px;}
+.day-chevron{font-size:11px;color:var(--muted);transition:transform 0.25s;flex-shrink:0;}
 .day-header.open .day-chevron{transform:rotate(180deg);}
 .day-body{display:none;padding:0 20px 20px;}
 .day-header.open + .day-body{display:block;}
-.ex-table{width:100%;border-collapse:collapse;margin-top:16px;}
-.ex-table th{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted2);padding:6px 12px;border-bottom:1px solid var(--border);text-align:left;}
+
+/* ── EXERCISE TABLE ── */
+.ex-table{width:100%;border-collapse:collapse;margin-top:14px;}
+.ex-table th{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted2);padding:6px 10px;border-bottom:1px solid var(--border);text-align:left;}
 .ex-table th:not(:first-child){text-align:center;}
-.ex-table td{padding:10px 12px;border-bottom:1px solid var(--border);font-size:14px;color:var(--off-white);vertical-align:top;}
-.ex-table td:not(:first-child){text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--white);}
+.ex-table td{padding:9px 10px;border-bottom:1px solid rgba(255,255,255,0.03);vertical-align:top;}
 .ex-table tr:last-child td{border-bottom:none;}
-.ex-table tr:hover td{background:rgba(255,255,255,0.02);}
-.ex-name-main{font-size:14px;color:var(--white);font-weight:600;}
-.ex-name-note{font-size:12px;color:var(--muted);margin-top:2px;font-style:italic;}
-.ex-muscle-pill{display:inline-block;font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);border:1px solid rgba(205,4,4,0.3);padding:1px 6px;margin-top:3px;}
+.ex-table tr:hover td{background:rgba(255,255,255,0.015);}
+.ex-name-main{font-size:13px;color:var(--white);font-weight:600;}
+.ex-name-note{font-size:11px;color:var(--muted);margin-top:2px;font-style:italic;line-height:1.4;}
+.ex-muscle-pill{display:inline-block;font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:1px 6px;margin-top:3px;border:1px solid;}
+.ex-table td:not(:first-child){text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;color:var(--white);}
+.priority-flag{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:5px;vertical-align:middle;flex-shrink:0;}
+
+/* ── SUBSTITUTE ── */
 .ex-sub-toggle{display:inline-flex;align-items:center;gap:4px;font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);border:1px solid var(--border2);padding:1px 6px;margin-top:3px;margin-left:4px;cursor:pointer;background:transparent;transition:all 0.2s;vertical-align:middle;}
-.ex-sub-toggle:hover{color:var(--white);border-color:var(--border3);}
-.ex-sub-toggle.open{color:var(--white);border-color:var(--border3);}
-.ex-sub-row{display:none;background:var(--surface2);border-top:1px solid var(--border);padding:10px 12px;}
+.ex-sub-toggle:hover,.ex-sub-toggle.open{color:var(--white);border-color:var(--border3);}
+.ex-sub-row{display:none;background:var(--surface2);border-top:1px solid var(--border);}
 .ex-sub-row.open{display:table-row;}
-.ex-sub-inner{display:flex;align-items:flex-start;gap:10px;}
+.ex-sub-inner{display:flex;align-items:flex-start;gap:10px;padding:9px 10px;}
 .ex-sub-label{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);white-space:nowrap;padding-top:2px;flex-shrink:0;}
-.ex-sub-list{font-size:13px;color:var(--off-white);line-height:1.7;}
-.ex-sub-list span{color:var(--muted);font-size:12px;}
-.day-notes{background:var(--surface2);border:1px solid var(--border);padding:12px 16px;margin-top:12px;font-size:13px;color:var(--muted);line-height:1.6;}
-.day-notes strong{color:var(--off-white);font-weight:600;}
+.ex-sub-list{font-size:12px;color:var(--off-white);line-height:1.8;}
+.ex-sub-list span{color:var(--muted);font-size:11px;}
 
-/* ── PROGRESSION ── */
-.prog-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
-.prog-cell{background:var(--surface);padding:28px 24px;}
-.prog-week-range{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
-.prog-phase{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--white);margin-bottom:10px;}
-.prog-phase span{color:var(--red);}
-.prog-details{font-size:13px;color:var(--muted);line-height:1.7;}
-
-/* ── LOAD INTO PLANNER ── */
-.load-section{background:var(--surface);border:1px solid var(--border);padding:48px;}
-.load-inner{max-width:640px;}
-.load-title{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;margin-bottom:12px;}
-.load-desc{font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:32px;}
-.load-actions{display:flex;gap:12px;flex-wrap:wrap;}
+/* ── LOAD SECTION ── */
+.load-wrap{background:var(--surface);border:1px solid var(--border);padding:48px;}
+.load-inner{max-width:600px;}
+.load-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;}
 
 /* ── TOAST ── */
-.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface);border:1px solid var(--border2);padding:12px 24px;display:flex;align-items:center;gap:10px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;opacity:0;transition:all 0.3s;pointer-events:none;z-index:9999;white-space:nowrap;}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--surface);border:1px solid var(--border2);padding:11px 22px;display:flex;align-items:center;gap:10px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;opacity:0;transition:all 0.3s;pointer-events:none;z-index:9999;white-space:nowrap;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .toast-icon{color:var(--green);}
 
 /* ── RESPONSIVE ── */
-@media(max-width:900px){
-  .hero-content{padding:0 24px;}
-  section{padding:60px 24px;}
-  .focus-grid{grid-template-columns:1fr;}
-  .split-grid{grid-template-columns:repeat(3,1fr);}
-  .prog-grid{grid-template-columns:1fr 1fr;}
-  .overview-grid{grid-template-columns:1fr 1fr;}
-  .hero-stats{flex-wrap:wrap;}
-  .hero-stat{flex:1;min-width:120px;}
-  .load-section{padding:32px 24px;}
+@media(max-width:960px){
+  .hero-content,.section-wrap{padding-left:24px;padding-right:24px;}
+  .science-grid{grid-template-columns:1fr;}
+  .target-grid{grid-template-columns:1fr 1fr;}
+  .phase-grid{grid-template-columns:1fr 1fr;}
+  .split-grid{grid-template-columns:repeat(4,1fr);}
+  .rpe-guide{grid-template-columns:1fr 1fr;}
+  .load-wrap{padding:28px 24px;}
 }
 @media(max-width:600px){
+  .target-grid{grid-template-columns:1fr;}
+  .phase-grid{grid-template-columns:1fr;}
   .split-grid{grid-template-columns:repeat(2,1fr);}
-  .prog-grid{grid-template-columns:1fr;}
-  .overview-grid{grid-template-columns:1fr;}
-  .hero-stats{gap:0;}
-  .hero-stat{border-right:1px solid var(--border2) !important;}
+  .rpe-guide{grid-template-columns:1fr;}
 }
 </style>
 </head>
+
 <body>
 
 <!-- ── HERO ── -->
 <div class="hero">
   <div class="hero-bg"></div>
-  <div class="hero-accent"></div>
-  <div class="hero-grid"></div>
+  <div class="hero-noise"></div>
+  <div class="hero-lines"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow-2"></div>
   <div class="hero-content">
     <div class="program-eyebrow">
-      <div class="eyebrow-tag">CT Fitness Program</div>
-      <div class="eyebrow-line"></div>
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted)">Aesthetics · 8 Weeks</div>
+      <div class="eyebrow-tag">CT Fitness · Aesthetic Sculpting</div>
+      <div class="eyebrow-divider"></div>
+      <div class="eyebrow-sub">8 Weeks · PPL Split · RPE-Driven</div>
     </div>
-    <h1 class="hero-title">Sculpt<br>&amp; <span>Shape</span></h1>
-    <p class="hero-subtitle">Glutes · Shoulders · Abs</p>
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <div class="hero-stat-val"><span>8</span></div>
-        <div class="hero-stat-label">Weeks</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-val"><span>6</span></div>
-        <div class="hero-stat-label">Days / Week</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-val"><span>45–60</span></div>
-        <div class="hero-stat-label">Min / Session</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-val"><span>Int</span></div>
-        <div class="hero-stat-label">Level</div>
-      </div>
+    <h1 class="hero-title">
+      <span class="t1">Sculpt</span>
+      <span class="t2">&amp; Shape</span>
+    </h1>
+    <p class="hero-sub">Glutes · Shoulders · Abs</p>
+    <div class="priority-pills">
+      <div class="p-pill glutes"><div class="dot"></div>Glutes — Priority</div>
+      <div class="p-pill shoulders"><div class="dot"></div>Shoulders — Priority</div>
+      <div class="p-pill abs"><div class="dot"></div>Abs — Priority</div>
+      <div class="p-pill maintain"><div class="dot"></div>All else — Maintain</div>
     </div>
     <div class="hero-ctas">
-      <button class="btn-hero-primary" onclick="loadIntoPlanner()">
-        <span class="btn-icon-svg">▶</span> Start Program in Planner
-      </button>
-      <button class="btn-hero-secondary" onclick="downloadSpreadsheet()">
-        <span class="btn-icon-svg">⬇</span> Download Spreadsheet
-      </button>
+      <button class="btn-primary" onclick="loadIntoPlanner()">▶ &nbsp;Start Program in Planner</button>
+      <button class="btn-secondary" onclick="downloadSpreadsheet()">⬇ &nbsp;Download Spreadsheet</button>
     </div>
   </div>
-  <div class="hero-scroll">
+  <div class="hero-scroll-hint">
     <span>Scroll</span>
-    <div class="hero-scroll-line"></div>
+    <div class="scroll-line"></div>
   </div>
 </div>
 
-<div class="section-divider"></div>
+<div class="divider"></div>
 
-<!-- ── OVERVIEW ── -->
-<section>
-  <div class="section-eyebrow">Program Overview</div>
-  <h2 class="section-title">Built for Results</h2>
-  <div class="overview-grid">
-    <div class="overview-cell">
-      <div class="ov-label">Goal</div>
-      <div class="ov-val">Aesthetic Development</div>
-      <div class="ov-sub">Glute growth, shoulder width, core definition — built to turn heads</div>
+<!-- ── SCIENCE ── -->
+<div class="section-wrap">
+  <div class="section-eyebrow">Scientific Foundation</div>
+  <h2 class="section-title">Why This Works</h2>
+  <div class="science-grid">
+    <div class="sci-card">
+      <div class="sci-icon">🍑</div>
+      <div class="sci-title">Glute-Specific Volume Architecture</div>
+      <div class="sci-body">The glute max responds best to <strong>hip extension under load at full stretch</strong> — which is why hip thrusts, RDLs and split squats anchor every lower session. Glute med requires abduction-based work. This program hits both heads twice per week with <strong>full progressive overload</strong>, starting at MEV and peaking at MRV by Week 7.</div>
     </div>
-    <div class="overview-cell">
-      <div class="ov-label">Training Style</div>
-      <div class="ov-val">Hypertrophy + Sculpt</div>
-      <div class="ov-sub">Volume-based training with progressive overload and metabolic finishers</div>
+    <div class="sci-card">
+      <div class="sci-icon">💪</div>
+      <div class="sci-title">Shoulder Width via Lateral Delt Isolation</div>
+      <div class="sci-body">The side delt is the <strong>muscle most responsible for shoulder width</strong> — and the most undertrained. It requires high frequency (3× per week), moderate-to-high reps (12–20) and multiple angles of isolation. This program uses dumbbell, cable and machine variations across push days to maximise consistent tension and stimulus.</div>
     </div>
-    <div class="overview-cell">
-      <div class="ov-label">Split Structure</div>
-      <div class="ov-val">Push / Pull / Lower × 2</div>
-      <div class="ov-sub">Double frequency for priority muscles — glutes, delts and abs hit every session</div>
+    <div class="sci-card">
+      <div class="sci-icon">📈</div>
+      <div class="sci-title">Progressive Overload via RPE Scaling</div>
+      <div class="sci-body">All sets are prescribed using <strong>RPE (Rate of Perceived Exertion)</strong> — a validated autoregulation tool that adjusts intensity to your daily readiness. RPE scales from <strong>7</strong> in Phase 1 up to <strong>9</strong> in Week 7, ensuring progressive stimulus without grinding through sessions when fatigued. This produces superior long-term hypertrophy.</div>
     </div>
-    <div class="overview-cell">
-      <div class="ov-label">Equipment</div>
-      <div class="ov-val">Full Gym Required</div>
-      <div class="ov-sub">Barbell, dumbbells, cables, hip thrust machine or bench, resistance bands</div>
+    <div class="sci-card">
+      <div class="sci-icon">🔁</div>
+      <div class="sci-title">The Deload Is Non-Negotiable</div>
+      <div class="sci-body">Week 8 is a <strong>structured deload</strong> — 60% load, 2–3 sets, same exercises. Connective tissue, the nervous system and glycogen stores all recover simultaneously. The <strong>supercompensation effect</strong> means your body overadapts above the pre-deload baseline in the 5–10 days post-deload. Skipping it costs 15–20% of your adaptation gains.</div>
     </div>
-    <div class="overview-cell">
-      <div class="ov-label">Rest Day</div>
-      <div class="ov-val">Day 7 (Sunday)</div>
-      <div class="ov-sub">Active recovery recommended — walking, stretching, light mobility work</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── PRIORITY TARGETS ── -->
+<div class="section-wrap" style="padding-top:80px;padding-bottom:0;">
+  <div class="section-eyebrow">Priority Muscle Analysis</div>
+  <h2 class="section-title">3 Targets. One Vision.</h2>
+  <div class="target-grid">
+    <div class="target-card">
+      <div class="target-color-line" style="background:var(--red)"></div>
+      <div class="target-rank" style="color:var(--red)">01</div>
+      <div class="target-name" style="color:var(--red)">Glutes</div>
+      <div class="target-freq" style="color:var(--red)">4× / Week</div>
+      <div class="target-desc">Glute max and glute med. Both lower days are built around maximal glute activation — hip thrusts anchor both sessions, supplemented by RDLs, split squats, cable kickbacks and abduction work. Highest priority muscle of the program.</div>
+      <div class="target-sets">
+        <span class="set-chip" style="color:var(--red);border-color:rgba(205,4,4,0.3)">W1–2: 12 sets</span>
+        <span class="set-chip" style="color:var(--red);border-color:rgba(205,4,4,0.3)">W5–6: 20 sets</span>
+        <span class="set-chip" style="color:var(--red);border-color:rgba(205,4,4,0.3)">W7: 22 sets</span>
+      </div>
     </div>
-    <div class="overview-cell">
-      <div class="ov-label">Designed By</div>
-      <div class="ov-val">Coach Taj Donaldson</div>
-      <div class="ov-sub">CT Fitness · Personal Training &amp; Online Coaching</div>
+    <div class="target-card">
+      <div class="target-color-line" style="background:var(--blue)"></div>
+      <div class="target-rank" style="color:var(--blue)">02</div>
+      <div class="target-name" style="color:var(--blue)">Shoulders</div>
+      <div class="target-freq" style="color:var(--blue)">3× / Week</div>
+      <div class="target-desc">All three delt heads — front, side and rear. Width creates the illusion of a smaller waist. Push days stack lateral raises, presses and cable variations. Pull days add rear delt work via face pulls and flyes. Side delt isolation is the aesthetic differentiator.</div>
+      <div class="target-sets">
+        <span class="set-chip" style="color:var(--blue);border-color:rgba(126,184,224,0.3)">W1–2: 14 sets</span>
+        <span class="set-chip" style="color:var(--blue);border-color:rgba(126,184,224,0.3)">W5–6: 20 sets</span>
+        <span class="set-chip" style="color:var(--blue);border-color:rgba(126,184,224,0.3)">W7: 22 sets</span>
+      </div>
+    </div>
+    <div class="target-card">
+      <div class="target-color-line" style="background:var(--purple)"></div>
+      <div class="target-rank" style="color:var(--purple)">03</div>
+      <div class="target-name" style="color:var(--purple)">Abs &amp; Core</div>
+      <div class="target-freq" style="color:var(--purple)">4× / Week</div>
+      <div class="target-desc">Rectus abdominis, obliques and TVA. Abs recover in 24–48 hours — high frequency is optimal. Mix of weighted flexion (cable crunch, decline crunch), anti-rotation (Pallof press) and anti-extension (ab wheel) to develop definition and stability across all planes.</div>
+      <div class="target-sets">
+        <span class="set-chip" style="color:var(--purple);border-color:rgba(155,127,232,0.3)">W1–2: 12 sets</span>
+        <span class="set-chip" style="color:var(--purple);border-color:rgba(155,127,232,0.3)">W5–6: 20 sets</span>
+        <span class="set-chip" style="color:var(--purple);border-color:rgba(155,127,232,0.3)">W7: 22 sets</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── VOLUME TABLE ── -->
+<div class="section-wrap" style="padding-top:48px;">
+  <div class="section-eyebrow">Volume Progression</div>
+  <h2 class="section-title">Weekly Sets Per Muscle</h2>
+  <table class="vol-table">
+    <thead>
+      <tr>
+        <th>Muscle</th>
+        <th>W1</th><th>W2</th><th>W3</th><th>W4</th>
+        <th>W5</th><th>W6</th><th>W7</th><th>W8 Deload</th>
+        <th>MEV→MRV</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="phase-header"><td colspan="10">── PRIORITY MUSCLES ──</td></tr>
+      <tr>
+        <td><span style="color:var(--red)">▲ Glutes</span></td>
+        <td>10</td><td>12</td><td>14</td><td>16</td>
+        <td>18</td><td>20</td><td>22</td><td>10</td>
+        <td style="color:var(--red)">10 → 22</td>
+      </tr>
+      <tr>
+        <td><span style="color:var(--blue)">▲ Shoulders</span></td>
+        <td>12</td><td>14</td><td>15</td><td>16</td>
+        <td>18</td><td>20</td><td>22</td><td>11</td>
+        <td style="color:var(--blue)">12 → 22</td>
+      </tr>
+      <tr>
+        <td><span style="color:var(--purple)">▲ Abs / Core</span></td>
+        <td>10</td><td>12</td><td>14</td><td>16</td>
+        <td>18</td><td>20</td><td>22</td><td>10</td>
+        <td style="color:var(--purple)">10 → 22</td>
+      </tr>
+      <tr class="phase-header"><td colspan="10">── MAINTENANCE MUSCLES ──</td></tr>
+      <tr><td><span style="color:var(--muted)">Hamstrings</span></td><td>8</td><td>8</td><td>10</td><td>10</td><td>12</td><td>12</td><td>12</td><td>6</td><td style="color:var(--muted)">Maintain</td></tr>
+      <tr><td><span style="color:var(--muted)">Chest</span></td><td>6</td><td>6</td><td>8</td><td>8</td><td>8</td><td>8</td><td>8</td><td>4</td><td style="color:var(--muted)">Maintain</td></tr>
+      <tr><td><span style="color:var(--muted)">Lats / Back</span></td><td>8</td><td>8</td><td>10</td><td>10</td><td>10</td><td>10</td><td>10</td><td>5</td><td style="color:var(--muted)">Maintain</td></tr>
+      <tr><td><span style="color:var(--muted)">Biceps</span></td><td>6</td><td>6</td><td>6</td><td>8</td><td>8</td><td>8</td><td>8</td><td>4</td><td style="color:var(--muted)">Maintain</td></tr>
+      <tr><td><span style="color:var(--muted)">Triceps</span></td><td>6</td><td>6</td><td>8</td><td>8</td><td>8</td><td>8</td><td>8</td><td>4</td><td style="color:var(--muted)">Maintain</td></tr>
+    </tbody>
+  </table>
+  <div style="margin-top:10px;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted2)">MEV = Minimum Effective Volume &nbsp;·&nbsp; MAV = Maximum Adaptive Volume &nbsp;·&nbsp; MRV = Maximum Recoverable Volume (Week 7)</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── PHASES ── -->
+<div class="section-wrap">
+  <div class="section-eyebrow">Periodisation</div>
+  <h2 class="section-title">4 Phases, 8 Weeks</h2>
+  <div class="phase-grid">
+    <div class="phase-card p1">
+      <div class="phase-num">01</div>
+      <div class="phase-weeks">Weeks 1–2</div>
+      <div class="phase-name">Foundation</div>
+      <div class="phase-specs">
+        <strong>Sets: 3–4 · Reps: 10–15</strong>
+        <strong>RPE: 7</strong>
+        <strong>Rest: 60–90s</strong>
+        Establish technique on all movements. Learn the hip thrust, build mind-muscle connection on glutes and delts. No grinding — feel every rep.
+      </div>
+    </div>
+    <div class="phase-card p2">
+      <div class="phase-num">02</div>
+      <div class="phase-weeks">Weeks 3–4</div>
+      <div class="phase-name">Volume Build</div>
+      <div class="phase-specs">
+        <strong>Sets: 4 · Reps: 8–12</strong>
+        <strong>RPE: 8</strong>
+        <strong>Rest: 75–90s</strong>
+        First meaningful load increases across all priority lifts. Begin tracking weekly PRs. Volume climbs on glutes, shoulders and abs.
+      </div>
+    </div>
+    <div class="phase-card p3">
+      <div class="phase-num">03</div>
+      <div class="phase-weeks">Weeks 5–6</div>
+      <div class="phase-name">Intensification</div>
+      <div class="phase-specs">
+        <strong>Sets: 4–5 · Reps: 6–10</strong>
+        <strong>RPE: 8.5</strong>
+        <strong>Rest: 60–75s</strong>
+        Maximum adaptive volume. Drop sets introduced on isolations. Supersets on push days. Closer to failure on all working sets.
+      </div>
+    </div>
+    <div class="phase-card p4">
+      <div class="phase-num">04</div>
+      <div class="phase-weeks">Weeks 7–8</div>
+      <div class="phase-name">Peak + Deload</div>
+      <div class="phase-specs">
+        <strong>W7: RPE 9 — Push for PRs</strong>
+        <strong>W8: 60% load, 2–3 sets</strong>
+        <strong>Rest: 2–3 min W7</strong>
+        Week 7 = deliberate overreach at MRV. Week 8 = structured deload. Supercompensation peaks in the days after — start the next program immediately.
+      </div>
     </div>
   </div>
 
-  <div class="focus-grid">
-    <div class="focus-card">
-      <div class="focus-rank">01</div>
-      <div class="focus-name">Glutes</div>
-      <div class="focus-desc">The centrepiece of this program. Every lower day is structured around maximal glute activation — hip thrusts, RDLs, cable kickbacks and more. Expect serious growth over 8 weeks.</div>
-      <div class="focus-muscles">
-        <span class="muscle-tag">Glute Max</span>
-        <span class="muscle-tag">Glute Med</span>
-        <span class="muscle-tag">Hip Flexors</span>
-        <span class="muscle-tag">Hamstrings</span>
-      </div>
-    </div>
-    <div class="focus-card">
-      <div class="focus-rank">02</div>
-      <div class="focus-name">Shoulders</div>
-      <div class="focus-desc">Width creates the illusion of a smaller waist. This program hammers all three heads — front, side and rear — through presses, lateral raises, cables and face pulls.</div>
-      <div class="focus-muscles">
-        <span class="muscle-tag">Front Delt</span>
-        <span class="muscle-tag">Side Delt</span>
-        <span class="muscle-tag">Rear Delt</span>
-        <span class="muscle-tag">Traps</span>
-      </div>
-    </div>
-    <div class="focus-card">
-      <div class="focus-rank">03</div>
-      <div class="focus-name">Abs &amp; Core</div>
-      <div class="focus-desc">Abs are trained 4x per week with a mix of weighted and bodyweight movements — from cable crunches and hanging leg raises to Pallof presses for deep core stability.</div>
-      <div class="focus-muscles">
-        <span class="muscle-tag">Rectus Abdominis</span>
-        <span class="muscle-tag">Obliques</span>
-        <span class="muscle-tag">TVA</span>
-        <span class="muscle-tag">Serratus</span>
-      </div>
+  <!-- RPE Guide -->
+  <div style="margin-top:40px;">
+    <div class="section-eyebrow" style="margin-bottom:14px;">Rate of Perceived Exertion (RPE) Guide</div>
+    <div class="rpe-guide">
+      <div class="rpe-cell"><div class="rpe-num" style="color:var(--muted2)">6</div><div class="rpe-label">RPE 6</div><div class="rpe-desc">Very comfortable. Could do 4+ more reps. Deload sets only.</div></div>
+      <div class="rpe-cell"><div class="rpe-num" style="color:var(--muted)">7</div><div class="rpe-label">RPE 7</div><div class="rpe-desc">Comfortable. 3 reps in the tank. Phase 1 working sets.</div></div>
+      <div class="rpe-cell"><div class="rpe-num" style="color:var(--blue)">8</div><div class="rpe-label">RPE 8</div><div class="rpe-desc">Challenging. 2 reps left. Phase 2–3. Form stays clean.</div></div>
+      <div class="rpe-cell"><div class="rpe-num" style="color:var(--amber)">8.5</div><div class="rpe-label">RPE 8.5</div><div class="rpe-desc">Hard. 1–2 reps left. Phase 3. Grinding on the last rep.</div></div>
+      <div class="rpe-cell"><div class="rpe-num" style="color:var(--red)">9</div><div class="rpe-label">RPE 9</div><div class="rpe-desc">Near failure. 1 rep left. Week 7 PR sets only.</div></div>
     </div>
   </div>
-</section>
+</div>
 
-<div class="section-divider"></div>
+<div class="divider"></div>
 
-<!-- ── WEEKLY SPLIT ── -->
-<section>
+<!-- ── SPLIT ── -->
+<div class="section-wrap">
   <div class="section-eyebrow">Training Split</div>
-  <h2 class="section-title">6 Days. One Goal.</h2>
+  <h2 class="section-title">Push / Pull / Lower × 2</h2>
+  <p style="font-size:14px;color:var(--muted);margin-bottom:28px;line-height:1.7;max-width:680px;">A classic 6-day PPL split run twice ensures every priority muscle hits 2–4× per week with adequate recovery. Each session has a defined priority focus — glutes on lower days, side delts on push days, rear delts on pull days. Abs trained every session.</p>
   <div class="split-grid">
-    <div class="split-day">
-      <div class="split-bar" style="background:#CD0404"></div>
-      <div class="split-day-num">Day 1</div>
+    <div class="split-card">
+      <div class="split-top-bar" style="background:var(--red)"></div>
+      <div class="split-day-num">Day 1 · Mon</div>
       <div class="split-day-name">Lower A</div>
-      <div class="split-day-focus">Glute Focus<br>+ Abs</div>
+      <div class="split-day-focus">Glute focus<br>Hip thrust priority<br>Core work</div>
+      <div class="split-priority-dots">
+        <div class="sp-dot" style="background:var(--red)"></div>
+        <div class="sp-dot" style="background:var(--purple)"></div>
+      </div>
     </div>
-    <div class="split-day">
-      <div class="split-bar" style="background:#7eb8e0"></div>
-      <div class="split-day-num">Day 2</div>
+    <div class="split-card">
+      <div class="split-top-bar" style="background:var(--blue)"></div>
+      <div class="split-day-num">Day 2 · Tue</div>
       <div class="split-day-name">Push A</div>
-      <div class="split-day-focus">Shoulders + Chest<br>+ Abs</div>
+      <div class="split-day-focus">Shoulders + Chest<br>Side delt priority<br>Abs</div>
+      <div class="split-priority-dots">
+        <div class="sp-dot" style="background:var(--blue)"></div>
+        <div class="sp-dot" style="background:var(--purple)"></div>
+      </div>
     </div>
-    <div class="split-day">
-      <div class="split-bar" style="background:#4caf7d"></div>
-      <div class="split-day-num">Day 3</div>
+    <div class="split-card">
+      <div class="split-top-bar" style="background:var(--green)"></div>
+      <div class="split-day-num">Day 3 · Wed</div>
       <div class="split-day-name">Pull A</div>
-      <div class="split-day-focus">Back + Biceps<br>+ Rear Delt</div>
+      <div class="split-day-focus">Back + Rear Delt<br>Lats + Mid back<br>Biceps</div>
+      <div class="split-priority-dots">
+        <div class="sp-dot" style="background:var(--blue)"></div>
+        <div class="sp-dot" style="background:var(--green)"></div>
+      </div>
     </div>
-    <div class="split-day">
-      <div class="split-bar" style="background:#CD0404"></div>
-      <div class="split-day-num">Day 4</div>
+    <div class="split-card">
+      <div class="split-top-bar" style="background:var(--red)"></div>
+      <div class="split-day-num">Day 4 · Thu</div>
       <div class="split-day-name">Lower B</div>
-      <div class="split-day-focus">Hamstring + Glute<br>+ Abs</div>
+      <div class="split-day-focus">Hamstring + Glute<br>RDL priority<br>Abs</div>
+      <div class="split-priority-dots">
+        <div class="sp-dot" style="background:var(--red)"></div>
+        <div class="sp-dot" style="background:var(--purple)"></div>
+      </div>
     </div>
-    <div class="split-day">
-      <div class="split-bar" style="background:#7eb8e0"></div>
-      <div class="split-day-num">Day 5</div>
+    <div class="split-card">
+      <div class="split-top-bar" style="background:var(--blue)"></div>
+      <div class="split-day-num">Day 5 · Fri</div>
       <div class="split-day-name">Push B</div>
-      <div class="split-day-focus">Delt Priority<br>+ Triceps + Abs</div>
+      <div class="split-day-focus">Delt priority<br>Arnold + drops<br>Triceps + Abs</div>
+      <div class="split-priority-dots">
+        <div class="sp-dot" style="background:var(--blue)"></div>
+        <div class="sp-dot" style="background:var(--purple)"></div>
+      </div>
     </div>
-    <div class="split-day">
-      <div class="split-bar" style="background:#4caf7d"></div>
-      <div class="split-day-num">Day 6</div>
+    <div class="split-card">
+      <div class="split-top-bar" style="background:var(--green)"></div>
+      <div class="split-day-num">Day 6 · Sat</div>
       <div class="split-day-name">Pull B</div>
-      <div class="split-day-focus">Upper Back<br>+ Rear Delt + Bis</div>
+      <div class="split-day-focus">Upper Back<br>Rear Delt peak<br>Biceps + Lats</div>
+      <div class="split-priority-dots">
+        <div class="sp-dot" style="background:var(--blue)"></div>
+        <div class="sp-dot" style="background:var(--green)"></div>
+      </div>
+    </div>
+    <div class="split-card rest">
+      <div class="split-top-bar" style="background:var(--muted2)"></div>
+      <div class="split-day-num">Day 7 · Sun</div>
+      <div class="split-day-name" style="color:var(--muted2)">Rest</div>
+      <div class="split-day-focus">Active recovery<br>Mobility, walking<br>Sleep priority</div>
     </div>
   </div>
-</section>
+</div>
 
-<div class="section-divider"></div>
+<div class="divider"></div>
 
 <!-- ── FULL SCHEDULE ── -->
 <section style="padding-top:80px;padding-bottom:0;">
@@ -339,10 +508,10 @@ section{max-width:1200px;margin:0 auto;padding:80px 48px;}
 <div style="max-width:1200px;margin:0 auto;padding:0 48px 80px;">
   <!-- Week Tabs -->
   <div class="week-tabs" id="weekTabs">
-    <button class="week-tab active" onclick="showWeek(1,this)">Weeks 1–2</button>
-    <button class="week-tab" onclick="showWeek(2,this)">Weeks 3–4</button>
-    <button class="week-tab" onclick="showWeek(3,this)">Weeks 5–6</button>
-    <button class="week-tab" onclick="showWeek(4,this)">Weeks 7–8</button>
+    <button class="week-tab active" onclick="showWeek(1,this)">Weeks 1–2 · Phase 1</button>
+    <button class="week-tab" onclick="showWeek(2,this)">Weeks 3–4 · Phase 2</button>
+    <button class="week-tab" onclick="showWeek(3,this)">Weeks 5–6 · Phase 3</button>
+    <button class="week-tab" onclick="showWeek(4,this)">Weeks 7–8 · Peak/Deload</button>
   </div>
 
   <!-- WEEKS 1-2 -->
@@ -1671,205 +1840,27 @@ section{max-width:1200px;margin:0 auto;padding:80px 48px;}
   </div>
 </div>
 
-<div class="section-divider"></div>
 
-<!-- ── OVERVIEW ── -->
-<section>
-  <div class="section-eyebrow">Program Overview</div>
-  <h2 class="section-title">Built for Results</h2>
-  <div class="overview-grid">
-    <div class="overview-cell">
-      <div class="ov-label">Goal</div>
-      <div class="ov-val">Aesthetic Development</div>
-      <div class="ov-sub">Glute growth, shoulder width, core definition — built to turn heads</div>
-    </div>
-    <div class="overview-cell">
-      <div class="ov-label">Training Style</div>
-      <div class="ov-val">Hypertrophy + Sculpt</div>
-      <div class="ov-sub">Volume-based training with progressive overload and metabolic finishers</div>
-    </div>
-    <div class="overview-cell">
-      <div class="ov-label">Split Structure</div>
-      <div class="ov-val">Push / Pull / Lower × 2</div>
-      <div class="ov-sub">Double frequency for priority muscles — glutes, delts and abs hit every session</div>
-    </div>
-    <div class="overview-cell">
-      <div class="ov-label">Equipment</div>
-      <div class="ov-val">Full Gym Required</div>
-      <div class="ov-sub">Barbell, dumbbells, cables, hip thrust machine or bench, resistance bands</div>
-    </div>
-    <div class="overview-cell">
-      <div class="ov-label">Rest Day</div>
-      <div class="ov-val">Day 7 (Sunday)</div>
-      <div class="ov-sub">Active recovery recommended — walking, stretching, light mobility work</div>
-    </div>
-    <div class="overview-cell">
-      <div class="ov-label">Designed By</div>
-      <div class="ov-val">Coach Taj Donaldson</div>
-      <div class="ov-sub">CT Fitness · Personal Training &amp; Online Coaching</div>
-    </div>
-  </div>
 
-  <div class="focus-grid">
-    <div class="focus-card">
-      <div class="focus-rank">01</div>
-      <div class="focus-name">Glutes</div>
-      <div class="focus-desc">The centrepiece of this program. Every lower day is structured around maximal glute activation — hip thrusts, RDLs, cable kickbacks and more. Expect serious growth over 8 weeks.</div>
-      <div class="focus-muscles">
-        <span class="muscle-tag">Glute Max</span>
-        <span class="muscle-tag">Glute Med</span>
-        <span class="muscle-tag">Hip Flexors</span>
-        <span class="muscle-tag">Hamstrings</span>
-      </div>
-    </div>
-    <div class="focus-card">
-      <div class="focus-rank">02</div>
-      <div class="focus-name">Shoulders</div>
-      <div class="focus-desc">Width creates the illusion of a smaller waist. This program hammers all three heads — front, side and rear — through presses, lateral raises, cables and face pulls.</div>
-      <div class="focus-muscles">
-        <span class="muscle-tag">Front Delt</span>
-        <span class="muscle-tag">Side Delt</span>
-        <span class="muscle-tag">Rear Delt</span>
-        <span class="muscle-tag">Traps</span>
-      </div>
-    </div>
-    <div class="focus-card">
-      <div class="focus-rank">03</div>
-      <div class="focus-name">Abs &amp; Core</div>
-      <div class="focus-desc">Abs are trained 4x per week with a mix of weighted and bodyweight movements — from cable crunches and hanging leg raises to Pallof presses for deep core stability.</div>
-      <div class="focus-muscles">
-        <span class="muscle-tag">Rectus Abdominis</span>
-        <span class="muscle-tag">Obliques</span>
-        <span class="muscle-tag">TVA</span>
-        <span class="muscle-tag">Serratus</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="section-divider"></div>
-
-<!-- ── WEEKLY SPLIT ── -->
-<section>
-  <div class="section-eyebrow">Training Split</div>
-  <h2 class="section-title">6 Days. One Goal.</h2>
-  <div class="split-grid">
-    <div class="split-day">
-      <div class="split-bar" style="background:#CD0404"></div>
-      <div class="split-day-num">Day 1</div>
-      <div class="split-day-name">Lower A</div>
-      <div class="split-day-focus">Glute Focus<br>+ Abs</div>
-    </div>
-    <div class="split-day">
-      <div class="split-bar" style="background:#7eb8e0"></div>
-      <div class="split-day-num">Day 2</div>
-      <div class="split-day-name">Push A</div>
-      <div class="split-day-focus">Shoulders + Chest<br>+ Abs</div>
-    </div>
-    <div class="split-day">
-      <div class="split-bar" style="background:#4caf7d"></div>
-      <div class="split-day-num">Day 3</div>
-      <div class="split-day-name">Pull A</div>
-      <div class="split-day-focus">Back + Biceps<br>+ Rear Delt</div>
-    </div>
-    <div class="split-day">
-      <div class="split-bar" style="background:#CD0404"></div>
-      <div class="split-day-num">Day 4</div>
-      <div class="split-day-name">Lower B</div>
-      <div class="split-day-focus">Hamstring + Glute<br>+ Abs</div>
-    </div>
-    <div class="split-day">
-      <div class="split-bar" style="background:#7eb8e0"></div>
-      <div class="split-day-num">Day 5</div>
-      <div class="split-day-name">Push B</div>
-      <div class="split-day-focus">Delt Priority<br>+ Triceps + Abs</div>
-    </div>
-    <div class="split-day">
-      <div class="split-bar" style="background:#4caf7d"></div>
-      <div class="split-day-num">Day 6</div>
-      <div class="split-day-name">Pull B</div>
-      <div class="split-day-focus">Upper Back<br>+ Rear Delt + Bis</div>
-    </div>
-  </div>
-</section>
-
-<div class="section-divider"></div>
-
-<div class="section-divider"></div>
-
-<!-- ── PROGRESSION ── -->
-<section>
-  <div class="section-eyebrow">Progression Scheme</div>
-  <h2 class="section-title">8 Weeks, 4 Phases</h2>
-  <div class="prog-grid">
-    <div class="prog-cell">
-      <div class="prog-week-range">Weeks 1–2</div>
-      <div class="prog-phase">Phase 1 — <span>Foundation</span></div>
-      <div class="prog-details">
-        3–4 sets · 10–15 reps<br>
-        RPE 7 — leave 3 in the tank<br>
-        Focus on movement quality<br>
-        Establish mind-muscle connection<br>
-        Rest: 60–90s
-      </div>
-    </div>
-    <div class="prog-cell">
-      <div class="prog-week-range">Weeks 3–4</div>
-      <div class="prog-phase">Phase 2 — <span>Volume</span></div>
-      <div class="prog-details">
-        4 sets · 8–12 reps<br>
-        RPE 8 — 2 reps left in tank<br>
-        +5–10% load increase<br>
-        Add 1 set to compounds<br>
-        Rest: 75–90s
-      </div>
-    </div>
-    <div class="prog-cell">
-      <div class="prog-week-range">Weeks 5–6</div>
-      <div class="prog-phase">Phase 3 — <span>Intensify</span></div>
-      <div class="prog-details">
-        4–5 sets · 6–10 reps<br>
-        RPE 8.5 — supersets introduced<br>
-        Drop sets on glutes + delts<br>
-        Weighted abs progressions<br>
-        Rest: 60–75s
-      </div>
-    </div>
-    <div class="prog-cell">
-      <div class="prog-week-range">Weeks 7–8</div>
-      <div class="prog-phase">Phase 4 — <span>Peak</span></div>
-      <div class="prog-details">
-        5 sets · 5–8 reps<br>
-        RPE 9 — push for PRs<br>
-        Deload: days 4–6 of week 8<br>
-        60% load, 2 sets, stretch focus<br>
-        Rest: 2–3 min compounds
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="section-divider"></div>
-
-<!-- ── LOAD INTO PLANNER ── -->
-<section>
-  <div class="load-section">
+<div class="section-wrap">
+  <div class="load-wrap">
     <div class="load-inner">
-      <div class="section-eyebrow">Ready to Start?</div>
-      <h2 class="load-title">Load Into Your Planner</h2>
-      <p class="load-desc">Hit the button below to load Week 1 of Sculpt &amp; Shape directly into your planner — all 6 days, every exercise, sets and rep targets pre-filled. Or download the full 8-week spreadsheet to track on paper or in Google Sheets.</p>
-      <div class="load-actions">
-        <button class="btn-hero-primary" onclick="loadIntoPlanner()">▶ &nbsp;Start Program in Planner</button>
-        <button class="btn-hero-secondary" onclick="downloadSpreadsheet()">⬇ &nbsp;Download Spreadsheet (.xlsx)</button>
+      <div class="section-eyebrow">Ready to Go</div>
+      <h2 class="section-title" style="margin-bottom:10px">Load Into Your Planner</h2>
+      <p style="font-size:14px;color:var(--muted);line-height:1.7;">Start Week 1 immediately — all 6 days loaded into this week's planner with every exercise, set count and rep target pre-filled. Or grab the full 8-week spreadsheet to track on paper or share.</p>
+      <div class="load-ctas">
+        <button class="btn-primary" onclick="loadIntoPlanner()">▶ &nbsp;Start Program in Planner</button>
+        <button class="btn-secondary" onclick="downloadSpreadsheet()">⬇ &nbsp;Download Spreadsheet (.xlsx)</button>
       </div>
     </div>
   </div>
-</section>
+</div>
 
 <div class="toast" id="toast">
   <span class="toast-icon">✓</span>
   <span id="toastMsg">Program loaded into planner</span>
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
