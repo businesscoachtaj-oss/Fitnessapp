@@ -34,13 +34,13 @@ header{display:flex;align-items:center;justify-content:space-between;padding:16p
 .date-nav-toggle{display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 14px;cursor:pointer;border:none;background:transparent;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:color 0.2s;flex-shrink:0;}
 .date-nav-toggle:hover{color:var(--white);}
 .date-nav-toggle-icon{font-size:10px;transition:transform 0.3s;display:inline-block;}
-.week-nav{display:flex;align-items:center;justify-content:space-between;padding:8px 36px 0;gap:12px;}
-.week-nav-label{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--muted);flex:1;text-align:center;}
+.week-nav{display:flex;align-items:center;justify-content:space-between;padding:6px 16px;gap:8px;}
+.week-nav-label{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}
 .week-nav-label span{color:var(--gold);}
-.week-arrow{background:transparent;border:1px solid var(--border2);color:var(--muted);padding:4px 12px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:1px;transition:all 0.2s;}
+.week-arrow{background:transparent;border:1px solid var(--border2);color:var(--muted);padding:4px 10px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:0px;transition:all 0.2s;white-space:nowrap;flex-shrink:0;}
 .week-arrow:hover{border-color:var(--white);color:var(--white);}
 .week-arrow.disabled{opacity:0.2;pointer-events:none;}
-.week-today-btn{background:transparent;border:1px solid var(--border2);color:var(--muted);padding:4px 12px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:all 0.2s;}
+.week-today-btn{background:transparent;border:1px solid var(--border2);color:var(--muted);padding:4px 8px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;transition:all 0.2s;white-space:nowrap;flex-shrink:0;}
 .week-today-btn:hover{border-color:var(--gold);color:var(--gold);}
 .date-nav{display:flex;padding:4px 36px 0;overflow-x:auto;scrollbar-width:none;}
 .date-nav::-webkit-scrollbar{display:none;}
@@ -827,8 +827,8 @@ function buildDateNav(){
   var mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   var mon=dates[0];var sun=dates[6];
   var isCurrent=weekOffset===0,isNext=weekOffset===1;
-  var rangeStr=mo[mon.getMonth()]+' '+mon.getDate()+' \u2013 '+mo[sun.getMonth()]+' '+sun.getDate()+', '+sun.getFullYear();
-  var prefix=isCurrent?'<span>This Week</span> \u00b7 ':isNext?'<span>Next Week</span> \u00b7 ':(weekOffset<0?'<span>Past</span> \u00b7 ':'<span>Future</span> \u00b7 ');
+  var rangeStr=mo[mon.getMonth()]+' '+mon.getDate()+' – '+mo[sun.getMonth()]+' '+sun.getDate();
+  var prefix=isCurrent?'<span>THIS WEEK</span> · ':isNext?'<span>NEXT WEEK</span> · ':(weekOffset<0?'<span>PAST</span> · ':'<span>FUTURE</span> · ');
   document.getElementById('weekLabel').innerHTML=prefix+rangeStr;
   document.getElementById('weekPrev').classList.toggle('disabled',weekOffset<=-4);
   document.getElementById('weekNext').classList.toggle('disabled',weekOffset>=1);
