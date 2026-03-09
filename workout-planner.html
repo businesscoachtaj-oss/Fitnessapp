@@ -871,10 +871,10 @@ function renderPlanner(){
         return '<div class="set-row'+(s.done?' set-done':'')+'" id="sr_'+idx+'_'+exIdx+'_'+sIdx+'">'+
           '<div class="set-num">'+(sIdx+1)+'</div>'+
           '<input class="set-input" type="number" min="0" step="1" placeholder="'+(repTarget||'—')+'" value="'+(s.reps||'')+'"'+
-          ' oninput="updateSet(activeDayKey,'+idx+','+exIdx+','+sIdx+','reps',this.value)">'+
+          ' oninput="updateSet(activeDayKey,'+idx+','+exIdx+','+sIdx+',\'reps\',this.value)">'+
           '<span class="set-unit">reps</span>'+
           '<input class="set-input" type="number" min="0" step="0.5" placeholder="kg" value="'+(s.kg||'')+'"'+
-          ' oninput="updateSet(activeDayKey,'+idx+','+exIdx+','+sIdx+','kg',this.value)">'+
+          ' oninput="updateSet(activeDayKey,'+idx+','+exIdx+','+sIdx+',\'kg\',this.value)">'+
           '<span class="set-unit">kg</span>'+
           '<button class="set-done-btn'+(s.done?' active':'')+'" onclick="toggleSetDone(activeDayKey,'+idx+','+exIdx+','+sIdx+')">✓</button>'+
         '</div>';
@@ -894,7 +894,7 @@ function renderPlanner(){
     }).join('');
 
     card.innerHTML=
-      '<div class="card-top" onclick="toggleExPanel('ep'+idx+'')">'+
+      '<div class="card-top" onclick="toggleExPanel(\'ep'+idx+'\')">'+
         '<div class="cat-bar" style="background:'+color+'"></div>'+
         '<div class="card-info">'+
           '<div class="card-title">'+w.name+'</div>'+
@@ -915,6 +915,7 @@ function renderPlanner(){
       '</div>';
     list.appendChild(card);
   });
+}
 
 function toggleExPanel(id){var p=document.getElementById(id);if(p)p.classList.toggle('open');}
 
@@ -1433,16 +1434,8 @@ function renderAll(){
 }
 
 function setStickyTops(){
-  // Measure actual nav height from nav.js bar
-  var navEl = document.querySelector('.ct-nav, nav.site-nav, [class*="nav"]');
-  var navH = 84;
-  // Try to get the injected nav bar height
-  var bodyStyle = getComputedStyle(document.body);
-  var firstChild = document.body.firstElementChild;
-  if(firstChild && firstChild.tagName !== 'HEADER'){
-    // nav.js injects nav as first element
-    navH = firstChild.offsetHeight || 84;
-  }
+  var isMobile = window.innerWidth <= 480;
+  var navH = isMobile ? 70 : 84;
   var appHeader = document.querySelector('header');
   var appHeaderH = appHeader ? appHeader.offsetHeight : 57;
   var dateNavTop = navH + appHeaderH;
@@ -1462,6 +1455,7 @@ window.addEventListener('load', function(){
 window.addEventListener('resize', setStickyTops);
 </script>
 
-<script src="nav.js" onload="CTNav.init('planner')" onerror="console.warn('nav.js not found')"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nav.js" onload="CTNav.init('planner');setStickyTops();" onerror="console.warn('nav.js not found')"></script>
 </body>
 </html>
