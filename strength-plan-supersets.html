@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>30-Min Strength Plan — Supersets</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #1a1f1c;
+    --surface: #222823;
+    --card: #2a302b;
+    --card-hover: #303830;
+    --border: rgba(255,255,255,0.07);
+    --green: #7eb88a;
+    --green-glow: rgba(126,184,138,0.15);
+    --amber: #d4a054;
+    --rose: #c97a7a;
+    --blue: #7aaac8;
+    --purple: #a07ac8;
+    --text: #e8ede9;
+    --text-mid: #9aaa9e;
+    --text-dim: #606a62;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 3rem;
+  }
+
+  .hero {
+    background: linear-gradient(160deg, #1e2820 0%, #151a16 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 2.5rem 1.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(126,184,138,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-inner { max-width: 720px; margin: 0 auto; position: relative; }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    background: var(--green-glow);
+    border: 1px solid rgba(126,184,138,0.3);
+    color: var(--green);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.85rem;
+    border-radius: 30px;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.6rem;
+    font-weight: 600;
+    line-height: 1.15;
+    margin-bottom: 0.6rem;
+  }
+  h1 span { color: var(--green); }
+
+  .subtitle {
+    color: var(--text-mid);
+    font-size: 0.9rem;
+    font-weight: 300;
+    line-height: 1.6;
+    max-width: 520px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.4rem;
+  }
+  .tag {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text-mid);
+    font-size: 0.75rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+  }
+  .tag.amber { border-color: rgba(212,160,84,0.4); color: var(--amber); background: rgba(212,160,84,0.07); }
+  .tag.blue  { border-color: rgba(122,170,200,0.4); color: var(--blue);  background: rgba(122,170,200,0.07); }
+
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    margin: 1.5rem auto 0;
+    max-width: 720px;
+  }
+  .stat {
+    background: var(--surface);
+    padding: 1rem 0.8rem;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--green);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 0.2rem;
+  }
+
+  main { max-width: 720px; margin: 0 auto; padding: 1.8rem 1.2rem 0; }
+
+  .coach-note {
+    background: rgba(212,160,84,0.07);
+    border: 1px solid rgba(212,160,84,0.2);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 2rem;
+    font-size: 0.85rem;
+    color: #c8a86e;
+    line-height: 1.65;
+  }
+  .coach-note strong { color: var(--amber); font-weight: 600; }
+
+  /* ── BLOCK ── */
+  .block { margin-bottom: 2.4rem; }
+
+  .block-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .block-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .dot-warm  { background: var(--amber); box-shadow: 0 0 8px rgba(212,160,84,0.5); }
+  .dot-a     { background: var(--green); box-shadow: 0 0 8px rgba(126,184,138,0.5); }
+  .dot-b     { background: var(--blue);  box-shadow: 0 0 8px rgba(122,170,200,0.5); }
+  .dot-c     { background: var(--rose);  box-shadow: 0 0 8px rgba(201,122,122,0.5); }
+  .dot-core  { background: var(--purple); box-shadow: 0 0 8px rgba(160,122,200,0.5); }
+
+  .block-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    flex: 1;
+  }
+  .block-time {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    background: var(--card);
+    padding: 0.2rem 0.65rem;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+  }
+
+  /* ── SUPERSET PAIR ── */
+  .superset {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 0.8rem;
+  }
+
+  .superset-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1rem;
+    background: rgba(126,184,138,0.06);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--green);
+  }
+  .superset-label .ss-badge {
+    background: var(--green);
+    color: var(--bg);
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.1rem 0.45rem;
+    border-radius: 6px;
+  }
+  .superset-label .sets-info {
+    margin-left: auto;
+    color: var(--text-dim);
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    font-size: 0.75rem;
+  }
+
+  .ex-row {
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    gap: 0.5rem 0.8rem;
+    align-items: start;
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  .ex-row:last-of-type { border-bottom: none; }
+  .ex-row:hover { background: var(--card-hover); }
+
+  .ex-letter {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-mid);
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .ex-name {
+    font-weight: 500;
+    font-size: 0.93rem;
+    color: var(--text);
+  }
+  .ex-note {
+    font-size: 0.78rem;
+    color: var(--text-mid);
+    margin-top: 0.2rem;
+    line-height: 1.5;
+    font-weight: 300;
+  }
+  .mod-tag {
+    display: inline-block;
+    font-size: 0.67rem;
+    padding: 0.1rem 0.45rem;
+    border-radius: 8px;
+    margin-right: 0.3rem;
+    font-weight: 500;
+  }
+  .mod-s { background: rgba(122,170,200,0.15); color: var(--blue); border: 1px solid rgba(122,170,200,0.25); }
+
+  .ex-sets {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--green);
+    font-size: 0.73rem;
+    font-weight: 600;
+    padding: 0.28rem 0.6rem;
+    border-radius: 8px;
+    white-space: nowrap;
+    align-self: center;
+  }
+
+  /* ── REST BANNER ── */
+  .rest-banner {
+    background: rgba(160,122,200,0.06);
+    border: 1px solid rgba(160,122,200,0.18);
+    border-radius: 10px;
+    padding: 0.65rem 1rem;
+    margin: 0.3rem 0 0.8rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.79rem;
+    color: #b89ed8;
+    line-height: 1.5;
+  }
+  .rest-banner .icon { flex-shrink: 0; margin-top: 0.05rem; }
+  .rest-banner strong { color: var(--purple); }
+
+  /* ── SIMPLE CARD (warm-up / core) ── */
+  .ex-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 0.55rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.4rem 1rem;
+    align-items: start;
+    transition: background 0.15s;
+  }
+  .ex-card:hover { background: var(--card-hover); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .block { animation: fadeUp 0.4s ease both; }
+  .block:nth-child(1) { animation-delay: 0.04s; }
+  .block:nth-child(2) { animation-delay: 0.1s; }
+  .block:nth-child(3) { animation-delay: 0.17s; }
+  .block:nth-child(4) { animation-delay: 0.24s; }
+  .block:nth-child(5) { animation-delay: 0.31s; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="chip">⏱ 30-Minute Session</div>
+    <h1>Superset<br><span>Strength Plan</span></h1>
+    <p class="subtitle">Lower + upper paired together to save time and keep her working. Hip mobility hidden in every rest period — she'll never call it stretching.</p>
+    <div class="tags">
+      <span class="tag">Full Body Supersets</span>
+      <span class="tag">Experienced mover</span>
+      <span class="tag amber">⚠ Shoulder aware</span>
+      <span class="tag blue">🌀 Mobility in rest</span>
+    </div>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">30</div><div class="stat-label">Minutes</div></div>
+  <div class="stat"><div class="stat-num">3</div><div class="stat-label">Supersets</div></div>
+  <div class="stat"><div class="stat-num">3</div><div class="stat-label">Sets each</div></div>
+  <div class="stat"><div class="stat-num">45s</div><div class="stat-label">Rest + mobility</div></div>
+</div>
+
+<main>
+
+  <div class="coach-note">
+    <strong>Trainer note:</strong> Run A then B back-to-back with no rest between. Then 45 sec rest while she does the mobility move. Lower and upper don't compete for blood flow — so she can actually push both. Three rounds of each superset, then move on.
+  </div>
+
+  <!-- WARM-UP -->
+  <div class="block">
+    <div class="block-header">
+      <div class="block-dot dot-warm"></div>
+      <div class="block-title">Warm-Up</div>
+      <div class="block-time">4 min</div>
+    </div>
+
+    <div class="ex-card">
+      <div>
+        <div class="ex-name">Bodyweight Squat</div>
+        <div class="ex-note">3 sec down, pause at bottom. Wakes up hips and knees.</div>
+      </div>
+      <div class="ex-sets">1 × 10</div>
+    </div>
+
+    <div class="ex-card">
+      <div>
+        <div class="ex-name">Glute Bridge Hold</div>
+        <div class="ex-note">2 sec hold at top each rep. Activates glutes, opens hip flexors.</div>
+      </div>
+      <div class="ex-sets">1 × 12</div>
+    </div>
+
+    <div class="ex-card">
+      <div>
+        <div class="ex-name">Band Pull-Apart</div>
+        <div class="ex-note"><span class="mod-tag mod-s">shoulder</span>Light band, arms straight. Warms the rear delt and rotator cuff before any pressing or pulling.</div>
+      </div>
+      <div class="ex-sets">1 × 15</div>
+    </div>
+  </div>
+
+  <!-- SUPERSET 1 -->
+  <div class="block">
+    <div class="block-header">
+      <div class="block-dot dot-a"></div>
+      <div class="block-title">Superset 1 — Squat + Row</div>
+      <div class="block-time">9 min</div>
+    </div>
+
+    <div class="superset">
+      <div class="superset-label">
+        <span class="ss-badge">SS1</span>
+        Do A then B with no rest between
+        <span class="sets-info">3 rounds</span>
+      </div>
+      <div class="ex-row">
+        <div class="ex-letter">A</div>
+        <div>
+          <div class="ex-name">Goblet Squat</div>
+          <div class="ex-note"><span class="mod-tag mod-s">shoulder</span>DB at chest. Deep as she can, tall spine. Push the weight — this is her best loading opportunity.</div>
+        </div>
+        <div class="ex-sets">10–12 reps</div>
+      </div>
+      <div class="ex-row">
+        <div class="ex-letter">B</div>
+        <div>
+          <div class="ex-name">DB Bent-Over Row</div>
+          <div class="ex-note">Both arms or single braced. Elbow close to body, full pull. Upper back does the work — shoulder is safe here.</div>
+        </div>
+        <div class="ex-sets">10–12 reps</div>
+      </div>
+    </div>
+
+    <div class="rest-banner">
+      <span class="icon">🌀</span>
+      <span><strong>Rest 45 sec:</strong> 90/90 Hip Switch — sit on the floor, rotate hips side to side × 8 slow reps. "Just catching your breath."</span>
+    </div>
+  </div>
+
+  <!-- SUPERSET 2 -->
+  <div class="block">
+    <div class="block-header">
+      <div class="block-dot dot-b"></div>
+      <div class="block-title">Superset 2 — Hinge + Press</div>
+      <div class="block-time">9 min</div>
+    </div>
+
+    <div class="superset">
+      <div class="superset-label">
+        <span class="ss-badge">SS2</span>
+        Do A then B with no rest between
+        <span class="sets-info">3 rounds</span>
+      </div>
+      <div class="ex-row">
+        <div class="ex-letter">A</div>
+        <div>
+          <div class="ex-name">Romanian Deadlift (DBs)</div>
+          <div class="ex-note">3 sec descent. Load the hamstrings. She knows this — push the weight, demand the tempo.</div>
+        </div>
+        <div class="ex-sets">10 reps</div>
+      </div>
+      <div class="ex-row">
+        <div class="ex-letter">B</div>
+        <div>
+          <div class="ex-name">Chest-Supported Incline DB Press</div>
+          <div class="ex-note"><span class="mod-tag mod-s">shoulder</span>Low incline bench, face down. Press forward at 30–45°. No impingement risk in this position. Moderate weight, controlled.</div>
+        </div>
+        <div class="ex-sets">10–12 reps</div>
+      </div>
+    </div>
+
+    <div class="rest-banner">
+      <span class="icon">🌀</span>
+      <span><strong>Rest 45 sec:</strong> Low lunge hip flexor stretch — step one foot forward, back knee down, tuck the pelvis. 20 sec each side. She's just "resting between sets."</span>
+    </div>
+  </div>
+
+  <!-- SUPERSET 3 -->
+  <div class="block">
+    <div class="block-header">
+      <div class="block-dot dot-c"></div>
+      <div class="block-title">Superset 3 — Lunge + Shoulder</div>
+      <div class="block-time">6 min</div>
+    </div>
+
+    <div class="superset">
+      <div class="superset-label">
+        <span class="ss-badge">SS3</span>
+        Do A then B with no rest between
+        <span class="sets-info">2–3 rounds</span>
+      </div>
+      <div class="ex-row">
+        <div class="ex-letter">A</div>
+        <div>
+          <div class="ex-name">Reverse Lunge (DBs)</div>
+          <div class="ex-note">Step back, front shin stays vertical. More hip range and easier on knees than a forward lunge. Single-leg work she can handle.</div>
+        </div>
+        <div class="ex-sets">8 each side</div>
+      </div>
+      <div class="ex-row">
+        <div class="ex-letter">B</div>
+        <div>
+          <div class="ex-name">Prone Y-T Raises</div>
+          <div class="ex-note"><span class="mod-tag mod-s">shoulder</span>Face down on incline bench. Y = arms at 45° thumbs up. T = arms straight out. Bodyweight or very light. Builds rotator cuff health — worth doing every session.</div>
+        </div>
+        <div class="ex-sets">10 reps</div>
+      </div>
+    </div>
+
+    <div class="rest-banner">
+      <span class="icon">🌀</span>
+      <span><strong>Rest 45 sec:</strong> Figure-4 stretch on the bench — cross ankle over knee, sit back slightly. 20 sec each side. Zero setup, barely looks like stretching.</span>
+    </div>
+  </div>
+
+  <!-- CORE FINISHER -->
+  <div class="block">
+    <div class="block-header">
+      <div class="block-dot dot-core"></div>
+      <div class="block-title">Core Finisher</div>
+      <div class="block-time">2 min</div>
+    </div>
+
+    <div class="ex-card">
+      <div>
+        <div class="ex-name">Dead Bug</div>
+        <div class="ex-note">Back flat, opposite arm and leg extend slowly. Strong anti-extension work with zero shoulder load.</div>
+      </div>
+      <div class="ex-sets">2 × 8 each</div>
+    </div>
+
+    <div class="ex-card">
+      <div>
+        <div class="ex-name">Pallof Press (band or cable)</div>
+        <div class="ex-note"><span class="mod-tag mod-s">shoulder</span>Press from chest, hold 2 sec, return. Arm stays at or below shoulder height. Anti-rotation finisher — she'll feel it.</div>
+      </div>
+      <div class="ex-sets">2 × 10 each</div>
+    </div>
+  </div>
+
+</main>
+</body>
+</html>
