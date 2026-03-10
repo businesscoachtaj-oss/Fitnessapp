@@ -1,0 +1,1893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CT Fitness — Chase the Standards</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c0c0c;--surface:#141414;--surface2:#1c1c1c;--surface3:#222;
+  --border:#252525;--border2:#333;--border3:#444;
+  --white:#fff;--off-white:#e8e4de;--muted:#666;--muted2:#444;
+  --red:#CD0404;--red2:#e03333;--green:#4caf7d;--blue:#7eb8e0;
+  --amber:#d4a843;--purple:#9b7fe8;--gold:#c9a96e;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden;}
+
+/* ── HERO ── */
+.hero{position:relative;min-height:96vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 0 72px;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:var(--bg);}
+.hero-noise{position:absolute;inset:0;opacity:0.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");}
+.hero-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.018) 1px,transparent 1px);background-size:80px 80px;}
+.hero-glow{position:absolute;bottom:-100px;right:-100px;width:700px;height:700px;background:radial-gradient(circle,rgba(201,169,110,0.08) 0%,transparent 70%);pointer-events:none;}
+.hero-glow-2{position:absolute;top:-60px;left:-60px;width:500px;height:500px;background:radial-gradient(circle,rgba(205,4,4,0.05) 0%,transparent 70%);pointer-events:none;}
+.hero-content{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 48px;width:100%;}
+.program-eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:28px;}
+.eyebrow-tag{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,169,110,0.4);padding:4px 12px;}
+.eyebrow-divider{width:1px;height:14px;background:var(--border3);}
+.eyebrow-sub{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(52px,8vw,108px);font-weight:900;line-height:0.88;letter-spacing:-3px;margin-bottom:20px;}
+.hero-title .t1{display:block;color:var(--white);}
+.hero-title .t2{display:block;color:var(--gold);}
+.hero-sub{font-family:'Barlow Condensed',sans-serif;font-size:clamp(13px,1.8vw,17px);font-weight:400;letter-spacing:7px;text-transform:uppercase;color:var(--muted);margin-bottom:40px;}
+.hero-stats{display:flex;gap:1px;margin-bottom:44px;}
+.h-stat{background:var(--surface);padding:16px 24px;flex:1;max-width:160px;}
+.hs-num{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;line-height:1;margin-bottom:2px;}
+.hs-lbl{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;}
+.btn-gold{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:#000;padding:15px 28px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;transition:background 0.2s;}
+.btn-gold:hover{background:#b8934f;}
+.btn-ghost{display:inline-flex;align-items:center;gap:10px;background:transparent;color:var(--white);padding:15px 28px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:1px solid var(--border2);cursor:pointer;transition:all 0.2s;}
+.btn-ghost:hover{border-color:var(--white);}
+.hero-scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0.25;}
+.hero-scroll-hint span{font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;}
+.scroll-line{width:1px;height:36px;background:var(--white);animation:pulse 2s ease infinite;}
+@keyframes pulse{0%,100%{opacity:.25}50%{opacity:1}}
+
+/* ── SHARED ── */
+.section-wrap{max-width:1200px;margin:0 auto;padding:80px 48px;}
+.section-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,48px);font-weight:700;line-height:1.1;margin-bottom:32px;}
+.divider{width:100%;height:1px;background:var(--border);}
+
+/* ── STANDARDS TRACKER ── */
+.tracker-wrap{background:var(--surface);border:1px solid var(--border);padding:32px;}
+.tracker-meta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;}
+.tm-input{background:var(--surface2);border:1px solid var(--border2);color:var(--white);padding:10px 14px;font-family:'Barlow',sans-serif;font-size:16px;outline:none;width:100px;}
+.tm-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.tm-group{display:flex;flex-direction:column;}
+.gender-row{display:flex;gap:8px;}
+.g-btn{padding:10px 18px;border:1px solid var(--border2);background:transparent;color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
+.g-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(201,169,110,0.08);}
+.tracker-update{margin-top:16px;}
+.lift-row{display:grid;grid-template-columns:200px 1fr 160px 100px 110px;gap:0;align-items:center;border-bottom:1px solid var(--border);padding:10px 0;}
+.lr-name{font-size:13px;color:var(--off-white);font-weight:600;}
+.lr-bars{display:flex;gap:3px;align-items:center;padding:0 16px;}
+.lr-bar{height:20px;flex:1;position:relative;cursor:default;}
+.lr-bar-fill{position:absolute;inset:0;opacity:0.85;transition:opacity 0.2s;}
+.lr-bar-label{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);font-family:'Barlow Condensed',sans-serif;font-size:8px;font-weight:700;letter-spacing:1px;white-space:nowrap;}
+.lr-input-wrap{display:flex;align-items:center;gap:6px;}
+.lr-input{background:var(--surface2);border:1px solid var(--border2);color:var(--white);padding:7px 10px;font-family:'Barlow',sans-serif;font-size:14px;outline:none;width:90px;transition:border-color 0.2s;}
+.lr-input:focus{border-color:var(--gold);}
+.lr-unit{font-family:'Barlow Condensed',sans-serif;font-size:10px;color:var(--muted);}
+.lr-level{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;text-align:center;padding:0 8px;}
+.lr-gap{font-size:12px;color:var(--muted);text-align:right;padding-right:4px;}
+.tracker-header{display:grid;grid-template-columns:200px 1fr 160px 100px 110px;gap:0;padding:8px 0;border-bottom:2px solid var(--border2);margin-bottom:4px;}
+.th-cell{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted2);}
+.overall-level{margin-top:20px;padding:16px 20px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;gap:20px;}
+.ol-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
+.ol-level{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;}
+.ol-sub{font-size:12px;color:var(--muted);}
+
+/* ── 16-WEEK MAP ── */
+.week-map{display:grid;grid-template-columns:repeat(16,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+.wm-cell{background:var(--surface);padding:8px 4px;text-align:center;cursor:default;}
+.wm-cell:hover{background:var(--surface2);}
+.wm-week{font-family:'Barlow Condensed',sans-serif;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted2);margin-bottom:2px;}
+.wm-phase{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:800;letter-spacing:0px;}
+.wm-cell.test-week{background:var(--surface3);}
+.wm-test-tag{font-family:'Barlow Condensed',sans-serif;font-size:7px;font-weight:700;letter-spacing:1px;color:var(--gold);margin-top:2px;}
+
+/* ── BLOCK STRUCTURE ── */
+.block-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
+.block-tabs::-webkit-scrollbar{display:none;}
+.block-tab{padding:11px 18px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all 0.2s;background:none;border-top:none;border-left:none;border-right:none;}
+.block-tab:hover{color:var(--white);}
+.block-tab.b1.active{color:var(--blue);border-bottom-color:var(--blue);}
+.block-tab.b2.active{color:var(--green);border-bottom-color:var(--green);}
+.block-tab.b3.active{color:var(--amber);border-bottom-color:var(--amber);}
+.block-tab.b4.active{color:var(--red);border-bottom-color:var(--red);}
+.block-content{display:none;}.block-content.active{display:block;}
+.phase-banner{border:1px solid var(--border);border-top:none;padding:11px 20px;display:flex;align-items:center;gap:16px;}
+.pb-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.pb-text{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.pb-text strong{color:var(--off-white);}
+.block-focus-bar{border:1px solid var(--border);border-top:none;border-bottom:none;padding:10px 20px;font-size:12px;color:var(--muted);line-height:1.6;background:var(--bg);}
+
+/* ── ACCORDION ── */
+.day-accordion{border:1px solid var(--border);border-bottom:none;}
+.day-row{border-bottom:1px solid var(--border);}
+.day-header{display:flex;align-items:center;gap:14px;padding:14px 20px;cursor:pointer;transition:background 0.2s;user-select:none;}
+.day-header:hover,.day-header.open{background:var(--surface);}
+.day-color-bar{width:3px;height:34px;flex-shrink:0;}
+.day-info{flex:1;}
+.day-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
+.day-title{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--white);}
+.day-chips{display:flex;gap:8px;margin-top:3px;flex-wrap:wrap;}
+.day-chip{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);background:var(--surface2);border:1px solid var(--border);padding:1px 7px;}
+.day-chevron{font-size:11px;color:var(--muted);transition:transform 0.25s;flex-shrink:0;}
+.day-header.open .day-chevron{transform:rotate(180deg);}
+.day-body{display:none;padding:0 20px 20px;}
+.day-header.open + .day-body{display:block;}
+
+/* ── EXERCISE TABLE ── */
+.ex-table{width:100%;border-collapse:collapse;margin-top:14px;}
+.ex-table th{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);padding:6px 10px;border-bottom:1px solid var(--border);text-align:left;}
+.ex-table th:not(:first-child){text-align:center;}
+.ex-table td{padding:9px 10px;border-bottom:1px solid rgba(255,255,255,0.03);vertical-align:top;}
+.ex-table tr:last-child td{border-bottom:none;}
+.ex-table tr:hover td{background:rgba(255,255,255,0.015);}
+.ex-name-main{font-size:13px;color:var(--white);font-weight:600;}
+.ex-name-note{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.5;}
+.ex-muscle-pill{display:inline-block;font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:1px 6px;margin-top:3px;border:1px solid var(--border2);color:var(--muted2);}
+.ex-table td:not(:first-child){text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;color:var(--white);}
+
+/* ── TEST WEEK BLOCK ── */
+.test-week-block{border:1px solid rgba(201,169,110,0.3);border-top:none;background:rgba(201,169,110,0.04);padding:20px;}
+.tw-header{margin-bottom:16px;}
+.tw-title{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
+.tw-sub{font-size:12px;color:var(--muted);line-height:1.6;}
+.tw-protocol{display:grid;grid-template-columns:80px 160px 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:12px;}
+.test-row{display:contents;}
+.test-row > div{padding:9px 12px;background:var(--surface);font-size:12px;}
+.tr-day{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--gold);}
+.tr-name{font-weight:600;color:var(--white);}
+.tr-detail{color:var(--muted);}
+.tw-epley{background:var(--surface2);border:1px solid var(--border);padding:12px 16px;}
+.tw-epley-title{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.tw-epley-formula{font-family:'Barlow Condensed',sans-serif;font-size:11px;color:var(--muted);letter-spacing:1px;}
+
+/* ── SCIENCE ── */
+.sci-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);}
+.sci-card{background:var(--surface);padding:28px 24px;}
+.sci-icon{font-size:22px;margin-bottom:10px;}
+.sci-title{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--white);margin-bottom:8px;}
+.sci-body{font-size:13px;color:var(--muted);line-height:1.7;}
+.sci-body strong{color:var(--off-white);}
+
+/* ── ACCESSORIES ── */
+.acc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+.acc-card{background:var(--surface);padding:18px 16px;}
+.acc-name{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--blue);margin-bottom:3px;}
+.acc-muscle{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.acc-sets{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--white);margin-bottom:4px;}
+.acc-note{font-size:11px;color:var(--muted2);line-height:1.5;}
+
+/* ── LOAD SECTION ── */
+.load-wrap{background:var(--surface);border:1px solid var(--border);padding:48px;}
+.load-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  .hero-content,.section-wrap{padding-left:24px;padding-right:24px;}
+  .sci-grid{grid-template-columns:1fr;}
+  .acc-grid{grid-template-columns:1fr 1fr;}
+  .week-map{grid-template-columns:repeat(8,1fr);}
+  .tracker-wrap{padding:20px;}
+  .lift-row{grid-template-columns:1fr 1fr;gap:8px;}
+  .tracker-header{display:none;}
+  .load-wrap{padding:28px 24px;}
+}
+@media(max-width:600px){
+  .hero-stats{flex-wrap:wrap;}
+  .acc-grid{grid-template-columns:1fr;}
+  .week-map{grid-template-columns:repeat(4,1fr);}
+  .lift-row{grid-template-columns:1fr;}
+  .tw-protocol{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-bg"></div><div class="hero-noise"></div><div class="hero-lines"></div>
+  <div class="hero-glow"></div><div class="hero-glow-2"></div>
+  <div class="hero-content">
+    <div class="program-eyebrow">
+      <div class="eyebrow-tag">CT Fitness · Standards Program</div>
+      <div class="eyebrow-divider"></div>
+      <div class="eyebrow-sub">16 Weeks · 4 Blocks · 4 Test Weeks</div>
+    </div>
+    <h1 class="hero-title">
+      <span class="t1">Chase</span>
+      <span class="t2">the Standards</span>
+    </h1>
+    <p class="hero-sub">A periodised program built entirely around reaching Elite on the 9 strength standards</p>
+    <div class="hero-stats">
+      <div class="h-stat"><div class="hs-num" style="color:var(--gold)">16</div><div class="hs-lbl">Weeks</div></div>
+      <div class="h-stat"><div class="hs-num" style="color:var(--blue)">4</div><div class="hs-lbl">Blocks</div></div>
+      <div class="h-stat"><div class="hs-num" style="color:var(--red)">4</div><div class="hs-lbl">Test Weeks</div></div>
+      <div class="h-stat"><div class="hs-num" style="color:var(--green)">9</div><div class="hs-lbl">Standards</div></div>
+    </div>
+    <div class="hero-ctas">
+      <button class="btn-gold" onclick="document.getElementById('tracker-section').scrollIntoView({behavior:'smooth'})">↓ &nbsp;Test Your Standards</button>
+      <button class="btn-ghost" onclick="document.getElementById('program-section').scrollIntoView({behavior:'smooth'})">↓ &nbsp;View Program</button>
+    </div>
+  </div>
+  <div class="hero-scroll-hint"><span>Scroll</span><div class="scroll-line"></div></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── SCIENCE ── -->
+<div class="section-wrap">
+  <div class="section-eyebrow">Program Philosophy</div>
+  <h2 class="section-title">How This Program Works</h2>
+  <div class="sci-grid">
+    <div class="sci-card">
+      <div class="sci-icon">🎯</div>
+      <div class="sci-title">Goal-Oriented Periodisation</div>
+      <div class="sci-body">Every exercise, every set, every rep is chosen because it directly moves the needle on one of the 9 strength standards. There is no filler. If an exercise isn't closing the gap between your current level and Elite, it isn't in this program. <strong>The standards are the program.</strong></div>
+    </div>
+    <div class="sci-card">
+      <div class="sci-icon">📈</div>
+      <div class="sci-title">4-Block Linear Periodisation</div>
+      <div class="sci-body">The program progresses through four distinct phases — Hypertrophy Base, Strength Build, Peaking, and Max Test — each building on the last. <strong>Rep ranges drop and load increases every 4 weeks</strong>. This is the most evidence-backed approach to building a new 1RM from any starting point.</div>
+    </div>
+    <div class="sci-card">
+      <div class="sci-icon">⚡</div>
+      <div class="sci-title">Test Weeks Every 4 Weeks</div>
+      <div class="sci-body">Week 4, 8, 12 and 16 are test weeks. You perform AMRAP (as many reps as possible) sets on your working weight, then use the <strong>Epley formula to estimate your new 1RM</strong>. This gives you objective data on progress — and maps you to your current standard level in real time.</div>
+    </div>
+    <div class="sci-card">
+      <div class="sci-icon">⚖️</div>
+      <div class="sci-title">Lagging Lift Priority</div>
+      <div class="sci-body">Enter your current lifts in the tracker below. The program is designed so that <strong>your weakest lifts relative to the standards always get trained first</strong> — heaviest, freshest, most CNS drive. Your strongest lifts are maintained, not driven further ahead. This produces the fastest path to an overall Elite rating.</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── STANDARDS TRACKER ── -->
+<div class="section-wrap" id="tracker-section">
+  <div class="section-eyebrow">Where Are You Now</div>
+  <h2 class="section-title">Test Your Standards</h2>
+  <div class="tracker-wrap">
+    <div class="tracker-meta">
+      <div class="tm-group">
+        <div class="tm-label">Bodyweight</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <input class="tm-input" id="bw" type="number" placeholder="75" oninput="updateAll()">
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:11px;color:var(--muted)">kg</span>
+        </div>
+      </div>
+      <div class="tm-group">
+        <div class="tm-label">Sex</div>
+        <div class="gender-row">
+          <button class="g-btn active" id="gMale" onclick="setGender('male')">Male</button>
+          <button class="g-btn" id="gFemale" onclick="setGender('female')">Female</button>
+        </div>
+      </div>
+    </div>
+    <div class="tracker-header">
+      <div class="th-cell">Lift</div>
+      <div class="th-cell" style="padding-left:16px">Standard Levels</div>
+      <div class="th-cell">Your 1RM (kg)</div>
+      <div class="th-cell" style="text-align:center">Level</div>
+      <div class="th-cell" style="text-align:right">Gap to Elite</div>
+    </div>
+    <div id="tracker-rows">
+      <!-- JS rendered -->
+    </div>
+    <div class="overall-level" id="overall-level">
+      <div>
+        <div class="ol-label">Overall Rating</div>
+        <div class="ol-level" id="overall-level-name" style="color:var(--muted)">Enter your lifts</div>
+      </div>
+      <div class="ol-sub" id="overall-sub">Enter your bodyweight and lifts above to see your current standard level across all 9 movements.</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── 16-WEEK MAP ── -->
+<div class="section-wrap">
+  <div class="section-eyebrow">Program Structure</div>
+  <h2 class="section-title">16 Weeks at a Glance</h2>
+  <div class="week-map" id="weekMap"></div>
+  <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:14px;">
+    <span style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue)">● Hypertrophy Base</span>
+    <span style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green)">● Strength Build</span>
+    <span style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--amber)">● Peaking</span>
+    <span style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red)">● Peak + Max Test</span>
+    <span style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold)">⚡ Test Week</span>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── PROGRAM ── -->
+<div class="section-wrap" style="padding-bottom:0;" id="program-section">
+  <div class="section-eyebrow">The Program</div>
+  <h2 class="section-title">4 Blocks · 4 Days / Week</h2>
+  <p style="font-size:14px;color:var(--muted);line-height:1.7;max-width:700px;margin-bottom:32px;">Upper Heavy and Lower Heavy sessions are your strength days — compounds first, progressive overload every session, full rest. Volume days accumulate hypertrophy. Every 4th week is a test week — you earn your numbers, then you record them.</p>
+</div>
+<div style="max-width:1200px;margin:0 auto;padding:0 48px 80px;">
+  <div class="block-tabs">
+    <button class="block-tab b1 active" onclick="showBlock('block1',this)">Hypertrophy Base · Weeks 1–4</button>
+    <button class="block-tab b2" onclick="showBlock('block2',this)">Strength Build · Weeks 5–8</button>
+    <button class="block-tab b3" onclick="showBlock('block3',this)">Peaking · Weeks 9–12</button>
+    <button class="block-tab b4" onclick="showBlock('block4',this)">Peak + Max Test · Weeks 13–16</button>
+  </div>
+  <div class="block-content active" id="block1">
+    <div class="phase-banner">
+      <div class="pb-dot" style="background:var(--blue)"></div>
+      <div class="pb-text"><strong>Hypertrophy Base</strong> &nbsp;·&nbsp; Weeks 1–4 &nbsp;·&nbsp; RPE 7–8 &nbsp;·&nbsp; 4 days/week</div>
+    </div>
+    <div class="block-focus-bar">Build work capacity. Every muscle group under mechanical tension. Load is moderate — technique and consistency first.</div>
+    <div class="day-accordion">
+      <div class="day-row">
+        <div class="day-header" onclick="toggleDay(this)">
+          <div class="day-color-bar" style="background:var(--red)"></div>
+          <div class="day-info">
+            <div class="day-label">Day 1 · Monday</div>
+            <div class="day-title">Upper — Heavy</div>
+            <div class="day-chips">
+              <span class="day-chip">6 exercises</span>
+              <span class="day-chip" style="color:var(--red);border-color:rgba(255,255,255,0.12)">Bench / OHP / Row priority</span>
+            </div>
+          </div>
+          <div class="day-chevron">▼</div>
+        </div>
+        <div class="day-body">
+          <table class="ex-table">
+            <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Bench Press</div>
+                  <div class="ex-name-note">Primary strength movement. Retract scapula, 2s descent. Beat last session.</div>
+                  <span class="ex-muscle-pill">Horizontal Push</span>
+                </td>
+                <td>4</td><td>5–6</td><td>3 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Bent-Over Row</div>
+                  <div class="ex-name-note">Match bench intensity. Pull to lower chest. 1s hold at top.</div>
+                  <span class="ex-muscle-pill">Horizontal Pull</span>
+                </td>
+                <td>4</td><td>5–6</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell OHP</div>
+                  <div class="ex-name-note">Strict press — no leg drive. Full overhead lockout.</div>
+                  <span class="ex-muscle-pill">Vertical Push</span>
+                </td>
+                <td>3</td><td>6–8</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Weighted Pull-Up</div>
+                  <div class="ex-name-note">Add weight once you hit top of rep range. Full hang to start.</div>
+                  <span class="ex-muscle-pill">Vertical Pull</span>
+                </td>
+                <td>3</td><td>6–8</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Dumbbell Lateral Raise</div>
+                  <div class="ex-name-note">Maintenance volume for side delt. Slow eccentric.</div>
+                  <span class="ex-muscle-pill">Side Delt</span>
+                </td>
+                <td>3</td><td>12–15</td><td>60s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Tricep Pushdown</div>
+                  <div class="ex-name-note">Elbow health. Not a strength priority — pump work.</div>
+                  <span class="ex-muscle-pill">Triceps</span>
+                </td>
+                <td>3</td><td>12</td><td>60s</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-header" onclick="toggleDay(this)">
+          <div class="day-color-bar" style="background:var(--amber)"></div>
+          <div class="day-info">
+            <div class="day-label">Day 2 · Tuesday</div>
+            <div class="day-title">Lower — Heavy</div>
+            <div class="day-chips">
+              <span class="day-chip">6 exercises</span>
+              <span class="day-chip" style="color:var(--amber);border-color:rgba(255,255,255,0.12)">Deadlift / Squat / Hip Thrust priority</span>
+            </div>
+          </div>
+          <div class="day-chevron">▼</div>
+        </div>
+        <div class="day-body">
+          <table class="ex-table">
+            <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Conventional Deadlift</div>
+                  <div class="ex-name-note">Heaviest compound. Push floor away, bar close to body. Record every top set.</div>
+                  <span class="ex-muscle-pill">Hip Hinge / Pull</span>
+                </td>
+                <td>4</td><td>5</td><td>3 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Back Squat</div>
+                  <div class="ex-name-note">Second compound. Depth to parallel. Drive knees out on ascent.</div>
+                  <span class="ex-muscle-pill">Squat</span>
+                </td>
+                <td>4</td><td>5–6</td><td>3 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Hip Thrust</div>
+                  <div class="ex-name-note">Load heavy. 1s hold at full extension. Add weight weekly.</div>
+                  <span class="ex-muscle-pill">Glute / Hinge</span>
+                </td>
+                <td>4</td><td>6–8</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Reverse Lunge</div>
+                  <div class="ex-name-note">Weaker leg first. Controls imbalances. Hip flexor stretch at bottom.</div>
+                  <span class="ex-muscle-pill">Single Leg</span>
+                </td>
+                <td>3</td><td>8 ea</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Farmers Carry</div>
+                  <div class="ex-name-note">Heavy. Add load each week. Posture stays tall throughout.</div>
+                  <span class="ex-muscle-pill">Carry / Core</span>
+                </td>
+                <td>3</td><td>30m</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Ab Wheel Rollout</div>
+                  <div class="ex-name-note">Full extension if lower back allows. No hip drop.</div>
+                  <span class="ex-muscle-pill">Core</span>
+                </td>
+                <td>3</td><td>8</td><td>60s</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-header" onclick="toggleDay(this)">
+          <div class="day-color-bar" style="background:var(--blue)"></div>
+          <div class="day-info">
+            <div class="day-label">Day 3 · Thursday</div>
+            <div class="day-title">Upper — Volume</div>
+            <div class="day-chips">
+              <span class="day-chip">6 exercises</span>
+              <span class="day-chip" style="color:var(--blue);border-color:rgba(255,255,255,0.12)">Volume accumulation — hypertrophy priority</span>
+            </div>
+          </div>
+          <div class="day-chevron">▼</div>
+        </div>
+        <div class="day-body">
+          <table class="ex-table">
+            <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Bench Press</div>
+                  <div class="ex-name-note">Volume day — lighter than Monday. Controlled tempo. Mind-muscle.</div>
+                  <span class="ex-muscle-pill">Horizontal Push</span>
+                </td>
+                <td>4</td><td>8–10</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Bent-Over Row</div>
+                  <div class="ex-name-note">Volume row. Higher reps, squeeze mid-back every rep.</div>
+                  <span class="ex-muscle-pill">Horizontal Pull</span>
+                </td>
+                <td>4</td><td>8–10</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell OHP</div>
+                  <div class="ex-name-note">Volume OHP. Lighter than Monday. Strict form only.</div>
+                  <span class="ex-muscle-pill">Vertical Push</span>
+                </td>
+                <td>4</td><td>8–10</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Weighted Pull-Up</div>
+                  <div class="ex-name-note">Volume pull. Higher reps. Slower eccentric — 3s down.</div>
+                  <span class="ex-muscle-pill">Vertical Pull</span>
+                </td>
+                <td>4</td><td>8–10</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">EZ Bar Curl</div>
+                  <div class="ex-name-note">Bicep maintenance. Full range. 3s eccentric.</div>
+                  <span class="ex-muscle-pill">Biceps</span>
+                </td>
+                <td>3</td><td>12</td><td>60s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Overhead Tricep Ext</div>
+                  <div class="ex-name-note">Long head stretch. Full range at bottom. Slow.</div>
+                  <span class="ex-muscle-pill">Triceps Long</span>
+                </td>
+                <td>3</td><td>12</td><td>60s</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-header" onclick="toggleDay(this)">
+          <div class="day-color-bar" style="background:var(--green)"></div>
+          <div class="day-info">
+            <div class="day-label">Day 4 · Friday</div>
+            <div class="day-title">Lower — Volume</div>
+            <div class="day-chips">
+              <span class="day-chip">6 exercises</span>
+              <span class="day-chip" style="color:var(--green);border-color:rgba(255,255,255,0.12)">Volume accumulation — hypertrophy priority</span>
+            </div>
+          </div>
+          <div class="day-chevron">▼</div>
+        </div>
+        <div class="day-body">
+          <table class="ex-table">
+            <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Back Squat</div>
+                  <div class="ex-name-note">Volume squat. Lighter than Tuesday. 3s descent. Technique focus.</div>
+                  <span class="ex-muscle-pill">Squat</span>
+                </td>
+                <td>4</td><td>8–10</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Hip Thrust</div>
+                  <div class="ex-name-note">Volume glute work. Higher reps. Really squeeze at top.</div>
+                  <span class="ex-muscle-pill">Glute / Hinge</span>
+                </td>
+                <td>4</td><td>10–12</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Conventional Deadlift</div>
+                  <div class="ex-name-note">70% of Tuesday's load. Romanian-style if preferred. Technique.</div>
+                  <span class="ex-muscle-pill">Hip Hinge</span>
+                </td>
+                <td>3</td><td>8</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Reverse Lunge</div>
+                  <div class="ex-name-note">More reps than Tuesday. Feel the glute loading at top.</div>
+                  <span class="ex-muscle-pill">Single Leg</span>
+                </td>
+                <td>3</td><td>10 ea</td><td>75s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Farmers Carry</div>
+                  <div class="ex-name-note">Heaviest carry of the week. Personal best attempt.</div>
+                  <span class="ex-muscle-pill">Carry / Core</span>
+                </td>
+                <td>3</td><td>30m</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Pallof Press</div>
+                  <div class="ex-name-note">Anti-rotation. Exhale on press. Core bracing drill.</div>
+                  <span class="ex-muscle-pill">TVA / Core</span>
+                </td>
+                <td>3</td><td>12 ea</td><td>45s</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="test-week-block">
+      <div class="tw-header">
+        <div class="tw-title" style="color:var(--blue)">⚡ Test Week — Week 4</div>
+        <div class="tw-sub">Week 4 is Test Week. AMRAP your top set on each main lift.</div>
+      </div>
+      <div class="tw-protocol">
+        <div class="test-row">
+          <div class="tr-day">Day 1</div>
+          <div class="tr-name">Upper Test</div>
+          <div class="tr-detail">Bench, Row, OHP, Pull-Up AMRAP sets</div>
+        </div>
+        <div class="test-row">
+          <div class="tr-day">Day 2</div>
+          <div class="tr-name">Lower Test</div>
+          <div class="tr-detail">Deadlift, Squat, Hip Thrust AMRAP sets</div>
+        </div>
+        <div class="test-row">
+          <div class="tr-day">Day 3</div>
+          <div class="tr-name">Carry + Lunge Test</div>
+          <div class="tr-detail">Farmers Carry 30m max load, Reverse Lunge AMRAP</div>
+        </div>
+        <div class="test-row">
+          <div class="tr-day">Day 4</div>
+          <div class="tr-name">Rest / Light Conditioning</div>
+          <div class="tr-detail">No strength work. 20–30 min Zone 2 cardio only.</div>
+        </div>
+      </div>
+      <div class="tw-epley">
+        <div class="tw-epley-title">AMRAP → 1RM Formula</div>
+        <div class="tw-epley-formula">Estimated 1RM = Weight × (1 + Reps ÷ 30)  &nbsp;·&nbsp;  Epley formula  &nbsp;·&nbsp;  Enter result in your tracker to see standard progress</div>
+      </div>
+    </div>
+  </div>
+  <div class="block-content " id="block2">
+    <div class="phase-banner">
+      <div class="pb-dot" style="background:var(--green)"></div>
+      <div class="pb-text"><strong>Strength Build</strong> &nbsp;·&nbsp; Weeks 5–8 &nbsp;·&nbsp; RPE 8–8.5 &nbsp;·&nbsp; 4 days/week</div>
+    </div>
+    <div class="block-focus-bar">Load climbs every session. Lower reps, heavier weights. This is where strength is built. Track every working set weight.</div>
+    <div class="day-accordion">
+      <div class="day-row">
+        <div class="day-header" onclick="toggleDay(this)">
+          <div class="day-color-bar" style="background:var(--red)"></div>
+          <div class="day-info">
+            <div class="day-label">Day 1 · Monday</div>
+            <div class="day-title">Upper — Heavy</div>
+            <div class="day-chips">
+              <span class="day-chip">6 exercises</span>
+              <span class="day-chip" style="color:var(--red);border-color:rgba(255,255,255,0.12)">Bench / OHP / Row priority</span>
+            </div>
+          </div>
+          <div class="day-chevron">▼</div>
+        </div>
+        <div class="day-body">
+          <table class="ex-table">
+            <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Bench Press</div>
+                  <div class="ex-name-note">Primary strength movement. Retract scapula, 2s descent. Beat last session.</div>
+                  <span class="ex-muscle-pill">Horizontal Push</span>
+                </td>
+                <td>5</td><td>3–5</td><td>3 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Bent-Over Row</div>
+                  <div class="ex-name-note">Match bench intensity. Pull to lower chest. 1s hold at top.</div>
+                  <span class="ex-muscle-pill">Horizontal Pull</span>
+                </td>
+                <td>5</td><td>3–5</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell OHP</div>
+                  <div class="ex-name-note">Strict press — no leg drive. Full overhead lockout.</div>
+                  <span class="ex-muscle-pill">Vertical Push</span>
+                </td>
+                <td>4</td><td>4–6</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Weighted Pull-Up</div>
+                  <div class="ex-name-note">Add weight once you hit top of rep range. Full hang to start.</div>
+                  <span class="ex-muscle-pill">Vertical Pull</span>
+                </td>
+                <td>4</td><td>4–6</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Dumbbell Lateral Raise</div>
+                  <div class="ex-name-note">Maintenance volume for side delt. Slow eccentric.</div>
+                  <span class="ex-muscle-pill">Side Delt</span>
+                </td>
+                <td>3</td><td>12</td><td>60s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Tricep Pushdown</div>
+                  <div class="ex-name-note">Elbow health. Not a strength priority — pump work.</div>
+                  <span class="ex-muscle-pill">Triceps</span>
+                </td>
+                <td>3</td><td>10</td><td>60s</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-header" onclick="toggleDay(this)">
+          <div class="day-color-bar" style="background:var(--amber)"></div>
+          <div class="day-info">
+            <div class="day-label">Day 2 · Tuesday</div>
+            <div class="day-title">Lower — Heavy</div>
+            <div class="day-chips">
+              <span class="day-chip">6 exercises</span>
+              <span class="day-chip" style="color:var(--amber);border-color:rgba(255,255,255,0.12)">Deadlift / Squat / Hip Thrust priority</span>
+            </div>
+          </div>
+          <div class="day-chevron">▼</div>
+        </div>
+        <div class="day-body">
+          <table class="ex-table">
+            <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Conventional Deadlift</div>
+                  <div class="ex-name-note">Heaviest compound. Push floor away, bar close to body. Record every top set.</div>
+                  <span class="ex-muscle-pill">Hip Hinge / Pull</span>
+                </td>
+                <td>5</td><td>3</td><td>3 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Back Squat</div>
+                  <div class="ex-name-note">Second compound. Depth to parallel. Drive knees out on ascent.</div>
+                  <span class="ex-muscle-pill">Squat</span>
+                </td>
+                <td>5</td><td>3–5</td><td>3 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Hip Thrust</div>
+                  <div class="ex-name-note">Load heavy. 1s hold at full extension. Add weight weekly.</div>
+                  <span class="ex-muscle-pill">Glute / Hinge</span>
+                </td>
+                <td>4</td><td>5–6</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Reverse Lunge</div>
+                  <div class="ex-name-note">Weaker leg first. Controls imbalances. Hip flexor stretch at bottom.</div>
+                  <span class="ex-muscle-pill">Single Leg</span>
+                </td>
+                <td>3</td><td>6 ea</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Farmers Carry</div>
+                  <div class="ex-name-note">Heavy. Add load each week. Posture stays tall throughout.</div>
+                  <span class="ex-muscle-pill">Carry / Core</span>
+                </td>
+                <td>3</td><td>35m</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Ab Wheel Rollout</div>
+                  <div class="ex-name-note">Full extension if lower back allows. No hip drop.</div>
+                  <span class="ex-muscle-pill">Core</span>
+                </td>
+                <td>3</td><td>10</td><td>60s</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-header" onclick="toggleDay(this)">
+          <div class="day-color-bar" style="background:var(--blue)"></div>
+          <div class="day-info">
+            <div class="day-label">Day 3 · Thursday</div>
+            <div class="day-title">Upper — Volume</div>
+            <div class="day-chips">
+              <span class="day-chip">6 exercises</span>
+              <span class="day-chip" style="color:var(--blue);border-color:rgba(255,255,255,0.12)">Volume accumulation — hypertrophy priority</span>
+            </div>
+          </div>
+          <div class="day-chevron">▼</div>
+        </div>
+        <div class="day-body">
+          <table class="ex-table">
+            <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Bench Press</div>
+                  <div class="ex-name-note">Volume day — lighter than Monday. Controlled tempo. Mind-muscle.</div>
+                  <span class="ex-muscle-pill">Horizontal Push</span>
+                </td>
+                <td>4</td><td>6–8</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Bent-Over Row</div>
+                  <div class="ex-name-note">Volume row. Higher reps, squeeze mid-back every rep.</div>
+                  <span class="ex-muscle-pill">Horizontal Pull</span>
+                </td>
+                <td>4</td><td>6–8</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell OHP</div>
+                  <div class="ex-name-note">Volume OHP. Lighter than Monday. Strict form only.</div>
+                  <span class="ex-muscle-pill">Vertical Push</span>
+                </td>
+                <td>4</td><td>6–8</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Weighted Pull-Up</div>
+                  <div class="ex-name-note">Volume pull. Higher reps. Slower eccentric — 3s down.</div>
+                  <span class="ex-muscle-pill">Vertical Pull</span>
+                </td>
+                <td>4</td><td>6–8</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">EZ Bar Curl</div>
+                  <div class="ex-name-note">Bicep maintenance. Full range. 3s eccentric.</div>
+                  <span class="ex-muscle-pill">Biceps</span>
+                </td>
+                <td>3</td><td>10</td><td>60s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Overhead Tricep Ext</div>
+                  <div class="ex-name-note">Long head stretch. Full range at bottom. Slow.</div>
+                  <span class="ex-muscle-pill">Triceps Long</span>
+                </td>
+                <td>3</td><td>10</td><td>60s</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-header" onclick="toggleDay(this)">
+          <div class="day-color-bar" style="background:var(--green)"></div>
+          <div class="day-info">
+            <div class="day-label">Day 4 · Friday</div>
+            <div class="day-title">Lower — Volume</div>
+            <div class="day-chips">
+              <span class="day-chip">6 exercises</span>
+              <span class="day-chip" style="color:var(--green);border-color:rgba(255,255,255,0.12)">Volume accumulation — hypertrophy priority</span>
+            </div>
+          </div>
+          <div class="day-chevron">▼</div>
+        </div>
+        <div class="day-body">
+          <table class="ex-table">
+            <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Back Squat</div>
+                  <div class="ex-name-note">Volume squat. Lighter than Tuesday. 3s descent. Technique focus.</div>
+                  <span class="ex-muscle-pill">Squat</span>
+                </td>
+                <td>4</td><td>6–8</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Hip Thrust</div>
+                  <div class="ex-name-note">Volume glute work. Higher reps. Really squeeze at top.</div>
+                  <span class="ex-muscle-pill">Glute / Hinge</span>
+                </td>
+                <td>4</td><td>8–10</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Conventional Deadlift</div>
+                  <div class="ex-name-note">70% of Tuesday's load. Romanian-style if preferred. Technique.</div>
+                  <span class="ex-muscle-pill">Hip Hinge</span>
+                </td>
+                <td>3</td><td>6</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Reverse Lunge</div>
+                  <div class="ex-name-note">More reps than Tuesday. Feel the glute loading at top.</div>
+                  <span class="ex-muscle-pill">Single Leg</span>
+                </td>
+                <td>3</td><td>8 ea</td><td>75s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Farmers Carry</div>
+                  <div class="ex-name-note">Heaviest carry of the week. Personal best attempt.</div>
+                  <span class="ex-muscle-pill">Carry / Core</span>
+                </td>
+                <td>3</td><td>35m</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Pallof Press</div>
+                  <div class="ex-name-note">Anti-rotation. Exhale on press. Core bracing drill.</div>
+                  <span class="ex-muscle-pill">TVA / Core</span>
+                </td>
+                <td>3</td><td>12 ea</td><td>45s</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="test-week-block">
+      <div class="tw-header">
+        <div class="tw-title" style="color:var(--green)">⚡ Test Week — Week 8</div>
+        <div class="tw-sub">Week 8 is Test Week. AMRAP your top set on each main lift.</div>
+      </div>
+      <div class="tw-protocol">
+        <div class="test-row">
+          <div class="tr-day">Day 1</div>
+          <div class="tr-name">Upper Test</div>
+          <div class="tr-detail">Bench, Row, OHP, Pull-Up AMRAP sets</div>
+        </div>
+        <div class="test-row">
+          <div class="tr-day">Day 2</div>
+          <div class="tr-name">Lower Test</div>
+          <div class="tr-detail">Deadlift, Squat, Hip Thrust AMRAP sets</div>
+        </div>
+        <div class="test-row">
+          <div class="tr-day">Day 3</div>
+          <div class="tr-name">Carry + Lunge Test</div>
+          <div class="tr-detail">Farmers Carry 30m max load, Reverse Lunge AMRAP</div>
+        </div>
+        <div class="test-row">
+          <div class="tr-day">Day 4</div>
+          <div class="tr-name">Rest / Light Conditioning</div>
+          <div class="tr-detail">No strength work. 20–30 min Zone 2 cardio only.</div>
+        </div>
+      </div>
+      <div class="tw-epley">
+        <div class="tw-epley-title">AMRAP → 1RM Formula</div>
+        <div class="tw-epley-formula">Estimated 1RM = Weight × (1 + Reps ÷ 30)  &nbsp;·&nbsp;  Epley formula  &nbsp;·&nbsp;  Enter result in your tracker to see standard progress</div>
+      </div>
+    </div>
+  </div>
+  <div class="block-content " id="block3">
+    <div class="phase-banner">
+      <div class="pb-dot" style="background:var(--amber)"></div>
+      <div class="pb-text"><strong>Peaking</strong> &nbsp;·&nbsp; Weeks 9–12 &nbsp;·&nbsp; RPE 8.5–9 &nbsp;·&nbsp; 4 days/week</div>
+    </div>
+    <div class="block-focus-bar">Near-maximal loads. Reps are low. Every session is a PR attempt. CNS demand is high — sleep and nutrition are critical.</div>
+    <div class="day-accordion">
+      <div class="day-row">
+        <div class="day-header" onclick="toggleDay(this)">
+          <div class="day-color-bar" style="background:var(--red)"></div>
+          <div class="day-info">
+            <div class="day-label">Day 1 · Monday</div>
+            <div class="day-title">Upper — Heavy</div>
+            <div class="day-chips">
+              <span class="day-chip">6 exercises</span>
+              <span class="day-chip" style="color:var(--red);border-color:rgba(255,255,255,0.12)">Bench / OHP / Row priority</span>
+            </div>
+          </div>
+          <div class="day-chevron">▼</div>
+        </div>
+        <div class="day-body">
+          <table class="ex-table">
+            <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Bench Press</div>
+                  <div class="ex-name-note">Primary strength movement. Retract scapula, 2s descent. Beat last session.</div>
+                  <span class="ex-muscle-pill">Horizontal Push</span>
+                </td>
+                <td>5</td><td>2–3</td><td>3 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Bent-Over Row</div>
+                  <div class="ex-name-note">Match bench intensity. Pull to lower chest. 1s hold at top.</div>
+                  <span class="ex-muscle-pill">Horizontal Pull</span>
+                </td>
+                <td>5</td><td>2–3</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell OHP</div>
+                  <div class="ex-name-note">Strict press — no leg drive. Full overhead lockout.</div>
+                  <span class="ex-muscle-pill">Vertical Push</span>
+                </td>
+                <td>5</td><td>3–4</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Weighted Pull-Up</div>
+                  <div class="ex-name-note">Add weight once you hit top of rep range. Full hang to start.</div>
+                  <span class="ex-muscle-pill">Vertical Pull</span>
+                </td>
+                <td>5</td><td>3–4</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Dumbbell Lateral Raise</div>
+                  <div class="ex-name-note">Maintenance volume for side delt. Slow eccentric.</div>
+                  <span class="ex-muscle-pill">Side Delt</span>
+                </td>
+                <td>3</td><td>10</td><td>60s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Tricep Pushdown</div>
+                  <div class="ex-name-note">Elbow health. Not a strength priority — pump work.</div>
+                  <span class="ex-muscle-pill">Triceps</span>
+                </td>
+                <td>3</td><td>10</td><td>60s</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-header" onclick="toggleDay(this)">
+          <div class="day-color-bar" style="background:var(--amber)"></div>
+          <div class="day-info">
+            <div class="day-label">Day 2 · Tuesday</div>
+            <div class="day-title">Lower — Heavy</div>
+            <div class="day-chips">
+              <span class="day-chip">6 exercises</span>
+              <span class="day-chip" style="color:var(--amber);border-color:rgba(255,255,255,0.12)">Deadlift / Squat / Hip Thrust priority</span>
+            </div>
+          </div>
+          <div class="day-chevron">▼</div>
+        </div>
+        <div class="day-body">
+          <table class="ex-table">
+            <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Conventional Deadlift</div>
+                  <div class="ex-name-note">Heaviest compound. Push floor away, bar close to body. Record every top set.</div>
+                  <span class="ex-muscle-pill">Hip Hinge / Pull</span>
+                </td>
+                <td>5</td><td>2–3</td><td>3 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Back Squat</div>
+                  <div class="ex-name-note">Second compound. Depth to parallel. Drive knees out on ascent.</div>
+                  <span class="ex-muscle-pill">Squat</span>
+                </td>
+                <td>5</td><td>2–3</td><td>3 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Hip Thrust</div>
+                  <div class="ex-name-note">Load heavy. 1s hold at full extension. Add weight weekly.</div>
+                  <span class="ex-muscle-pill">Glute / Hinge</span>
+                </td>
+                <td>5</td><td>4–5</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Reverse Lunge</div>
+                  <div class="ex-name-note">Weaker leg first. Controls imbalances. Hip flexor stretch at bottom.</div>
+                  <span class="ex-muscle-pill">Single Leg</span>
+                </td>
+                <td>4</td><td>5 ea</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Farmers Carry</div>
+                  <div class="ex-name-note">Heavy. Add load each week. Posture stays tall throughout.</div>
+                  <span class="ex-muscle-pill">Carry / Core</span>
+                </td>
+                <td>4</td><td>40m</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Ab Wheel Rollout</div>
+                  <div class="ex-name-note">Full extension if lower back allows. No hip drop.</div>
+                  <span class="ex-muscle-pill">Core</span>
+                </td>
+                <td>3</td><td>12</td><td>60s</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-header" onclick="toggleDay(this)">
+          <div class="day-color-bar" style="background:var(--blue)"></div>
+          <div class="day-info">
+            <div class="day-label">Day 3 · Thursday</div>
+            <div class="day-title">Upper — Volume</div>
+            <div class="day-chips">
+              <span class="day-chip">6 exercises</span>
+              <span class="day-chip" style="color:var(--blue);border-color:rgba(255,255,255,0.12)">Volume accumulation — hypertrophy priority</span>
+            </div>
+          </div>
+          <div class="day-chevron">▼</div>
+        </div>
+        <div class="day-body">
+          <table class="ex-table">
+            <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Bench Press</div>
+                  <div class="ex-name-note">Volume day — lighter than Monday. Controlled tempo. Mind-muscle.</div>
+                  <span class="ex-muscle-pill">Horizontal Push</span>
+                </td>
+                <td>4</td><td>5–6</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Bent-Over Row</div>
+                  <div class="ex-name-note">Volume row. Higher reps, squeeze mid-back every rep.</div>
+                  <span class="ex-muscle-pill">Horizontal Pull</span>
+                </td>
+                <td>4</td><td>5–6</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell OHP</div>
+                  <div class="ex-name-note">Volume OHP. Lighter than Monday. Strict form only.</div>
+                  <span class="ex-muscle-pill">Vertical Push</span>
+                </td>
+                <td>4</td><td>5–6</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Weighted Pull-Up</div>
+                  <div class="ex-name-note">Volume pull. Higher reps. Slower eccentric — 3s down.</div>
+                  <span class="ex-muscle-pill">Vertical Pull</span>
+                </td>
+                <td>4</td><td>5–6</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">EZ Bar Curl</div>
+                  <div class="ex-name-note">Bicep maintenance. Full range. 3s eccentric.</div>
+                  <span class="ex-muscle-pill">Biceps</span>
+                </td>
+                <td>3</td><td>10</td><td>60s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Overhead Tricep Ext</div>
+                  <div class="ex-name-note">Long head stretch. Full range at bottom. Slow.</div>
+                  <span class="ex-muscle-pill">Triceps Long</span>
+                </td>
+                <td>3</td><td>10</td><td>60s</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-header" onclick="toggleDay(this)">
+          <div class="day-color-bar" style="background:var(--green)"></div>
+          <div class="day-info">
+            <div class="day-label">Day 4 · Friday</div>
+            <div class="day-title">Lower — Volume</div>
+            <div class="day-chips">
+              <span class="day-chip">6 exercises</span>
+              <span class="day-chip" style="color:var(--green);border-color:rgba(255,255,255,0.12)">Volume accumulation — hypertrophy priority</span>
+            </div>
+          </div>
+          <div class="day-chevron">▼</div>
+        </div>
+        <div class="day-body">
+          <table class="ex-table">
+            <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Back Squat</div>
+                  <div class="ex-name-note">Volume squat. Lighter than Tuesday. 3s descent. Technique focus.</div>
+                  <span class="ex-muscle-pill">Squat</span>
+                </td>
+                <td>4</td><td>5–6</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Hip Thrust</div>
+                  <div class="ex-name-note">Volume glute work. Higher reps. Really squeeze at top.</div>
+                  <span class="ex-muscle-pill">Glute / Hinge</span>
+                </td>
+                <td>4</td><td>6–8</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Conventional Deadlift</div>
+                  <div class="ex-name-note">70% of Tuesday's load. Romanian-style if preferred. Technique.</div>
+                  <span class="ex-muscle-pill">Hip Hinge</span>
+                </td>
+                <td>3</td><td>5</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Reverse Lunge</div>
+                  <div class="ex-name-note">More reps than Tuesday. Feel the glute loading at top.</div>
+                  <span class="ex-muscle-pill">Single Leg</span>
+                </td>
+                <td>4</td><td>6 ea</td><td>75s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Farmers Carry</div>
+                  <div class="ex-name-note">Heaviest carry of the week. Personal best attempt.</div>
+                  <span class="ex-muscle-pill">Carry / Core</span>
+                </td>
+                <td>4</td><td>40m</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Pallof Press</div>
+                  <div class="ex-name-note">Anti-rotation. Exhale on press. Core bracing drill.</div>
+                  <span class="ex-muscle-pill">TVA / Core</span>
+                </td>
+                <td>3</td><td>12 ea</td><td>45s</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="test-week-block">
+      <div class="tw-header">
+        <div class="tw-title" style="color:var(--amber)">⚡ Test Week — Week 12</div>
+        <div class="tw-sub">Week 12 is Test Week. AMRAP your top set — you should hit new all-time PRs.</div>
+      </div>
+      <div class="tw-protocol">
+        <div class="test-row">
+          <div class="tr-day">Day 1</div>
+          <div class="tr-name">Upper Test</div>
+          <div class="tr-detail">Bench, Row, OHP, Pull-Up AMRAP sets</div>
+        </div>
+        <div class="test-row">
+          <div class="tr-day">Day 2</div>
+          <div class="tr-name">Lower Test</div>
+          <div class="tr-detail">Deadlift, Squat, Hip Thrust AMRAP sets</div>
+        </div>
+        <div class="test-row">
+          <div class="tr-day">Day 3</div>
+          <div class="tr-name">Carry + Lunge Test</div>
+          <div class="tr-detail">Farmers Carry 30m max load, Reverse Lunge AMRAP</div>
+        </div>
+        <div class="test-row">
+          <div class="tr-day">Day 4</div>
+          <div class="tr-name">Rest / Light Conditioning</div>
+          <div class="tr-detail">No strength work. 20–30 min Zone 2 cardio only.</div>
+        </div>
+      </div>
+      <div class="tw-epley">
+        <div class="tw-epley-title">AMRAP → 1RM Formula</div>
+        <div class="tw-epley-formula">Estimated 1RM = Weight × (1 + Reps ÷ 30)  &nbsp;·&nbsp;  Epley formula  &nbsp;·&nbsp;  Enter result in your tracker to see standard progress</div>
+      </div>
+    </div>
+  </div>
+  <div class="block-content " id="block4">
+    <div class="phase-banner">
+      <div class="pb-dot" style="background:var(--red)"></div>
+      <div class="pb-text"><strong>Peak + Max Test</strong> &nbsp;·&nbsp; Weeks 13–16 &nbsp;·&nbsp; RPE 9–9.5 → Max &nbsp;·&nbsp; 4 days/week</div>
+    </div>
+    <div class="block-focus-bar">Final loading block, then Week 16 is the Max Test — true 1RM attempts on all 9 standards. This is what the entire 16 weeks has been building toward.</div>
+    <div class="day-accordion">
+      <div class="day-row">
+        <div class="day-header" onclick="toggleDay(this)">
+          <div class="day-color-bar" style="background:var(--red)"></div>
+          <div class="day-info">
+            <div class="day-label">Day 1 · Monday</div>
+            <div class="day-title">Upper — Heavy</div>
+            <div class="day-chips">
+              <span class="day-chip">6 exercises</span>
+              <span class="day-chip" style="color:var(--red);border-color:rgba(255,255,255,0.12)">Bench / OHP / Row priority</span>
+            </div>
+          </div>
+          <div class="day-chevron">▼</div>
+        </div>
+        <div class="day-body">
+          <table class="ex-table">
+            <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Bench Press</div>
+                  <div class="ex-name-note">Primary strength movement. Retract scapula, 2s descent. Beat last session.</div>
+                  <span class="ex-muscle-pill">Horizontal Push</span>
+                </td>
+                <td>5</td><td>2–3</td><td>3 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Bent-Over Row</div>
+                  <div class="ex-name-note">Match bench intensity. Pull to lower chest. 1s hold at top.</div>
+                  <span class="ex-muscle-pill">Horizontal Pull</span>
+                </td>
+                <td>5</td><td>2–3</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell OHP</div>
+                  <div class="ex-name-note">Strict press — no leg drive. Full overhead lockout.</div>
+                  <span class="ex-muscle-pill">Vertical Push</span>
+                </td>
+                <td>5</td><td>3–4</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Weighted Pull-Up</div>
+                  <div class="ex-name-note">Add weight once you hit top of rep range. Full hang to start.</div>
+                  <span class="ex-muscle-pill">Vertical Pull</span>
+                </td>
+                <td>5</td><td>3–4</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Dumbbell Lateral Raise</div>
+                  <div class="ex-name-note">Maintenance volume for side delt. Slow eccentric.</div>
+                  <span class="ex-muscle-pill">Side Delt</span>
+                </td>
+                <td>3</td><td>10</td><td>60s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Tricep Pushdown</div>
+                  <div class="ex-name-note">Elbow health. Not a strength priority — pump work.</div>
+                  <span class="ex-muscle-pill">Triceps</span>
+                </td>
+                <td>3</td><td>10</td><td>60s</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-header" onclick="toggleDay(this)">
+          <div class="day-color-bar" style="background:var(--amber)"></div>
+          <div class="day-info">
+            <div class="day-label">Day 2 · Tuesday</div>
+            <div class="day-title">Lower — Heavy</div>
+            <div class="day-chips">
+              <span class="day-chip">6 exercises</span>
+              <span class="day-chip" style="color:var(--amber);border-color:rgba(255,255,255,0.12)">Deadlift / Squat / Hip Thrust priority</span>
+            </div>
+          </div>
+          <div class="day-chevron">▼</div>
+        </div>
+        <div class="day-body">
+          <table class="ex-table">
+            <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Conventional Deadlift</div>
+                  <div class="ex-name-note">Heaviest compound. Push floor away, bar close to body. Record every top set.</div>
+                  <span class="ex-muscle-pill">Hip Hinge / Pull</span>
+                </td>
+                <td>5</td><td>2–3</td><td>3 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Back Squat</div>
+                  <div class="ex-name-note">Second compound. Depth to parallel. Drive knees out on ascent.</div>
+                  <span class="ex-muscle-pill">Squat</span>
+                </td>
+                <td>5</td><td>2–3</td><td>3 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Hip Thrust</div>
+                  <div class="ex-name-note">Load heavy. 1s hold at full extension. Add weight weekly.</div>
+                  <span class="ex-muscle-pill">Glute / Hinge</span>
+                </td>
+                <td>5</td><td>4–5</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Reverse Lunge</div>
+                  <div class="ex-name-note">Weaker leg first. Controls imbalances. Hip flexor stretch at bottom.</div>
+                  <span class="ex-muscle-pill">Single Leg</span>
+                </td>
+                <td>4</td><td>5 ea</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Farmers Carry</div>
+                  <div class="ex-name-note">Heavy. Add load each week. Posture stays tall throughout.</div>
+                  <span class="ex-muscle-pill">Carry / Core</span>
+                </td>
+                <td>4</td><td>40m</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Ab Wheel Rollout</div>
+                  <div class="ex-name-note">Full extension if lower back allows. No hip drop.</div>
+                  <span class="ex-muscle-pill">Core</span>
+                </td>
+                <td>3</td><td>12</td><td>60s</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-header" onclick="toggleDay(this)">
+          <div class="day-color-bar" style="background:var(--blue)"></div>
+          <div class="day-info">
+            <div class="day-label">Day 3 · Thursday</div>
+            <div class="day-title">Upper — Volume</div>
+            <div class="day-chips">
+              <span class="day-chip">6 exercises</span>
+              <span class="day-chip" style="color:var(--blue);border-color:rgba(255,255,255,0.12)">Volume accumulation — hypertrophy priority</span>
+            </div>
+          </div>
+          <div class="day-chevron">▼</div>
+        </div>
+        <div class="day-body">
+          <table class="ex-table">
+            <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Bench Press</div>
+                  <div class="ex-name-note">Volume day — lighter than Monday. Controlled tempo. Mind-muscle.</div>
+                  <span class="ex-muscle-pill">Horizontal Push</span>
+                </td>
+                <td>4</td><td>5–6</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Bent-Over Row</div>
+                  <div class="ex-name-note">Volume row. Higher reps, squeeze mid-back every rep.</div>
+                  <span class="ex-muscle-pill">Horizontal Pull</span>
+                </td>
+                <td>4</td><td>5–6</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell OHP</div>
+                  <div class="ex-name-note">Volume OHP. Lighter than Monday. Strict form only.</div>
+                  <span class="ex-muscle-pill">Vertical Push</span>
+                </td>
+                <td>4</td><td>5–6</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Weighted Pull-Up</div>
+                  <div class="ex-name-note">Volume pull. Higher reps. Slower eccentric — 3s down.</div>
+                  <span class="ex-muscle-pill">Vertical Pull</span>
+                </td>
+                <td>4</td><td>5–6</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">EZ Bar Curl</div>
+                  <div class="ex-name-note">Bicep maintenance. Full range. 3s eccentric.</div>
+                  <span class="ex-muscle-pill">Biceps</span>
+                </td>
+                <td>3</td><td>10</td><td>60s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Overhead Tricep Ext</div>
+                  <div class="ex-name-note">Long head stretch. Full range at bottom. Slow.</div>
+                  <span class="ex-muscle-pill">Triceps Long</span>
+                </td>
+                <td>3</td><td>10</td><td>60s</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-header" onclick="toggleDay(this)">
+          <div class="day-color-bar" style="background:var(--green)"></div>
+          <div class="day-info">
+            <div class="day-label">Day 4 · Friday</div>
+            <div class="day-title">Lower — Volume</div>
+            <div class="day-chips">
+              <span class="day-chip">6 exercises</span>
+              <span class="day-chip" style="color:var(--green);border-color:rgba(255,255,255,0.12)">Volume accumulation — hypertrophy priority</span>
+            </div>
+          </div>
+          <div class="day-chevron">▼</div>
+        </div>
+        <div class="day-body">
+          <table class="ex-table">
+            <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Barbell Back Squat</div>
+                  <div class="ex-name-note">Volume squat. Lighter than Tuesday. 3s descent. Technique focus.</div>
+                  <span class="ex-muscle-pill">Squat</span>
+                </td>
+                <td>4</td><td>5–6</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Hip Thrust</div>
+                  <div class="ex-name-note">Volume glute work. Higher reps. Really squeeze at top.</div>
+                  <span class="ex-muscle-pill">Glute / Hinge</span>
+                </td>
+                <td>4</td><td>6–8</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Conventional Deadlift</div>
+                  <div class="ex-name-note">70% of Tuesday's load. Romanian-style if preferred. Technique.</div>
+                  <span class="ex-muscle-pill">Hip Hinge</span>
+                </td>
+                <td>3</td><td>5</td><td>2 min</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Reverse Lunge</div>
+                  <div class="ex-name-note">More reps than Tuesday. Feel the glute loading at top.</div>
+                  <span class="ex-muscle-pill">Single Leg</span>
+                </td>
+                <td>4</td><td>6 ea</td><td>75s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Farmers Carry</div>
+                  <div class="ex-name-note">Heaviest carry of the week. Personal best attempt.</div>
+                  <span class="ex-muscle-pill">Carry / Core</span>
+                </td>
+                <td>4</td><td>40m</td><td>90s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="ex-name-main">Pallof Press</div>
+                  <div class="ex-name-note">Anti-rotation. Exhale on press. Core bracing drill.</div>
+                  <span class="ex-muscle-pill">TVA / Core</span>
+                </td>
+                <td>3</td><td>12 ea</td><td>45s</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="test-week-block">
+      <div class="tw-header">
+        <div class="tw-title" style="color:var(--red)">⚡ Test Week — Week 16</div>
+        <div class="tw-sub">Week 16 is MAX TEST WEEK. True 1RM attempts on all 9 lifts. Compare to standards.</div>
+      </div>
+      <div class="tw-protocol">
+        <div class="test-row">
+          <div class="tr-day">Day 1</div>
+          <div class="tr-name">Upper Test</div>
+          <div class="tr-detail">Bench, Row, OHP, Pull-Up AMRAP sets</div>
+        </div>
+        <div class="test-row">
+          <div class="tr-day">Day 2</div>
+          <div class="tr-name">Lower Test</div>
+          <div class="tr-detail">Deadlift, Squat, Hip Thrust AMRAP sets</div>
+        </div>
+        <div class="test-row">
+          <div class="tr-day">Day 3</div>
+          <div class="tr-name">Carry + Lunge Test</div>
+          <div class="tr-detail">Farmers Carry 30m max load, Reverse Lunge AMRAP</div>
+        </div>
+        <div class="test-row">
+          <div class="tr-day">Day 4</div>
+          <div class="tr-name">Rest / Light Conditioning</div>
+          <div class="tr-detail">No strength work. 20–30 min Zone 2 cardio only.</div>
+        </div>
+      </div>
+      <div class="tw-epley">
+        <div class="tw-epley-title">AMRAP → 1RM Formula</div>
+        <div class="tw-epley-formula">Estimated 1RM = Weight × (1 + Reps ÷ 30)  &nbsp;·&nbsp;  Epley formula  &nbsp;·&nbsp;  Enter result in your tracker to see standard progress</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── RECOMMENDED ACCESSORIES ── -->
+<div class="section-wrap">
+  <div class="section-eyebrow">Optional Accessories</div>
+  <h2 class="section-title">Supplemental Work</h2>
+  <p style="font-size:14px;color:var(--muted);line-height:1.7;max-width:700px;margin-bottom:32px;">These are not mandatory — they are injury prevention and gap-fillers. Add 1–3 of these at the end of sessions where time and recovery allow. Do not add them if they compromise recovery on the main lifts.</p>
+  <div class="acc-grid">
+    <div class="acc-card">
+      <div class="acc-name">Face Pull</div>
+      <div class="acc-muscle">Rear Delt / Rotator Cuff</div>
+      <div class="acc-sets">3×15</div>
+      <div class="acc-note">Shoulder health. Cables or band. Every upper session.</div>
+    </div>    <div class="acc-card">
+      <div class="acc-name">Romanian Deadlift</div>
+      <div class="acc-muscle">Hamstrings / Lower Back</div>
+      <div class="acc-sets">3×10</div>
+      <div class="acc-note">Posterior chain accessory for lower days.</div>
+    </div>    <div class="acc-card">
+      <div class="acc-name">Seated Calf Raise</div>
+      <div class="acc-muscle">Calves</div>
+      <div class="acc-sets">3×15</div>
+      <div class="acc-note">Full range. Pause at stretch.</div>
+    </div>    <div class="acc-card">
+      <div class="acc-name">Incline DB Press</div>
+      <div class="acc-muscle">Upper Chest</div>
+      <div class="acc-sets">3×10</div>
+      <div class="acc-note">Upper chest gap filler. Light load.</div>
+    </div>    <div class="acc-card">
+      <div class="acc-name">Cable Row (close grip)</div>
+      <div class="acc-muscle">Mid Back / Traps</div>
+      <div class="acc-sets">3×12</div>
+      <div class="acc-note">Upper back density work.</div>
+    </div>    <div class="acc-card">
+      <div class="acc-name">Neck Harness / Plate</div>
+      <div class="acc-muscle">Neck / Trap Base</div>
+      <div class="acc-sets">2×15</div>
+      <div class="acc-note">Injury prevention for heavy overhead and pulling.</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section-wrap">
+  <div class="load-wrap">
+    <div style="max-width:600px;">
+      <div class="section-eyebrow">Take It With You</div>
+      <h2 class="section-title" style="margin-bottom:10px">Download the Spreadsheet</h2>
+      <p style="font-size:14px;color:var(--muted);line-height:1.7;">All 16 weeks, all 4 sessions, W1–W16 weight tracking columns and an automatic 1RM estimator from your AMRAP test sets. Built to use in Google Sheets, Excel, or print.</p>
+      <div class="load-ctas">
+        <button class="btn-ghost" onclick="dlSheet()">⬇ &nbsp;Download Spreadsheet (.xlsx)</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+const STANDARDS = {
+  'Barbell OHP':          { male:[0.35,0.55,0.80,1.05,1.30], female:[0.20,0.35,0.50,0.70,0.90] },
+  'Back Squat':           { male:[0.75,1.25,1.50,1.75,2.10], female:[0.50,0.75,1.00,1.25,1.60] },
+  'Barbell Bench':        { male:[0.50,0.75,1.00,1.25,1.55], female:[0.25,0.50,0.75,1.00,1.20] },
+  'Overhand Pull-Up':     { male:[0,3,8,15,22],              female:[0,1,4,10,16],              unit:'reps' },
+  'Barbell Bent-Over Row':{ male:[0.50,0.75,1.00,1.25,1.50], female:[0.25,0.45,0.65,0.90,1.10] },
+  'Conventional Deadlift':{ male:[1.00,1.50,1.75,2.25,2.75], female:[0.60,0.90,1.20,1.65,2.10] },
+  'Hip Thrust':           { male:[0.75,1.25,1.75,2.25,2.75], female:[0.50,1.00,1.50,2.00,2.50] },
+  'Reverse Lunge':        { male:[0.40,0.65,0.90,1.10,1.35], female:[0.25,0.45,0.65,0.85,1.05] },
+  'Farmers Carry':        { male:[0.50,0.75,1.00,1.50,2.00], female:[0.25,0.45,0.65,1.00,1.35], unit:'load30m' },
+};
+const LEVEL_NAMES = ['Untrained','Novice','Intermediate','Advanced','Elite'];
+const LEVEL_DISPLAY = ['Beginner','Novice','Intermediate','Advanced','Elite'];
+const LEVEL_COLS  = ['#444444','#7eb8e0','#4caf7d','#CD0404','#c9a96e'];
+
+
+var gender = 'male';
+var bw = 80;
+
+var LIFTS = [
+  'Barbell Bench', 'Back Squat', 'Conventional Deadlift',
+  'Barbell OHP', 'Overhand Pull-Up', 'Barbell Bent-Over Row',
+  'Hip Thrust', 'Reverse Lunge', 'Farmers Carry'
+];
+
+var userLifts = {};
+
+function setGender(g) {
+  gender = g;
+  document.getElementById('gMale').classList.toggle('active', g === 'male');
+  document.getElementById('gFemale').classList.toggle('active', g === 'female');
+  updateAll();
+}
+
+function getStandard(liftName, levelIdx) {
+  var d = STANDARDS[liftName];
+  if (!d) return null;
+  var vals = d[gender];
+  if (d.unit === 'reps') return vals[levelIdx];
+  return Math.round(vals[levelIdx] * bw * 10) / 10;
+}
+
+function getLevel(liftName, val) {
+  if (!val || val <= 0) return -2;
+  var d = STANDARDS[liftName];
+  if (!d) return -2;
+  var vals = d[gender];
+  for (var i = 4; i >= 0; i--) {
+    var threshold = (d.unit === 'reps') ? vals[i] : Math.round(vals[i] * bw * 10) / 10;
+    if (val >= threshold) return i;
+  }
+  return -1; // below untrained threshold
+}
+
+function buildTrackerRows() {
+  var html = '';
+  LIFTS.forEach(function(lift, i) {
+    var d = STANDARDS[lift];
+    var isReps = d && d.unit === 'reps';
+    var isCarry = d && d.unit === 'load30m';
+    var unitLabel = isReps ? 'reps' : isCarry ? 'kg total (30m)' : 'kg';
+    html += '<div class="lift-row" id="row_' + i + '">';
+    html += '<div class="lr-name">' + lift + (isCarry ? '<div style="font-size:10px;color:var(--muted);font-weight:400">total load, 30m</div>' : '') + '</div>';
+    html += '<div class="lr-bars" id="bars_' + i + '"></div>';
+    html += '<div class="lr-input-wrap"><input class="lr-input" id="lift_' + i + '" type="number" placeholder="— ' + (isReps ? 'reps' : 'kg') + '" oninput="updateLift(' + i + ')"><span class="lr-unit">' + unitLabel + '</span></div>';
+    html += '<div class="lr-level" id="level_' + i + '" style="color:var(--muted)">—</div>';
+    html += '<div class="lr-gap" id="gap_' + i + '">—</div>';
+    html += '</div>';
+  });
+  document.getElementById('tracker-rows').innerHTML = html;
+}
+
+function updateLift(i) {
+  var val = parseFloat(document.getElementById('lift_' + i).value) || 0;
+  userLifts[i] = val;
+  renderLiftRow(i, val);
+  updateOverall();
+}
+
+function renderLiftRow(i, val) {
+  var lift = LIFTS[i];
+  var d = STANDARDS[lift];
+  var isReps = d && d.unit === 'reps';
+  var isCarry = d && d.unit === 'load30m';
+  var unitSuffix = isReps ? ' reps' : isCarry ? 'kg (30m)' : 'kg';
+
+  // Draw bars
+  var barsEl = document.getElementById('bars_' + i);
+  var barsHtml = '';
+  for (var li = 0; li < 5; li++) {
+    var std = getStandard(lift, li);
+    var achieved = val >= std && val > 0;
+    barsHtml += '<div class="lr-bar" title="' + LEVEL_DISPLAY[li] + ': ' + std + unitSuffix + '">';
+    barsHtml += '<div class="lr-bar-fill" style="background:' + (achieved ? LEVEL_COLS[li] : '#252525') + '"></div>';
+    barsHtml += '</div>';
+  }
+  barsEl.innerHTML = barsHtml;
+
+  // Level
+  var levelEl = document.getElementById('level_' + i);
+  var lvl = getLevel(lift, val);
+  if (lvl >= 0) {
+    levelEl.textContent = LEVEL_DISPLAY[lvl];
+    levelEl.style.color = LEVEL_COLS[lvl];
+  } else if (lvl === -1) {
+    levelEl.textContent = 'Below Untrained';
+    levelEl.style.color = 'var(--muted2)';
+  } else {
+    levelEl.textContent = '—';
+    levelEl.style.color = 'var(--muted)';
+  }
+
+  // Gap to elite
+  var gapEl = document.getElementById('gap_' + i);
+  var eliteStd = getStandard(lift, 4);
+  if (val > 0 && val < eliteStd) {
+    var gap = Math.round((eliteStd - val) * 10) / 10;
+    gapEl.textContent = '+' + gap + unitSuffix;
+    gapEl.style.color = 'var(--muted)';
+  } else if (val >= eliteStd && val > 0) {
+    gapEl.textContent = '✓ Elite';
+    gapEl.style.color = 'var(--gold)';
+  } else {
+    gapEl.textContent = '—';
+    gapEl.style.color = 'var(--muted2)';
+  }
+}
+
+function updateAll() {
+  var bwVal = parseFloat(document.getElementById('bw').value);
+  if (bwVal > 0) bw = bwVal;
+  LIFTS.forEach(function(_, i) {
+    var val = parseFloat(document.getElementById('lift_' + i) ? document.getElementById('lift_' + i).value : 0) || 0;
+    userLifts[i] = val;
+    renderLiftRow(i, val);
+  });
+  updateOverall();
+}
+
+function updateOverall() {
+  var levels = [];
+  LIFTS.forEach(function(_, i) {
+    var val = userLifts[i] || 0;
+    if (val > 0) {
+      var lvl = getLevel(LIFTS[i], val);
+      levels.push(Math.max(lvl, -1)); // treat -2 (no entry) as -1 for ranking
+    }
+  });
+  if (levels.length === 0) return;
+  var minLevel = Math.min.apply(null, levels);
+  var avgLevel = levels.reduce(function(a,b){return a+b;}, 0) / levels.length;
+  var el = document.getElementById('overall-level-name');
+  var sub = document.getElementById('overall-sub');
+  var overallIdx = Math.floor(avgLevel);
+  if (overallIdx < 0) overallIdx = 0;
+  el.textContent = LEVEL_DISPLAY[Math.min(overallIdx, 4)];
+  el.style.color = LEVEL_COLS[Math.min(overallIdx, 4)];
+
+  var eliteCount = levels.filter(function(l){return l===4;}).length;
+  var laggingIdx = levels.indexOf(Math.min.apply(null, levels));
+  var lagging = LIFTS[laggingIdx];
+  var laggingLevel = Math.min.apply(null, levels);
+
+  var LAGGING_ADVICE = {
+    'Back Squat':           'prioritise it on Lower Heavy days — squat before deadlift, add a third lower body session if recovery allows, and use pause squats on volume days to build bottom-of-hole strength',
+    'Conventional Deadlift':'pull first on every Lower Heavy day, add Romanian Deadlifts on volume days, and focus on hip hinge mechanics — a weak deadlift is usually a technique issue before it is a strength issue',
+    'Barbell Bench':        'bench first on Upper Heavy days, add an extra set on volume days, and use close-grip bench as your main accessory — tricep strength is almost always the limiting factor above intermediate',
+    'Barbell OHP':          'press first on Upper Volume days as well as Heavy, train it twice weekly at near-equal intensity, and add face pulls and lateral raises every session — overhead pressing rewards frequency more than any other lift',
+    'Overhand Pull-Up':     'add a fourth set on both upper days, train it first on volume days, and do daily sub-maximal sets outside the gym — pull-up strength responds to frequency above all else',
+    'Barbell Bent-Over Row':'row heavy twice per week, add cable rows as an accessory every upper session, and treat it with the same priority as your bench — most people under-train their back relative to their chest',
+    'Hip Thrust':           'load it heavy on Lower Heavy days and treat it as a primary compound, not a finisher — hip thrust strength responds well to heavy singles and triples in the peaking phase',
+    'Reverse Lunge':        'add unilateral work on both lower days, use a deficit lunge variation for extra range of motion, and address any quad-to-glute imbalance between legs',
+    'Farmers Carry':        'add an extra carry set on both lower days, progressively increase the distance from 30m to 40m to 50m across the blocks, and train your grip directly with dead hangs and bar holds'
+  };
+
+  var advice = LAGGING_ADVICE[lagging] || 'train it first every session and give it priority volume';
+
+  if (eliteCount === 9) {
+    sub.innerHTML = 'You have reached Elite on all 9 standards. Exceptional.';
+  } else {
+    sub.innerHTML = '<strong style="color:var(--off-white)">Weakest lift: ' + lagging + ' (' + LEVEL_DISPLAY[Math.max(laggingLevel,0)] + ').</strong> ' +
+      'In this program, ' + advice + '. ' +
+      '<span style="color:var(--muted2)">' + (9 - eliteCount) + ' lift' + (9 - eliteCount !== 1 ? 's' : '') + ' below Elite.</span>';
+  }
+}
+
+// ── 16-week map
+(function buildWeekMap() {
+  var phases = [
+    { name:'Base',     col:'var(--blue)',   weeks:[1,2,3] },
+    { name:'Test',     col:'var(--gold)',   weeks:[4] },
+    { name:'Strength', col:'var(--green)',  weeks:[5,6,7] },
+    { name:'Test',     col:'var(--gold)',   weeks:[8] },
+    { name:'Peak',     col:'var(--amber)',  weeks:[9,10,11] },
+    { name:'Test',     col:'var(--gold)',   weeks:[12] },
+    { name:'Max',      col:'var(--red)',    weeks:[13,14,15] },
+    { name:'MAX TEST', col:'var(--gold)',   weeks:[16] },
+  ];
+  var map = document.getElementById('weekMap');
+  var html = '';
+  phases.forEach(function(p) {
+    p.weeks.forEach(function(w) {
+      var isTest = p.name === 'Test' || p.name === 'MAX TEST';
+      html += '<div class="wm-cell' + (isTest ? ' test-week' : '') + '">';
+      html += '<div class="wm-week">W' + w + '</div>';
+      html += '<div class="wm-phase" style="color:' + p.col + '">' + p.name + '</div>';
+      if (isTest) html += '<div class="wm-test-tag">TEST</div>';
+      html += '</div>';
+    });
+  });
+  map.innerHTML = html;
+})();
+
+// ── Block tabs
+function showBlock(id, btn) {
+  document.querySelectorAll('.block-tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.block-content').forEach(function(c) { c.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// ── Accordion
+function toggleDay(h) { h.classList.toggle('open'); }
+
+function dlSheet() {
+  var a = document.createElement('a');
+  a.href = 'CT-Fitness-Chase-the-Standards.xlsx';
+  a.download = 'CT-Fitness-Chase-the-Standards.xlsx';
+  a.click();
+}
+
+// Init
+buildTrackerRows();
+</script>
+<script src="nav.js" onload="CTNav.init('programs')" onerror="console.warn('nav.js not found')"></script>
+</body>
+</html>
