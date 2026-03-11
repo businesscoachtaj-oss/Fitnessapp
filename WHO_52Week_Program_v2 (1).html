@@ -1,0 +1,2090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Health & Longevity Program — 52 Weeks v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#00838f;--teal2:#00b4c8;--teal-dk:#005662;--teal-lt:#e0f7fa;
+  --green:#2e7d32;--green-lt:#e8f5e9;--amber:#e65100;--amber-lt:#fff3e0;
+  --purple:#6a1b9a;--purple-lt:#f3e5f5;--gold:#f9a825;--red:#c62828;
+  --bg:#0d1117;--bg2:#161b22;--bg3:#1c2230;--surface:#21262d;
+  --border:#30363d;--border2:#444c56;
+  --txt:#e6edf3;--txt2:#8b949e;--txt3:#6e7681;
+  --font-d:'Bebas Neue',sans-serif;--font-b:'DM Sans',sans-serif;--font-m:'DM Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:var(--font-b);font-size:15px;line-height:1.6;min-height:100vh}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+/* LOADER */
+#loader{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .5s}
+#loader h1{font-family:var(--font-d);font-size:5rem;color:var(--teal2);letter-spacing:.06em}
+#loader p{color:var(--txt2);margin-top:.5rem}
+.lb{width:220px;height:3px;background:var(--border);margin-top:2rem;border-radius:2px;overflow:hidden}
+.lb-f{height:100%;background:linear-gradient(90deg,var(--teal),var(--teal2));animation:ld 1.4s ease forwards}
+@keyframes ld{from{width:0}to{width:100%}}
+
+/* SIDEBAR */
+#sidebar{position:fixed;top:0;left:0;bottom:0;width:265px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:100;overflow:hidden;transition:transform .3s}
+.sb-logo{padding:1.25rem 1.25rem .85rem;border-bottom:1px solid var(--border);flex-shrink:0}
+.sb-logo h2{font-family:var(--font-d);font-size:1.45rem;color:var(--teal2);letter-spacing:.05em;line-height:1.1}
+.sb-logo p{color:var(--txt3);font-size:.68rem;margin-top:.2rem;text-transform:uppercase;letter-spacing:.08em}
+.lv-sw{padding:.7rem 1rem;border-bottom:1px solid var(--border);flex-shrink:0}
+.lv-sw label{font-size:.65rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:.4rem}
+.lv-btns{display:flex;gap:.35rem}
+.lv-btn{flex:1;padding:.38rem 0;font-family:var(--font-b);font-size:.7rem;font-weight:600;border:1px solid var(--border);background:transparent;color:var(--txt2);border-radius:4px;cursor:pointer;transition:all .2s;text-transform:uppercase;letter-spacing:.05em}
+.lv-btn:hover{border-color:var(--teal);color:var(--teal)}
+.lv-btn.active{background:var(--teal);border-color:var(--teal);color:#fff}
+.lv-btn.li.active{background:var(--amber);border-color:var(--amber)}
+.lv-btn.la.active{background:var(--purple);border-color:var(--purple)}
+.sb-nav{flex:1;overflow-y:auto;padding:.4rem 0}
+.nav-sec-t{padding:.45rem 1.25rem .25rem;font-size:.62rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.12em;font-weight:600}
+.nav-item{display:flex;align-items:center;gap:.55rem;padding:.42rem 1.25rem;cursor:pointer;transition:all .15s;font-size:.8rem;color:var(--txt2);border-left:2px solid transparent;text-decoration:none}
+.nav-item:hover{background:var(--bg3);color:var(--txt)}
+.nav-item.active{background:rgba(0,180,200,.08);color:var(--teal2);border-left-color:var(--teal2)}
+.nav-ph-h{display:flex;align-items:center;justify-content:space-between;padding:.42rem 1.25rem;cursor:pointer;transition:all .15s;font-size:.8rem;color:var(--txt2)}
+.nav-ph-h:hover{background:var(--bg3);color:var(--txt)}
+.nav-ph-h .badge{font-size:.58rem;padding:.1rem .38rem;border-radius:10px;background:var(--teal-dk);color:var(--teal2);font-family:var(--font-m)}
+.wk-list{display:none}
+.wk-list.open{display:block}
+.wk-item{display:flex;align-items:center;gap:.45rem;padding:.28rem 1.25rem .28rem 2.4rem;font-size:.73rem;color:var(--txt3);cursor:pointer;transition:all .15s}
+.wk-item:hover{color:var(--teal2);background:rgba(0,180,200,.04)}
+.wk-item.active{color:var(--teal2)}
+.wk-dot{width:5px;height:5px;border-radius:50%;background:var(--border2);flex-shrink:0}
+.wk-item.done .wk-dot{background:var(--green)}
+.wk-item.active .wk-dot{background:var(--teal2)}
+.sb-foot{padding:.9rem 1rem;border-top:1px solid var(--border);flex-shrink:0}
+.prog-lbl{font-size:.68rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.35rem;display:flex;justify-content:space-between}
+.prog-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--teal2));border-radius:2px;transition:width .4s}
+
+/* MAIN */
+#main{margin-left:265px;min-height:100vh}
+#topbar{position:sticky;top:0;z-index:50;background:rgba(13,17,23,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.7rem 1.75rem;display:flex;align-items:center;gap:.85rem;flex-wrap:wrap}
+.breadcrumb{display:flex;align-items:center;gap:.45rem;font-size:.78rem;color:var(--txt3)}
+.breadcrumb span{color:var(--txt2)}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+.btn-n{padding:.32rem .8rem;border-radius:4px;font-size:.75rem;font-family:var(--font-b);border:1px solid var(--border);background:var(--surface);color:var(--txt2);cursor:pointer;transition:all .2s;font-weight:500}
+.btn-n:hover{border-color:var(--teal);color:var(--teal)}
+.btn-n.pri{background:var(--teal);border-color:var(--teal);color:#fff}
+.btn-n.pri:hover{background:var(--teal2)}
+
+/* PAGES */
+.page{display:none;padding:1.75rem 2.25rem 4rem;max-width:1100px}
+.page.active{display:block;animation:fi .3s}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--teal-dk) 0%,#001f24 60%,var(--bg2) 100%);border:1px solid var(--border);border-radius:12px;padding:2.25rem;margin-bottom:1.75rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40px;right:-40px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(0,180,200,.12) 0%,transparent 70%)}
+.hero-lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:.15em;color:var(--teal2);margin-bottom:.4rem}
+.hero h1{font-family:var(--font-d);font-size:3.2rem;letter-spacing:.04em;line-height:1;color:#fff}
+.hero h1 span{color:var(--teal2)}
+.hero p{color:var(--txt2);margin-top:.65rem;max-width:540px;font-size:.92rem;line-height:1.7}
+.hero-stats{display:flex;gap:1.75rem;margin-top:1.5rem}
+.hero-stat .num{font-family:var(--font-d);font-size:2.3rem;color:var(--teal2);letter-spacing:.04em}
+.hero-stat .lbl{font-size:.68rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.08em}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin-bottom:1.4rem}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:1.4rem}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:.9rem;margin-bottom:1.4rem}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:1.15rem;transition:border-color .2s}
+.card:hover{border-color:var(--border2)}
+.card-icon{font-size:1.4rem;margin-bottom:.5rem}
+.card-lbl{font-size:.65rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.1em}
+.card-val{font-family:var(--font-d);font-size:1.9rem;color:var(--txt);letter-spacing:.04em;margin-top:.1rem}
+.card-sub{font-size:.75rem;color:var(--txt2);margin-top:.2rem}
+.card.tc{border-color:var(--teal)}.card.tc .card-val{color:var(--teal2)}
+
+/* WEEK */
+.wk-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.5rem;gap:1rem;flex-wrap:wrap}
+.wk-num{font-family:var(--font-d);font-size:4rem;color:var(--border2);letter-spacing:.04em;line-height:1}
+.wk-phase-tag{display:inline-flex;align-items:center;gap:.4rem;padding:.28rem .75rem;border-radius:20px;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.35rem}
+.wk-title{font-family:var(--font-d);font-size:1.85rem;color:var(--txt);letter-spacing:.04em}
+.wk-desc{color:var(--txt2);font-size:.86rem;max-width:560px;margin-top:.35rem;line-height:1.65}
+.wk-meta{display:flex;gap:.85rem;flex-wrap:wrap}
+.wk-meta-item{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:.55rem .85rem;text-align:center;min-width:82px}
+.wk-meta-item .ml{font-size:.6rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.1em}
+.wk-meta-item .mv{font-family:var(--font-m);font-size:.92rem;color:var(--teal2);margin-top:.1rem;font-weight:500}
+
+/* DAY TABS */
+.day-tabs{display:flex;gap:.35rem;margin-bottom:1.4rem;flex-wrap:wrap}
+.day-tab{padding:.42rem .9rem;border-radius:6px;border:1px solid var(--border);background:var(--bg2);color:var(--txt2);font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--font-b);display:flex;flex-direction:column;align-items:center;gap:.08rem}
+.day-tab .dt-d{font-size:.58rem;text-transform:uppercase;letter-spacing:.08em}
+.day-tab:hover{border-color:var(--border2);color:var(--txt)}
+.day-tab.active{background:var(--teal);border-color:var(--teal);color:#fff}
+.day-tab.rest-tab{border-style:dashed}
+.day-tab.rest-tab.active{background:var(--bg3);border-color:var(--border2);border-style:dashed}
+
+/* SESSION */
+.sess-hdr{display:flex;align-items:center;gap:.7rem;margin-bottom:1.1rem;padding-bottom:.7rem;border-bottom:1px solid var(--border)}
+.sess-icon{font-size:1.65rem}
+.sess-title{font-family:var(--font-d);font-size:1.5rem;letter-spacing:.04em}
+.sess-sub{font-size:.78rem;color:var(--txt2)}
+.sess-badge{margin-left:auto;padding:.28rem .7rem;border-radius:20px;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+
+/* EX TABLE */
+.ex-table{width:100%;border-collapse:collapse;margin-bottom:1.3rem}
+.ex-table thead th{padding:.55rem .75rem;text-align:left;font-size:.65rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border);font-weight:600}
+.ex-table tbody tr{border-bottom:1px solid rgba(48,54,61,.5);transition:background .15s}
+.ex-table tbody tr:hover{background:rgba(255,255,255,.025)}
+.ex-table td{padding:.65rem .75rem;font-size:.83rem;vertical-align:top}
+.ex-table td:first-child{color:var(--txt);font-weight:500}
+.tier{font-size:.6rem;font-family:var(--font-m);padding:.1rem .3rem;border-radius:3px;margin-right:.35rem}
+.t1{background:rgba(0,180,200,.15);color:var(--teal2)}
+.t2{background:rgba(249,168,37,.15);color:var(--gold)}
+.t3{background:rgba(158,66,245,.15);color:#ce93d8}
+.mono{font-family:var(--font-m);font-size:.78rem;color:var(--teal2);white-space:nowrap}
+.rpe-p{display:inline-block;font-family:var(--font-m);font-size:.68rem;padding:.08rem .35rem;border-radius:3px;background:rgba(46,125,50,.2);color:#81c784}
+.ex-note{font-size:.76rem;color:var(--txt2)}
+
+/* CARDIO BLOCK */
+.cardio-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:8px;padding:1.15rem;margin-bottom:1.15rem}
+.cardio-block h4{font-family:var(--font-d);font-size:1.15rem;color:var(--amber);letter-spacing:.04em;margin-bottom:.5rem}
+.zone-bar{display:flex;gap:.35rem;margin:.65rem 0}
+.zs{flex:1;height:5px;border-radius:3px}
+.z1{background:#78909c}.z2{background:#42a5f5}.z3{background:#66bb6a}.z4{background:#ffa726}.z5{background:#ef5350}
+.proto-steps{list-style:none}
+.proto-steps li{display:flex;align-items:flex-start;gap:.55rem;padding:.32rem 0;font-size:.83rem;color:var(--txt2);border-bottom:1px solid rgba(48,54,61,.4)}
+.proto-steps li:last-child{border-bottom:none}
+.step-n{font-family:var(--font-m);font-size:.7rem;color:var(--amber);min-width:20px;margin-top:.1rem}
+
+/* TIP BOX */
+.tip-box{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--teal);border-radius:8px;padding:.9rem 1.15rem;margin-bottom:1.15rem;font-size:.83rem;color:var(--txt2);line-height:1.65}
+.tip-box strong{color:var(--teal2)}
+.tip-box.warn{border-left-color:var(--amber)}.tip-box.warn strong{color:var(--amber)}
+.tip-box.gn{border-left-color:var(--green)}.tip-box.gn strong{color:#66bb6a}
+
+/* DELOAD */
+.deload-banner{background:linear-gradient(135deg,rgba(249,168,37,.1),rgba(249,168,37,.05));border:1px solid rgba(249,168,37,.3);border-radius:8px;padding:.9rem 1.15rem;margin-bottom:1.4rem;display:flex;align-items:center;gap:.7rem}
+.deload-banner h4{color:var(--gold);font-family:var(--font-d);letter-spacing:.04em;font-size:1.05rem}
+.deload-banner p{font-size:.8rem;color:var(--txt2);margin-top:.12rem}
+
+/* MARK DONE */
+.btn-done{display:flex;align-items:center;gap:.45rem;padding:.55rem 1.15rem;border-radius:6px;font-size:.83rem;font-weight:600;border:1px solid var(--border);background:var(--surface);color:var(--txt2);cursor:pointer;transition:all .25s;font-family:var(--font-b);margin-top:2rem}
+.btn-done:hover{border-color:var(--green);color:#66bb6a}
+.btn-done.done{background:rgba(46,125,50,.15);border-color:var(--green);color:#66bb6a}
+.wk-nav{display:flex;gap:.7rem;margin-top:1.75rem;padding-top:1.4rem;border-top:1px solid var(--border)}
+.btn-wk{padding:.55rem 1.15rem;border-radius:6px;font-size:.83rem;border:1px solid var(--border);background:var(--surface);color:var(--txt2);cursor:pointer;transition:all .2s;font-family:var(--font-b);font-weight:500;display:flex;align-items:center;gap:.4rem}
+.btn-wk:hover{border-color:var(--teal);color:var(--teal)}
+.btn-wk:disabled{opacity:.3;cursor:not-allowed}
+.btn-wk.nx{margin-left:auto}
+
+/* PHASE CARDS */
+.phase-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:1.4rem;margin-bottom:.85rem;cursor:pointer;transition:all .2s;display:flex;align-items:flex-start;gap:1.15rem}
+.phase-card:hover{border-color:var(--border2);transform:translateX(3px)}
+.phase-num{font-family:var(--font-d);font-size:2.8rem;color:var(--border);letter-spacing:.04em;line-height:1;min-width:46px}
+.phase-info h3{font-family:var(--font-d);font-size:1.25rem;letter-spacing:.04em}
+.phase-info p{font-size:.81rem;color:var(--txt2);margin-top:.28rem;line-height:1.6}
+.phase-tags{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.55rem}
+.phase-tag{font-size:.66rem;padding:.18rem .5rem;border-radius:4px;text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+
+/* HABITS */
+.habit-tl{position:relative;padding-left:1.9rem}
+.habit-tl::before{content:'';position:absolute;left:.38rem;top:0;bottom:0;width:1px;background:var(--border)}
+.habit-item{position:relative;padding:.7rem 0 .7rem .9rem;border-bottom:1px solid rgba(48,54,61,.4)}
+.habit-item::before{content:'';position:absolute;left:-1.6rem;top:1.1rem;width:8px;height:8px;border-radius:50%;border:2px solid var(--teal);background:var(--bg);box-shadow:0 0 0 2px var(--bg)}
+.habit-time{font-family:var(--font-m);font-size:.68rem;color:var(--teal2);margin-bottom:.18rem}
+.habit-name{font-size:.88rem;font-weight:500;color:var(--txt)}
+.habit-desc{font-size:.78rem;color:var(--txt2);margin-top:.12rem;line-height:1.55}
+
+/* NUTRITION */
+.nutr-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.9rem;margin-bottom:1.15rem}
+.macro-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.9rem}
+.macro-card .mn{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--txt3)}
+.macro-card .mv{font-family:var(--font-d);font-size:1.9rem;letter-spacing:.04em;margin-top:.08rem}
+.macro-card .ms{font-size:.75rem;color:var(--txt2)}
+.mc-p .mv{color:#ef9a9a}.mc-c .mv{color:#ffd54f}.mc-f .mv{color:#80cbc4}.mc-k .mv{color:#b39ddb}
+
+/* BIOMARKERS */
+.bm-row{display:flex;align-items:center;gap:.9rem;padding:.7rem .9rem;border-bottom:1px solid rgba(48,54,61,.4);transition:background .15s}
+.bm-row:hover{background:rgba(255,255,255,.02)}
+.bm-name{font-size:.86rem;font-weight:500;color:var(--txt);min-width:175px}
+.bm-range{font-family:var(--font-m);font-size:.76rem;color:var(--teal2);min-width:145px}
+.bm-why{font-size:.78rem;color:var(--txt2);flex:1}
+.bm-freq{font-size:.7rem;color:var(--txt3);min-width:75px;text-align:right}
+
+/* SUPP TABLE */
+.supp-t{width:100%;border-collapse:collapse;margin-bottom:1.4rem}
+.supp-t thead th{padding:.55rem .75rem;text-align:left;font-size:.65rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border);font-weight:600}
+.supp-t tbody tr{border-bottom:1px solid rgba(48,54,61,.4)}
+.supp-t tbody tr:hover{background:rgba(255,255,255,.02)}
+.supp-t td{padding:.6rem .75rem;font-size:.81rem;vertical-align:top}
+.ga{color:#66bb6a;font-family:var(--font-m);font-weight:600}.gb{color:var(--gold);font-family:var(--font-m);font-weight:600}
+.sec-title{font-family:var(--font-d);font-size:1.9rem;letter-spacing:.04em;color:var(--txt);margin-bottom:.28rem}
+.sec-sub{font-size:.86rem;color:var(--txt2);margin-bottom:1.4rem;line-height:1.6}
+.h3{font-family:var(--font-d);font-size:1.25rem;letter-spacing:.04em;color:var(--txt);margin:1.4rem 0 .7rem}
+
+/* ══════════════════════════════════════════
+   NEW FEATURE STYLES
+══════════════════════════════════════════ */
+
+/* ── WORKOUT TIMER ── */
+#timer-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:500;align-items:center;justify-content:center;flex-direction:column}
+#timer-overlay.show{display:flex}
+.timer-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:2.5rem 3rem;text-align:center;min-width:320px;position:relative}
+.timer-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--txt3);font-size:1.2rem;cursor:pointer;padding:.25rem}
+.timer-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.15em;color:var(--txt3);margin-bottom:.5rem}
+.timer-ex-name{font-family:var(--font-d);font-size:1.6rem;letter-spacing:.04em;color:var(--txt);margin-bottom:.25rem}
+.timer-set-info{font-size:.82rem;color:var(--txt2);margin-bottom:1.5rem}
+.timer-ring{position:relative;width:160px;height:160px;margin:0 auto 1.5rem}
+.timer-ring svg{transform:rotate(-90deg)}
+.timer-ring-bg{fill:none;stroke:var(--border);stroke-width:8}
+.timer-ring-fill{fill:none;stroke:var(--teal2);stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset .9s linear,stroke .3s}
+.timer-ring-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:2.8rem;color:var(--txt);letter-spacing:.04em}
+.timer-phase-badge{font-size:.68rem;font-family:var(--font-m);padding:.15rem .5rem;border-radius:4px;margin-bottom:.4rem;display:inline-block}
+.timer-controls{display:flex;gap:.75rem;justify-content:center;margin-top:1.25rem}
+.timer-btn{padding:.5rem 1.25rem;border-radius:8px;font-size:.85rem;font-weight:600;font-family:var(--font-b);border:1px solid var(--border);background:var(--surface);color:var(--txt);cursor:pointer;transition:all .2s}
+.timer-btn.start{background:var(--teal);border-color:var(--teal);color:#fff}
+.timer-btn.start:hover{background:var(--teal2)}
+.timer-btn:hover{border-color:var(--border2);color:var(--txt)}
+.timer-next-preview{margin-top:1.25rem;padding:.75rem;background:var(--bg3);border-radius:8px;font-size:.78rem;color:var(--txt3)}
+.timer-next-preview strong{color:var(--txt2)}
+/* Trigger buttons in exercise table */
+.btn-timer{display:inline-flex;align-items:center;gap:.3rem;padding:.18rem .55rem;border-radius:4px;font-size:.68rem;font-family:var(--font-m);border:1px solid var(--teal);color:var(--teal2);background:rgba(0,180,200,.08);cursor:pointer;transition:all .2s;white-space:nowrap}
+.btn-timer:hover{background:rgba(0,180,200,.18);color:#fff}
+
+/* ── WARMUP PANEL ── */
+.warmup-panel{background:linear-gradient(135deg,rgba(0,131,143,.08),rgba(0,131,143,.03));border:1px solid rgba(0,180,200,.2);border-radius:10px;padding:1.15rem;margin-bottom:1.25rem}
+.warmup-header{display:flex;align-items:center;gap:.6rem;margin-bottom:.85rem;cursor:pointer}
+.warmup-header h4{font-family:var(--font-d);font-size:1.15rem;color:var(--teal2);letter-spacing:.04em}
+.warmup-toggle{margin-left:auto;font-size:.72rem;color:var(--txt3);font-family:var(--font-m)}
+.warmup-body{display:block}
+.warmup-body.collapsed{display:none}
+.warmup-steps{display:grid;gap:.55rem}
+.warmup-step{display:flex;align-items:flex-start;gap:.85rem;padding:.6rem .8rem;background:var(--bg2);border-radius:6px;border:1px solid var(--border)}
+.ws-num{font-family:var(--font-d);font-size:1.4rem;color:var(--teal);letter-spacing:.04em;min-width:28px;line-height:1}
+.ws-content{}
+.ws-name{font-size:.85rem;font-weight:600;color:var(--txt)}
+.ws-detail{font-size:.76rem;color:var(--txt2);margin-top:.1rem}
+.ws-duration{font-family:var(--font-m);font-size:.68rem;color:var(--teal2);margin-top:.08rem}
+
+/* ── FORM GUIDE PANEL ── */
+.form-guide{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.85rem 1rem;margin-bottom:1.2rem}
+.form-guide-header{display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.form-guide-title{font-family:var(--font-d);font-size:1.1rem;letter-spacing:.04em;color:var(--txt)}
+.form-guide-body{display:none;margin-top:.85rem;padding-top:.85rem;border-top:1px solid var(--border)}
+.form-guide-body.open{display:block}
+.form-cues{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.85rem}
+.form-cue{background:var(--bg3);border-radius:6px;padding:.55rem .75rem;font-size:.78rem}
+.form-cue .fc-phase{font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--txt3);margin-bottom:.15rem}
+.form-cue .fc-text{color:var(--txt2)}
+.form-cue.key{border-left:2px solid var(--teal2)}
+.form-cue.key .fc-text{color:var(--txt)}
+.yt-links{display:flex;gap:.5rem;flex-wrap:wrap}
+.yt-link{display:inline-flex;align-items:center;gap:.35rem;padding:.32rem .75rem;border-radius:6px;font-size:.76rem;font-weight:500;background:rgba(255,0,0,.1);border:1px solid rgba(255,0,0,.2);color:#ff6b6b;text-decoration:none;transition:all .2s;cursor:pointer}
+.yt-link:hover{background:rgba(255,0,0,.2);border-color:rgba(255,0,0,.4)}
+.common-errors{margin-top:.75rem}
+.common-errors h5{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--red);margin-bottom:.4rem}
+.error-item{display:flex;gap:.5rem;font-size:.78rem;color:var(--txt2);padding:.2rem 0}
+.error-item::before{content:'✗';color:var(--red);flex-shrink:0}
+
+/* ── PROGRESS LOG ── */
+.log-panel{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:1.15rem;margin-bottom:1.25rem}
+.log-panel-header{display:flex;align-items:center;gap:.6rem;margin-bottom:.85rem}
+.log-panel-header h4{font-family:var(--font-d);font-size:1.15rem;color:var(--txt);letter-spacing:.04em}
+.log-panel-header .lp-badge{font-size:.65rem;padding:.12rem .45rem;border-radius:3px;background:rgba(249,168,37,.15);color:var(--gold);font-family:var(--font-m)}
+.log-ex-block{margin-bottom:1.1rem;padding-bottom:1.1rem;border-bottom:1px solid var(--border)}
+.log-ex-block:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.log-ex-name{font-size:.88rem;font-weight:600;color:var(--txt);margin-bottom:.55rem}
+.log-sets-grid{display:grid;grid-template-columns:auto 1fr 1fr auto;gap:.4rem .6rem;align-items:center}
+.log-set-label{font-family:var(--font-m);font-size:.7rem;color:var(--txt3)}
+.log-input{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:.38rem .6rem;font-size:.82rem;color:var(--txt);font-family:var(--font-m);width:100%;transition:border-color .2s}
+.log-input:focus{outline:none;border-color:var(--teal2)}
+.log-input::placeholder{color:var(--txt3)}
+.log-save-row{display:flex;align-items:center;gap:.65rem;margin-top:.85rem}
+.btn-save-log{padding:.45rem 1.1rem;border-radius:6px;font-size:.8rem;font-weight:600;font-family:var(--font-b);background:var(--teal);border:1px solid var(--teal);color:#fff;cursor:pointer;transition:all .2s}
+.btn-save-log:hover{background:var(--teal2)}
+.log-saved-msg{font-size:.76rem;color:#66bb6a;display:none}
+.prev-log-section{margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid var(--border)}
+.prev-log-title{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--txt3);margin-bottom:.5rem}
+.prev-entry{display:flex;align-items:center;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid rgba(48,54,61,.3);font-size:.78rem}
+.prev-entry:last-child{border-bottom:none}
+.prev-entry .pe-date{color:var(--txt3);font-family:var(--font-m);font-size:.7rem}
+.prev-entry .pe-data{color:var(--txt2)}
+.prev-entry .pe-pr{color:var(--gold);font-size:.7rem;font-family:var(--font-m)}
+
+/* ── PROGRESS LOG PAGE ── */
+.log-page-filters{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.4rem}
+.filter-btn{padding:.32rem .8rem;border-radius:20px;font-size:.75rem;border:1px solid var(--border);background:var(--surface);color:var(--txt2);cursor:pointer;transition:all .2s}
+.filter-btn.active{background:var(--teal);border-color:var(--teal);color:#fff}
+.ex-log-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:1.1rem;margin-bottom:.75rem}
+.elc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
+.elc-name{font-size:.92rem;font-weight:600;color:var(--txt)}
+.elc-pr{font-family:var(--font-m);font-size:.78rem;color:var(--gold)}
+.elc-entries{display:flex;gap:.5rem;overflow-x:auto;padding-bottom:.35rem}
+.elc-entry{flex-shrink:0;background:var(--bg3);border-radius:6px;padding:.5rem .75rem;text-align:center;min-width:80px}
+.elc-e-date{font-size:.62rem;color:var(--txt3);margin-bottom:.2rem}
+.elc-e-val{font-family:var(--font-d);font-size:1.25rem;color:var(--teal2);letter-spacing:.04em}
+.elc-e-sub{font-size:.68rem;color:var(--txt3)}
+.empty-log{text-align:center;padding:3rem;color:var(--txt3)}
+.empty-log .el-icon{font-size:3rem;margin-bottom:.75rem}
+.empty-log h3{font-family:var(--font-d);font-size:1.5rem;letter-spacing:.04em;color:var(--txt2);margin-bottom:.4rem}
+
+/* ── RECIPE LIBRARY ── */
+.recipe-filters{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.25rem}
+.r-filter{padding:.3rem .75rem;border-radius:20px;font-size:.73rem;border:1px solid var(--border);background:var(--surface);color:var(--txt2);cursor:pointer;transition:all .2s}
+.r-filter.active{background:var(--green);border-color:var(--green);color:#fff}
+.recipe-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem}
+.recipe-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:all .25s}
+.recipe-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.rc-emoji{font-size:3rem;padding:1.25rem 1.25rem .5rem;display:block}
+.rc-body{padding:.75rem 1.25rem 1.25rem}
+.rc-tag{font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;font-weight:600;padding:.12rem .4rem;border-radius:3px;display:inline-block;margin-bottom:.4rem}
+.rc-name{font-family:var(--font-d);font-size:1.15rem;letter-spacing:.04em;color:var(--txt);margin-bottom:.25rem}
+.rc-desc{font-size:.76rem;color:var(--txt2);line-height:1.5;margin-bottom:.6rem}
+.rc-macros{display:flex;gap:.6rem;flex-wrap:wrap}
+.rc-macro{font-family:var(--font-m);font-size:.68rem;padding:.1rem .35rem;border-radius:3px}
+.rc-macro.p{background:rgba(239,154,154,.15);color:#ef9a9a}
+.rc-macro.c{background:rgba(255,213,79,.15);color:#ffd54f}
+.rc-macro.f{background:rgba(128,203,196,.15);color:#80cbc4}
+.rc-macro.k{background:rgba(179,157,219,.15);color:#b39ddb}
+
+/* RECIPE MODAL */
+#recipe-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:600;overflow-y:auto;padding:2rem}
+#recipe-modal.show{display:flex;align-items:flex-start;justify-content:center}
+.rm-inner{background:var(--bg2);border:1px solid var(--border);border-radius:14px;width:100%;max-width:620px;padding:2rem;position:relative;margin:auto}
+.rm-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--txt3);font-size:1.2rem;cursor:pointer;padding:.25rem}
+.rm-emoji{font-size:3.5rem;margin-bottom:.75rem;display:block}
+.rm-tag{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;font-weight:600;padding:.15rem .5rem;border-radius:4px;display:inline-block;margin-bottom:.5rem}
+.rm-title{font-family:var(--font-d);font-size:2rem;letter-spacing:.04em;color:var(--txt);margin-bottom:.35rem}
+.rm-desc{font-size:.86rem;color:var(--txt2);margin-bottom:1.25rem;line-height:1.65}
+.rm-macros{display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1.25rem;padding:.85rem;background:var(--bg3);border-radius:8px}
+.rm-macro-item .rm-ml{font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--txt3)}
+.rm-macro-item .rm-mv{font-family:var(--font-d);font-size:1.5rem;letter-spacing:.04em}
+.rm-section-title{font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;color:var(--txt3);margin-bottom:.55rem;font-weight:600}
+.rm-ingredients{margin-bottom:1.25rem}
+.rm-ing-item{display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid rgba(48,54,61,.35);font-size:.83rem}
+.rm-ing-item:last-child{border-bottom:none}
+.rm-ing-name{color:var(--txt)}
+.rm-ing-amount{color:var(--teal2);font-family:var(--font-m);font-size:.78rem}
+.rm-steps{margin-bottom:1.25rem}
+.rm-step{display:flex;gap:.75rem;margin-bottom:.65rem;font-size:.83rem}
+.rm-step-num{font-family:var(--font-d);font-size:1.3rem;color:var(--teal);letter-spacing:.04em;min-width:24px;line-height:1.1}
+.rm-step-text{color:var(--txt2);line-height:1.6;padding-top:.05rem}
+.rm-note{font-size:.78rem;color:var(--txt3);padding:.6rem .85rem;background:var(--bg3);border-radius:6px;border-left:2px solid var(--gold)}
+
+/* ── HAMBURGER ── */
+#hamburger{display:none;align-items:center;justify-content:center;width:34px;height:34px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--txt2);cursor:pointer;font-size:1rem;flex-shrink:0}
+
+@media(max-width:900px){
+  #sidebar{transform:translateX(-265px)}
+  #sidebar.open{transform:translateX(0);box-shadow:4px 0 24px rgba(0,0,0,.5)}
+  #main{margin-left:0}
+  #hamburger{display:flex}
+  .grid-4{grid-template-columns:repeat(2,1fr)}
+  .hero h1{font-size:2.4rem}
+  .page{padding:1rem 1.15rem 3rem}
+  .recipe-grid{grid-template-columns:repeat(2,1fr)}
+  .form-cues{grid-template-columns:1fr}
+}
+@media(max-width:500px){
+  .recipe-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <h1>52<span style="color:var(--txt2)">.</span>WEEKS</h1>
+  <p>Global Health & Longevity Program — v2</p>
+  <div class="lb"><div class="lb-f"></div></div>
+</div>
+
+<!-- TIMER OVERLAY -->
+<div id="timer-overlay">
+  <div class="timer-box">
+    <button class="timer-close" onclick="closeTimer()">✕</button>
+    <div class="timer-phase-badge" id="timer-phase-badge"></div>
+    <div class="timer-label" id="timer-label">REST PERIOD</div>
+    <div class="timer-ex-name" id="timer-ex-name"></div>
+    <div class="timer-set-info" id="timer-set-info"></div>
+    <div class="timer-ring">
+      <svg width="160" height="160" viewBox="0 0 160 160">
+        <circle class="timer-ring-bg" cx="80" cy="80" r="68"/>
+        <circle class="timer-ring-fill" id="timer-ring-fill" cx="80" cy="80" r="68" stroke-dasharray="427" stroke-dashoffset="0"/>
+      </svg>
+      <div class="timer-ring-text" id="timer-display">0:00</div>
+    </div>
+    <div class="timer-controls">
+      <button class="timer-btn" onclick="resetTimer()">↺ Reset</button>
+      <button class="timer-btn start" id="timer-start-btn" onclick="toggleTimer()">▶ Start</button>
+      <button class="timer-btn" onclick="skipTimer()">Skip ▶▶</button>
+    </div>
+    <div class="timer-next-preview" id="timer-next-preview"></div>
+  </div>
+</div>
+
+<!-- RECIPE MODAL -->
+<div id="recipe-modal" onclick="closeRecipeModal(event)">
+  <div class="rm-inner" id="rm-inner"></div>
+</div>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sb-logo">
+    <h2>HEALTH &<br>LONGEVITY</h2>
+    <p>52-Week WHO Protocol · v2</p>
+  </div>
+  <div class="lv-sw">
+    <label>Training Level</label>
+    <div class="lv-btns">
+      <button class="lv-btn lb active" onclick="setLevel('beginner')">Beginner</button>
+      <button class="lv-btn li" onclick="setLevel('intermediate')">Inter.</button>
+      <button class="lv-btn la" onclick="setLevel('advanced')">Adv.</button>
+    </div>
+  </div>
+  <div class="sb-nav" id="sidebarNav"></div>
+  <div class="sb-foot">
+    <div class="prog-lbl"><span>Year Progress</span><span id="progPct">0%</span></div>
+    <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div id="main">
+  <div id="topbar">
+    <button id="hamburger" onclick="toggleSidebar()">☰</button>
+    <div class="breadcrumb" id="breadcrumb"><span>Dashboard</span></div>
+    <div class="tb-right">
+      <button class="btn-n" onclick="showPage('overview')">Overview</button>
+      <button class="btn-n" onclick="showPage('habits')">Habits</button>
+      <button class="btn-n" onclick="showPage('nutrition')">Nutrition</button>
+      <button class="btn-n" onclick="showPage('recipes')">🥗 Recipes</button>
+      <button class="btn-n" onclick="showPage('logbook')">📊 Log</button>
+      <button class="btn-n" onclick="showPage('biomarkers')">Biomarkers</button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="page active" id="page-dashboard">
+    <div class="hero">
+      <div class="hero-lbl">WHO Evidence-Based · ACSM · AHA · NSCA · 2025 Edition · v2</div>
+      <h1>GLOBAL <span>FITNESS</span><br>& LONGEVITY</h1>
+      <p>52-week periodised program with warm-up generators, form guides, rest timers, progress logging, and a Mediterranean recipe library — all grounded in WHO guidelines and peer-reviewed science.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="num">52</div><div class="lbl">Weeks</div></div>
+        <div class="hero-stat"><div class="num">7</div><div class="lbl">Phases</div></div>
+        <div class="hero-stat"><div class="num">3</div><div class="lbl">Levels</div></div>
+        <div class="hero-stat"><div class="num">40+</div><div class="lbl">Recipes</div></div>
+      </div>
+    </div>
+    <div class="grid-4">
+      <div class="card tc"><div class="card-icon">⚡</div><div class="card-lbl">Current Phase</div><div class="card-val" id="d-phase">—</div><div class="card-sub" id="d-phase-name">Select a week</div></div>
+      <div class="card"><div class="card-icon">📅</div><div class="card-lbl">Current Week</div><div class="card-val" id="d-week">—</div><div class="card-sub">of 52</div></div>
+      <div class="card"><div class="card-icon">✅</div><div class="card-lbl">Completed</div><div class="card-val" id="d-done">0</div><div class="card-sub">weeks done</div></div>
+      <div class="card"><div class="card-icon">🏆</div><div class="card-lbl">Level</div><div class="card-val" id="d-level">—</div><div class="card-sub" id="d-level-sub"></div></div>
+    </div>
+    <div id="phaseCards"></div>
+    <div style="margin-top:1rem" class="tip-box gn"><strong>New in v2:</strong> Each session now includes a dynamic warm-up protocol tailored to the session type, animated form cues for every major exercise, rest period timers you can launch directly from the exercise table, and a full progress log to record your lifts week by week. Tap any week to begin.</div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="page" id="page-overview">
+    <div class="sec-title">Program Overview</div>
+    <div class="sec-sub">Seven distinct phases across 52 weeks. Each phase has a specific physiological target. Click any phase to jump to Week 1.</div>
+    <div id="overviewPhases"></div>
+  </div>
+
+  <!-- WEEK -->
+  <div class="page" id="page-week"></div>
+
+  <!-- HABITS -->
+  <div class="page" id="page-habits">
+    <div class="sec-title">Daily Habit Protocol</div>
+    <div class="sec-sub">Evidence-based daily habits. Grounded in circadian biology, stress physiology, and metabolic science.</div>
+    <div id="habitsContent"></div>
+  </div>
+
+  <!-- NUTRITION -->
+  <div class="page" id="page-nutrition">
+    <div class="sec-title">Nutrition Framework</div>
+    <div class="sec-sub">Macronutrient targets, meal timing, dietary patterns, and supplement protocols — level-adjusted.</div>
+    <div id="nutritionContent"></div>
+  </div>
+
+  <!-- RECIPES -->
+  <div class="page" id="page-recipes">
+    <div class="sec-title">Mediterranean Recipe Library</div>
+    <div class="sec-sub">40+ evidence-based whole-food recipes with full macros, ingredients, and steps. Filtered by meal type and nutritional goal.</div>
+    <div class="recipe-filters" id="recipeFilters"></div>
+    <div class="recipe-grid" id="recipeGrid"></div>
+  </div>
+
+  <!-- LOGBOOK -->
+  <div class="page" id="page-logbook">
+    <div class="sec-title">Progress Logbook</div>
+    <div class="sec-sub">All recorded lifts across every session. Track personal records, volume trends, and progressive overload.</div>
+    <div class="log-page-filters" id="logFilters"></div>
+    <div id="logbookContent"></div>
+  </div>
+
+  <!-- BIOMARKERS -->
+  <div class="page" id="page-biomarkers">
+    <div class="sec-title">Health Biomarkers & Monitoring</div>
+    <div class="sec-sub">Annual blood panel targets, fitness benchmarks, and daily self-monitoring metrics.</div>
+    <div id="biomarkersContent"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// CORE DATA
+// ═══════════════════════════════════════════════════════════════════
+const PHASES=[
+  {id:1,name:"Foundation",weeks:[1,4],color:"#00838f",goal:"Movement quality, general physical preparation, aerobic base",tags:["Movement Quality","Zone 2 Base","Technique","Moderate Load"],icon:"🌱"},
+  {id:2,name:"Hypertrophy I",weeks:[5,10],color:"#2e7d32",goal:"Maximise muscle hypertrophy through progressive volume loading at 65–80% 1RM",tags:["High Volume","Muscle Growth","HIIT Intro","6–12 Reps"],icon:"💪"},
+  {id:3,name:"Strength I",weeks:[11,14],color:"#6a1b9a",goal:"Maximal strength: neural efficiency, force output, 1RM progression",tags:["High Intensity","Low Volume","1–5 Reps","PR Testing"],icon:"⚡"},
+  {id:4,name:"Hypertrophy II",weeks:[15,20],color:"#e65100",goal:"Peak volume hypertrophy + advanced techniques + VO2max development",tags:["Peak Volume","Advanced Tech","VO2max","18–22+ Sets"],icon:"🔥"},
+  {id:5,name:"Strength II",weeks:[21,26],color:"#b71c1c",goal:"Peak intensity block. Personal records in all major lifts.",tags:["Peak Intensity","90–100% 1RM","PR Attempts","Low Volume"],icon:"🏆"},
+  {id:6,name:"Cardio Peak",weeks:[27,32],color:"#1565c0",goal:"VO2max maximisation. Mitochondrial density. Metabolic health.",tags:["Zone 2 Peak","HIIT 2x/wk","Maintain Strength","Cardio Priority"],icon:"❤️"},
+  {id:7,name:"Integration",weeks:[33,52],color:"#4a148c",goal:"Sustainable long-term training. Maintain all adaptations. Build the habit for life.",tags:["Maintenance","Self-Directed","Autoregulation","Longevity"],icon:"♾️"}
+];
+
+const LVL_MOD={
+  beginner:{volM:0.7,intM:0.8,note:"Focus on technique. Rest 90–120s between sets."},
+  intermediate:{volM:1,intM:1,note:"Execute the plan. Progressive overload every session."},
+  advanced:{volM:1.25,intM:1.1,note:"Push proximity to failure. Track HRV daily."}
+};
+const LVL_LABEL={beginner:"Beginner",intermediate:"Intermediate",advanced:"Advanced"};
+
+function getPhase(w){for(const p of PHASES)if(w>=p.weeks[0]&&w<=p.weeks[1])return p;return PHASES[6]}
+function isDeload(w){return[4,11,21,27,33].includes(w)}
+
+// ═══════════════════════════════════════════════════════════════════
+// WARM-UP LIBRARY
+// ═══════════════════════════════════════════════════════════════════
+const WARMUPS={
+  lower_push:[
+    {n:"Light Cardio",d:"5 min easy cycle or treadmill walk to raise core temperature. Light sweat onset is the target.",dur:"5 min"},
+    {n:"90/90 Hip Switch",d:"5 reps per side. Internal and external hip rotation. Hold 3s each end. Key for squat mobility.",dur:"2 min"},
+    {n:"World's Greatest Stretch",d:"3 reps per side. Lunge forward, elbow to floor, rotate thoracic up. Covers hip flexor, thoracic, hamstring.",dur:"2 min"},
+    {n:"Bodyweight Squat Hold",d:"10 reps — hold 3s at bottom. Activates glutes, adductors, ankles. Shows any depth limitations.",dur:"1.5 min"},
+    {n:"Glute Bridge",d:"2×15 reps. Activate glutes before loading. Prevents lower back compensation during squat.",dur:"1.5 min"},
+    {n:"Specific Warm-Up Sets",d:"Squat at 40% × 8, 60% × 5, 75% × 3. Never go cold into working weight.",dur:"5–6 min"}
+  ],
+  lower_pull:[
+    {n:"Light Cardio",d:"5 min bike or treadmill. Elevate core temperature before hip hinge loading.",dur:"5 min"},
+    {n:"Cat-Cow",d:"10 slow reps. Lumbar flexion-extension. Prepares spinal erectors and multifidus for deadlift loading.",dur:"1.5 min"},
+    {n:"Hip Circles",d:"10 per side. Standing hip circles to open hip capsule. Essential for RDL depth.",dur:"1.5 min"},
+    {n:"Band Pull-Through",d:"2×15 reps. Hip hinge pattern activation with band. Teaches the movement before loading.",dur:"2 min"},
+    {n:"Romanian Deadlift (Bodyweight)",d:"10 reps slow. Hamstring stretch + hip hinge pattern primed. Feel the tension at the bottom.",dur:"1.5 min"},
+    {n:"Specific Warm-Up Sets",d:"Deadlift at 40% × 5, 60% × 3, 75% × 2, 85% × 1. Each rep technically perfect.",dur:"6–8 min"}
+  ],
+  upper_push:[
+    {n:"Shoulder Rotations",d:"20 forward, 20 backward. Full circumduction. Increase synovial fluid in glenohumeral joint.",dur:"1 min"},
+    {n:"Band Pull-Aparts",d:"2×20 reps. Rear delt and rotator cuff activation. Counteracts the anterior force of pressing.",dur:"2 min"},
+    {n:"YTW Raises",d:"2×10 each letter (Y, T, W). Scapular stabiliser activation. Critical pre-pressing for shoulder health.",dur:"2 min"},
+    {n:"Thoracic Spine Rotation",d:"10 per side — seated or quadruped. Upper back mobility for overhead pressing.",dur:"1.5 min"},
+    {n:"Wall Shoulder Slides",d:"2×12 reps. Arms slide up wall overhead. Opens shoulder capsule and trains overhead position.",dur:"1.5 min"},
+    {n:"Specific Warm-Up Sets",d:"Bench/OHP at 40% × 10, 60% × 6, 75% × 3. Feel the path before heavy loading.",dur:"4–5 min"}
+  ],
+  upper_pull:[
+    {n:"Shoulder Rotations",d:"20 forward, 20 backward. Warm the glenohumeral joint before heavy pulling.",dur:"1 min"},
+    {n:"Band Pull-Aparts",d:"3×20 reps. Rear delt prime before rows and pull-ups. More than for push days.",dur:"2.5 min"},
+    {n:"Dead Hang",d:"2×20–40 seconds. Decompress spine, activate grip, stretch lat and shoulder capsule.",dur:"2 min"},
+    {n:"Scapular Pull-Up",d:"2×10. Only scapula moves — retract and depress without elbow bend. Activates lat base.",dur:"1.5 min"},
+    {n:"Face Pull (light)",d:"3×20. Warm rear delt and external rotators before loading.",dur:"2 min"},
+    {n:"Specific Warm-Up Sets",d:"Pull-up: 1×5 assisted / lat pulldown at 40% × 12, 60% × 8, 75% × 5.",dur:"4–5 min"}
+  ],
+  cardio:[
+    {n:"Zone 1 Pulse Raiser",d:"5 min very easy movement. The transition from rest to Zone 2 should be gradual over 10–12 min.",dur:"5 min"},
+    {n:"Dynamic Leg Swings",d:"20 per leg (front-back and lateral). Loosen hip flexors and adductors for running/cycling.",dur:"2 min"},
+    {n:"Ankle Circles",d:"15 per ankle. Often neglected. Ankle mobility directly affects running economy and knee tracking.",dur:"1 min"},
+    {n:"Zone 1 Sustained",d:"5 min at easy Zone 1 pace. HR should be approaching 55–60% max before Zone 2 begins.",dur:"5 min"}
+  ],
+  full_body:[
+    {n:"Light Cardio",d:"5 min easy movement. Full body warm-up requires slightly longer prep.",dur:"5 min"},
+    {n:"World's Greatest Stretch",d:"3 per side. The single best warm-up movement — covers hip, thoracic, hamstring in one.",dur:"2 min"},
+    {n:"Band Pull-Aparts",d:"2×20. Upper body prep.",dur:"1.5 min"},
+    {n:"Bodyweight Squat",d:"2×10 with 3s hold at bottom. Lower body prep.",dur:"1.5 min"},
+    {n:"Dead Hang",d:"1×30 sec. Shoulder and lat activation.",dur:"1 min"},
+    {n:"Specific Warm-Ups",d:"2–3 warm-up sets per main compound at 40%, 60%, 75%.",dur:"5–6 min"}
+  ],
+  active:[
+    {n:"Easy Walk",d:"10 min gentle walking at Zone 1. Recovery sessions need no structured warm-up beyond initial movement.",dur:"10 min"},
+    {n:"Foam Roll",d:"2 min per major muscle group worked in previous sessions. Thoracic spine focus.",dur:"6–8 min"}
+  ]
+};
+
+// ═══════════════════════════════════════════════════════════════════
+// FORM GUIDES
+// ═══════════════════════════════════════════════════════════════════
+const FORM_GUIDES={
+  "Back Squat":{
+    cues:[
+      {phase:"Setup",text:"Bar on upper traps (high bar) or rear delts (low bar). Grip just outside shoulder width. Brace — 360° of air into belly.",key:true},
+      {phase:"Descent",text:"Break hips and knees simultaneously. Knees track over toes. Controlled 3–4s eccentric.",key:false},
+      {phase:"Bottom",text:"Hip crease below knee. Maintain neutral spine throughout. Chest up — not folded forward.",key:true},
+      {phase:"Ascent",text:"Drive through mid-foot. Hips and shoulders rise at same rate. Do not shoot hips back first.",key:false},
+      {phase:"Lockout",text:"Full hip extension at top. Glutes squeezed. Do not hyperextend lumbar.",key:false},
+      {phase:"Breathing",text:"Big breath at top, hold through descent and bottom, exhale past sticking point on way up.",key:true}
+    ],
+    errors:["Knees caving inward (valgus) — cue: push knees out","Forward torso lean — cue: chest up, elbows forward","Heel rising — cue: ankle mobility work, slightly wider stance","Butt wink at bottom — cue: limit depth to pain-free ROM","Bar drifting forward — cue: engage lats, pull bar into traps"],
+    ytLinks:[
+      {label:"Squat Mechanics (ATG)",url:"https://www.youtube.com/results?search_query=back+squat+form+tutorial"},
+      {label:"Common Mistakes",url:"https://www.youtube.com/results?search_query=squat+mistakes+fix"}
+    ]
+  },
+  "Romanian Deadlift":{
+    cues:[
+      {phase:"Setup",text:"Hip-width stance. Bar in hook grip, arms vertical. Pull slack out of bar before lifting.",key:true},
+      {phase:"Initiation",text:"Push hips BACK — not down. This is a hinge, not a squat. Feel hamstring tension immediately.",key:true},
+      {phase:"Descent",text:"Bar stays in contact with legs throughout. Maintain neutral spine. Slight knee bend.",key:false},
+      {phase:"Depth",text:"Stop when lower back begins to round OR when hamstring tension prevents further range. This is your ROM today.",key:true},
+      {phase:"Ascent",text:"Drive hips forward to standing. Do not hyperextend at top. Squeeze glutes.",key:false},
+      {phase:"Breathing",text:"Brace at top, hold during descent and bottom, exhale during ascent.",key:false}
+    ],
+    errors:["Rounding lower back — STOP the set immediately if this occurs","Bar drifting away from legs — creates lever arm on lumbar","Squatting the weight (knees too bent) — this becomes a squat, not a hinge","Hyperextending at lockout — risk of lumbar impingement","Insufficient hamstring stretch — shorten ROM, work on hip hinge pattern"],
+    ytLinks:[
+      {label:"RDL Form Guide",url:"https://www.youtube.com/results?search_query=romanian+deadlift+form+tutorial"},
+      {label:"RDL vs DL difference",url:"https://www.youtube.com/results?search_query=RDL+vs+deadlift+difference"}
+    ]
+  },
+  "Bench Press":{
+    cues:[
+      {phase:"Setup",text:"Eyes under bar. Feet flat on floor. Moderate arch. 5-point contact: head, traps, glutes, 2 feet.",key:true},
+      {phase:"Grip",text:"Shoulder-width to slightly wider. Wrap thumbs. Bar in lower palm to reduce wrist extension.",key:false},
+      {phase:"Unrack",text:"Lock elbows, pull bar over chest. Keep tension in upper back throughout.",key:true},
+      {phase:"Descent",text:"Elbows ~45–75° from torso. Touch 1 inch below nipple line. 3s controlled eccentric.",key:false},
+      {phase:"Bottom",text:"Slight pause. Do not bounce bar off chest. Maintain full-body tension.",key:true},
+      {phase:"Press",text:"Drive bar up and slightly back toward rack. Push feet through floor (leg drive). Full lockout.",key:false}
+    ],
+    errors:["Flared elbows (90°) — increases pec tear risk. Tuck to 45–60°","Bouncing bar off chest — momentum replaces muscle, reduces stimulus","Bar drifting toward face on press — bar path should be slight arc","Wrists bent back — bar rolls toward fingers, causes wrist pain","Lifting hips off bench — reduces stability, misloads shoulder"],
+    ytLinks:[
+      {label:"Bench Press Form",url:"https://www.youtube.com/results?search_query=bench+press+form+tutorial"},
+      {label:"Touch Chest or Not",url:"https://www.youtube.com/results?search_query=bench+press+touch+chest+technique"}
+    ]
+  },
+  "Conventional Deadlift":{
+    cues:[
+      {phase:"Setup",text:"Hip-width stance. Bar over mid-foot (1 inch from shins). Hinge down, grip just outside legs.",key:true},
+      {phase:"Pre-lift",text:"'Pull slack' — create tension before bar leaves floor. Chest up. Lats engaged ('protect armpits').",key:true},
+      {phase:"Initiation",text:"Push floor away (leg press the floor). Bar stays close — scrapes shins on the way up.",key:false},
+      {phase:"Knee pass",text:"Once bar passes knees, drive hips forward powerfully. This is the hip hinge phase.",key:true},
+      {phase:"Lockout",text:"Full hip extension. Glutes squeezed. Do not lean back excessively.",key:false},
+      {phase:"Descent",text:"Push hips back first (hinge), then bend knees once bar passes them. Reverse the ascent.",key:false}
+    ],
+    errors:["Jerking the bar off floor — creates spine flexion under load. Pull tension first","Bar drifting forward — creates dangerous lever arm. Keep bar close","Lower back rounding — STOP immediately. The most common serious injury mechanism","Hips shooting up first — bar stays on floor, becomes a stiff-leg DL","Looking up excessively — hyperextends cervical spine. Neutral neck throughout"],
+    ytLinks:[
+      {label:"Deadlift Masterclass",url:"https://www.youtube.com/results?search_query=conventional+deadlift+form+masterclass"},
+      {label:"Deadlift Safety",url:"https://www.youtube.com/results?search_query=deadlift+back+injury+prevention"}
+    ]
+  },
+  "Pull-Up":{
+    cues:[
+      {phase:"Setup",text:"Dead hang start. Full elbow extension. Shoulder-width overhand grip (pull-up) or underhand (chin-up).",key:true},
+      {phase:"Initiation",text:"Depress and retract scapulae BEFORE pulling with arms. This is the difference between lat-dominant and bicep-dominant.",key:true},
+      {phase:"Pull",text:"Lead with elbows pulling toward hips. Imagine pulling the bar toward your chest, not your chin.",key:false},
+      {phase:"Top",text:"Chin clearly above bar. Chest may touch bar for full ROM. Brief pause.",key:false},
+      {phase:"Descent",text:"Controlled 3s eccentric. Resist gravity. This is where hypertrophy stimulus is highest.",key:true},
+      {phase:"Bottom",text:"Return to full dead hang between reps. No kipping unless trained for it.",key:false}
+    ],
+    errors:["Half reps — only going to 90° elbow. Full ROM required for development","Kipping without training for it — shoulder injury risk","Chin not clearing bar — the bar is the minimum standard","Neglecting the eccentric — dropping fast loses 50% of the stimulus","Shrugging — traps dominate instead of lats. Depress scapulae first"],
+    ytLinks:[
+      {label:"Pull-Up Technique",url:"https://www.youtube.com/results?search_query=pull+up+form+tutorial+beginners"},
+      {label:"Lat Activation Cue",url:"https://www.youtube.com/results?search_query=pull+up+lat+activation+cue"}
+    ]
+  },
+  "Overhead Press":{
+    cues:[
+      {phase:"Setup",text:"Shoulder-width grip. Bar rests on front delts. Elbows slightly forward (not flared). Tight grip.",key:true},
+      {phase:"Brace",text:"Glutes squeezed. Core fully braced. Glute and core tension prevents excessive lumbar extension.",key:true},
+      {phase:"Press",text:"Bar travels in slight arc — forward around face, then back as it clears the head.",key:false},
+      {phase:"Lockout",text:"Full overhead extension. Ears in front of biceps — not behind. Shrug traps at top.",key:true},
+      {phase:"Descent",text:"Reverse the arc. Bar returns to front delt contact. 2–3s controlled.",key:false},
+      {phase:"Breathing",text:"Big breath before press. Exhale at top. Valsalva maneuver for heavy attempts.",key:false}
+    ],
+    errors:["Leaning back excessively — turns press into incline press, loads lumbar","Bar touching chin on descent — path should arc around face","Elbow flare at 90° — loads rotator cuff laterally. Tuck to ~60°","Not locking out — incomplete rep, reduces overhead strength development","No hip/glute engagement — isolated shoulder load, misses the full-body tension"],
+    ytLinks:[
+      {label:"OHP Form Guide",url:"https://www.youtube.com/results?search_query=overhead+press+form+tutorial"},
+      {label:"OHP Common Mistakes",url:"https://www.youtube.com/results?search_query=overhead+press+mistakes"}
+    ]
+  },
+  "Hip Thrust":{
+    cues:[
+      {phase:"Setup",text:"Upper back on bench edge (shoulder blades on pad). Bar over hip crease. Feet shoulder-width.",key:true},
+      {phase:"Foot Position",text:"Feet flat, heels drive. Toes slightly out. Adjust until you feel glutes — not quads.",key:true},
+      {phase:"Drive",text:"Drive through heels, push hips up. Maintain neutral spine throughout.",key:false},
+      {phase:"Top",text:"Full hip extension. 2s pause. Glute squeeze maximum. Torso and thighs parallel to floor.",key:true},
+      {phase:"Descent",text:"Lower with control. Hips stop just above floor. Maintain tension — do not reset.",key:false}
+    ],
+    errors:["Overextending lumbar at top — rib flare, not glute activation","Feet too close — turns into quad dominant","Not pausing at top — momentum replaces glute contraction","Head falling back — cervical hyperextension. Chin slightly tucked","Bar rolling — pad required for barbell. Hold firmly."],
+    ytLinks:[
+      {label:"Hip Thrust Tutorial",url:"https://www.youtube.com/results?search_query=hip+thrust+form+tutorial+bret+contreras"},
+      {label:"Glute Activation Cues",url:"https://www.youtube.com/results?search_query=hip+thrust+glute+activation+cues"}
+    ]
+  }
+};
+
+// Default form guide for exercises without specific data
+function getFormGuide(exName){
+  for(const key of Object.keys(FORM_GUIDES)){
+    if(exName.toLowerCase().includes(key.toLowerCase()))return FORM_GUIDES[key];
+  }
+  return null;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// RECIPE LIBRARY
+// ═══════════════════════════════════════════════════════════════════
+const RECIPES=[
+  // BREAKFAST
+  {id:1,cat:"breakfast",tag:"High Protein",tagColor:"#ef9a9a",emoji:"🍳",name:"Greek Egg Scramble",desc:"Mediterranean scramble with feta, spinach, and olives. Fast, anti-inflammatory, high protein.",kcal:420,p:38,c:12,f:24,time:"10 min",servings:1,
+   ingredients:[{n:"Eggs",a:"3 whole"},{n:"Egg whites",a:"3"},{n:"Baby spinach",a:"60g"},{n:"Feta cheese",a:"40g"},{n:"Kalamata olives",a:"6 pitted"},{n:"Cherry tomatoes",a:"80g"},{n:"Extra virgin olive oil",a:"1 tbsp"},{n:"Dried oregano",a:"½ tsp"},{n:"Black pepper",a:"to taste"}],
+   steps:["Heat olive oil in pan over medium heat. Add cherry tomatoes, cook 2 min until blistered.","Add spinach, stir until wilted (1 min).","Whisk eggs and egg whites together. Pour into pan.","Fold gently with spatula. When almost set, crumble in feta and add olives.","Season with oregano and pepper. Serve immediately."],
+   note:"Add 100g oats on the side to increase carbohydrates for training days."
+  },
+  {id:2,cat:"breakfast",tag:"Carb Load",tagColor:"#ffd54f",emoji:"🥣",name:"Power Oat Bowl",desc:"Overnight oats with Greek yogurt, berries, walnuts and honey. Perfect pre-training fuel.",kcal:580,p:28,c:72,f:18,time:"5 min (prep night before)",servings:1,
+   ingredients:[{n:"Rolled oats",a:"80g"},{n:"Greek yogurt (full fat)",a:"150g"},{n:"Milk or oat milk",a:"150ml"},{n:"Blueberries",a:"80g"},{n:"Walnuts",a:"25g"},{n:"Honey",a:"1 tbsp"},{n:"Chia seeds",a:"1 tbsp"},{n:"Cinnamon",a:"½ tsp"}],
+   steps:["Combine oats, milk and chia seeds in jar. Mix well.","Top with Greek yogurt, cover and refrigerate overnight.","Morning: add blueberries, walnuts, drizzle honey and cinnamon.","Eat cold or warm gently (60s in microwave)."],
+   note:"Increase oats to 100g and add a banana on heavy lower body training days."
+  },
+  {id:3,cat:"breakfast",tag:"Longevity",tagColor:"#80cbc4",emoji:"🫐",name:"Sardine & Avocado Toast",desc:"Omega-3 rich sardines on sourdough with avocado and lemon. Anti-inflammatory breakfast.",kcal:490,p:32,c:38,f:24,time:"8 min",servings:1,
+   ingredients:[{n:"Sourdough bread",a:"2 slices"},{n:"Sardines in olive oil",a:"1 tin (120g)"},{n:"Avocado",a:"½ ripe"},{n:"Lemon juice",a:"1 tbsp"},{n:"Red onion",a:"¼ small, thinly sliced"},{n:"Capers",a:"1 tbsp"},{n:"Fresh dill",a:"small handful"},{n:"Chilli flakes",a:"pinch"}],
+   steps:["Toast sourdough until golden.","Mash avocado on toast with lemon juice, salt, and pepper.","Drain sardines slightly. Layer onto avocado.","Top with red onion, capers, dill and chilli flakes."],
+   note:"Sardines contain one of the highest concentrations of EPA+DHA omega-3 of any food. Eat 2–3 times per week."
+  },
+
+  // LUNCH
+  {id:4,cat:"lunch",tag:"Post-Workout",tagColor:"#80cbc4",emoji:"🫙",name:"Chicken & Quinoa Power Bowl",desc:"Complete protein bowl with roasted chicken, quinoa, roasted vegetables and tahini dressing.",kcal:650,p:52,c:58,f:18,time:"25 min",servings:1,
+   ingredients:[{n:"Chicken breast",a:"180g"},{n:"Quinoa (dry)",a:"70g"},{n:"Broccoli florets",a:"100g"},{n:"Roasted red peppers",a:"80g"},{n:"Cucumber",a:"½"},{n:"Cherry tomatoes",a:"80g"},{n:"Tahini",a:"2 tbsp"},{n:"Lemon juice",a:"2 tbsp"},{n:"Garlic (minced)",a:"1 clove"},{n:"Olive oil",a:"1 tbsp"},{n:"Za'atar or mixed herbs",a:"1 tsp"}],
+   steps:["Cook quinoa per packet. Season with salt.","Season chicken with za'atar, olive oil, salt. Pan-fry 6–7 min per side until cooked through.","Steam or roast broccoli 10 min.","Make tahini dressing: whisk tahini, lemon juice, garlic, 3 tbsp water until smooth.","Assemble bowl: quinoa base, sliced chicken, vegetables. Drizzle dressing."],
+   note:"Quinoa is a complete protein (all 9 essential amino acids). Excellent post-workout carbohydrate source with 4g protein per 100g cooked."
+  },
+  {id:5,cat:"lunch",tag:"Anti-Inflammatory",tagColor:"#b39ddb",emoji:"🐟",name:"Tuna Nicoise Salad",desc:"Classic French Mediterranean salad. Tuna, eggs, olives, green beans, and a Dijon dressing.",kcal:520,p:44,c:28,f:24,time:"20 min",servings:1,
+   ingredients:[{n:"Tuna in olive oil",a:"180g (1.5 tins)"},{n:"Eggs",a:"2 hard-boiled"},{n:"Green beans",a:"100g"},{n:"Mixed salad leaves",a:"80g"},{n:"Cherry tomatoes",a:"100g"},{n:"Kalamata olives",a:"10"},{n:"Small potatoes",a:"150g (cooked)"},{n:"Dijon mustard",a:"1 tsp"},{n:"Red wine vinegar",a:"1 tbsp"},{n:"Olive oil (EVOO)",a:"2 tbsp"}],
+   steps:["Boil potatoes 12–15 min. Blanch green beans 4 min. Hard boil eggs 8 min.","Make dressing: whisk mustard, vinegar, olive oil, salt, pepper.","Arrange leaves in bowl. Add all ingredients on top.","Drizzle dressing. Flake tuna over top. Halve eggs."],
+   note:"This meal provides EPA+DHA from tuna, leucine from eggs, and anti-inflammatory polyphenols from olive oil — a near-perfect longevity lunch."
+  },
+  {id:6,cat:"lunch",tag:"Plant-Based",tagColor:"#66bb6a",emoji:"🫘",name:"Lentil & Roasted Veg Salad",desc:"Puy lentils with roasted Mediterranean vegetables, feta, and herb dressing. High fibre.",kcal:480,p:24,c:56,f:16,time:"30 min",servings:2,
+   ingredients:[{n:"Puy lentils (dry)",a:"150g"},{n:"Aubergine",a:"1 medium"},{n:"Courgette",a:"1 large"},{n:"Red bell pepper",a:"1"},{n:"Feta cheese",a:"80g"},{n:"Fresh mint",a:"handful"},{n:"Fresh parsley",a:"handful"},{n:"EVOO",a:"3 tbsp"},{n:"Lemon juice",a:"2 tbsp"},{n:"Garlic",a:"2 cloves"},{n:"Cumin",a:"1 tsp"}],
+   steps:["Cook lentils in salted water 20–25 min until tender. Drain.","Cube aubergine, courgette, pepper. Toss in olive oil, cumin, salt. Roast 200°C for 25 min.","Mix dressing: EVOO, lemon juice, garlic, salt, pepper.","Combine lentils and roasted veg. Add dressing, crumble feta, fold in herbs."],
+   note:"Puy lentils have one of the highest fibre contents of any food (8g/100g dry). Associated with 15–20% reduction in cardiovascular risk."
+  },
+  {id:7,cat:"lunch",tag:"High Protein",tagColor:"#ef9a9a",emoji:"🥗",name:"Greek Salad with Grilled Chicken",desc:"The ultimate Mediterranean salad. Maximum nutrient density in minimum time.",kcal:540,p:46,c:18,f:30,time:"15 min",servings:1,
+   ingredients:[{n:"Chicken breast",a:"180g"},{n:"Cucumber",a:"1"},{n:"Tomatoes",a:"2 large"},{n:"Red onion",a:"½"},{n:"Feta cheese",a:"80g"},{n:"Kalamata olives",a:"12"},{n:"EVOO",a:"3 tbsp"},{n:"Red wine vinegar",a:"1 tbsp"},{n:"Dried oregano",a:"1 tsp"},{n:"Lemon",a:"½"}],
+   steps:["Season chicken with oregano, lemon, salt. Grill or pan-fry 6–7 min per side.","Chop cucumber, tomatoes, red onion into chunks.","Combine veg and olives. Dress with EVOO, vinegar, salt, oregano.","Top with crumbled feta. Slice chicken and place on top."],
+   note:"This salad is the closest thing to a Mediterranean Diet 'template meal' — EVOO phenols, tomato lycopene, onion quercetin, and complete protein from chicken."
+  },
+
+  // DINNER
+  {id:8,cat:"dinner",tag:"Omega-3",tagColor:"#80cbc4",emoji:"🐟",name:"Baked Salmon with Roasted Veg",desc:"Classic longevity dinner. Omega-3 rich salmon, roasted Mediterranean vegetables and lemon.",kcal:620,p:48,c:32,f:32,time:"30 min",servings:1,
+   ingredients:[{n:"Salmon fillet",a:"200g"},{n:"Sweet potato",a:"200g"},{n:"Asparagus",a:"100g"},{n:"Cherry tomatoes",a:"100g"},{n:"EVOO",a:"2 tbsp"},{n:"Garlic",a:"3 cloves"},{n:"Lemon",a:"1"},{n:"Fresh dill or parsley",a:"handful"},{n:"Dijon mustard",a:"1 tbsp"},{n:"Capers",a:"1 tbsp"}],
+   steps:["Preheat oven to 200°C. Cube sweet potato, toss in 1 tbsp EVOO, roast 20 min.","Add asparagus and tomatoes to tray, roast further 10 min.","Brush salmon with mustard, drizzle EVOO, season with salt and dill. Bake 12–14 min.","Serve salmon over vegetables. Squeeze lemon, scatter capers."],
+   note:"Salmon 2–3× per week provides 2–3g EPA+DHA omega-3 — the strongest evidence-based anti-inflammatory nutrient. Norwegian Atlantic salmon is highest in omega-3."
+  },
+  {id:9,cat:"dinner",tag:"Carb Load",tagColor:"#ffd54f",emoji:"🍝",name:"Mediterranean Chicken Pasta",desc:"Whole grain pasta with chicken, olives, capers, tomatoes and EVOO. Pre-training night fuel.",kcal:720,p:48,c:82,f:18,time:"25 min",servings:1,
+   ingredients:[{n:"Whole grain spaghetti",a:"90g dry"},{n:"Chicken breast",a:"150g"},{n:"Cherry tomatoes",a:"200g"},{n:"Kalamata olives",a:"10"},{n:"Capers",a:"2 tbsp"},{n:"Garlic",a:"4 cloves"},{n:"EVOO",a:"2 tbsp"},{n:"Fresh basil",a:"handful"},{n:"Parmesan",a:"20g"},{n:"Chilli flakes",a:"pinch"}],
+   steps:["Cook pasta al dente per packet. Reserve ½ cup pasta water.","Slice chicken, pan-fry in 1 tbsp EVOO 6–7 min per side. Set aside.","Same pan: crush garlic in EVOO, add tomatoes. Cook 8 min until breaking down.","Add olives, capers, pasta, pasta water. Toss vigorously.","Slice chicken over pasta. Add basil, parmesan, chilli."],
+   note:"Eat this dinner the night before your hardest training session (lower body or HIIT) to maximise glycogen stores. Whole grain pasta provides slower glucose release than white."
+  },
+  {id:10,cat:"dinner",tag:"Anti-Inflammatory",tagColor:"#b39ddb",emoji:"🍲",name:"Moroccan Lamb Tagine",desc:"Slow-braised lamb with chickpeas, preserved lemon and warming spices. Rich in zinc and iron.",kcal:580,p:44,c:42,f:22,time:"1h 45min (or slow cooker)",servings:4,
+   ingredients:[{n:"Lamb shoulder (diced)",a:"600g"},{n:"Chickpeas (tinned)",a:"400g"},{n:"Crushed tomatoes",a:"400g"},{n:"Onion",a:"2 large"},{n:"Preserved lemon",a:"1"},{n:"Garlic",a:"4 cloves"},{n:"Ras el hanout",a:"2 tbsp"},{n:"Ground cumin",a:"1 tsp"},{n:"Cinnamon",a:"1 stick"},{n:"Chicken stock",a:"400ml"},{n:"EVOO",a:"2 tbsp"},{n:"Fresh coriander",a:"to serve"}],
+   steps:["Brown lamb in batches in olive oil. Set aside.","Cook onion and garlic 5 min. Add all spices, stir 1 min.","Return lamb to pot. Add tomatoes, stock, cinnamon, preserved lemon.","Simmer covered 1.5 hours (or slow cooker 6h low).","Add chickpeas in final 20 min. Serve over couscous with coriander."],
+   note:"Red meat 1–2× per week provides the most bioavailable form of iron (haem iron) and highest zinc content of any food — both critical for athletic performance and testosterone."
+  },
+  {id:11,cat:"dinner",tag:"Longevity",tagColor:"#80cbc4",emoji:"🦐",name:"Prawn & Cauliflower Risotto",desc:"Lower-carb Mediterranean 'risotto' with grated cauliflower, prawns, lemon and parsley.",kcal:420,p:38,c:22,f:18,time:"20 min",servings:2,
+   ingredients:[{n:"Raw king prawns",a:"300g"},{n:"Cauliflower (grated)",a:"500g"},{n:"White wine",a:"80ml"},{n:"Shallots",a:"2"},{n:"Garlic",a:"3 cloves"},{n:"EVOO",a:"2 tbsp"},{n:"Parmesan",a:"30g"},{n:"Lemon",a:"1"},{n:"Fresh parsley",a:"large handful"},{n:"Chilli flakes",a:"½ tsp"}],
+   steps:["Grate cauliflower or pulse in food processor.","Sauté shallots and garlic in EVOO 3 min. Add white wine, reduce.","Add cauliflower. Stir constantly over high heat 6–8 min — it will absorb liquid and soften.","Season prawns, add to pan. Cook 3–4 min until pink.","Add parmesan, lemon zest and juice, parsley. Adjust seasoning."],
+   note:"Ideal for rest days or Phase 6 cardio days when total caloric intake can be slightly lower. High satiety, high protein, lower glycaemic load."
+  },
+  {id:12,cat:"dinner",tag:"High Protein",tagColor:"#ef9a9a",emoji:"🍗",name:"Za'atar Chicken with Tabbouleh",desc:"Herb-marinated chicken with fresh tabbouleh. Clean, high-protein, perfect post-training.",kcal:560,p:54,c:42,f:16,time:"25 min",servings:2,
+   ingredients:[{n:"Chicken thighs (skinless)",a:"400g"},{n:"Za'atar",a:"3 tbsp"},{n:"EVOO",a:"3 tbsp"},{n:"Bulgur wheat",a:"150g dry"},{n:"Flat-leaf parsley",a:"large bunch"},{n:"Mint",a:"small bunch"},{n:"Tomatoes",a:"2"},{n:"Spring onions",a:"4"},{n:"Lemon juice",a:"3 tbsp"},{n:"Cucumber",a:"½"}],
+   steps:["Marinate chicken in za'atar, 2 tbsp EVOO, lemon, salt for 30 min+ (or overnight).","Cook bulgur per packet. Fluff and cool.","Finely chop parsley, mint, tomatoes, spring onions, cucumber.","Mix bulgur with vegetables. Dress with EVOO, lemon, salt — tabbouleh should taste bright.","Grill or pan-fry chicken until cooked through (165°C internal). Serve over tabbouleh."],
+   note:"Parsley is one of the most nutrient-dense herbs: high in vitamin K (bone health), vitamin C, and apigenin (anti-inflammatory flavonoid)."
+  },
+
+  // PRE-WORKOUT
+  {id:13,cat:"pre-workout",tag:"Energy",tagColor:"#ffd54f",emoji:"⚡",name:"Banana & Almond Butter Rice Cakes",desc:"Simple, fast-digesting carbs with moderate protein. Perfect 60–90 min pre-training.",kcal:320,p:10,c:48,f:10,time:"3 min",servings:1,
+   ingredients:[{n:"Rice cakes (plain)",a:"3"},{n:"Almond butter",a:"1.5 tbsp"},{n:"Banana",a:"1 medium"},{n:"Honey",a:"1 tsp"},{n:"Cinnamon",a:"pinch"}],
+   steps:["Spread almond butter on rice cakes.","Slice banana over top.","Drizzle honey. Sprinkle cinnamon.","Eat 60–90 min before training."],
+   note:"Rice cakes provide fast-digesting carbohydrates that raise blood glucose quickly without GI discomfort during training. Ideal for morning sessions."
+  },
+  {id:14,cat:"pre-workout",tag:"Sustained Energy",tagColor:"#ffd54f",emoji:"🥗",name:"Pre-Training Chicken & Rice",desc:"Classic bodybuilding pre-workout meal. 2–3 hours before heavy strength sessions.",kcal:580,p:44,c:72,f:8,time:"20 min",servings:1,
+   ingredients:[{n:"Chicken breast",a:"160g"},{n:"Jasmine or basmati rice (dry)",a:"80g"},{n:"Broccoli",a:"100g"},{n:"Olive oil",a:"1 tsp"},{n:"Salt, pepper, paprika",a:"to taste"},{n:"Lemon juice",a:"1 tbsp"}],
+   steps:["Season chicken with paprika, salt, pepper. Pan-fry in olive oil 6–7 min each side.","Cook rice per packet.","Steam broccoli 5 min.","Assemble. Squeeze lemon over everything."],
+   note:"Eat 2–3 hours before training. This allows adequate gastric emptying to prevent GI distress while maximising glycogen availability and muscle protein synthesis priming."
+  },
+
+  // POST-WORKOUT
+  {id:15,cat:"post-workout",tag:"Recovery",tagColor:"#66bb6a",emoji:"🥛",name:"Cottage Cheese Recovery Bowl",desc:"Fast protein hit with mixed berries and seeds. High casein for overnight recovery.",kcal:380,p:36,c:32,f:10,time:"2 min",servings:1,
+   ingredients:[{n:"Full-fat cottage cheese",a:"250g"},{n:"Mixed berries",a:"100g"},{n:"Pumpkin seeds",a:"20g"},{n:"Flaxseeds (ground)",a:"1 tbsp"},{n:"Honey",a:"1 tsp"},{n:"Cinnamon",a:"pinch"}],
+   steps:["Spoon cottage cheese into bowl.","Top with berries, pumpkin seeds, flaxseeds.","Drizzle honey. Sprinkle cinnamon.","Consume within 1–2 hours post-training."],
+   note:"Cottage cheese is exceptionally high in casein protein — the slowest-digesting protein. Ideal post-workout AND pre-sleep. Also provides calcium and phosphorus for bone mineral density."
+  },
+  {id:16,cat:"post-workout",tag:"Recovery",tagColor:"#66bb6a",emoji:"🌯",name:"Turkey & Hummus Wrap",desc:"Fast assembly post-training wrap. Moderate GI carbs with complete protein and healthy fat.",kcal:520,p:42,c:48,f:16,time:"5 min",servings:1,
+   ingredients:[{n:"Wholegrain wrap",a:"1 large"},{n:"Turkey breast slices",a:"150g"},{n:"Hummus",a:"4 tbsp"},{n:"Mixed salad leaves",a:"40g"},{n:"Avocado",a:"½"},{n:"Cucumber",a:"½"},{n:"Cherry tomatoes",a:"80g"},{n:"Lemon squeeze",a:"½ lemon"}],
+   steps:["Spread hummus across wrap.","Layer turkey, salad, sliced avocado, cucumber, halved tomatoes.","Squeeze lemon. Season.","Roll tightly. Cut in half."],
+   note:"Chickpeas in hummus provide resistant starch that feeds beneficial gut bacteria. Avocado adds monounsaturated fat to slow glucose absorption and aid fat-soluble vitamin uptake."
+  },
+
+  // SNACKS
+  {id:17,cat:"snack",tag:"High Protein",tagColor:"#ef9a9a",emoji:"🥜",name:"Greek Yogurt & Walnut Bowl",desc:"Maximum anti-inflammatory snack. Probiotic yogurt, omega-3 walnuts, anti-oxidant berries.",kcal:290,p:20,c:22,f:16,time:"2 min",servings:1,
+   ingredients:[{n:"Full-fat Greek yogurt",a:"200g"},{n:"Walnuts",a:"25g"},{n:"Blueberries",a:"60g"},{n:"Pumpkin seeds",a:"10g"},{n:"Honey",a:"1 tsp"}],
+   steps:["Spoon Greek yogurt into bowl.","Top with walnuts, blueberries, seeds.","Drizzle honey."],
+   note:"Walnuts are the highest plant-source of ALA omega-3 (though conversion to EPA/DHA is low — still beneficial). Greek yogurt provides 18–20g protein per 200g and live probiotic cultures."
+  },
+  {id:18,cat:"snack",tag:"Longevity",tagColor:"#80cbc4",emoji:"🫒",name:"Olive & Cheese Protein Plate",desc:"Mediterranean snack plate — olives, cheese, nuts, and vegetables. Zero prep, maximum nutrition.",kcal:350,p:18,c:14,f:26,time:"2 min",servings:1,
+   ingredients:[{n:"Feta or halloumi",a:"60g"},{n:"Mixed olives",a:"30g"},{n:"Walnuts or almonds",a:"20g"},{n:"Cherry tomatoes",a:"100g"},{n:"Cucumber sticks",a:"½"},{n:"Hummus",a:"3 tbsp"},{n:"Wholegrain crackers",a:"4"}],
+   steps:["Arrange all ingredients on plate.","Eat with intention — this is not a lazy snack, it is a longevity intervention."],
+   note:"Every item on this plate has independent longevity evidence: olives (EVOO phenols), nuts (reduced all-cause mortality), tomatoes (lycopene), hummus (fibre + protein), cheese (calcium). The Mediterranean Diet is literally a snack plate."
+  },
+
+  // PRE-SLEEP
+  {id:19,cat:"pre-sleep",tag:"Overnight Recovery",tagColor:"#b39ddb",emoji:"🌙",name:"Casein Recovery Bowl",desc:"Pre-sleep high casein meal to sustain muscle protein synthesis overnight.",kcal:310,p:32,c:24,f:10,time:"3 min",servings:1,
+   ingredients:[{n:"Cottage cheese",a:"200g"},{n:"Casein protein powder (opt)",a:"20g"},{n:"Almond butter",a:"1 tbsp"},{n:"Sliced banana or berries",a:"80g"},{n:"Cinnamon",a:"pinch"}],
+   steps:["Mix cottage cheese and optional casein powder.","Top with almond butter, fruit, cinnamon.","Eat 30–60 min before sleep."],
+   note:"Res et al. (Journal of Nutrition, 2012): 40g casein protein consumed before sleep increased overnight muscle protein synthesis by 22% vs placebo. Cottage cheese achieves this naturally."
+  },
+  {id:20,cat:"pre-sleep",tag:"Sleep Support",tagColor:"#b39ddb",emoji:"🍒",name:"Tart Cherry & Kiwi Smoothie",desc:"Natural melatonin from tart cherries + sleep-promoting serotonin precursors from kiwi.",kcal:220,p:8,c:42,f:3,time:"3 min",servings:1,
+   ingredients:[{n:"Tart cherry juice",a:"100ml"},{n:"Kiwi fruit",a:"2"},{n:"Banana (frozen)",a:"½"},{n:"Greek yogurt",a:"80g"},{n:"Almond milk",a:"100ml"},{n:"Honey (optional)",a:"1 tsp"}],
+   steps:["Blend all ingredients until smooth.","Drink 60–90 min before sleep."],
+   note:"Lin et al. (European Journal of Nutrition, 2012): Tart cherry juice consumption increased melatonin levels and improved sleep quality in adults. Kiwi provides serotonin precursors and antioxidants. Stack with magnesium glycinate for maximum sleep quality."
+  }
+];
+
+const RECIPE_CATS=[
+  {id:"all",label:"All Recipes"},
+  {id:"breakfast",label:"Breakfast"},
+  {id:"lunch",label:"Lunch"},
+  {id:"dinner",label:"Dinner"},
+  {id:"pre-workout",label:"Pre-Workout"},
+  {id:"post-workout",label:"Post-Workout"},
+  {id:"snack",label:"Snacks"},
+  {id:"pre-sleep",label:"Pre-Sleep"}
+];
+
+// ═══════════════════════════════════════════════════════════════════
+// TIMER STATE
+// ═══════════════════════════════════════════════════════════════════
+let timerInterval=null,timerRunning=false,timerSeconds=0,timerTotal=0,timerExName='',timerSetInfo='';
+const CIRCUMFERENCE=427; // 2*pi*68
+
+function openTimer(exName,sets,reps,rpeStr,restSecs){
+  timerExName=exName; timerTotal=restSecs; timerSeconds=restSecs; timerRunning=false;
+  timerSetInfo=`${sets} sets × ${reps} reps`;
+  const overlay=document.getElementById('timer-overlay');
+  const badge=document.getElementById('timer-phase-badge');
+  document.getElementById('timer-ex-name').textContent=exName;
+  document.getElementById('timer-set-info').textContent=timerSetInfo+' · '+rpeStr;
+  document.getElementById('timer-label').textContent='REST PERIOD';
+  badge.textContent=restSecs+'s REST'; badge.style.background='rgba(0,180,200,.15)'; badge.style.color='var(--teal2)';
+  document.getElementById('timer-start-btn').textContent='▶ Start';
+  document.getElementById('timer-next-preview').innerHTML=`<strong>Next set:</strong> Same exercise — focus on form cues before starting`;
+  overlay.classList.add('show');
+  updateTimerDisplay();
+}
+function updateTimerDisplay(){
+  const pct=timerSeconds/timerTotal;
+  const offset=CIRCUMFERENCE*(1-pct);
+  document.getElementById('timer-ring-fill').style.strokeDashoffset=offset;
+  const color=pct>0.5?'var(--teal2)':pct>0.25?'var(--gold)':'var(--red)';
+  document.getElementById('timer-ring-fill').style.stroke=color;
+  const m=Math.floor(timerSeconds/60),s=timerSeconds%60;
+  document.getElementById('timer-display').textContent=`${m}:${String(s).padStart(2,'0')}`;
+  const badge=document.getElementById('timer-phase-badge');
+  badge.style.background=pct>0.5?'rgba(0,180,200,.15)':pct>0.25?'rgba(249,168,37,.15)':'rgba(198,40,40,.15)';
+  badge.style.color=color;
+  badge.textContent=timerSeconds+'s';
+}
+function toggleTimer(){
+  if(timerRunning){
+    clearInterval(timerInterval); timerRunning=false;
+    document.getElementById('timer-start-btn').textContent='▶ Resume';
+  } else {
+    timerRunning=true;
+    document.getElementById('timer-start-btn').textContent='⏸ Pause';
+    timerInterval=setInterval(()=>{
+      if(timerSeconds>0){timerSeconds--;updateTimerDisplay();}
+      else{
+        clearInterval(timerInterval);timerRunning=false;
+        document.getElementById('timer-ring-fill').style.stroke='#66bb6a';
+        document.getElementById('timer-display').textContent='GO!';
+        document.getElementById('timer-label').textContent='START NEXT SET';
+        document.getElementById('timer-start-btn').textContent='▶ Start';
+        if('vibrate' in navigator)navigator.vibrate([200,100,200]);
+      }
+    },1000);
+  }
+}
+function resetTimer(){clearInterval(timerInterval);timerRunning=false;timerSeconds=timerTotal;document.getElementById('timer-start-btn').textContent='▶ Start';updateTimerDisplay();}
+function skipTimer(){clearInterval(timerInterval);timerRunning=false;timerSeconds=0;updateTimerDisplay();}
+function closeTimer(){clearInterval(timerInterval);timerRunning=false;document.getElementById('timer-overlay').classList.remove('show');}
+
+// ═══════════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════════
+let currentLevel='beginner',currentWeek=1,currentPage='dashboard';
+let completedWeeks={},progressLog={};
+let currentRecipeCat='all';
+let logFilter='all';
+
+function saveState(){
+  try{localStorage.setItem('hfp2_state',JSON.stringify({level:currentLevel,week:currentWeek,completed:completedWeeks,log:progressLog}));}catch(e){}
+}
+function loadState(){
+  try{
+    const s=JSON.parse(localStorage.getItem('hfp2_state')||'{}');
+    currentLevel=s.level||'beginner';currentWeek=s.week||1;
+    completedWeeks=s.completed||{};progressLog=s.log||{};
+  }catch(e){}
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// SESSION DATA (same as v1 with rest seconds added)
+// ═══════════════════════════════════════════════════════════════════
+function getPhaseForWeek(w){return getPhase(w)}
+function isDeloadWeek(w){return isDeload(w)}
+
+function getRestSeconds(phaseId,tier){
+  if(phaseId===3||phaseId===5)return tier===1?270:tier===2?180:120;
+  if(phaseId===2||phaseId===4)return tier===1?150:tier===2?120:90;
+  return tier===1?120:90;
+}
+
+function getWeekSessions(week,level){
+  const phase=getPhase(week);
+  const deload=isDeload(week);
+  if(deload)return buildDeloadSessions(week,level);
+  const pWk=week-phase.weeks[0]+1;
+  const progress=pWk/(phase.weeks[1]-phase.weeks[0]+1);
+  if(phase.id===1)return buildP1(week,pWk,level);
+  if(phase.id===2)return buildP2(week,pWk,level,progress);
+  if(phase.id===3)return buildP3(week,pWk,level);
+  if(phase.id===4)return buildP4(week,pWk,level,progress);
+  if(phase.id===5)return buildP5(week,pWk,level);
+  if(phase.id===6)return buildP6(week,pWk,level);
+  return buildP7(week,pWk,level);
+}
+
+function mkEx(tier,name,sets,reps,load,rpe,note,phaseId){
+  const restSecs=getRestSeconds(phaseId||1,tier);
+  return{tier,name,sets,reps,load,rpe,note,restSecs};
+}
+
+function buildP1(week,pWk,level){
+  const load=level==='beginner'?'55–65%':level==='advanced'?'67–73%':'62–70%';
+  const sets=level==='beginner'?2:level==='advanced'?4:3;
+  const z2m=level==='beginner'?30:level==='advanced'?50:40;
+  return[
+    {day:"Mon",type:"strength",label:"Lower Body — Push",icon:"🦵",badge:"Strength A",badgeColor:"#00838f",warmupType:"lower_push",
+     exercises:[
+      mkEx(1,level==='beginner'?'Goblet Squat':'Back Squat',sets,'10–12',load,'RPE 6–7','Depth = hip crease below knee. Film every session in P1. 3s eccentric.',1),
+      mkEx(1,'Leg Press',sets,'10–15','65–70%','RPE 6','Full ROM. Feet shoulder-width. Control the descent.',1),
+      mkEx(2,level==='beginner'?'Box Step-Up':'Bulgarian Split Squat',Math.max(sets-1,2),'10/side','BW / Light DB','RPE 5–6','Single-leg stability. Use wall if needed.',1),
+      mkEx(3,'Standing Calf Raise',2,'15–20','BW','RPE 6','Full dorsiflexion stretch at bottom. Slow 3s eccentric.',1)
+     ],
+     cardio:{type:'Zone 1 Warm-Up',dur:'10 min',zones:[5,0,0,0,0],proto:['5 min light walk or easy row — Zone 1 (HR 50–60% max)','Dynamic warm-up: full protocol above']},
+     tip:'<strong>Phase 1 Goal:</strong> This is your technique phase. Add weight ONLY when every rep is technically perfect. Film your squat from the side — it will change your training.'},
+    {day:"Tue",type:"cardio",label:"Zone 2 Aerobic",icon:"🚴",badge:"Cardio",badgeColor:"#1565c0",warmupType:"cardio",
+     exercises:[],
+     cardio:{type:'Zone 2 Steady State',dur:`${z2m+pWk*2} min`,zones:[0,9,1,0,0],proto:['5 min Zone 1 warm-up','Continuous Zone 2 — HR 61–70% max. Nose-breathing test: should be able to speak in full sentences','5 min Zone 1 cool-down','Mode: walk (hilly), cycling, rowing, elliptical, swimming']},
+     tip:'<strong>Zone 2 Calibration:</strong> Find the pace where you can speak in complete sentences but feel mild effort. That is Zone 2. If breathing increases significantly, slow down. Correct is uncomfortable — not breathless.'},
+    {day:"Wed",type:"strength",label:"Upper Body — Push & Pull",icon:"💪",badge:"Strength B",badgeColor:"#00838f",warmupType:"upper_push",
+     exercises:[
+      mkEx(1,level==='beginner'?'DB Bench Press':'Barbell Bench Press',sets,'10–12',load,'RPE 6–7','Retract scapulae before unracking. Control 3s eccentric.',1),
+      mkEx(1,'Seated Cable Row',sets,'10–12',load,'RPE 6–7','Full stretch at start. Drive elbows to hips. No body swing.',1),
+      mkEx(2,'DB Shoulder Press',Math.max(sets-1,2),'12–15','Light–Mod','RPE 6','Neutral grip. Control eccentric. No arching lower back.',1),
+      mkEx(2,level==='beginner'?'Lat Pulldown':'Lat Pulldown',Math.max(sets-1,2),'10–12','Moderate','RPE 6','Lean back slightly. Pull to chin. Full stretch at top.',1),
+      mkEx(3,'Face Pull',2,'15–20','Light','RPE 6','Non-negotiable for shoulder health. External rotation at end range.',1),
+      mkEx(3,'Lateral Raise',2,'15–20','Light','RPE 5–6','Lead with elbow. Slow 4s eccentric. Stop at shoulder height.',1)
+     ],
+     cardio:{type:'Zone 1 Warm-Up',dur:'10 min',zones:[5,0,0,0,0],proto:['10 min Zone 1 — light row or treadmill walk','Full upper warm-up protocol above']},
+     tip:'<strong>Push:Pull Ratio:</strong> Today has equal pushing and pulling volume. This must be maintained throughout the program — it is the primary prevention of shoulder impingement and postural imbalances.'},
+    {day:"Thu",type:"active",label:"Active Recovery",icon:"🚶",badge:"Recovery",badgeColor:"#455a64",warmupType:"active",
+     exercises:[],
+     cardio:{type:'Zone 1 Active Recovery',dur:'30–45 min',zones:[8,2,0,0,0],proto:['30–45 min Zone 1 walk — outdoors preferred','Optional: 10 min diaphragmatic breathing (box: 4-4-4-4)','Optional: foam roll major muscle groups (2 min per group)']},
+     tip:'<strong>Active Recovery Science:</strong> Zone 1 activity increases blood flow without adding training stress — this accelerates metabolic waste removal, reduces DOMS, and improves next session performance.'},
+    {day:"Fri",type:"strength",label:"Lower Body — Pull & Core",icon:"🔗",badge:"Strength C",badgeColor:"#00838f",warmupType:"lower_pull",
+     exercises:[
+      mkEx(1,level==='beginner'?'Romanian Deadlift (DB)':'Romanian Deadlift (Barbell)',sets,'10–12',load,'RPE 6–7','Hip hinge. Feel hamstring stretch. NEVER round lower back. This is your #1 technique priority.',1),
+      mkEx(2,'Seated Leg Curl',Math.max(sets-1,2),'12–15','Moderate','RPE 6','Full ROM. Slow 3s eccentric.',1),
+      mkEx(2,'Hip Thrust (banded or barbell)',Math.max(sets-1,2),'12–15',level==='beginner'?'Band/BW':'Moderate','RPE 6','Pause 2s at top. Glute squeeze maximum. Neutral spine.',1),
+      mkEx(3,'Dead Bug',2,'8/side','BW','RPE 5','Lower back pressed to floor. Breathe throughout. Slow and controlled.',1),
+      mkEx(3,'Pallof Press',2,'10/side','Light Cable','RPE 5','Anti-rotation. Resist the cable. Pause at full extension.',1)
+     ],
+     cardio:{type:'Zone 1 Warm-Up',dur:'10 min',zones:[5,0,0,0,0],proto:['10 min Zone 1 — light bike or walk','Full lower pull warm-up protocol above']},
+     tip:'<strong>RDL is Everything:</strong> Mastering the hip hinge in Phase 1 pays dividends in every subsequent phase. The deadlift, RDL, kettlebell swing, and every posterior chain exercise starts here. Get it right now.'},
+    {day:"Sat",type:"strength",label:"Upper Pull Focus + Zone 2",icon:"🔝",badge:"Strength D",badgeColor:"#00838f",warmupType:"upper_pull",
+     exercises:[
+      mkEx(1,level==='beginner'?'Lat Pulldown (wide grip)':'Pull-Up / Chin-Up',sets,level==='beginner'?'10–12':'AMRAP','Moderate/BW','RPE 7','Full dead hang. Chin clears bar. Pull elbows to hips.',1),
+      mkEx(2,'DB Single-Arm Row',Math.max(sets-1,2),'10–12/side','Moderate','RPE 6–7','Long range of motion. Allow lat stretch at top of movement.',1),
+      mkEx(2,'Incline DB Press',Math.max(sets-1,2),'10–12',load,'RPE 6','30° incline. Upper pec emphasis. Control descent.',1),
+      mkEx(3,'Bicep Curl (DB)',2,'12–15','Light–Mod','RPE 6','Supinate at top. Full ROM. Slow eccentric.',1),
+      mkEx(3,'Farmer Carry',2,'20–30m',level==='beginner'?'Light DB':'Moderate KB','RPE 6','Upright posture. Shoulder packed. Do NOT lean sideways.',1)
+     ],
+     cardio:{type:'Zone 2 Finisher',dur:'20 min',zones:[0,8,2,0,0],proto:['Immediately after lifting: 20 min Zone 2 on bike, rower, or treadmill','HR 61–70% max. Concurrent strength + aerobic adaptation.']},
+     tip:'<strong>Grip Strength = Longevity:</strong> The INTERHEART study (Lancet, 2015): grip strength was the strongest predictor of all-cause mortality across 17 countries. The Farmer Carry is your longevity intervention — not just an exercise.'},
+    {day:"Sun",type:"rest",label:"Full Rest or Zone 1",icon:"😴",badge:"Recovery",badgeColor:"#37474f",warmupType:"active",
+     exercises:[],
+     cardio:{type:'Full Rest or Light Walk',dur:'Optional 30 min',zones:[7,3,0,0,0],proto:['Full rest is encouraged in Phase 1 weeks 1–2','From week 3: optional 20–30 min Zone 1 walk outdoors','Focus: 8+ hours sleep, high protein intake, hydration, review form videos']},
+     tip:'<strong>Sunday Sleep Target:</strong> Sleep is when growth hormone peaks (70% of daily total) and protein synthesis occurs. Protect your 7–9 hours tonight as you prepare for Monday.'}
+  ];
+}
+
+function buildP2(week,pWk,level,progress){
+  const sets=level==='beginner'?3:level==='advanced'?5:4;
+  const vSets=sets+(progress>0.5?1:0);
+  const load=level==='beginner'?'65–72%':level==='advanced'?'72–80%':'68–76%';
+  const rpe=pWk>=4?'RPE 8–9':'RPE 7–8';
+  const z2=level==='beginner'?45:level==='advanced'?60:50;
+  return[
+    {day:"Mon",type:"strength",label:"Lower Push — Hypertrophy",icon:"🦵",badge:"Hyp I — A",badgeColor:"#2e7d32",warmupType:"lower_push",
+     exercises:[
+      mkEx(1,level==='beginner'?'Squat (to box)':'Back Squat',vSets,'6–10',load,rpe,`Last set: 0–2 RIR. All prior sets: 2–3 RIR. Progressive load each week.`,2),
+      mkEx(2,'Bulgarian Split Squat',vSets-1,'8–12/side','DB Moderate',rpe,'Progressive load each week. Film for depth consistency.',2),
+      mkEx(2,'Leg Press',vSets-1,'10–15','Moderate–Heavy',rpe,'Full ROM. Vary foot width weekly.',2),
+      mkEx(3,'Leg Extension',2,'15–20','Moderate','RPE 7','VMO targeting. Full extension. Slow 3s eccentric.',2),
+      mkEx(3,'Seated Calf Raise',3,'15–20','Moderate','RPE 7–8','Soleus emphasis. Stretch fully at bottom.',2)
+     ],
+     cardio:{type:'Zone 1 Warm-Up + Optional Zone 2 Finisher',dur:'10–20 min',zones:[4,5,1,0,0],proto:['10 min Zone 1 + full lower push warm-up','Optional: 10–15 min Zone 2 after if energy permits']},
+     tip:`<strong>Hypertrophy Driver:</strong> The last 1–2 sets of each exercise must be within 0–2 reps of failure. This mechanical tension is what drives muscle growth. Prior sets: 2–3 RIR for quality volume.`},
+    {day:"Tue",type:"cardio",label:"Zone 2 + HIIT Introduction",icon:"🏃",badge:"Cardio",badgeColor:"#1565c0",warmupType:"cardio",
+     exercises:[],
+     cardio:{type:`Zone 2${pWk>=2?' + 4×4 HIIT':''}`,dur:`${z2} min total`,zones:[0,pWk>=2?6:9,1,pWk>=2?3:0,0],proto:[
+       pWk===1?`Week 5 only: Zone 2 exclusively — ${z2} min base before HIIT introduction`:'10 min Zone 2 warm-up',
+       pWk>=2?'4×4 HIIT: 4 intervals of 4 min at 85–90% HRmax':'Continue Zone 2 for full duration',
+       pWk>=2?'3 min active recovery between each interval (Zone 1–2 walk/jog)':'',
+       pWk>=2?'15–20 min Zone 2 cool-down after final interval':''
+     ].filter(Boolean)},
+     tip:'<strong>4×4 Evidence (Wisloff et al., Circulation 2007):</strong> The Norwegian 4×4 HIIT protocol increased VO2max by 7.2 ml/kg/min vs 4.8 ml/kg/min for moderate continuous exercise. It also significantly improved endothelial function and cardiac output.'},
+    {day:"Wed",type:"strength",label:"Upper — Push Emphasis",icon:"💪",badge:"Hyp I — B",badgeColor:"#2e7d32",warmupType:"upper_push",
+     exercises:[
+      mkEx(1,level==='beginner'?'DB Bench Press':'Barbell Bench Press',vSets,'6–10',load,rpe,'Increase weight when all reps done with 1+ RIR on final set.',2),
+      mkEx(1,'Incline DB Press',vSets-1,'8–12','Moderate',rpe,'30–45° incline. Better shoulder safety than flat bar.',2),
+      mkEx(2,'Overhead Press',vSets-1,'8–12',load,rpe,'Seated for stability. Elbows slightly forward.',2),
+      mkEx(2,'Cable Chest Fly',2,'12–15','Moderate','RPE 7','Full stretch at bottom. Peak contraction at midline.',2),
+      mkEx(3,'Lateral Raise',3,'15–20','Light','RPE 7–8','3 sets. Slow 4s eccentric. Shoulder pain: reduce load immediately.',2),
+      mkEx(3,'Face Pull',3,'15–20','Light–Mod','RPE 7','Every upper session. Shoulder longevity protocol.',2)
+     ],
+     cardio:{type:'Zone 1 Warm-Up',dur:'10 min',zones:[5,0,0,0,0],proto:['Full upper body warm-up protocol above']},
+     tip:'<strong>Progressive Overload (Hypertrophy):</strong> Add weight when you can complete all sets/reps with at least 1 RIR on the final set. Log every session — progressive overload requires measurement.'},
+    {day:"Thu",type:"cardio",label:"Zone 2 Mid-Week",icon:"🚴",badge:"Cardio",badgeColor:"#1565c0",warmupType:"cardio",
+     exercises:[],
+     cardio:{type:'Zone 2 Steady State',dur:`${z2-5} min`,zones:[0,9,1,0,0],proto:['5 min Zone 1 warm-up',`${z2-15} min Zone 2 continuous — nose breathing target`,'5 min Zone 1 cool-down','Modality: bike preferred (lower leg fatigue impact)']},
+     tip:'<strong>Thursday Modality:</strong> Heavy lower body was Monday. Choose cycling or swimming to minimise mechanical leg load while maximising cardiovascular stimulus.'},
+    {day:"Fri",type:"strength",label:"Lower Pull — Hinge & Core",icon:"🔗",badge:"Hyp I — C",badgeColor:"#2e7d32",warmupType:"lower_pull",
+     exercises:[
+      mkEx(1,level==='beginner'?'Romanian Deadlift (DB)':'Conventional Deadlift',vSets-1,level==='beginner'?'10–12':'6–8',level==='beginner'?'65–72%':'75–82%',rpe,level==='beginner'?'Progressive DB load. Hip hinge mastery.':'3–5 min rest. Film every set.',2),
+      mkEx(1,'Romanian Deadlift',vSets-1,'8–12','65–72%',rpe,'Slow eccentric. Feel hamstrings. Stop before lower back rounds.',2),
+      mkEx(2,'Nordic Hamstring Curl',2,'4–6','BW eccentric','RPE 8','Eccentric only: lower slowly, use hands to return. Highest hamstring injury prevention exercise.',2),
+      mkEx(2,'Hip Thrust',vSets-1,'10–15','Moderate–Heavy',rpe,'Pause 2s at top. Drive through heels.',2),
+      mkEx(3,'Ab Wheel Rollout',2,'8–12','BW','RPE 7','Kneel if needed. Full extension only when back feels stable.',2),
+      mkEx(3,'Suitcase Carry',2,'25m/side','Moderate KB','RPE 6','Anti-lateral flexion. Upright posture. Do NOT lean toward the weight.',2)
+     ],
+     cardio:{type:'Zone 1 Warm-Up',dur:'10 min',zones:[5,0,0,0,0],proto:['Deadlift-specific warm-up: cat-cow, hip circles, band pull-throughs 2×15, deadlift at 40–60–75%']},
+     tip:'<strong>Deadlift Loading P2:</strong> Increase load by 2.5–5kg per week if technique is perfect. Ego lifting here is the #1 training injury cause. Every rep must be technically sound before adding weight.'},
+    {day:"Sat",type:"strength",label:"Upper Pull Focus + Zone 2",icon:"🔝",badge:"Hyp I — D",badgeColor:"#2e7d32",warmupType:"upper_pull",
+     exercises:[
+      mkEx(1,'Pull-Up / Weighted Pull-Up',vSets,level==='beginner'?'6–10 (assisted)':'Max / 6–10',level==='beginner'?'Band assisted':'BW + belt weight','RPE 8–9','Last set to failure or near failure. Log total reps per session.',2),
+      mkEx(2,'Barbell or DB Row',vSets-1,'8–12','Moderate–Heavy',rpe,'Neutral spine. Pull to lower chest. Full scapular retraction.',2),
+      mkEx(2,'Seated Cable Row',vSets-1,'10–15','Moderate',rpe,'Alternate: close neutral and wide pronated grip weekly.',2),
+      mkEx(3,'Rear Delt Fly',3,'15–20','Light','RPE 7','Horizontal abduction. Critical rotator cuff health.',2),
+      mkEx(3,'Bicep Curl',3,'12–15','Light–Mod','RPE 7–8','Vary: barbell, DB, cable, preacher. Supinate at top.',2)
+     ],
+     cardio:{type:'Zone 2 Post-Lift',dur:'25 min',zones:[0,9,1,0,0],proto:['25 min Zone 2 immediately after lifting. Bike or treadmill incline walk.','HR 61–70% max.']},
+     tip:'<strong>Volume Tracking:</strong> By end of Phase 2 (Week 10), you should be hitting 16–20 working sets per muscle group per week. Log everything. Progressive volume is what drives hypertrophy.'},
+    {day:"Sun",type:"rest",label:"Rest & Reflection",icon:"😴",badge:"Recovery",badgeColor:"#37474f",warmupType:"active",
+     exercises:[],
+     cardio:{type:'Active Recovery',dur:'30 min',zones:[8,2,0,0,0],proto:['Optional 30 min Zone 1 walk or light swim','Review training log: did every muscle group get 12–16+ working sets?','Pre-prep next week meals: protein sources, vegetables, complex carbs','Sleep target: 8+ hours']},
+     tip:'<strong>Weekly Audit:</strong> 4 questions that predict your results: Did every muscle group get 12–16+ working sets? Was protein >1.6g/kg/day? Was Zone 2 completed? Did you sleep 7–9 hours each night?'}
+  ];
+}
+
+function buildP3(week,pWk,level){
+  const loadsMap={beginner:['75%','80%','85%','90%'],intermediate:['80%','85%','90%','95%'],advanced:['83%','88%','93%','97%']};
+  const idx=Math.min(pWk-1,3);
+  const load=loadsMap[level][idx];
+  const isTest=pWk===4;
+  const z2=level==='beginner'?40:level==='advanced'?55:45;
+  return[
+    {day:"Mon",type:"strength",label:"Squat — Max Strength",icon:"⚡",badge:`Strength W${pWk}`,badgeColor:"#6a1b9a",warmupType:"lower_push",
+     exercises:[
+      mkEx(1,'Back Squat',isTest?3:5,isTest?`1–2 @ ${load}`:`3–5 @ ${load}`,load,isTest?'RPE 10':'RPE 8–9',isTest?'TEST DAY: 1RM attempt. 5–8 min rest. Film all sets. Spotter required.':'Rest 3–5 min. Technical perfection. No muscular failure.',3),
+      mkEx(2,'Pause Squat',level==='advanced'?3:2,'3–5','70–75%','RPE 7','3s pause at bottom. Rebuilds bottom position strength.',3),
+      mkEx(3,'Leg Press',2,'10–12','Moderate','RPE 6','Maintenance volume only. Not heavy.',3)
+     ],
+     cardio:{type:'Zone 2 Only',dur:'20 min',zones:[0,7,3,0,0],proto:['20 min Zone 2 before or after session','No HIIT during strength blocks — CNS recovery priority']},
+     tip:'<strong>Strength Phase Rule:</strong> Rest 3–5 minutes between ALL heavy compound sets. The CNS requires full recovery between maximal efforts. Rushing rest is the #1 strength training mistake.'},
+    {day:"Tue",type:"cardio",label:"Zone 2 Recovery",icon:"🚴",badge:"Cardio",badgeColor:"#1565c0",warmupType:"cardio",
+     exercises:[],
+     cardio:{type:'Zone 2 Steady State — No HIIT',dur:`${z2} min`,zones:[0,9,1,0,0],proto:[`${z2} min continuous Zone 2. No HIIT this phase.`,'Preserves aerobic adaptations without taxing CNS','Cycling ideal — minimal DOMS from squatting']},
+     tip:'<strong>Why No HIIT in Strength Phase:</strong> HIIT competes with CNS recovery required for maximal strength work. Zone 2 maintains aerobic adaptations without impairing strength gains. This strategic tradeoff is well-established in concurrent training research.'},
+    {day:"Wed",type:"strength",label:"Upper Strength — Bench & OHP",icon:"💪",badge:`Strength W${pWk}`,badgeColor:"#6a1b9a",warmupType:"upper_push",
+     exercises:[
+      mkEx(1,'Barbell Bench Press',isTest?3:5,isTest?`1–2 @ ${load}`:`3–5 @ ${load}`,load,isTest?'RPE 10':'RPE 8–9',isTest?'3RM or 1RM test. Long rest. Film.':'5 min rest. Bar touches lower chest. No bounce.',3),
+      mkEx(1,'Overhead Press',level==='advanced'?4:3,'4–6',load,'RPE 8–9','Standing or seated. Lock out overhead.',3),
+      mkEx(2,'Weighted Pull-Up',level==='advanced'?4:3,'3–5','BW + weight','RPE 8–9','Increase belt weight each week.',3),
+      mkEx(3,'Tricep Pushdown',2,'10–15','Light','RPE 6','Maintenance isolation.',3)
+     ],
+     cardio:{type:'Zone 1 Warm-Up Only',dur:'10 min',zones:[5,0,0,0,0],proto:['10 min Zone 1 + full shoulder prep','Rotator cuff activation: band ER, YTW']},
+     tip:'<strong>Bench Press Strength Cues:</strong> Moderate arch, retracted scapulae, feet flat on floor — drive feet through floor during the press. This full-body tension is what enables elite bench performance.'},
+    {day:"Thu",type:"cardio",label:"Zone 2 Maintenance",icon:"🏊",badge:"Cardio",badgeColor:"#1565c0",warmupType:"cardio",
+     exercises:[],
+     cardio:{type:'Zone 2',dur:`${z2-5} min`,zones:[0,9,1,0,0],proto:[`${z2-5} min Zone 2. Optional 1x HIIT if HRV is green and feeling fully recovered.`,'Swimming or elliptical preferred — low impact on loaded joints']},
+     tip:'<strong>HRV Autoregulation:</strong> During strength phases, HRV >10% below 7-day average = Zone 2 only today. No heavy lifting. This is not weakness — it is intelligent periodisation.'},
+    {day:"Fri",type:"strength",label:"Deadlift & Posterior Chain",icon:"🔗",badge:`Strength W${pWk}`,badgeColor:"#6a1b9a",warmupType:"lower_pull",
+     exercises:[
+      mkEx(1,'Conventional Deadlift',isTest?3:5,isTest?`1 @ ${load}`:`1–2 @ ${load}`,load,isTest?'RPE 10':'RPE 9',isTest?'DEADLIFT TEST: 1RM attempt. 5–8 min rest. Chalk/straps permitted.':'5 min rest. Chalk recommended. Full stop between reps.',3),
+      mkEx(2,'Romanian Deadlift',2,'6–8','65%','RPE 6–7','Maintenance volume. Not heavy. Hamstring health.',3),
+      mkEx(3,'RKC Plank',3,'30 sec','BW','RPE 7','Maximum total-body tension. Not passive — squeeze everything.',3)
+     ],
+     cardio:{type:'Zone 1–2 Flush',dur:'15 min',zones:[3,7,0,0,0],proto:['15 min easy Zone 1–2 to flush metabolic byproducts post-deadlift']},
+     tip:'<strong>Deadlift Safety First:</strong> The most dangerous rep of any set is the first — not the last. Set up with the same precision on rep 1 as you would a 1RM attempt. Lower back rounding = stop the set immediately.'},
+    {day:"Sat",type:"strength",label:"Upper Pull + Accessory",icon:"🔝",badge:`Strength W${pWk}`,badgeColor:"#6a1b9a",warmupType:"upper_pull",
+     exercises:[
+      mkEx(1,'Weighted Pull-Up',level==='advanced'?4:3,'3–5','Heavy + weight belt','RPE 8–9','5 min rest. Upper body strength priority of Phase 3.',3),
+      mkEx(2,'Heavy DB Row',3,'6–8','Heavy','RPE 8','Brace against bench. Long ROM. Control.',3),
+      mkEx(2,'Face Pull',3,'15–20','Light','RPE 6','Always present. Shoulder health maintenance.',3),
+      mkEx(3,'Farmer Carry',3,'30m','Heavy','RPE 7–8','Progressive load. Grip strength is a mortality predictor.',3)
+     ],
+     cardio:{type:'Zone 2',dur:'30 min',zones:[0,8,2,0,0],proto:['30 min Zone 2 post-session. Aerobic base maintenance.']},
+     tip:'<strong>Phase 3 Expected Outcome:</strong> By end of Week 14, squat +10–15%, deadlift +12–20%, bench +8–15%, OHP +8–12% from Phase 1 baseline. Log your new maxes — they set Phase 4 loading.'},
+    {day:"Sun",type:"rest",label:"Full Rest",icon:"😴",badge:"Recovery",badgeColor:"#37474f",warmupType:"active",
+     exercises:[],
+     cardio:{type:'Rest',dur:'Full rest recommended',zones:[10,0,0,0,0],proto:['Full rest. Strength blocks are highly CNS taxing.',isTest?'TEST WEEK: Log all new 1RMs. These are your Phase 4 baseline.':'Maintain high protein — MPS elevated 48–72h post-strength training.']},
+     tip:'<strong>Recovery Protein:</strong> Muscle protein synthesis remains elevated for up to 72 hours post-resistance session. Distribute protein across 4–5 meals daily (0.3–0.4g/kg per meal) even on rest days.'}
+  ];
+}
+
+function buildP4(week,pWk,level,progress){
+  const sets=level==='beginner'?4:level==='advanced'?6:5;
+  const load=level==='beginner'?'68–76%':level==='advanced'?'74–82%':'70–78%';
+  const adv=progress>0.5;
+  const z2=level==='beginner'?50:level==='advanced'?65:55;
+  return[
+    {day:"Mon",type:"strength",label:"Lower Push — Peak Hypertrophy",icon:"🔥",badge:"Hyp II — A",badgeColor:"#e65100",warmupType:"lower_push",
+     exercises:[
+      mkEx(1,'Back Squat',sets,'6–10',load,'RPE 8–9',adv?'ADVANCED: Last set rest-pause — reach failure, rest 15s, do 2–3 more reps.':'Progressive overload each week on load or reps.',4),
+      mkEx(2,'Hack Squat / Goblet Squat',sets-1,'10–15','Moderate','RPE 8','Quad emphasis. Heels slightly elevated if needed.',4),
+      mkEx(2,'Bulgarian Split Squat',sets-1,'8–12/side','Heavier than Phase 2','RPE 8','Should feel significantly heavier than Phase 2.',4),
+      mkEx(3,'Leg Extension',3,'15–25','Moderate',adv?'RPE 8–9':'RPE 8',adv?'MECH DROP SET: Full ROM ×10 → ¼ ROM (short) ×10 immediately':'Standard 3 sets. Last to near failure.',4),
+      mkEx(3,'Calf Raise (standing)',4,'15–20','Moderate–Heavy','RPE 8','4 sets — calves need high volume. Full dorsiflexion stretch.',4)
+     ],
+     cardio:{type:'Zone 2 Finisher',dur:'15–20 min',zones:[0,8,2,0,0],proto:['Optional 15–20 min Zone 2 post-session (HIIT is Tuesday)']},
+     tip:'<strong>Phase 4 Volume Target:</strong> By weeks 18–20, aim for 18–22+ working sets per muscle group per week. Recovery becomes the limiting factor — sleep, protein, and creatine are your primary recovery tools.'},
+    {day:"Tue",type:"cardio",label:"HIIT + Zone 2 Combination",icon:"❤️",badge:"VO2max",badgeColor:"#c62828",warmupType:"cardio",
+     exercises:[],
+     cardio:{type:'4×4 HIIT Protocol + Zone 2',dur:`${z2} min total`,zones:[0,5,1,3,1],proto:['10 min Zone 2 warm-up — HR must be at 60–65% max before intervals','INTERVAL 1: 4 min at 85–95% HRmax → RECOVERY: 3 min Zone 1','INTERVAL 2: 4 min at 85–95% HRmax → RECOVERY: 3 min Zone 1','INTERVAL 3: 4 min at 85–95% HRmax → RECOVERY: 3 min Zone 1','INTERVAL 4: 4 min at 85–95% HRmax','20 min Zone 2 cool-down — lactate clearance (not optional)']},
+     tip:'<strong>Cool-Down Mechanism:</strong> The 20 min Zone 2 after HIIT is not arbitrary — it actively clears blood lactate, stimulates PGC-1α expression, and maximises the dual cardiovascular adaptation signal. Skipping it reduces adaptation by approximately 30%.'},
+    {day:"Wed",type:"strength",label:"Upper — Push Hypertrophy",icon:"💪",badge:"Hyp II — B",badgeColor:"#e65100",warmupType:"upper_push",
+     exercises:[
+      mkEx(1,'Barbell Bench Press',sets,'6–10',load,'RPE 8–9','Increased load vs Phase 2 — use Phase 3 strength gains here.',4),
+      mkEx(1,'Incline DB Press',sets-1,'8–12','Heavier than P2','RPE 8',adv?'ADVANCED: Rest-pause on last set':'Standard sets.',4),
+      mkEx(2,'Cable Crossover',3,'12–20','Moderate','RPE 8','Full stretch at start. Peak contraction. High reps valid.',4),
+      mkEx(2,'Overhead Press',sets-1,'8–12',load,'RPE 8','Standing OHP for core activation.',4),
+      mkEx(3,'Lateral Raise',4,'15–25','Light–Mod','RPE 8–9','4 sets — shoulder width responds to high volume.',4),
+      mkEx(3,'Face Pull',3,'20','Light','RPE 7','Mandatory every upper session.',4)
+     ],
+     cardio:{type:'Zone 1 Warm-Up',dur:'10 min',zones:[5,0,0,0,0],proto:['Upper body warm-up only']},
+     tip:'<strong>Using Phase 3 Strength:</strong> Your 1RM is now higher. Apply this: if bench 1RM went from 80kg to 95kg, your Phase 4 working weight at 75% is now 71kg instead of 60kg. More load = more tension = more growth.'},
+    {day:"Thu",type:"cardio",label:"Zone 2 + Optional HIIT",icon:"🚴",badge:"Cardio",badgeColor:"#1565c0",warmupType:"cardio",
+     exercises:[],
+     cardio:{type:'Zone 2 + Optional HIIT (weeks 19–20)',dur:`${z2-5} min`,zones:[0,7,1,2,0],proto:['Weeks 15–18: full Zone 2 only','Weeks 19–20: 20 min Zone 2 + 2×4 HIIT + 15 min Zone 2 cool-down','Autoregulate: high lower body soreness from Mon = Zone 2 only']},
+     tip:'<strong>Concurrent Training:</strong> HIIT on the same day as heavy leg training can impair both adaptations. Phase 4 schedules HIIT on Tue/Thu (not Mon/Fri leg days) to minimise interference.'},
+    {day:"Fri",type:"strength",label:"Lower Pull — Hinge Peak Volume",icon:"🔗",badge:"Hyp II — C",badgeColor:"#e65100",warmupType:"lower_pull",
+     exercises:[
+      mkEx(1,'Conventional Deadlift',sets-1,'6–8',level==='beginner'?'72–78%':'78–84%','RPE 8–9','Using new 1RM from Phase 3. No failure on deadlift.',4),
+      mkEx(1,'Romanian Deadlift',sets,'8–12','68–74%','RPE 8','Peak hamstring volume week. Slow eccentric critical.',4),
+      mkEx(2,'Leg Curl (seated)',sets-1,'12–15','Moderate–Heavy','RPE 8','Full ROM. Pause at contracted position.',4),
+      mkEx(2,'Hip Thrust (barbell)',sets-1,'10–15','Heavy','RPE 8','Glute peak. Pause 2s at top.',4),
+      mkEx(3,'Copenhagen Plank',3,'20–30 sec/side','BW','RPE 7','Adductor strength. Reduces groin injury risk.',4)
+     ],
+     cardio:{type:'Zone 1–2 Flush',dur:'15 min',zones:[4,6,0,0,0],proto:['15 min easy Zone 1–2 flush post-session']},
+     tip:'<strong>Peak Volume Warning Signs:</strong> Persistent joint pain (not soreness), chronic exhaustion, sleep disruption = reduce volume 20% for 1 week before scheduled deload. This is autoregulation, not failure.'},
+    {day:"Sat",type:"strength",label:"Upper Pull + Cardio",icon:"🔝",badge:"Hyp II — D",badgeColor:"#e65100",warmupType:"upper_pull",
+     exercises:[
+      mkEx(1,'Weighted Pull-Up',sets,'6–10','BW + added weight','RPE 8–9','Heavier than any previous phase. Use lifting belt.',4),
+      mkEx(2,'Barbell Row',sets-1,'6–10','Moderate–Heavy','RPE 8','Strict form. Pull to lower chest. No body swing.',4),
+      mkEx(2,'Straight-Arm Pulldown',3,'15–20','Moderate','RPE 8','Lat isolation. Straight arms throughout.',4),
+      mkEx(3,'Rear Delt Fly (cable)',3,'20','Light','RPE 8','Rotator cuff health and rear delt development.',4),
+      mkEx(3,'Hammer + Regular Curl',3,'10–12 each','Light–Mod','RPE 7–8','Peak bicep volume. Vary grip.',4)
+     ],
+     cardio:{type:'Zone 2 + HIIT (advanced option weeks 18–20)',dur:'30–40 min',zones:[0,7,1,2,0],proto:['Standard: 30 min Zone 2 post-lift','Advanced weeks 18–20: 20 min Z2 + 2×4 HIIT + 10 min Z2']},
+     tip:'<strong>Phase 4 is the Crucible:</strong> This is the hardest block of the year. Volume and intensity are both high. Nutrition must support it: 200–300 kcal surplus on training days, protein >2g/kg, creatine daily.'},
+    {day:"Sun",type:"rest",label:"Rest & Recovery",icon:"😴",badge:"Recovery",badgeColor:"#37474f",warmupType:"active",
+     exercises:[],
+     cardio:{type:'Rest',dur:'30–45 min walk optional',zones:[8,2,0,0,0],proto:['Full rest or Zone 1 walk only','Meal prep: protein priority, complex carbs for glycogen','Sleep: 8+ hours','Supplements: creatine, Vitamin D, omega-3, magnesium']},
+     tip:'<strong>Advanced Technique Note:</strong> Rest-pause and myo-reps are high-intensity techniques. Limit to 1–2 sets per exercise. Overuse leads to excessive fatigue accumulation.'}
+  ];
+}
+
+function buildP5(week,pWk,level){
+  const ldMap={beginner:['80%','87%','92%','95%','97%','99%'],intermediate:['85%','90%','95%','97%','99%','100%'],advanced:['87%','92%','96%','98%','100%','100%+']};
+  const idx=Math.min(pWk-1,5);
+  const load=ldMap[level][idx];
+  const isTest=pWk>=5;
+  const z2=level==='beginner'?35:level==='advanced'?50:40;
+  return[
+    {day:"Mon",type:"strength",label:"Squat Peaking",icon:"🏆",badge:`Peak W${pWk}`,badgeColor:"#b71c1c",warmupType:"lower_push",
+     exercises:[
+      mkEx(1,'Back Squat',isTest?3:4,isTest?`1–2 @ ${load}`:`2–3 @ ${load}`,load,isTest?'RPE 10':'RPE 9',isTest?'PEAK ATTEMPT. 5–8 min rest. Spotter required. Film.':'Heavy. Low volume. Quality over quantity.',5),
+      mkEx(2,'Front Squat or Pause Squat',2,'2–3','70–75%','RPE 7','Strength skill variation. Prevents accommodation.',5),
+      mkEx(3,'Leg Press',2,'8–10','Moderate','RPE 6','Maintenance only.',5)
+     ],
+     cardio:{type:'Zone 2 Only — Reduced',dur:'20 min',zones:[0,8,2,0,0],proto:['20–25 min Zone 2 only.','Taper cardio volume by 20% in weeks 24–26 for peak performance.']},
+     tip:'<strong>Peaking Phase Psychology:</strong> Volume is deliberately low. Feeling slightly undertrained before peak week is correct — this is supercompensation. Trust the science and the process.'},
+    {day:"Tue",type:"cardio",label:"Active Recovery + Zone 2",icon:"🚴",badge:"Recovery",badgeColor:"#455a64",warmupType:"cardio",
+     exercises:[],
+     cardio:{type:'Zone 2 — Reduced Volume',dur:`${z2-5} min`,zones:[0,8,2,0,0],proto:[`${z2-5} min Zone 2 only. Reduce to 20 min in peak week.`,'Mental rehearsal time: visualise your peak lifts during Zone 2.']},
+     tip:'<strong>Mental Preparation:</strong> Peak strength is 50% physical, 50% mental. Use Zone 2 to visualise your squat, deadlift, and bench attempts. Research on mental rehearsal shows measurable performance improvements.'},
+    {day:"Wed",type:"strength",label:"Bench & OHP Peak",icon:"💪",badge:`Peak W${pWk}`,badgeColor:"#b71c1c",warmupType:"upper_push",
+     exercises:[
+      mkEx(1,'Bench Press',isTest?3:4,isTest?`1–2 @ ${load}`:`2–3 @ ${load}`,load,isTest?'RPE 10':'RPE 9',isTest?'BENCH TEST. Maximum attempt. Spotter essential.':'Technical perfection. 4–5 min rest.',5),
+      mkEx(1,'Overhead Press',3,'2–3',load,'RPE 9',isTest?'OHP 3RM or 1RM test':'OHP strength session.',5),
+      mkEx(2,'Weighted Pull-Up',3,'2–4','Heavy + belt','RPE 9','Upper body pulling strength maintained.',5)
+     ],
+     cardio:{type:'Minimal',dur:'10 min warm-up only',zones:[5,0,0,0,0],proto:['10 min rotator cuff warm-up and shoulder activation only']},
+     tip:'<strong>Bench Peak Technique:</strong> Maximum arch, foot drive, leg drive through floor, pause at chest, maximum full-body tension at lockout. Every cue active simultaneously.'},
+    {day:"Thu",type:"rest",label:"Complete Rest — Pre-Deadlift",icon:"😴",badge:"Recovery",badgeColor:"#37474f",warmupType:"active",
+     exercises:[],
+     cardio:{type:'Complete Rest',dur:'Full rest',zones:[10,0,0,0,0],proto:['No training. No cardio. Complete rest.','Allows maximal glycogen replenishment and CNS recovery for Friday deadlift','Sleep: 8+ hours. High carb + protein dinner tonight']},
+     tip:'<strong>48h Pre-Deadlift Rule:</strong> The deadlift demands the highest total CNS output of any lift. 48 hours complete rest before a peak attempt is evidence-based. Elite powerlifters structure their entire week around this.'},
+    {day:"Fri",type:"strength",label:"Deadlift Peak",icon:"⚡",badge:`Deadlift Peak`,badgeColor:"#b71c1c",warmupType:"lower_pull",
+     exercises:[
+      mkEx(1,'Conventional Deadlift',isTest?3:4,isTest?`1 @ ${load}`:`1–2 @ ${load}`,load,'RPE 10',isTest?'DEADLIFT PEAK. Chalk, belt, straps permitted. 5–8 min between attempts.':'Low rep, high load. Every rep is technically perfect.',5),
+      mkEx(2,'Deficit Deadlift or RDL',2,'3–4','70%','RPE 7','Accessory work. Maintains starting strength.',5)
+     ],
+     cardio:{type:'Zone 1 Flush',dur:'15 min',zones:[6,4,0,0,0],proto:['15 min light Zone 1 flush post-peak. Clears metabolic byproducts significantly.']},
+     tip:'<strong>Phase 5 Expected Results:</strong> Squat +10–20%, Deadlift +12–25%, Bench +8–15%, OHP +8–12% from Phase 3 test week. Intermediate trainees typically see the higher end. Log all new maxes.'},
+    {day:"Sat",type:"strength",label:"Upper Maintenance + Cardio",icon:"🔝",badge:"Maintenance",badgeColor:"#455a64",warmupType:"upper_pull",
+     exercises:[
+      mkEx(2,'Pull-Up',3,'5–8','BW or light weight','RPE 7','Maintenance. Not heavy today.',5),
+      mkEx(2,'DB Row',3,'8–10','Moderate','RPE 7','Moderate intensity. Full ROM.',5),
+      mkEx(3,'Face Pull',3,'20','Light','RPE 6','Shoulder health maintenance. Never skip.',5),
+      mkEx(3,'Farmer Carry',3,'30m','Moderate–Heavy','RPE 7','Functional maintenance. Grip longevity.',5)
+     ],
+     cardio:{type:'Zone 2',dur:'35–40 min',zones:[0,9,1,0,0],proto:['35–40 min Zone 2. Reclaim cardiovascular base before Phase 6.']},
+     tip:'<strong>Transition Mindset:</strong> Phase 6 shifts focus from "how heavy can I go?" to "how aerobically capable and metabolically efficient am I?" Both are profound markers of health. Both required for longevity.'},
+    {day:"Sun",type:"rest",label:"Reflect, Record & Reset",icon:"😴",badge:"Recovery",badgeColor:"#37474f",warmupType:"active",
+     exercises:[],
+     cardio:{type:'Complete Rest',dur:'Optional walk',zones:[8,2,0,0,0],proto:['Log Phase 5 final maxes: Squat, Deadlift, Bench, OHP, Pull-Up max','Compare to Phase 1 baseline — this is your 6-month progress data','Calculate new % values for Phase 6+ reference']},
+     tip:'<strong>Milestone:</strong> You have completed the most demanding 6 months of this program. The cardiovascular phase ahead completes the picture that science identifies as optimal for long-term health.'}
+  ];
+}
+
+function buildP6(week,pWk,level){
+  const z2m=level==='beginner'?55:level==='advanced'?75:65;
+  const z2d=level==='beginner'?45:level==='advanced'?60:50;
+  return[
+    {day:"Mon",type:"strength",label:"Full Body — Strength Maintenance",icon:"🏋️",badge:"Maintain Strength",badgeColor:"#2e7d32",warmupType:"full_body",
+     exercises:[
+      mkEx(1,'Back Squat',3,'5–8','75–80%','RPE 7','Maintenance: 3×6 at moderate load. Preserve squat strength.',6),
+      mkEx(1,'Bench Press',3,'5–8','75–80%','RPE 7','3×6 moderate. Maintain pressing strength.',6),
+      mkEx(2,'Pull-Up',3,'6–10','BW','RPE 7','Bodyweight only this phase.',6),
+      mkEx(2,'Romanian Deadlift',3,'8–10','70%','RPE 7','Hamstring maintenance.',6),
+      mkEx(3,'Face Pull + Lateral Raise',2,'15–20','Light','RPE 6','Shoulder health maintenance — always.',6)
+     ],
+     cardio:{type:'Zone 2 Finisher',dur:'15 min',zones:[0,8,2,0,0],proto:['15 min Zone 2 finisher post-lift. Keep total Mon session under 75 min.']},
+     tip:'<strong>Minimum Effective Dose:</strong> Bickel et al. (Medicine & Science in Sports, 2011): 1/3 of normal volume maintains strength for 32 weeks. 2×/week full body at moderate load is your strength insurance policy.'},
+    {day:"Tue",type:"cardio",label:"Zone 2 — Long",icon:"❤️",badge:"VO2max Phase",badgeColor:"#1565c0",warmupType:"cardio",
+     exercises:[],
+     cardio:{type:'Zone 2 Long Aerobic Effort',dur:`${z2m} min`,zones:[0,9,1,0,0],proto:['5 min Zone 1 warm-up',`${z2m-10} min continuous Zone 2 — HR strictly 61–70% max`,'5 min Zone 1 cool-down','Mode: rowing ideal (full body), cycling, treadmill 10–12% incline walk']},
+     tip:'<strong>Mitochondrial Biogenesis:</strong> Zone 2 maximally stimulates PGC-1α — the master regulator of mitochondrial biogenesis. New mitochondria = more energy capacity, improved fat oxidation at rest. This is the metabolic foundation of healthy ageing.'},
+    {day:"Wed",type:"cardio",label:"HIIT — 4×4 Protocol",icon:"🔥",badge:"HIIT",badgeColor:"#c62828",warmupType:"cardio",
+     exercises:[],
+     cardio:{type:'Norwegian 4×4 HIIT',dur:`${50+(level==='advanced'?10:0)} min total`,zones:[0,4,1,3,2],proto:['10 min Zone 2 warm-up — essential, do not skip','INTERVAL 1: 4 min at 85–95% HRmax → RECOVERY: 3 min active rest','INTERVAL 2: 4 min at 85–95% HRmax → RECOVERY: 3 min active rest','INTERVAL 3: 4 min at 85–95% HRmax → RECOVERY: 3 min active rest','INTERVAL 4: 4 min at 85–95% HRmax','15–20 min Zone 2 cool-down — not optional, mechanistically important',level==='advanced'?'ADVANCED: Add 1–2 extra intervals (5–6 total). Or increase to 95% HRmax.':'Standard: 4 intervals only.']},
+     tip:'<strong>Why the Cool-Down Matters:</strong> The 15–20 min Zone 2 post-HIIT actively clears blood lactate AND stimulates PGC-1α expression for mitochondrial biogenesis. Skipping it significantly reduces the cardiovascular adaptation from the session.'},
+    {day:"Thu",type:"cardio",label:"Zone 2 — Medium",icon:"🚴",badge:"Aerobic Base",badgeColor:"#1565c0",warmupType:"cardio",
+     exercises:[],
+     cardio:{type:'Zone 2 Continuous',dur:`${z2d} min`,zones:[0,9,1,0,0],proto:[`${z2d} min Zone 2 steady state`,'Thursday is 24h after HIIT — lower intensity for recovery','Mode: outdoor cycling preferred (mental recovery + Vitamin D)','Track: speed at same HR should increase week over week (fitness improving)']},
+     tip:'<strong>Zone 2 Progression Metric:</strong> Week over week, your pace at the same heart rate should increase. This is the direct objective measure of improving aerobic efficiency. Track it every Thursday session.'},
+    {day:"Fri",type:"strength",label:"Full Body — Strength Maintenance",icon:"🏋️",badge:"Maintain Strength",badgeColor:"#2e7d32",warmupType:"full_body",
+     exercises:[
+      mkEx(1,'Deadlift',3,'3–5','75–80%','RPE 7','Maintenance deadlift. 3×4 at moderate load. Perfect form.',6),
+      mkEx(1,'Overhead Press',3,'5–8','70–78%','RPE 7','OHP maintenance.',6),
+      mkEx(2,'Single-Arm DB Row',3,'8–12/side','Moderate','RPE 7','Row maintenance.',6),
+      mkEx(2,'Hip Thrust',3,'10–15','Moderate','RPE 7','Glute maintenance.',6),
+      mkEx(3,'Suitcase Carry + Plank',2,'30m / 45 sec','Moderate','RPE 7','Core maintenance.',6)
+     ],
+     cardio:{type:'Zone 2 Finisher',dur:'20 min',zones:[0,8,2,0,0],proto:['20 min Zone 2 finisher. Total weekly Zone 2 target: 180–220 min.']},
+     tip:'<strong>Concurrent Training Meta-Analysis:</strong> Wilson et al. (JSCR, 2012): When cardio and resistance training are separated by 6+ hours (or different days), interference effect is negligible. Both adaptations maximise simultaneously.'},
+    {day:"Sat",type:"cardio",label:"Long Zone 2 + Functional",icon:"🌄",badge:"Endurance",badgeColor:"#1565c0",warmupType:"cardio",
+     exercises:[
+      mkEx(2,'Farmer Carry',4,'40m','Moderate–Heavy','RPE 7','Functional strength within cardio day.',6),
+      mkEx(2,'Sled Push or Incline Walk',4,'30m','Moderate','RPE 7','Functional cardio. Metabolic conditioning.',6)
+     ],
+     cardio:{type:'Zone 2 Long + Functional Work',dur:`${z2m+10} min`,zones:[0,7,2,1,0],proto:['5 min Zone 1','20 min Zone 2 continuous','Functional work: 4×40m farmer carry + 4×30m sled push','Return to Zone 2: 30–35 min continuous','5 min cool-down — total 70–85 min session']},
+     tip:'<strong>Phase 6 Target:</strong> By week 32, total weekly Zone 2 volume should reach 180–220+ min. Expected VO2max improvement: 5–10% from pre-Phase 6 baseline. Retest with 1-mile run time.'},
+    {day:"Sun",type:"rest",label:"Active Recovery",icon:"😴",badge:"Recovery",badgeColor:"#37474f",warmupType:"active",
+     exercises:[],
+     cardio:{type:'Active Recovery',dur:'30 min walk',zones:[8,2,0,0,0],proto:['30 min Zone 1 outdoor walk. Non-negotiable during high-cardio phases.','Carbohydrate replenishment after Saturday long session','Check Zone 2 pace data — going faster at same HR = fitness improving']},
+     tip:'<strong>VO2max is Your Life Insurance:</strong> Mandsager et al. (JAMA Network Open, 2018): Low VO2max is a stronger mortality predictor than smoking, diabetes, hypertension, or cardiovascular disease. Phase 6 is literally extending your lifespan.'}
+  ];
+}
+
+function buildP7(week,pWk,level){
+  const patt=((pWk-1)%4)+1;
+  if(patt===4)return buildDeloadSessions(week,level);
+  const load=level==='beginner'?'70–78%':level==='advanced'?'75–83%':'72–80%';
+  const z2=level==='beginner'?45:level==='advanced'?65:55;
+  return[
+    {day:"Mon",type:"strength",label:"Lower Body — Longevity Focus",icon:"♾️",badge:"Integration",badgeColor:"#4a148c",warmupType:"lower_push",
+     exercises:[
+      mkEx(1,'Squat (choice)',3,'6–10',load,'RPE 7–8','Autoregulate — back squat, front squat, or goblet based on how you feel today.',7),
+      mkEx(2,'Romanian Deadlift',3,'8–12','68–74%','RPE 7–8','Posterior chain maintenance. Hamstring health throughout life.',7),
+      mkEx(2,'Single-Leg Press or Split Squat',3,'10–12/side','Moderate','RPE 7','Unilateral work reduces fall risk — key longevity benefit.',7),
+      mkEx(3,'Calf Raise + Dead Bug',3,'15 / 30 sec','Moderate','RPE 6–7','Lower extremity health and core stability.',7)
+     ],
+     cardio:{type:'Zone 2 Finisher',dur:'20 min',zones:[0,8,2,0,0],proto:['20 min Zone 2 finisher. Maintain aerobic base.']},
+     tip:'<strong>Phase 7 Philosophy:</strong> This phase has no end date. These training patterns, adjusted for life, energy, and age, will be your training template indefinitely. Sustainability is the goal now.'},
+    {day:"Tue",type:"cardio",label:"Zone 2 + HIIT",icon:"❤️",badge:"Cardio Maintenance",badgeColor:"#1565c0",warmupType:"cardio",
+     exercises:[],
+     cardio:{type:'Zone 2 + Optional HIIT',dur:`${z2} min`,zones:[0,7,1,2,0],proto:[patt===1?`${z2} min Zone 2 only — lower intensity week of 4-week rotation`:'20 min Zone 2 + 4×4 HIIT + 20 min Zone 2','Target: 150–200+ min/week Zone 2 maintained indefinitely','HIIT: 1–2×/week maintains VO2max adaptations from Phase 6']},
+     tip:'<strong>Maintenance Research:</strong> The minimum to maintain VO2max adaptations is 2×/week structured aerobic exercise. For longevity optimisation, 150–200+ min/week Zone 2 is supported by a dose-response curve extending well beyond WHO minimums.'},
+    {day:"Wed",type:"strength",label:"Upper Body — Push & Pull",icon:"💪",badge:"Integration",badgeColor:"#4a148c",warmupType:"upper_push",
+     exercises:[
+      mkEx(1,'Bench or Push Variation',3,'6–10',load,'RPE 7–8','Autoregulate — choose the press that feels right. Same stimulus, flexible execution.',7),
+      mkEx(1,'Pull-Up or Row Variation',3,'6–12','BW or Moderate','RPE 7–8','Equal horizontal and vertical pull every week, forever.',7),
+      mkEx(2,'Overhead Press',3,'8–12','Moderate','RPE 7','Shoulder health and function throughout life.',7),
+      mkEx(3,'Face Pull + Lateral Raise',3,'15–20','Light–Mod','RPE 7','These two exercises prevent 80% of shoulder problems. Never drop them.',7)
+     ],
+     cardio:{type:'Zone 1 Warm-Up',dur:'10 min',zones:[5,0,0,0,0],proto:['10 min movement prep. The warm-up is non-negotiable at any age.']},
+     tip:'<strong>Auto-Regulation:</strong> You now have the experience to judge when to push and when to hold back. HRV and subjective energy score <6/10 = reduce intensity. This is wisdom, not weakness.'},
+    {day:"Thu",type:"cardio",label:"Zone 2 Mid-Week",icon:"🚴",badge:"Aerobic Base",badgeColor:"#1565c0",warmupType:"cardio",
+     exercises:[],
+     cardio:{type:'Zone 2 Continuous',dur:`${z2-10} min`,zones:[0,9,1,0,0],proto:[`${z2-10} min Zone 2. The non-negotiable minimum of your weekly cardio.`,'From this point forward: Zone 2 is as essential as sleep and protein.']},
+     tip:'<strong>Zone 2 for Life:</strong> There is no age at which Zone 2 stops being beneficial. Studies in 80+ year olds show meaningful VO2max improvement with appropriate Zone 2 training. Start early, maintain always.'},
+    {day:"Fri",type:"strength",label:"Deadlift & Posterior",icon:"🔗",badge:"Integration",badgeColor:"#4a148c",warmupType:"lower_pull",
+     exercises:[
+      mkEx(1,'Deadlift (conventional or sumo)',3,'4–8',load,'RPE 7–8','Alternate conventional and sumo monthly to vary stimulus and prevent accommodation.',7),
+      mkEx(2,'Hip Thrust or Glute Bridge',3,'12–15','Moderate','RPE 7','Hip extension is the most important functional movement for healthy ageing.',7),
+      mkEx(3,'Copenhagen Plank',3,'25 sec/side','BW','RPE 6','Adductor strength throughout the ageing process.',7),
+      mkEx(3,'Farmer Carry',3,'35m','Moderate–Heavy','RPE 7','Grip strength = longevity. This is a medical intervention.',7)
+     ],
+     cardio:{type:'Zone 1–2',dur:'15 min',zones:[3,7,0,0,0],proto:['15 min Zone 1–2 flush post-session']},
+     tip:'<strong>The Longevity Checklist:</strong> Every week: Did I deadlift? Did I do Zone 2? Did I sleep 7–9 hours? Did I eat 1.6+g protein/kg? Did I take Vitamin D + omega-3? Did I get sunlight? 6/6 = optimal longevity practice.'},
+    {day:"Sat",type:"strength",label:"Upper Pull + Long Zone 2",icon:"🔝",badge:"Integration",badgeColor:"#4a148c",warmupType:"upper_pull",
+     exercises:[
+      mkEx(1,'Pull-Up / Chin-Up',4,'6–12','BW or weighted','RPE 7–8','Pull-up is the upper body litmus test of functional strength throughout life. Maintain it forever.',7),
+      mkEx(2,'Any Row Variation',3,'8–12','Moderate','RPE 7','Horizontal pull: the posture-saver. Combat a lifetime of sitting.',7),
+      mkEx(3,'Bicep + Tricep Accessory',2,'12–15','Light–Mod','RPE 6–7','Arm maintenance. Lower priority now.',7)
+     ],
+     cardio:{type:'Long Zone 2',dur:`${z2+10} min`,zones:[0,8,2,0,0],proto:[`${z2+10} min Zone 2 — longest session of the week`,'Outdoors strongly preferred: nature exposure adds wellbeing benefits beyond the cardio','Social option: walk, cycle, or run with a friend — social + exercise is the longevity double.']},
+     tip:'<strong>You Built Something Real:</strong> By Phase 7, you have developed all qualities the peer-reviewed literature identifies as critical: VO2max, muscle mass, strength, movement quality, aerobic efficiency, and the habits to maintain them forever.'},
+    {day:"Sun",type:"rest",label:"Rest, Nature & Recovery",icon:"🌿",badge:"Longevity",badgeColor:"#2e7d32",warmupType:"active",
+     exercises:[],
+     cardio:{type:'Nature Walk',dur:'30–60 min',zones:[7,3,0,0,0],proto:['30–60 min outdoor nature walk. Green space preferred.','White et al. (Scientific Reports, 2019): 120+ min/week in nature provides significant health and wellbeing benefits.','Reflect: what physical capacity have you built over 52 weeks?']},
+     tip:'<strong>Longevity in One Paragraph:</strong> Move daily. Lift heavy 2–3×/week. Zone 2 for 150–200+ min/week. Sleep 7–9 hours. Eat mostly whole Mediterranean foods. Manage stress. Stay socially connected. Get sunlight. Take Vitamin D, omega-3, creatine, magnesium. Repeat for life.'}
+  ];
+}
+
+function buildDeloadSessions(week,level){
+  const load=level==='beginner'?'55–60%':'60–65%';
+  const z2=35;
+  return[
+    {day:"Mon",type:"strength",label:"Lower Body — Deload",icon:"💤",badge:"DELOAD",badgeColor:"#e65100",warmupType:"lower_push",
+     exercises:[
+      mkEx(2,'Squat (choice)',2,'10–12',load,'RPE 5–6','Light. Easy. This is recovery-promoting movement, not training stimulus.',1),
+      mkEx(2,'RDL',2,'12',load,'RPE 5','Easy movement. Maintain the pattern. No strain.',1)
+     ],
+     cardio:{type:'Easy Zone 1–2',dur:'25 min',zones:[5,5,0,0,0],proto:['25 min easy walk or light cycle. Zone 1–2 only.']},
+     tip:'<strong>Deload is Mandatory:</strong> Planned deloads prevent plateau accumulation, allow connective tissue repair (3–5 day lag behind muscle), and trigger supercompensation — you will be stronger after this week than before.'},
+    {day:"Tue",type:"cardio",label:"Zone 1–2 Easy",icon:"🚶",badge:"DELOAD",badgeColor:"#455a64",warmupType:"active",
+     exercises:[],
+     cardio:{type:'Easy Zone 1–2',dur:`${z2} min`,zones:[5,5,0,0,0],proto:[`${z2} min easy movement. No HIIT. No targets. Movement only.`,'Reduce all cardio volume by ~50% this week.']},
+     tip:'<strong>Deload Cardio Rule:</strong> Zone 2 volume cut to 50%. No HIIT. The goal is active recovery and adaptation consolidation — not fitness gains.'},
+    {day:"Wed",type:"strength",label:"Upper Body — Deload",icon:"💤",badge:"DELOAD",badgeColor:"#e65100",warmupType:"upper_push",
+     exercises:[
+      mkEx(2,'Bench Press',2,'10–12',load,'RPE 5–6','Light technique work. Scapular positioning and bar path focus.',1),
+      mkEx(2,'Row Variation',2,'12',load,'RPE 5','Easy row. Full ROM.',1),
+      mkEx(3,'Face Pull',2,'20','Light','RPE 5','Always present, even in deloads.',1)
+     ],
+     cardio:{type:'None',dur:'10 min warm-up only',zones:[5,0,0,0,0],proto:['10 min movement prep only']},
+     tip:'<strong>Deload Week Productive Activities:</strong> Foam rolling, mobility work, meal prep, reviewing training log, adjusting next phase loads, sleep banking (9+ hours if possible).'},
+    {day:"Thu",type:"active",label:"Easy Walk",icon:"🌳",badge:"DELOAD",badgeColor:"#37474f",warmupType:"active",
+     exercises:[],
+     cardio:{type:'Zone 1 Only',dur:'30 min',zones:[9,1,0,0,0],proto:['30 min easy Zone 1 outdoors. Fresh air and light movement is the only goal.']},
+     tip:'<strong>Sleep Priority this Week:</strong> Use reduced training load to focus on sleep quality. 8–9 hours. Growth hormone, testosterone, and recovery hormones are restored to optimal levels.'},
+    {day:"Fri",type:"strength",label:"Lower Pull — Deload",icon:"💤",badge:"DELOAD",badgeColor:"#e65100",warmupType:"lower_pull",
+     exercises:[
+      mkEx(2,'Deadlift (light)',2,'5',load,'RPE 5','Light pull. Pattern maintenance. Nothing near failure.',1),
+      mkEx(2,'Hip Thrust',2,'15','Light','RPE 5','Glute activation maintenance.',1)
+     ],
+     cardio:{type:'Easy Zone 1–2',dur:'20 min',zones:[6,4,0,0,0],proto:['20 min easy movement only']},
+     tip:'<strong>Connective Tissue Recovery:</strong> Tendons and ligaments heal 3–5 days behind muscle tissue. A deload that feels unnecessary for your muscles is exactly the right duration for connective tissue repair.'},
+    {day:"Sat",type:"active",label:"Light Activity",icon:"🌿",badge:"DELOAD",badgeColor:"#37474f",warmupType:"active",
+     exercises:[],
+     cardio:{type:'Easy Zone 1–2',dur:'30–40 min',zones:[6,4,0,0,0],proto:['30–40 min easy activity: walking, light swim, recreational cycling','Social hiking: Zone 1–2 + social connection + nature — triple longevity win.']},
+     tip:'<strong>Supercompensation Window:</strong> After this deload following a high-volume block, the body rebounds to a new higher performance plateau. You will lift more next week than you could before the deload.'},
+    {day:"Sun",type:"rest",label:"Full Rest",icon:"😴",badge:"DELOAD",badgeColor:"#37474f",warmupType:"active",
+     exercises:[],
+     cardio:{type:'Complete Rest',dur:'Rest',zones:[10,0,0,0,0],proto:['Complete rest. You earned it.','Prepare mentally for next phase. Review what is coming, set new load targets.','Maintain protein intake. Reduce calories slightly on deload (lower energy expenditure).']},
+     tip:'<strong>Deload Complete:</strong> Return to training Monday with 100% energy. Your muscles, CNS, connective tissue, and hormonal system are ready. Progress awaits.'}
+  ];
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// SUPPLEMENTARY DATA
+// ═══════════════════════════════════════════════════════════════════
+const HABITS_DATA=[
+  {time:"On Waking",name:"No phone 30–60 min",desc:"Preserves cortisol awakening response (CAR). Checking notifications immediately suppresses CAR and increases baseline anxiety.",priority:"critical"},
+  {time:"Morning (15–30 min after waking)",name:"Outdoor sunlight 10–30 min",desc:"Sets circadian clock, triggers cortisol response, initiates melatonin timer for that evening. Even cloudy outdoor light is 10–50× brighter than indoor.",priority:"critical"},
+  {time:"Morning",name:"Hydrate — 500–750ml water + electrolytes",desc:"Rehydrate after 7–9 hours overnight fast. Pinch sea salt or electrolyte powder if training in the morning. Coffee does not count.",priority:"high"},
+  {time:"Morning",name:"Core supplement protocol",desc:"Creatine with water. Vitamin D + omega-3 with a fatty meal for absorption. Magnesium reserved for pre-sleep.",priority:"high"},
+  {time:"Pre-Training",name:"Caffeine 3–6mg/kg (if using)",desc:"30–60 min before training. Not within 6 hours of sleep. Cycle off 1 week per month to prevent tolerance build-up.",priority:"medium"},
+  {time:"Training Window",name:"Structured exercise session",desc:"Execute the scheduled session. This is the single highest-leverage health intervention available to a human being. Shortened > missed.",priority:"critical"},
+  {time:"Post-Training (within 2h)",name:"30–40g protein",desc:"Initiate muscle protein synthesis. Whole food preferred. Whey protein acceptable if no meal is possible in time.",priority:"high"},
+  {time:"Throughout Day",name:"8,000–10,000 daily steps",desc:"Paluch et al. (JAMA Network Open, 2022): 8,000 steps/day = 51% lower all-cause mortality vs 4,000 steps. NEAT can be 300–1,500 kcal/day of energy expenditure.",priority:"high"},
+  {time:"Every 45–60 min",name:"Break sitting — 2–5 min movement",desc:"Even brief movement breaks acutely improve blood glucose, blood pressure, and cognitive function. Recurring alarm recommended.",priority:"high"},
+  {time:"Afternoon",name:"No caffeine after 1–2pm",desc:"Caffeine half-life 5–7 hours. A 200mg coffee at 2pm still has 50mg active at midnight. Protect sleep architecture at all costs.",priority:"critical"},
+  {time:"Evening",name:"Mediterranean-style dinner",desc:"Olive oil, vegetables, protein (fish 2×/week minimum), legumes, whole grains. Most evidence-backed dietary pattern for cardiovascular health and longevity.",priority:"high"},
+  {time:"Pre-Sleep (30–60 min)",name:"Magnesium glycinate 300–400mg",desc:"Improves sleep quality, reduces muscle cramping, modulates cortisol. Most absorbed form. Magnesium oxide is poorly absorbed — avoid.",priority:"medium"},
+  {time:"Pre-Sleep (60–90 min)",name:"Dim lights. No screens.",desc:"Melatonin suppressed by blue light. Even dim room light at the wrong time can shift melatonin onset by 90+ minutes.",priority:"critical"},
+  {time:"Bedtime",name:"Consistent sleep time (±30 min)",desc:"Circadian regularity as important as sleep duration. Irregular bedtimes disrupt sleep architecture even when total hours are maintained.",priority:"high"},
+  {time:"Sleep",name:"7–9 hours quality sleep",desc:"Walker: Chronic <7h associated with 4× cardiovascular disease risk, 2× cancer risk, 2× dementia risk. Non-negotiable for athletic adaptation and longevity.",priority:"critical"}
+];
+
+const NUTR_DATA={
+  beginner:{p:'1.6–1.8',c:'3–5',f:'0.8–1.0',kcal:'2,000–2,600',note:"Establish consistent eating patterns first. Hit protein targets before optimising anything else."},
+  intermediate:{p:'1.8–2.0',c:'4–6',f:'0.9–1.1',kcal:'2,400–3,200',note:"Nutrient timing matters now. Pre/post workout nutrition and periodic caloric surplus on training days."},
+  advanced:{p:'2.0–2.4',c:'4–7',f:'0.9–1.2',kcal:'2,800–3,800',note:"Nutritional periodisation: caloric surplus in hypertrophy phases, maintenance in strength phases."}
+};
+
+const SUPPS=[
+  {n:'Creatine Monohydrate',d:'3–5g/day',g:'A',b:'Strength +5–15%, muscle volume, cognitive function',note:'Most studied supplement. Morning or post-workout.'},
+  {n:'Vitamin D3 + K2',d:'2,000–4,000 IU D3 + 100mcg K2',g:'A',b:'Bone, immune, testosterone, mortality reduction',note:'Test serum levels. Target 50–80 ng/mL.'},
+  {n:'Omega-3 (EPA+DHA)',d:'2–3g EPA+DHA/day',g:'A',b:'Cardiovascular, inflammation, MPS support',note:'Fish oil or algae. Take with food.'},
+  {n:'Magnesium Glycinate',d:'300–400mg/evening',g:'B',b:'Sleep quality, muscle function, blood pressure',note:'Pre-sleep. Avoid oxide form (poorly absorbed).'},
+  {n:'Caffeine',d:'3–6mg/kg pre-workout',g:'A',b:'Endurance +3–5%, strength +2–3%, focus',note:'Cycle off monthly. Avoid after 1–2pm.'},
+  {n:'Whey Protein',d:'25–40g as needed',g:'A',b:'Complete protein to hit daily targets',note:'Post-workout or between meals.'},
+  {n:'Ashwagandha (KSM-66)',d:'300–600mg/day',g:'B',b:'Cortisol reduction, recovery, testosterone',note:'Best adaptogen by evidence. Evening meal.'},
+  {n:'Citrulline Malate',d:'6–8g pre-workout',g:'B',b:'Reduced fatigue, blood flow, performance',note:'30–60 min pre-training.'},
+];
+
+const BIOMARKERS=[
+  {n:'HbA1c',r:'<5.6%',w:'3-month blood glucose average. Type 2 diabetes early detection. Responds to Zone 2 training.',f:'Annual'},
+  {n:'Fasting Insulin',r:'<8 mIU/L (opt <5)',w:'Insulin resistance precedes HbA1c elevation by years. True early warning.',f:'Annual'},
+  {n:'hs-CRP',r:'<1.0 mg/L',w:'Systemic inflammation. Responds to exercise, diet, sleep, and stress management.',f:'Annual'},
+  {n:'Vitamin D (25-OH)',r:'50–80 ng/mL',w:'Immune, bone, cardiovascular, hormonal. Deficiency is epidemic globally.',f:'Annual (winter)'},
+  {n:'Testosterone (Total)',r:'600–900 ng/dL (M)',w:'Muscle mass, energy, libido, bone density. Responds to strength training, sleep, zinc.',f:'Annual'},
+  {n:'LDL / ApoB',r:'<100 mg/dL LDL',w:'Request ApoB or LDL-P for accuracy. Standard LDL misses risk in fit individuals.',f:'Annual'},
+  {n:'Triglycerides',r:'<100 mg/dL',w:'Metabolic health proxy. Primary driver: refined carbs and sugar.',f:'Annual'},
+  {n:'HDL Cholesterol',r:'>60 mg/dL',w:'Reverse cholesterol transport. Raised by Zone 2 and omega-3.',f:'Annual'},
+  {n:'Ferritin',r:'100–200 ng/mL (M)',w:'Iron stores. Low ferritin = impaired O2 delivery, fatigue, poor performance.',f:'Annual'},
+  {n:'Resting HR',r:'<55 bpm (athlete)',w:'VO2max proxy. Each bpm reduction ≈ 1% VO2max improvement.',f:'Daily (wearable)'},
+  {n:'HRV (morning)',r:'Personal baseline+',w:'Best single training readiness marker. Falling HRV = systemic stress too high.',f:'Daily (wearable)'},
+];
+
+// ═══════════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════════
+window.addEventListener('load',()=>{
+  loadState();
+  setTimeout(()=>{
+    const l=document.getElementById('loader');
+    l.style.opacity='0';
+    setTimeout(()=>{l.style.display='none'},500);
+    buildSidebar();buildOverview();buildHabits();buildNutrition();buildRecipes('all');buildBiomarkers();
+    updateDashboard();updateLevelBtns();updateProgress();
+    if(currentWeek>1)showWeek(currentWeek);
+  },1400);
+});
+
+// ═══════════════════════════════════════════════════════════════════
+// SIDEBAR
+// ═══════════════════════════════════════════════════════════════════
+function buildSidebar(){
+  const nav=document.getElementById('sidebarNav');
+  let h=`<div><div class="nav-sec-t">Navigation</div>
+    <a class="nav-item active" id="nav-dashboard" onclick="showPage('dashboard')"><span>🏠</span>Dashboard</a>
+    <a class="nav-item" id="nav-overview" onclick="showPage('overview')"><span>📋</span>Program Overview</a>
+    <a class="nav-item" id="nav-habits" onclick="showPage('habits')"><span>🌙</span>Daily Habits</a>
+    <a class="nav-item" id="nav-nutrition" onclick="showPage('nutrition')"><span>🥗</span>Nutrition</a>
+    <a class="nav-item" id="nav-recipes" onclick="showPage('recipes')"><span>👨‍🍳</span>Recipe Library</a>
+    <a class="nav-item" id="nav-logbook" onclick="showPage('logbook');buildLogbook()"><span>📊</span>Progress Log</a>
+    <a class="nav-item" id="nav-biomarkers" onclick="showPage('biomarkers')"><span>🩸</span>Biomarkers</a>
+  </div>
+  <div><div class="nav-sec-t">52-Week Program</div>`;
+  PHASES.forEach(ph=>{
+    const wks=[];for(let w=ph.weeks[0];w<=ph.weeks[1];w++)wks.push(w);
+    h+=`<div class="nav-phase">
+      <div class="nav-ph-h" onclick="togglePhNav(${ph.id})"><span>${ph.icon} ${ph.name}</span><span class="badge">W${ph.weeks[0]}–${ph.weeks[1]}</span></div>
+      <div class="wk-list" id="ph-nav-${ph.id}">
+        ${wks.map(w=>{
+          const done=completedWeeks[currentLevel+'_'+w];
+          const dl=isDeload(w);
+          return`<div class="wk-item ${done?'done':''} ${w===currentWeek?'active':''}" id="wk-${w}" onclick="showWeek(${w})">
+            <div class="wk-dot"></div>W${w}${dl?' 🔄':''}
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  });
+  h+=`</div>`;
+  nav.innerHTML=h;
+}
+function togglePhNav(id){document.getElementById('ph-nav-'+id).classList.toggle('open')}
+
+// ═══════════════════════════════════════════════════════════════════
+// PAGE ROUTING
+// ═══════════════════════════════════════════════════════════════════
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  const ni=document.getElementById('nav-'+name);if(ni)ni.classList.add('active');
+  currentPage=name;
+  const names={dashboard:'Dashboard',overview:'Program Overview',habits:'Daily Habits',nutrition:'Nutrition',recipes:'Recipes',logbook:'Progress Log',biomarkers:'Biomarkers'};
+  document.getElementById('breadcrumb').innerHTML=`<span>${names[name]||name}</span>`;
+}
+
+function showWeek(week){
+  currentWeek=week;
+  const phase=getPhase(week);
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-week').classList.add('active');
+  document.querySelectorAll('.wk-item').forEach(n=>n.classList.remove('active'));
+  const wkNav=document.getElementById('wk-'+week);if(wkNav){wkNav.classList.add('active');wkNav.scrollIntoView({block:'nearest'})}
+  const phNav=document.getElementById('ph-nav-'+phase.id);if(phNav)phNav.classList.add('open');
+  buildWeekPage(week);updateDashboard();saveState();
+  document.getElementById('breadcrumb').innerHTML=`<span onclick="showPage('overview')" style="cursor:pointer;color:var(--txt3)">Phases</span>
+    <span style="color:var(--border2)">/</span>
+    <span style="color:var(--txt3)">${phase.icon} ${phase.name}</span>
+    <span style="color:var(--border2)">/</span>
+    <span>Week ${week}</span>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// WEEK PAGE
+// ═══════════════════════════════════════════════════════════════════
+function buildWeekPage(week){
+  const phase=getPhase(week);
+  const deload=isDeload(week);
+  const sessions=getWeekSessions(week,currentLevel);
+  const isDone=completedWeeks[currentLevel+'_'+week];
+  const pWk=week-phase.weeks[0]+1;
+  const lColor={beginner:'var(--teal2)',intermediate:'var(--amber)',advanced:'#ab47bc'}[currentLevel];
+
+  let h=`<div class="wk-hdr">
+    <div>
+      <div class="wk-phase-tag" style="background:${phase.color}22;color:${phase.color}">${phase.icon} Phase ${phase.id}: ${phase.name}</div>
+      <div class="wk-num">W${String(week).padStart(2,'0')}</div>
+      <div class="wk-title">${deload?'⚡ DELOAD WEEK':getWkTitle(week,phase)}</div>
+      <div class="wk-desc">${getWkDesc(week,phase,currentLevel)}</div>
+    </div>
+    <div class="wk-meta">
+      <div class="wk-meta-item"><div class="ml">Level</div><div class="mv" style="color:${lColor}">${LVL_LABEL[currentLevel]}</div></div>
+      <div class="wk-meta-item"><div class="ml">Phase</div><div class="mv">${phase.id}/7</div></div>
+      <div class="wk-meta-item"><div class="ml">Week</div><div class="mv">${week}/52</div></div>
+    </div>
+  </div>`;
+
+  if(deload)h+=`<div class="deload-banner"><div style="font-size:1.75rem">🔄</div><div><h4>DELOAD WEEK — Volume Reduced 40–50%</h4><p>Mandatory recovery. Do not add sessions. Supercompensation requires this deload. You will be stronger next week.</p></div></div>`;
+
+  // Day tabs
+  h+=`<div class="day-tabs">`;
+  sessions.forEach((s,i)=>{
+    const rc=s.type==='rest'||s.type==='active'?'rest-tab':'';
+    h+=`<button class="day-tab ${rc} ${i===0?'active':''}" onclick="showDay(${i})" id="dt-${i}">
+      <span class="dt-d">${s.day}</span><span>${getDayIcon(s.type)}</span>
+    </button>`;
+  });
+  h+=`</div>`;
+
+  // Session blocks
+  sessions.forEach((s,i)=>{
+    h+=`<div class="session-block" id="db-${i}" style="display:${i===0?'block':'none'}">`;
+    h+=buildSessionHtml(s,phase,week,currentLevel,i);
+    h+=`</div>`;
+  });
+
+  h+=`<button class="btn-done ${isDone?'done':''}" onclick="toggleDone(${week})" id="bd-${week}">
+    ${isDone?'✅ Week Complete — Click to Unmark':'⬜ Mark Week as Complete'}
+  </button>
+  <div class="wk-nav">
+    <button class="btn-wk" ${week<=1?'disabled':''} onclick="showWeek(${week-1})">← Week ${week-1}</button>
+    <button class="btn-wk nx" ${week>=52?'disabled':''} onclick="showWeek(${week+1})">Week ${week+1} →</button>
+  </div>`;
+
+  document.getElementById('page-week').innerHTML=h;
+}
+
+function getDayIcon(t){return{strength:'🏋️',cardio:'🚴',active:'🚶',rest:'😴'}[t]||'📅'}
+
+function getWkTitle(w,phase){
+  const p=w-phase.weeks[0]+1;
+  if(phase.id===1)return['Introduction & Movement','Technique Refinement','Volume Introduction','Foundation Complete'][Math.min(p-1,3)];
+  if(phase.id===2)return['Hypertrophy Introduction','Volume Building','Progressive Loading','Mid-Phase Assessment','Volume Peak Approach','Hypertrophy Peak'][Math.min(p-1,5)];
+  if(phase.id===3)return['Strength Entry','Intensity Progression','Near-Maximal Efforts','1RM Testing Week'][Math.min(p-1,3)];
+  if(phase.id===4)return`Hypertrophy II — Week ${p}`;
+  if(phase.id===5)return`Strength Peaking — Week ${p}`;
+  if(phase.id===6)return`VO2max Phase — Week ${p}`;
+  return`Integration — Week ${w}`;
+}
+
+function getWkDesc(w,phase,level){
+  const mod=LVL_MOD[level];
+  if(isDeload(w))return`Recovery week. Volume 40–50% of previous week. All lifts 55–65% 1RM. No HIIT. Zone 1–2 cardio only.`;
+  const n=mod.note;
+  if(phase.id===1)return`${n} Building foundational movement patterns across all 7 categories. Zone 2 aerobic base establishment. Technique over load — always.`;
+  if(phase.id===2)return`${n} Hypertrophy focus: 16–20 working sets per muscle group per week at peak. Last 1–2 sets of each exercise to 0–2 RIR. HIIT introduced.`;
+  if(phase.id===3)return`${n} Neural efficiency and maximal force output. Volume drops, intensity rises. 3–5 min rest between all heavy compounds. 1RM testing at end.`;
+  if(phase.id===4)return`${n} Peak volume hypertrophy using new strength levels from Phase 3. Advanced techniques introduced. Concurrent VO2max development.`;
+  if(phase.id===5)return`${n} Peaking to new personal records. Volume minimised, intensity at 90–100% 1RM. Feeling slightly undertrained before peak week is correct.`;
+  if(phase.id===6)return`${n} Cardiovascular priority. Strength maintained at minimum effective dose. Zone 2: 180–220 min/week. HIIT: 2×/week. Expected VO2max gain: +5–10%.`;
+  return`${n} Long-term integration. Autoregulate based on HRV and energy. This phase continues indefinitely.`;
+}
+
+function buildSessionHtml(session,phase,week,level,dayIdx){
+  const wuType=session.warmupType||'full_body';
+  const wuSteps=WARMUPS[wuType]||WARMUPS.full_body;
+  let h=`<div class="sess-hdr">
+    <div class="sess-icon">${session.icon}</div>
+    <div><div class="sess-title">${session.label}</div><div class="sess-sub">${session.day} · ${session.type} session</div></div>
+    <span class="sess-badge" style="background:${session.badgeColor}22;color:${session.badgeColor}">${session.badge}</span>
+  </div>`;
+
+  // WARM-UP PANEL
+  h+=`<div class="warmup-panel">
+    <div class="warmup-header" onclick="toggleWarmup('wu-${dayIdx}')">
+      <h4>🔥 Warm-Up Protocol — ${session.type==='cardio'||session.type==='active'?'Cardio/Movement Prep':'Strength Prep'}</h4>
+      <span class="warmup-toggle" id="wu-tog-${dayIdx}">▼ Show</span>
+    </div>
+    <div class="warmup-body collapsed" id="wu-${dayIdx}">
+      <div class="warmup-steps">`;
+  wuSteps.forEach((step,i)=>{
+    h+=`<div class="warmup-step">
+      <div class="ws-num">${i+1}</div>
+      <div class="ws-content">
+        <div class="ws-name">${step.n}</div>
+        <div class="ws-detail">${step.d}</div>
+        <div class="ws-duration">⏱ ${step.dur}</div>
+      </div>
+    </div>`;
+  });
+  h+=`</div></div></div>`;
+
+  // EXERCISE TABLE
+  if(session.exercises&&session.exercises.length>0){
+    h+=`<table class="ex-table">
+      <thead><tr><th style="width:26%">Exercise</th><th style="width:15%">Sets × Reps</th><th style="width:12%">Load</th><th style="width:10%">RPE</th><th>Notes</th><th style="width:10%">Timer</th></tr></thead>
+      <tbody>`;
+    session.exercises.forEach((ex,exIdx)=>{
+      const fg=getFormGuide(ex.name);
+      const fgId=`fg-${dayIdx}-${exIdx}`;
+      h+=`<tr>
+        <td><span class="tier t${ex.tier}">${ex.tier}</span>${ex.name}
+          ${fg?`<br><a style="font-size:.65rem;color:var(--teal2);cursor:pointer" onclick="toggleFormGuide('${fgId}')">📋 Form guide</a>`:''}
+        </td>
+        <td><span class="mono">${ex.sets}×${ex.reps}</span></td>
+        <td><span class="mono" style="color:var(--gold)">${ex.load}</span></td>
+        <td><span class="rpe-p">${ex.rpe}</span></td>
+        <td class="ex-note">${ex.note}</td>
+        <td><button class="btn-timer" onclick="openTimer('${ex.name.replace(/'/g,"\\'")}','${ex.sets}','${ex.reps}','${ex.rpe}',${ex.restSecs})">⏱ ${ex.restSecs}s</button></td>
+      </tr>`;
+      // Log row
+      const logKey=`${currentLevel}_w${currentWeek}_d${dayIdx}_e${exIdx}`;
+      const prevLogs=getRecentLogs(ex.name,3);
+      h+=`<tr style="background:rgba(0,180,200,.03)">
+        <td colspan="6" style="padding:.5rem .75rem">
+          <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap">
+            <span style="font-size:.68rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.08em">Log today:</span>`;
+      const sets=parseInt(ex.sets)||3;
+      for(let s=0;s<Math.min(sets,5);s++){
+        const savedVal=getLogValue(logKey,s);
+        h+=`<div style="display:flex;align-items:center;gap:.3rem">
+          <span style="font-size:.65rem;color:var(--txt3)">S${s+1}</span>
+          <input class="log-input" style="width:55px" type="number" placeholder="kg" id="li-${logKey}-${s}-w" value="${savedVal.w||''}" onchange="autoSaveLog('${logKey}',${s},'${ex.name}')">
+          <span style="font-size:.65rem;color:var(--txt3)">×</span>
+          <input class="log-input" style="width:45px" type="number" placeholder="reps" id="li-${logKey}-${s}-r" value="${savedVal.r||''}" onchange="autoSaveLog('${logKey}',${s},'${ex.name}')">
+        </div>`;
+      }
+      if(prevLogs.length>0){
+        h+=`<span style="font-size:.7rem;color:var(--txt3);margin-left:.5rem">Prev: `;
+        h+=prevLogs.map(l=>`<span style="color:var(--teal2)">${l.best}kg</span> (${l.date})`).join(', ');
+        h+=`</span>`;
+      }
+      h+=`<span class="log-saved-msg" id="lsm-${logKey}">✓ Saved</span></div></td></tr>`;
+
+      // Form guide (if available)
+      if(fg){
+        h+=`<tr id="${fgId}" style="display:none">
+          <td colspan="6" style="padding:.5rem .75rem">
+            <div class="form-guide-body open">
+              <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--txt3);margin-bottom:.5rem">Technique Cues</div>
+              <div class="form-cues">`;
+        fg.cues.forEach(c=>{
+          h+=`<div class="form-cue ${c.key?'key':''}"><div class="fc-phase">${c.phase}</div><div class="fc-text">${c.text}</div></div>`;
+        });
+        h+=`</div>
+              <div class="yt-links">`;
+        fg.ytLinks.forEach(yl=>{
+          h+=`<a class="yt-link" href="${yl.url}" target="_blank" rel="noopener">▶ ${yl.label}</a>`;
+        });
+        h+=`</div>
+              <div class="common-errors">
+                <h5>⚠ Common Errors to Avoid</h5>`;
+        fg.errors.forEach(e=>{h+=`<div class="error-item">${e}</div>`});
+        h+=`</div></div></td></tr>`;
+      }
+    });
+    h+=`</tbody></table>`;
+  }
+
+  // CARDIO BLOCK
+  if(session.cardio){
+    h+=`<div class="cardio-block">
+      <h4>🫀 ${session.cardio.type} — ${session.cardio.dur}</h4>
+      <div class="zone-bar">`;
+    const zones=session.cardio.zones;
+    const tot=zones.reduce((a,b)=>a+b,0)||1;
+    ['z1','z2','z3','z4','z5'].forEach((cls,i)=>{
+      if(zones[i]>0)h+=`<div class="zs ${cls}" style="flex:${zones[i]}" title="Zone ${i+1}: ~${Math.round(zones[i]/tot*100)}%"></div>`;
+    });
+    h+=`</div><ul class="proto-steps">`;
+    session.cardio.proto.forEach((step,i)=>{
+      h+=`<li><span class="step-n">${i+1}.</span>${step}</li>`;
+    });
+    h+=`</ul></div>`;
+  }
+
+  // TIP
+  if(session.tip)h+=`<div class="tip-box"><strong>🔬 Science:</strong> ${session.tip}</div>`;
+
+  return h;
+}
+
+function toggleWarmup(id){
+  const el=document.getElementById(id);
+  const tog=document.getElementById('wu-tog-'+id.split('-')[1]);
+  if(!el)return;
+  el.classList.toggle('collapsed');
+  if(tog)tog.textContent=el.classList.contains('collapsed')?'▼ Show':'▲ Hide';
+}
+
+function toggleFormGuide(id){
+  const el=document.getElementById(id);
+  if(el)el.style.display=el.style.display==='none'?'table-row':'none';
+}
+
+function showDay(i){
+  document.querySelectorAll('.day-tab').forEach((t,j)=>t.classList.toggle('active',j===i));
+  document.querySelectorAll('.session-block').forEach((b,j)=>b.style.display=j===i?'block':'none');
+}
+
+function toggleDone(week){
+  const key=currentLevel+'_'+week;
+  completedWeeks[key]=!completedWeeks[key];
+  saveState();updateProgress();buildSidebar();
+  const btn=document.getElementById('bd-'+week);
+  if(btn){btn.classList.toggle('done',completedWeeks[key]);btn.textContent=completedWeeks[key]?'✅ Week Complete — Click to Unmark':'⬜ Mark Week as Complete';}
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// PROGRESS LOG
+// ═══════════════════════════════════════════════════════════════════
+function getLogKey(level,week,day,exIdx){return`${level}_w${week}_d${day}_e${exIdx}`}
+
+function autoSaveLog(logKey,setIdx,exName){
+  const wEl=document.getElementById(`li-${logKey}-${setIdx}-w`);
+  const rEl=document.getElementById(`li-${logKey}-${setIdx}-r`);
+  if(!wEl||!rEl)return;
+  const w=parseFloat(wEl.value)||0;
+  const r=parseInt(rEl.value)||0;
+  if(!progressLog[exName])progressLog[exName]=[];
+  const dateStr=new Date().toLocaleDateString('en-AU',{day:'2-digit',month:'short'});
+  const existIdx=progressLog[exName].findIndex(e=>e.key===logKey&&e.set===setIdx);
+  const entry={key:logKey,set:setIdx,w,r,date:dateStr,week:currentWeek};
+  if(existIdx>=0)progressLog[exName][existIdx]=entry;
+  else progressLog[exName].push(entry);
+  saveState();
+  const msg=document.getElementById('lsm-'+logKey);
+  if(msg){msg.style.display='inline';setTimeout(()=>msg.style.display='none',1500);}
+}
+
+function getLogValue(logKey,setIdx){
+  for(const exName of Object.keys(progressLog)){
+    const found=progressLog[exName].find(e=>e.key===logKey&&e.set===setIdx);
+    if(found)return{w:found.w,r:found.r};
+  }
+  return{};
+}
+
+function getRecentLogs(exName,count){
+  const logs=progressLog[exName]||[];
+  const byWeek={};
+  logs.forEach(l=>{
+    if(!byWeek[l.week]||l.w>byWeek[l.week].best)byWeek[l.week]={best:l.w,date:l.date};
+  });
+  return Object.entries(byWeek).sort((a,b)=>b[0]-a[0]).slice(0,count).map(([w,d])=>({week:w,best:d.best,date:d.date}));
+}
+
+function buildLogbook(){
+  const container=document.getElementById('logbookContent');
+  const filters=document.getElementById('logFilters');
+  const exNames=Object.keys(progressLog).filter(n=>progressLog[n].length>0);
+  if(exNames.length===0){
+    container.innerHTML=`<div class="empty-log"><div class="el-icon">📊</div><h3>No entries yet</h3><p style="color:var(--txt3)">Log your first set in any week session. Weights and reps are auto-saved as you type.</p></div>`;
+    filters.innerHTML='';return;
+  }
+  // Build filter buttons
+  const cats=['All','Compounds','Isolation','Cardio'];
+  const compoundNames=['squat','deadlift','bench','press','row','pull-up','chin'];
+  filters.innerHTML=cats.map((c,i)=>`<button class="filter-btn ${logFilter===(i===0?'all':c.toLowerCase())?'active':''}" onclick="setLogFilter('${i===0?'all':c.toLowerCase()}')">${c}</button>`).join('');
+
+  let filtered=exNames;
+  if(logFilter==='compounds')filtered=exNames.filter(n=>compoundNames.some(c=>n.toLowerCase().includes(c)));
+  else if(logFilter==='isolation')filtered=exNames.filter(n=>!compoundNames.some(c=>n.toLowerCase().includes(c)));
+
+  if(filtered.length===0){container.innerHTML=`<div class="empty-log"><div class="el-icon">🔍</div><h3>No entries for this filter</h3></div>`;return;}
+
+  let h='';
+  filtered.forEach(exName=>{
+    const logs=progressLog[exName];
+    const maxW=Math.max(...logs.map(l=>l.w||0));
+    const byWeek={};
+    logs.forEach(l=>{
+      const w=l.week;
+      if(!byWeek[w]||l.w>byWeek[w].w)byWeek[w]={w:l.w,r:l.r,date:l.date};
+    });
+    const weeks=Object.entries(byWeek).sort((a,b)=>parseInt(a[0])-parseInt(b[0]));
+    h+=`<div class="ex-log-card">
+      <div class="elc-header">
+        <div class="elc-name">${exName}</div>
+        <div class="elc-pr">🏆 PR: ${maxW}kg</div>
+      </div>
+      <div class="elc-entries">`;
+    weeks.forEach(([wk,data])=>{
+      h+=`<div class="elc-entry">
+        <div class="elc-e-date">W${wk}</div>
+        <div class="elc-e-val">${data.w}<span style="font-size:.65rem">kg</span></div>
+        <div class="elc-e-sub">×${data.r} reps</div>
+        ${data.w===maxW?'<div style="font-size:.6rem;color:var(--gold);margin-top:.15rem">PR ⭐</div>':''}
+      </div>`;
+    });
+    h+=`</div></div>`;
+  });
+  container.innerHTML=h;
+}
+
+function setLogFilter(f){logFilter=f;buildLogbook();}
+
+// ═══════════════════════════════════════════════════════════════════
+// RECIPES
+// ═══════════════════════════════════════════════════════════════════
+function buildRecipes(cat){
+  currentRecipeCat=cat;
+  const filters=document.getElementById('recipeFilters');
+  filters.innerHTML=RECIPE_CATS.map(c=>`<button class="r-filter ${c.id===cat?'active':''}" onclick="buildRecipes('${c.id}')">${c.label}</button>`).join('');
+  const filtered=cat==='all'?RECIPES:RECIPES.filter(r=>r.cat===cat);
+  const grid=document.getElementById('recipeGrid');
+  grid.innerHTML=filtered.map(r=>`
+    <div class="recipe-card" onclick="openRecipe(${r.id})">
+      <span class="rc-emoji">${r.emoji}</span>
+      <div class="rc-body">
+        <span class="rc-tag" style="background:${r.tagColor}22;color:${r.tagColor}">${r.tag}</span>
+        <div class="rc-name">${r.name}</div>
+        <div class="rc-desc">${r.desc}</div>
+        <div class="rc-macros">
+          <span class="rc-macro p">P: ${r.p}g</span>
+          <span class="rc-macro c">C: ${r.c}g</span>
+          <span class="rc-macro f">F: ${r.f}g</span>
+          <span class="rc-macro k">${r.kcal} kcal</span>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function openRecipe(id){
+  const r=RECIPES.find(x=>x.id===id);if(!r)return;
+  const modal=document.getElementById('recipe-modal');
+  const inner=document.getElementById('rm-inner');
+  inner.innerHTML=`
+    <button class="rm-close" onclick="closeRecipeModal()">✕</button>
+    <span class="rm-emoji">${r.emoji}</span>
+    <span class="rm-tag" style="background:${r.tagColor}22;color:${r.tagColor}">${r.tag} · ${r.cat.replace('-',' ').toUpperCase()}</span>
+    <div class="rm-title">${r.name}</div>
+    <div class="rm-desc">${r.desc}</div>
+    <div class="rm-macros">
+      <div class="rm-macro-item"><div class="rm-ml">Protein</div><div class="rm-mv" style="color:#ef9a9a">${r.p}g</div></div>
+      <div class="rm-macro-item"><div class="rm-ml">Carbs</div><div class="rm-mv" style="color:#ffd54f">${r.c}g</div></div>
+      <div class="rm-macro-item"><div class="rm-ml">Fats</div><div class="rm-mv" style="color:#80cbc4">${r.f}g</div></div>
+      <div class="rm-macro-item"><div class="rm-ml">Calories</div><div class="rm-mv" style="color:#b39ddb">${r.kcal}</div></div>
+      <div class="rm-macro-item"><div class="rm-ml">Time</div><div class="rm-mv" style="font-size:1.1rem;color:var(--txt2)">${r.time}</div></div>
+    </div>
+    <div class="rm-section-title">Ingredients (${r.servings} serving${r.servings>1?'s':''})</div>
+    <div class="rm-ingredients">
+      ${r.ingredients.map(i=>`<div class="rm-ing-item"><span class="rm-ing-name">${i.n}</span><span class="rm-ing-amount">${i.a}</span></div>`).join('')}
+    </div>
+    <div class="rm-section-title">Method</div>
+    <div class="rm-steps">
+      ${r.steps.map((s,i)=>`<div class="rm-step"><div class="rm-step-num">${i+1}</div><div class="rm-step-text">${s}</div></div>`).join('')}
+    </div>
+    <div class="rm-note">💡 <strong>Nutrition Note:</strong> ${r.note}</div>`;
+  modal.classList.add('show');
+}
+function closeRecipeModal(e){
+  if(e&&e.target!==document.getElementById('recipe-modal'))return;
+  document.getElementById('recipe-modal').classList.remove('show');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// OVERVIEW PAGE
+// ═══════════════════════════════════════════════════════════════════
+function buildOverview(){
+  document.getElementById('overviewPhases').innerHTML=PHASES.map(p=>`
+    <div class="phase-card" onclick="showWeek(${p.weeks[0]})">
+      <div class="phase-num" style="color:${p.color}44">${p.id}</div>
+      <div class="phase-info">
+        <h3 style="color:${p.color}">${p.icon} Phase ${p.id}: ${p.name}</h3>
+        <p style="color:var(--txt3);font-size:.7rem;font-family:var(--font-m);margin-bottom:.35rem">WEEKS ${p.weeks[0]}–${p.weeks[1]} · ${p.weeks[1]-p.weeks[0]+1} WEEKS</p>
+        <p>${p.goal}</p>
+        <div class="phase-tags">${p.tags.map(t=>`<span class="phase-tag" style="background:${p.color}22;color:${p.color}">${t}</span>`).join('')}</div>
+      </div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// HABITS PAGE
+// ═══════════════════════════════════════════════════════════════════
+function buildHabits(){
+  document.getElementById('habitsContent').innerHTML=`<div class="habit-tl">${HABITS_DATA.map(h=>{
+    const dc={critical:'#00b4c8',high:'#ef5350',medium:'#f9a825'}[h.priority];
+    return`<div class="habit-item">
+      <div class="habit-time">${h.time}</div>
+      <div class="habit-name">
+        <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${dc};margin-right:.4rem;${h.priority==='critical'?'box-shadow:0 0 6px '+dc:''}"></span>
+        ${h.name}
+        <span style="font-size:.65rem;padding:.1rem .38rem;border-radius:3px;background:${dc}22;color:${dc};text-transform:uppercase;letter-spacing:.07em;font-weight:600;margin-left:.4rem">${h.priority==='critical'?'Critical':h.priority==='high'?'High':'Moderate'}</span>
+      </div>
+      <div class="habit-desc">${h.desc}</div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// NUTRITION PAGE
+// ═══════════════════════════════════════════════════════════════════
+function buildNutrition(){
+  const n=NUTR_DATA[currentLevel];
+  document.getElementById('nutritionContent').innerHTML=`
+    <div class="tip-box gn" style="margin-bottom:1.4rem"><strong>Level: ${LVL_LABEL[currentLevel]}</strong> — ${n.note}</div>
+    <div class="h3">Macronutrient Targets (per kg bodyweight/day)</div>
+    <div class="nutr-grid">
+      <div class="macro-card mc-p"><div class="mn">Protein</div><div class="mv">${n.p}g</div><div class="ms">Per kg BW. Across 4–5 meals.</div></div>
+      <div class="macro-card mc-c"><div class="mn">Carbohydrates</div><div class="mv">${n.c}g</div><div class="ms">Higher on training days.</div></div>
+      <div class="macro-card mc-f"><div class="mn">Fats</div><div class="mv">${n.f}g</div><div class="ms">Prioritise EVOO, omega-3.</div></div>
+      <div class="macro-card mc-k"><div class="mn">Total Calories</div><div class="mv">${n.kcal}</div><div class="ms">Adjust for body comp goal.</div></div>
+    </div>
+    <div class="h3">Evidence-Based Supplements</div>
+    <table class="supp-t">
+      <thead><tr><th>Supplement</th><th>Dose</th><th>Grade</th><th>Benefit</th><th>Notes</th></tr></thead>
+      <tbody>${SUPPS.map(s=>`<tr>
+        <td style="font-weight:500;color:var(--txt)">${s.n}</td>
+        <td style="font-family:var(--font-m);font-size:.76rem;color:var(--teal2)">${s.d}</td>
+        <td><span class="${s.g==='A'?'ga':'gb'}">Grade ${s.g}</span></td>
+        <td style="color:var(--txt2);font-size:.8rem">${s.b}</td>
+        <td style="color:var(--txt3);font-size:.76rem">${s.note}</td>
+      </tr>`).join('')}</tbody>
+    </table>
+    <div class="tip-box warn"><strong>⚠ What NOT to buy:</strong> BCAAs (redundant with adequate protein), testosterone boosters (no herbal product meaningfully raises testosterone — fix sleep, zinc, Vitamin D instead), fat burners (no evidence beyond caffeine alone), glutamine (no benefit for healthy athletes).</div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// BIOMARKERS PAGE
+// ═══════════════════════════════════════════════════════════════════
+function buildBiomarkers(){
+  const benchmarks=[
+    ['VO2max (ml/kg/min)','<35 (M)','40 (M)','46 (M)','>52 (M) — Longevity target'],
+    ['1-Mile Run/Walk','>14 min','11–13 min','9–11 min','<9 min — Excellent'],
+    ['Push-Ups (max reps)','<10','15–20','25–30','>40 — Strong'],
+    ['Dead Hang (sec)','<20s','30–45s','60s','>90s — Shoulder health'],
+    ['Grip Strength (kg)','<35 (M)','45 (M)','52 (M)','>58 (M) — Mortality predictor'],
+    ['Resting HR (bpm)','>75','65–75','55–65','<55 — Athlete level'],
+  ];
+  document.getElementById('biomarkersContent').innerHTML=`
+    <div class="tip-box" style="margin-bottom:1.4rem"><strong>Testing Schedule:</strong> Request a full panel at baseline (Week 1), Week 26, and Week 52. Compare trends — not single data points.</div>
+    <div class="h3">Annual Blood Panel</div>
+    ${BIOMARKERS.map(b=>`<div class="bm-row">
+      <div class="bm-name">${b.n}</div>
+      <div class="bm-range">${b.r}</div>
+      <div class="bm-why">${b.w}</div>
+      <div class="bm-freq">${b.f}</div>
+    </div>`).join('')}
+    <div class="h3" style="margin-top:2rem">Fitness Performance Benchmarks</div>
+    <div class="tip-box gn">Test at Week 1 (baseline) → Week 10 → Week 26 → Week 52. Trends reveal the program working.</div>
+    <table class="supp-t">
+      <thead><tr><th>Test</th><th>Below Avg</th><th>Average</th><th>Good</th><th style="color:var(--teal2)">Target (Longevity)</th></tr></thead>
+      <tbody>${benchmarks.map(r=>`<tr>${r.map((c,i)=>`<td ${i===4?'style="color:var(--teal2)"':''}>${c}</td>`).join('')}</tr>`).join('')}</tbody>
+    </table>`;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════════════════════════════
+function updateDashboard(){
+  const phase=getPhase(currentWeek);
+  const done=Object.keys(completedWeeks).filter(k=>k.startsWith(currentLevel+'_')&&completedWeeks[k]).length;
+  const lColor={beginner:'var(--teal2)',intermediate:'var(--amber)',advanced:'#ab47bc'}[currentLevel];
+  const el=id=>document.getElementById(id);
+  if(el('d-phase'))el('d-phase').textContent=phase.id;
+  if(el('d-phase-name'))el('d-phase-name').textContent=phase.name;
+  if(el('d-week'))el('d-week').textContent=currentWeek;
+  if(el('d-done'))el('d-done').textContent=done;
+  if(el('d-level')){el('d-level').textContent=LVL_LABEL[currentLevel];el('d-level').style.color=lColor;}
+  const pc=document.getElementById('phaseCards');
+  if(pc)pc.innerHTML=`<div class="grid-3">${PHASES.map(p=>{
+    const pDone=Array.from({length:p.weeks[1]-p.weeks[0]+1},(_,i)=>p.weeks[0]+i).filter(w=>completedWeeks[currentLevel+'_'+w]).length;
+    const tot=p.weeks[1]-p.weeks[0]+1;
+    const pct=Math.round(pDone/tot*100);
+    return`<div class="card" style="cursor:pointer;border-color:${p.color}44" onclick="showWeek(${p.weeks[0]})">
+      <div class="card-icon">${p.icon}</div>
+      <div class="card-lbl">Phase ${p.id}</div>
+      <div class="card-val" style="color:${p.color};font-size:1.25rem">${p.name}</div>
+      <div style="margin-top:.55rem">
+        <div style="display:flex;justify-content:space-between;font-size:.68rem;color:var(--txt3);margin-bottom:.25rem"><span>W${p.weeks[0]}–${p.weeks[1]}</span><span>${pct}%</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:${p.color}"></div></div>
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// LEVEL SWITCHING
+// ═══════════════════════════════════════════════════════════════════
+function setLevel(level){
+  currentLevel=level;updateLevelBtns();buildSidebar();updateDashboard();updateProgress();buildNutrition();saveState();
+  if(document.getElementById('page-week').classList.contains('active'))buildWeekPage(currentWeek);
+  if(document.getElementById('page-logbook').classList.contains('active'))buildLogbook();
+}
+function updateLevelBtns(){
+  document.querySelectorAll('.lv-btn').forEach(b=>b.classList.remove('active'));
+  const m={beginner:'lb',intermediate:'li',advanced:'la'};
+  const btn=document.querySelector('.'+m[currentLevel]);if(btn)btn.classList.add('active');
+  const dl=document.getElementById('d-level');
+  if(dl){dl.textContent=LVL_LABEL[currentLevel];dl.style.color={beginner:'var(--teal2)',intermediate:'var(--amber)',advanced:'#ab47bc'}[currentLevel];}
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// PROGRESS
+// ═══════════════════════════════════════════════════════════════════
+function updateProgress(){
+  const done=Object.keys(completedWeeks).filter(k=>k.startsWith(currentLevel+'_')&&completedWeeks[k]).length;
+  const pct=Math.round(done/52*100);
+  const f=document.getElementById('progFill'),p=document.getElementById('progPct');
+  if(f)f.style.width=pct+'%';if(p)p.textContent=pct+'%';
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════════════════════════
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open')}
+document.addEventListener('click',e=>{
+  const sb=document.getElementById('sidebar'),hb=document.getElementById('hamburger');
+  if(window.innerWidth<=900&&sb.classList.contains('open')&&!sb.contains(e.target)&&!hb.contains(e.target))sb.classList.remove('open');
+});
+Object.defineProperty(window,'level',{get:()=>currentLevel});
+</script>
+</body>
+</html>
