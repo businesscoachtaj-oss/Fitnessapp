@@ -767,6 +767,100 @@ body.dark .shop-cat-card{background:var(--paper2)}
 
 .btn-n{padding:.3rem .65rem;background:transparent;border:1px solid var(--border);color:var(--txt2);border-radius:4px;cursor:pointer;font-size:.7rem;font-family:var(--font-b);transition:all .15s;font-weight:500}
 .btn-n:hover{border-color:var(--teal2);color:var(--teal2)}
+
+/* ══ MOBILITY PAGE ══ */
+/* ══════════════════════════════════════
+   MOBILITY PAGE
+══════════════════════════════════════ */
+.mob-wrap{padding:1.5rem;max-width:1100px;margin:0 auto}
+
+/* Hero */
+.mob-hero{background:linear-gradient(135deg,#0a3d2e 0%,#0d1117 60%,#1a2f1a 100%);border:1px solid #1a4a30;border-radius:12px;padding:2.5rem 2rem;margin-bottom:1.25rem;position:relative;overflow:hidden}
+.mob-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 50%,rgba(0,131,143,.12),transparent 60%);pointer-events:none}
+.mob-hero-inner{position:relative}
+.mob-hero-tag{font-size:.65rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:#4caf82;margin-bottom:.85rem}
+.mob-hero h1{font-family:var(--font-d);font-size:3rem;line-height:1;color:#fff;letter-spacing:.04em;margin-bottom:.75rem}
+.mob-hero h1 span{color:#00b4c8}
+.mob-hero p{font-size:.85rem;color:rgba(255,255,255,.55);max-width:520px}
+.mob-hero-stats{display:flex;gap:2rem;margin-top:1.5rem}
+.mob-stat{display:flex;flex-direction:column}
+.mob-stat-n{font-family:var(--font-d);font-size:2rem;color:#00b4c8;letter-spacing:.04em;line-height:1}
+.mob-stat-l{font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-top:.15rem}
+
+/* WHO Bar */
+.who-bar{background:rgba(0,131,143,.08);border:1px solid rgba(0,131,143,.25);border-radius:8px;padding:.9rem 1.25rem;margin-bottom:1.25rem}
+.who-inner{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem .75rem}
+.who-item{font-size:.78rem;color:var(--txt2)}
+.who-item strong{color:var(--txt)}
+
+/* Phase Cards */
+.mob-phases{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1.25rem}
+.mob-phase-card{background:var(--bg2);border:1px solid var(--border);border-top-width:3px;border-radius:8px;padding:.9rem 1rem}
+.mob-phase-tag{display:inline-block;font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;padding:.2rem .55rem;border-radius:4px;margin-bottom:.5rem}
+.mob-phase-name{font-family:var(--font-d);font-size:1.05rem;color:var(--txt);letter-spacing:.04em;margin-bottom:.25rem}
+.mob-phase-desc{font-size:.72rem;color:var(--txt3);line-height:1.5}
+
+/* Day Tabs */
+.mob-day-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+.mob-day-tab{padding:.45rem .9rem;font-size:.72rem;font-weight:600;border:1px solid var(--border);background:transparent;color:var(--txt2);border-radius:6px;cursor:pointer;transition:all .2s;white-space:nowrap}
+.mob-day-tab:hover{border-color:var(--teal);color:var(--teal)}
+.mob-day-tab.active{background:var(--teal);border-color:var(--teal);color:#fff}
+
+/* Phase Filter */
+.mob-phase-filter{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:1.25rem;padding:.75rem 1rem;background:var(--bg2);border:1px solid var(--border);border-radius:8px}
+.mob-filter-lbl{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--txt3);margin-right:.25rem}
+.mob-pf-btn{padding:.3rem .75rem;font-size:.7rem;font-weight:600;border:1px solid var(--border);background:transparent;color:var(--txt2);border-radius:5px;cursor:pointer;transition:all .2s}
+.mob-pf-btn:hover{border-color:var(--pc,var(--teal));color:var(--pc,var(--teal))}
+.mob-pf-btn.active{background:var(--pc,var(--teal));border-color:var(--pc,var(--teal));color:#fff}
+
+/* Day Header */
+.mob-day-header{display:flex;align-items:baseline;gap:1rem;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
+.mob-day-emoji{font-size:1.6rem}
+.mob-day-title{font-family:var(--font-d);font-size:1.6rem;color:var(--txt);letter-spacing:.04em}
+.mob-day-meta{font-size:.72rem;color:var(--txt3);margin-left:auto}
+
+/* Exercise Cards */
+.mob-exercises{display:flex;flex-direction:column;gap:.75rem;margin-bottom:1.5rem}
+.mob-ex-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .2s}
+.mob-ex-card:hover{border-color:var(--border2)}
+.mob-ex-header{display:flex;align-items:center;gap:.75rem;padding:.85rem 1rem;cursor:pointer;user-select:none}
+.mob-ex-num{font-family:var(--font-d);font-size:1.1rem;color:var(--teal2);min-width:1.5rem}
+.mob-ex-info{flex:1}
+.mob-ex-name{font-size:.9rem;font-weight:600;color:var(--txt);margin-bottom:.15rem}
+.mob-ex-target{font-size:.7rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.08em}
+.mob-ex-chevron{font-size:.75rem;color:var(--txt3);transition:transform .25s}
+.mob-ex-card.open .mob-ex-chevron{transform:rotate(180deg)}
+
+/* Phase Rows */
+.mob-ex-phases{display:none;padding:0 1rem .85rem}
+.mob-ex-card.open .mob-ex-phases{display:block}
+.mob-phase-row{display:grid;grid-template-columns:120px 1fr 1fr;gap:.5rem;padding:.55rem 0;border-top:1px solid var(--border);align-items:start}
+.mob-phase-row:first-child{border-top:none}
+.mob-ph-badge{display:inline-block;font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.18rem .5rem;border-radius:4px;color:#fff;white-space:nowrap;align-self:center}
+.mob-ph-presc{font-size:.78rem;color:var(--txt);font-weight:500}
+.mob-ph-note{font-size:.73rem;color:var(--txt3);font-style:italic}
+
+/* Phase colour classes */
+.ph-p1{background:#00838f}
+.ph-p2{background:#f9a825;color:#000!important}
+.ph-p3{background:#ab47bc}
+.ph-p4{background:#ef5350}
+
+/* Glossary */
+.mob-glossary{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.mob-gloss-title{font-family:var(--font-d);font-size:1.1rem;color:var(--txt);letter-spacing:.04em;margin-bottom:.85rem}
+.mob-gloss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem .75rem}
+.mob-gloss-item{font-size:.78rem;color:var(--txt2);line-height:1.5}
+.mob-gloss-item strong{color:var(--teal2)}
+
+@media(max-width:768px){
+  .mob-phases{grid-template-columns:repeat(2,1fr)}
+  .who-inner{grid-template-columns:1fr}
+  .mob-gloss-grid{grid-template-columns:1fr}
+  .mob-phase-row{grid-template-columns:100px 1fr;grid-template-rows:auto auto}
+  .mob-ph-note{grid-column:2}
+}
+
 </style>
 </head>
 <body>
@@ -867,6 +961,7 @@ body.dark .shop-cat-card{background:var(--paper2)}
       <button class="btn-n" onclick="showPage('shopping')">🛒 Shop</button>
       <button class="btn-n" onclick="showPage('logbook')">📊 Log</button>
       <button class="btn-n" onclick="showPage('biomarkers')">Biomarkers</button>
+    <button class="tb-btn" onclick="showPage('mobility')">🌿 Mobility</button>
     </div>
     <span id="tb-shop-cnt" style="display:none">0</span>
     <div id="tb-title" style="display:none"></div>
@@ -1055,6 +1150,92 @@ body.dark .shop-cat-card{background:var(--paper2)}
     <div class="sec-sub">Annual blood panel targets, fitness benchmarks, and daily self-monitoring metrics.</div>
     <div id="biomarkersContent"></div>
   </div>
+
+<!-- MOBILITY PAGE -->
+<div class="page" id="page-mobility">
+  <div class="mob-wrap">
+
+    <!-- Hero -->
+    <div class="mob-hero">
+      <div class="mob-hero-inner">
+        <div class="mob-hero-tag">🌿 Groundwork Mobility · 8 Weeks · WHO Compliant</div>
+        <h1>Daily Mobility<br><span>Protocol</span></h1>
+        <p>7 days · 20–30 min · No equipment · 165 min/week · Meets WHO activity guidelines</p>
+        <div class="mob-hero-stats">
+          <div class="mob-stat"><span class="mob-stat-n">165</span><span class="mob-stat-l">Min/Week</span></div>
+          <div class="mob-stat"><span class="mob-stat-n">40</span><span class="mob-stat-l">Exercises</span></div>
+          <div class="mob-stat"><span class="mob-stat-n">4</span><span class="mob-stat-l">Phases</span></div>
+          <div class="mob-stat"><span class="mob-stat-n">8</span><span class="mob-stat-l">Weeks</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHO Badge -->
+    <div class="who-bar">
+      <div class="who-inner">
+        <div class="who-item">✅ <strong>150+ min/week</strong> moderate movement activity</div>
+        <div class="who-item">✅ <strong>Muscle-strengthening</strong> via PAILs/RAILs isometrics</div>
+        <div class="who-item">✅ <strong>Balance training</strong> — ankle stability, proprioception</div>
+        <div class="who-item">✅ <strong>7 days/week</strong> — reduces sedentary behaviour</div>
+      </div>
+    </div>
+
+    <!-- Phase Legend -->
+    <div class="mob-phases">
+      <div class="mob-phase-card" style="border-color:#00838f">
+        <div class="mob-phase-tag" style="background:#00838f">P1 · W1–2</div>
+        <div class="mob-phase-name">Foundation</div>
+        <div class="mob-phase-desc">Passive holds 60–90s · breathe into range</div>
+      </div>
+      <div class="mob-phase-card" style="border-color:#f9a825">
+        <div class="mob-phase-tag" style="background:#f9a825;color:#000">P2 · W3–4</div>
+        <div class="mob-phase-name">Loading</div>
+        <div class="mob-phase-desc">PAILs/RAILs isometric contractions 5–10s</div>
+      </div>
+      <div class="mob-phase-card" style="border-color:#ab47bc">
+        <div class="mob-phase-tag" style="background:#ab47bc">P3 · W5–6</div>
+        <div class="mob-phase-name">CARs & Control</div>
+        <div class="mob-phase-desc">Controlled articular rotations + weighted</div>
+      </div>
+      <div class="mob-phase-card" style="border-color:#ef5350">
+        <div class="mob-phase-tag" style="background:#ef5350">P4 · W7–8</div>
+        <div class="mob-phase-name">Expression</div>
+        <div class="mob-phase-desc">End-range flows · strength holds 3–5 min</div>
+      </div>
+    </div>
+
+    <!-- Day Selector -->
+    <div class="mob-day-tabs" id="mobDayTabs"></div>
+
+    <!-- Active Phase Filter -->
+    <div class="mob-phase-filter">
+      <span class="mob-filter-lbl">Show phase:</span>
+      <button class="mob-pf-btn active" onclick="setMobPhase('all')">All Phases</button>
+      <button class="mob-pf-btn" onclick="setMobPhase('P1 W1–2')" style="--pc:#00838f">P1 Foundation</button>
+      <button class="mob-pf-btn" onclick="setMobPhase('P2 W3–4')" style="--pc:#f9a825">P2 Loading</button>
+      <button class="mob-pf-btn" onclick="setMobPhase('P3 W5–6')" style="--pc:#ab47bc">P3 CARs</button>
+      <button class="mob-pf-btn" onclick="setMobPhase('P4 W7–8')" style="--pc:#ef5350">P4 Expression</button>
+    </div>
+
+    <!-- Exercise Grid -->
+    <div class="mob-exercises" id="mobExercises"></div>
+
+    <!-- Glossary -->
+    <div class="mob-glossary">
+      <div class="mob-gloss-title">Technique Glossary</div>
+      <div class="mob-gloss-grid">
+        <div class="mob-gloss-item"><strong>PAILs</strong> Progressive Angular Isometric Loading — contract away from the stretched direction at end range</div>
+        <div class="mob-gloss-item"><strong>RAILs</strong> Regressive Angular Isometric Loading — contract into the stretched direction at end range</div>
+        <div class="mob-gloss-item"><strong>CARs</strong> Controlled Articular Rotations — slow circles using full joint range under active control</div>
+        <div class="mob-gloss-item"><strong>Irradiation</strong> Squeezing surrounding muscles to create stability, allowing the target joint to relax further</div>
+        <div class="mob-gloss-item"><strong>Nerve Floss</strong> Gentle oscillating movement that slides the nerve through its sheath — reduces sciatic tension</div>
+        <div class="mob-gloss-item"><strong>End Range</strong> The furthest available position of a joint — training here builds lasting mobility gains</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 </div>
 
 
@@ -2774,6 +2955,7 @@ function buildSidebar(){
     <a class="nav-item" id="nav-recipes" onclick="showPage('recipes')"><span>👨‍🍳</span>Recipe Library</a>
     <a class="nav-item" id="nav-logbook" onclick="showPage('logbook');buildLogbook()"><span>📊</span>Progress Log</a>
     <a class="nav-item" id="nav-biomarkers" onclick="showPage('biomarkers')"><span>🩸</span>Biomarkers</a>
+    <a class="nav-item" id="nav-mobility" onclick="showPage('mobility')"><span>🌿</span>Groundwork Mobility</a>
   </div>
   <div><div class="nav-sec-t">52-Week Program</div>`;
   PHASES.forEach(ph=>{
@@ -2814,13 +2996,14 @@ function showPage(name){
   if(pg)pg.classList.add('active');
   const ni=document.getElementById('nav-'+name);if(ni)ni.classList.add('active');
   currentPage=name;
-  const names={dashboard:'Dashboard',overview:'Program Overview',habits:'Daily Habits',nutrition:'Nutrition',recipes:'🍳 Performance Kitchen',calculator:'🔢 Macro Calculator',planner:'📅 Meal Planner',shopping:'🛒 Shopping List',logbook:'Progress Log',biomarkers:'Biomarkers'};
+  const names={dashboard:'Dashboard',overview:'Program Overview',habits:'Daily Habits',nutrition:'Nutrition',recipes:'🍳 Performance Kitchen',calculator:'🔢 Macro Calculator',planner:'📅 Meal Planner',shopping:'🛒 Shopping List',logbook:'Progress Log',biomarkers:'Biomarkers',mobility:'🌿 Groundwork Mobility'};
   document.getElementById('breadcrumb').innerHTML=`<span>${names[name]||name}</span>`;
   if(name==='recipes'){renderGrid();buildChapterStrip();}
   if(name==='planner'){buildPlanner();}
   if(name==='shopping'){renderShoppingList();}
   if(name==='logbook'){buildLogbook();}
   if(name==='biomarkers'){buildBiomarkers();}
+  if(name==='mobility'){buildMobility();}
 }
 
 function showWeek(week){
@@ -3315,6 +3498,98 @@ document.addEventListener('click',e=>{
   if(window.innerWidth<=900&&sb.classList.contains('open')&&!sb.contains(e.target)&&!hb.contains(e.target))sb.classList.remove('open');
 });
 Object.defineProperty(window,'level',{get:()=>currentLevel});
+
+
+
+// ══ MOBILITY ══
+const MOB_DAYS = [{"sheet": "Mon — Hips", "title": "Hip Mobility", "day": "Monday", "duration": "25", "emoji": "🦵", "exercises": [{"name": "90/90 Hip Stretch", "target": "Hip External Rotation", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "Hold 60–90s ea · breathe out tension"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Hold 90s+PAILs/RAILs 5s"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "CARs between sets"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "3 min flow"}]}, {"name": "Kneeling Hip Flexor", "target": "Hip Flexor", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "Hold 60–90s ea · posterior tilt"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "PAILs 10s + hold"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Load with KB"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Flow into lunge complex"}]}, {"name": "Pigeon Pose", "target": "Glutes · Hip ER", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "1 min ea · breathe into glute"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "PAILs at end range"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Weighted pigeon"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Extended flow"}]}, {"name": "Deep Squat Hold", "target": "Full Hip Complex", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "Hold 60s · use TRX if needed"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Add heel elevation work"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Bottom squat CARs"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Loaded deep squat holds"}]}, {"name": "Frog Stretch", "target": "Adductors", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "Hold 90s · relax knees down"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "RAILs: squeeze up 10s"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Rock frog with weight"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Full flow adductor sequence"}]}, {"name": "Hip Circles (CARs)", "target": "Full Hip Joint", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "5 slow circles ea direction"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Full ROM, no shortcuts"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Weighted, max range"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Max speed at full ROM"}]}]}, {"sheet": "Tue — Thoracic", "title": "Thoracic & Shoulders", "day": "Tuesday", "duration": "25", "emoji": "🔄", "exercises": [{"name": "Thoracic Foam Roll", "target": "T-Spine", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "10 reps per segment · breathe"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Add arm reach at top"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Loaded t-spine roll"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Flow: roll → extend → rotate"}]}, {"name": "Thread the Needle", "target": "T-Spine Rotation", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "Hold 30s ea · slow exhale"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "PAILs: push arm up 10s"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Weighted rotation"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Full rotational flow"}]}, {"name": "Doorway Chest Stretch", "target": "Pec Minor", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "Hold 60s ea side"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Add PAILs: push into wall"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Cable chest stretch"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Movement pattern integration"}]}, {"name": "Shoulder CARs", "target": "Glenohumeral Joint", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "5 slow CARs ea"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Wider, fuller circles"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Loaded shoulder CARs"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Max range, controlled"}]}, {"name": "Lat Stretch (Overhead)", "target": "Lats", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "Hold 60s ea side"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "PAILs: pull down 10s"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Loaded lat stretch"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Flow with thoracic work"}]}, {"name": "Neck CARs", "target": "Cervical Spine", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "5 slow CARs each direction"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Full ROM"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Weighted neck CARs"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Max control, full range"}]}]}, {"sheet": "Wed — Hamstrings", "title": "Hamstrings & Lower Back", "day": "Wednesday", "duration": "25", "emoji": "🧘", "exercises": [{"name": "Supine Hamstring Stretch", "target": "Hamstrings", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "Hold 60–90s ea leg"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "PAILs: push leg down 10s"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Cable hamstring stretch"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Flow with hip hinge work"}]}, {"name": "Standing Forward Fold", "target": "Hamstrings · Calves", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "Hold 90s · bend knees if needed"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Add arm reach variations"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Weighted fold"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Ballistic flow"}]}, {"name": "Seated Single-Leg Fold", "target": "Hamstrings · Lower Back", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "Hold 60s ea · round spine"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "PAILs: push leg down"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Loaded stretch"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Flow sequence"}]}, {"name": "Sciatic Nerve Floss", "target": "Sciatic Nerve", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "10 slow floss reps ea"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "15 reps ea"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "20 reps ea"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "25 reps ea — full control"}]}, {"name": "Child's Pose Lateral", "target": "Thoracolumbar", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "Hold 60s ea side"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Add reach variation"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "PNF child's pose"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Integrated flow"}]}, {"name": "Cat-Cow", "target": "Lumbar Spine", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "10 slow reps · breathe"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Add pause at each end"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Loaded cat-cow"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Flow with hip hinge"}]}]}, {"sheet": "Thu — Ankles", "title": "Ankles & Lower Body", "day": "Thursday", "duration": "20", "emoji": "🦶", "exercises": [{"name": "Kneeling Ankle Dorsiflexion", "target": "Ankle DF", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "10 reps ea + 30s end hold"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Increase depth each set"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Loaded dorsiflexion"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Flow: DF → balance → single-leg"}]}, {"name": "Gastroc & Soleus Stretch", "target": "Calf Complex", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "Hold 60s ea / bent and straight"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Add PAILs: push into wall"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Calf raise at end range"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Full calf complex flow"}]}, {"name": "Ankle CARs", "target": "Ankle Joint", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "5 circles ea direction"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Full ROM, slow"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Weighted ankle CARs"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Max range, standing"}]}, {"name": "Toes-Elevated Achilles", "target": "Achilles Tendon", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "Hold 90s ea"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Add load"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Heavy loaded stretch"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Plyometric preparation holds"}]}, {"name": "Single-Leg Balance Hold", "target": "Ankle Stability", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "30s ea / eyes closed"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "45s · add reach"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Balance + proprioception"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Full balance flow"}]}]}, {"sheet": "Fri — Upper Flow", "title": "Upper Body Flow", "day": "Friday", "duration": "25", "emoji": "💪", "exercises": [{"name": "Wrist CARs & Loaded Stretch", "target": "Wrist Joint", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "5 CARs ea + 30s loaded"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Full ROM + PAILs"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Increased load"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Flow: wrist → elbow → shoulder"}]}, {"name": "Trap Stretch", "target": "Upper Traps", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "Hold 60s ea"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "PAILs: push head up 10s"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Loaded trap stretch"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Flow with neck CARs"}]}, {"name": "Cross-Body Shoulder", "target": "Posterior Capsule", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "Hold 60s ea"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Add PAILs"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Cable version"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Integrated shoulder flow"}]}, {"name": "Scapular CARs", "target": "Scapular Stability", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "5 full circles ea direction"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Larger, more controlled"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Loaded scapular CARs"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Max range flow"}]}, {"name": "Sleeper Stretch", "target": "Internal Rotation", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "Hold 60s ea · light pressure only"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Add PAILs"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Loaded sleeper"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Flow with external rotation"}]}, {"name": "Wall Slide", "target": "Shoulder Mobility", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "10 slow reps · full ROM"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Load with KB"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Weighted wall slide"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Full upper body integration"}]}]}, {"sheet": "Sat — Lower Flow", "title": "Lower Body Flow", "day": "Saturday", "duration": "30", "emoji": "🏃", "exercises": [{"name": "World's Greatest Stretch", "target": "Full Lower Body", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "5 reps ea · hold each position"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Add rotation"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Full flow with holds"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "5 min continuous"}]}, {"name": "Wide-Leg Forward Fold", "target": "Adductors · Hamstrings", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "Hold 90s · walk hands out"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "PAILs: squeeze legs down"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Loaded fold"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Flow sequence"}]}, {"name": "Half-Kneeling Adductor", "target": "Adductors", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "Hold 60s ea · breathe laterally"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "PAILs/RAILs"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Loaded adductor rock"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Extended flow"}]}, {"name": "Hip 90/90 Flow", "target": "Hip Complex", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "5 transitions ea side"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Loaded transitions"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Weighted 90/90 flow"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Continuous 5 min flow"}]}, {"name": "Quad Stretch", "target": "Rectus Femoris", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "Hold 60s ea · posterior pelvic tilt"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "PAILs: push foot back"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Loaded quad stretch"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Flow into hip flexor"}]}, {"name": "Cossack Squat", "target": "Adductors · Hips", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "5 slow reps ea"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Add pause at bottom"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Weighted Cossack"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Full lateral flow"}]}, {"name": "Deep Squat Rock", "target": "Full Lower Body", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "10 rocks · hold at depth"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Add rotation"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Weighted deep squat hold"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "5 min continuous flow"}]}]}, {"sheet": "Sun — Integration", "title": "Integration & Recovery", "day": "Sunday", "duration": "20", "emoji": "🌿", "exercises": [{"name": "Box Breathing", "target": "Nervous System", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "5 cycles: 4-4-4-4"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "6 cycles: 5-5-5-5"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "8 cycles: 6-6-6-6"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "10 cycles + body scan"}]}, {"name": "Full Joint CAR Sequence", "target": "Full Body", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "1 rep ea joint · slow"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "2 reps ea joint"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Weighted CARs"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Full flow: 10+ min"}]}, {"name": "Bear Crawl", "target": "Core Stability", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "3 × 20m · slow"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "3 × 25m"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "4 × 25m weighted"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Complex crawl patterns"}]}, {"name": "Couch Stretch", "target": "Hip Flexor · Quad", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "Hold 90s ea"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "Add PAILs"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "Loaded couch stretch"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "Extended flow"}]}, {"name": "Supine Body Scan", "target": "Full Body Recovery", "phases": [{"phase": "P1 W1–2", "prescription": "60–90s hold · breathe", "notes": "5 min · breathe into each area"}, {"phase": "P2 W3–4", "prescription": "PAILs/RAILs 5–10s", "notes": "7 min"}, {"phase": "P3 W5–6", "prescription": "CARs + active hold", "notes": "10 min"}, {"phase": "P4 W7–8", "prescription": "End-range flow 3–5 min", "notes": "15 min full integration"}]}]}];
+let mobCurrentDay = 0;
+let mobCurrentPhase = 'all';
+
+const MOB_PHASE_CLASS = {
+  'P1 W1–2': 'ph-p1',
+  'P2 W3–4': 'ph-p2',
+  'P3 W5–6': 'ph-p3',
+  'P4 W7–8': 'ph-p4',
+};
+
+function buildMobility() {
+  buildMobDayTabs();
+  renderMobDay(mobCurrentDay);
+}
+
+function buildMobDayTabs() {
+  const tabs = document.getElementById('mobDayTabs');
+  if (!tabs) return;
+  tabs.innerHTML = MOB_DAYS.map((d, i) =>
+    `<button class="mob-day-tab ${i === mobCurrentDay ? 'active' : ''}"
+      onclick="selectMobDay(${i})">${d.emoji} ${d.day}</button>`
+  ).join('');
+}
+
+function selectMobDay(idx) {
+  mobCurrentDay = idx;
+  document.querySelectorAll('.mob-day-tab').forEach((t, i) =>
+    t.classList.toggle('active', i === idx));
+  renderMobDay(idx);
+}
+
+function setMobPhase(phase) {
+  mobCurrentPhase = phase;
+  document.querySelectorAll('.mob-pf-btn').forEach(b => b.classList.remove('active'));
+  const clicked = [...document.querySelectorAll('.mob-pf-btn')]
+    .find(b => b.getAttribute('onclick').includes(phase === 'all' ? "'all'" : phase));
+  if (clicked) clicked.classList.add('active');
+  renderMobDay(mobCurrentDay);
+}
+
+function renderMobDay(idx) {
+  const day = MOB_DAYS[idx];
+  const container = document.getElementById('mobExercises');
+  if (!container || !day) return;
+
+  let html = `<div class="mob-day-header">
+    <span class="mob-day-emoji">${day.emoji}</span>
+    <span class="mob-day-title">${day.title}</span>
+    <span class="mob-day-meta">${day.day} · ${day.duration} min</span>
+  </div>`;
+
+  day.exercises.forEach((ex, i) => {
+    const phases = mobCurrentPhase === 'all'
+      ? ex.phases
+      : ex.phases.filter(p => p.phase === mobCurrentPhase);
+    if (phases.length === 0) return;
+
+    const phaseRows = phases.map(p => {
+      const cls = MOB_PHASE_CLASS[p.phase] || 'ph-p1';
+      const short = p.phase.replace('P', 'P').replace(' W', ' ');
+      return `<div class="mob-phase-row">
+        <span class="mob-ph-badge ${cls}">${short}</span>
+        <span class="mob-ph-presc">${p.prescription}</span>
+        <span class="mob-ph-note">${p.notes}</span>
+      </div>`;
+    }).join('');
+
+    html += `<div class="mob-ex-card" id="mob-ex-${idx}-${i}">
+      <div class="mob-ex-header" onclick="toggleMobEx('mob-ex-${idx}-${i}')">
+        <span class="mob-ex-num">${i + 1}</span>
+        <div class="mob-ex-info">
+          <div class="mob-ex-name">${ex.name}</div>
+          <div class="mob-ex-target">${ex.target}</div>
+        </div>
+        <span class="mob-ex-chevron">▼</span>
+      </div>
+      <div class="mob-ex-phases">${phaseRows}</div>
+    </div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+function toggleMobEx(id) {
+  const card = document.getElementById(id);
+  if (card) card.classList.toggle('open');
+}
 
 </script>
 </body>
