@@ -19,7 +19,7 @@
   var CSS = `
     #ct-nav{
       position:sticky;top:0;z-index:200;
-      background:rgba(12,12,12,0.97);
+      background:#0c0c0c;
       border-bottom:1px solid #252525;
       backdrop-filter:blur(16px);
       -webkit-backdrop-filter:blur(16px);
