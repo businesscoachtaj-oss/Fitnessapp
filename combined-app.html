@@ -38,7 +38,8 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-b);font-size:1
 @keyframes ld{from{width:0}to{width:100%}}
 
 /* SIDEBAR */
-#sidebar{position:fixed;top:84px;left:0;bottom:0;width:280px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:100;overflow:hidden;transition:transform .3s}.sb-logo{padding:1.25rem 1.25rem .85rem;border-bottom:1px solid var(--border);flex-shrink:0}
+#sidebar{position:fixed;top:0;left:0;bottom:0;width:280px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:100;overflow:hidden;transition:transform .3s}
+.sb-logo{padding:1.25rem 1.25rem .85rem;border-bottom:1px solid var(--border);flex-shrink:0}
 .sb-logo h2{font-family:var(--font-d);font-size:1.45rem;color:var(--teal2);letter-spacing:.05em;line-height:1.1}
 .sb-logo p{color:var(--txt3);font-size:.68rem;margin-top:.2rem;text-transform:uppercase;letter-spacing:.08em}
 .lv-sw{padding:.55rem .75rem;border-bottom:1px solid var(--border);flex-shrink:0}
@@ -71,8 +72,8 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-b);font-size:1
 .prog-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--teal2));border-radius:2px;transition:width .4s}
 
 /* MAIN */
-#main{margin-left:280px;min-height:100vh;position:relative;isolation:isolate;background:var(--bg);}
-#topbar{position:sticky;top:0;z-index:150;background:#0d1117;border-bottom:1px solid var(--border);padding:.7rem 1.75rem;display:flex;align-items:center;gap:.85rem;flex-wrap:wrap}
+#main{margin-left:280px;min-height:100vh}
+#topbar{position:sticky;top:0;z-index:50;background:rgba(13,17,23,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.7rem 1.75rem;display:flex;align-items:center;gap:.85rem;flex-wrap:wrap}
 .breadcrumb{display:flex;align-items:center;gap:.45rem;font-size:.78rem;color:var(--txt3)}
 .breadcrumb span{color:var(--txt2)}
 .tb-right{margin-left:auto;display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
@@ -83,7 +84,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-b);font-size:1
 
 /* PAGES */
 .page{display:none;padding:1.75rem 2.25rem 4rem;max-width:1100px}
-.page.active{display:block;animation:fi .3s;background:var(--bg);}
+.page.active{display:block;animation:fi .3s}
 @keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 /* HERO */
@@ -498,7 +499,7 @@ body.dark
 /* ══════════════════════════════════════
    FILTER BAR
 ══════════════════════════════════════ */
-.filter-bar{padding:1.1rem 2.5rem;background:var(--paper2);border-bottom:1px solid var(--border);display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;position:sticky;top:168px;z-index:90}
+.filter-bar{padding:1.1rem 2.5rem;background:var(--paper2);border-bottom:1px solid var(--border);display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;position:sticky;top:54px;z-index:90}
 body.dark .filter-bar{background:var(--paper2)}
 .filter-label{font-family:var(--font-c);font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--txt3);flex-shrink:0}
 .filter-pill{padding:.3rem .85rem;border-radius:20px;font-family:var(--font-c);font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--border);background:transparent;color:var(--txt3);cursor:pointer;transition:all .2s;white-space:nowrap}
@@ -971,180 +972,128 @@ body.dark .shop-cat-card{background:var(--paper2)}
   .mob-phase-meta-row{grid-template-columns:1fr}
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   MOBILE OPTIMISATION — comprehensive
-   ═══════════════════════════════════════════════════════════════════ */
-@media(max-width:900px){
+/* ══ SCIENCE PAGE ══ */
+#page-science{padding:0;background:var(--bg)}
 
-  /* CT nav + app topbar spacing */
-  #sidebar{ top:70px !important; }
-  #sync-banner{ left:0 !important; }
-  #main{ padding-top:70px !important; }
-  #topbar{ top:70px !important; }
+.sci-hero{background:linear-gradient(135deg,#0a2744 0%,#00424a 60%,#001a1c 100%);padding:3rem 2rem 2.5rem;position:relative;overflow:hidden}
+.sci-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(0,180,200,.12) 0%,transparent 65%);pointer-events:none}
+.sci-hero-inner{max-width:860px;margin:0 auto;position:relative}
+.sci-badge{display:inline-block;background:rgba(0,180,200,.2);border:1px solid rgba(0,180,200,.4);color:var(--teal2);font-size:.62rem;font-weight:700;letter-spacing:.15em;padding:.3rem .75rem;border-radius:20px;margin-bottom:.75rem;text-transform:uppercase}
+.sci-title{font-family:var(--font-d);font-size:2.4rem;line-height:1.1;color:#fff;margin:0 0 .6rem;letter-spacing:.02em}
+.sci-subtitle{font-size:.9rem;color:rgba(255,255,255,.65);margin:0 0 1.2rem;font-style:italic}
+.sci-ref-strip{display:flex;flex-wrap:wrap;gap:.4rem;font-size:.62rem;color:rgba(255,255,255,.4);letter-spacing:.04em}
+.sci-ref-strip span{color:rgba(255,255,255,.25)}
+.sci-ref-strip span:not(:last-child):nth-child(odd){color:rgba(255,255,255,.5)}
 
-  /* Topbar — wrap and stack gracefully */
-  #topbar{
-    flex-wrap:wrap;
-    gap:.5rem;
-    padding:.6rem 1rem;
-  }
-  .tb-right{
-    width:100%;
-    justify-content:flex-start;
-    flex-wrap:wrap;
-    gap:.35rem;
-  }
-  .btn-n, .tb-btn{
-    font-size:.65rem;
-    padding:.3rem .55rem;
-  }
+.sci-toc{background:var(--bg2);border-bottom:1px solid var(--border);padding:1rem 1.5rem}
+.sci-toc-title{font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--txt3);margin-bottom:.65rem}
+.sci-toc-grid{display:flex;flex-wrap:wrap;gap:.4rem}
+.sci-toc-item{background:var(--bg3);border:1px solid var(--border);color:var(--txt2);font-size:.72rem;padding:.3rem .75rem;border-radius:20px;cursor:pointer;transition:all .15s}
+.sci-toc-item:hover{background:var(--teal);color:#fff;border-color:var(--teal)}
 
-  /* Page content */
-  .page{ padding:.85rem .9rem 5rem; }
+.sci-body{max-width:960px;margin:0 auto;padding:1.5rem 1.5rem 4rem}
 
-  /* Dashboard hero */
-  .hero{ padding:1.5rem 1rem 1.25rem; border-radius:8px; }
-  .hero h1{ font-size:1.8rem; }
-  .hero p{ font-size:.8rem; }
+.sci-section{background:var(--bg2);border:1px solid var(--border);border-radius:12px;margin-bottom:1rem;overflow:hidden}
+.sci-sec-header{display:flex;align-items:center;gap:.85rem;padding:.9rem 1.1rem;cursor:pointer;user-select:none;transition:background .15s}
+.sci-sec-header:hover{background:rgba(255,255,255,.03)}
+.sci-sec-num{width:1.8rem;height:1.8rem;background:var(--teal);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;flex-shrink:0}
+.sci-sec-title{font-size:.92rem;font-weight:700;color:var(--txt);flex:1}
+.sci-chevron{color:var(--txt3);font-size:.65rem;transition:transform .2s;flex-shrink:0}
+.sci-section.open .sci-chevron{transform:rotate(180deg)}
+.sci-section.open .sci-sec-header{border-bottom:1px solid var(--border)}
+.sci-sec-body{display:none;padding:1.2rem 1.4rem}
+.sci-section.open .sci-sec-body{display:block}
+.sci-sec-body h3{font-size:.82rem;font-weight:700;color:var(--teal2);text-transform:uppercase;letter-spacing:.08em;margin:1.2rem 0 .65rem;padding-bottom:.3rem;border-bottom:1px solid var(--border)}
+.sci-sec-body h3:first-child{margin-top:0}
+.sci-sec-body p{font-size:.82rem;color:var(--txt2);line-height:1.65;margin-bottom:.75rem}
+.sci-sec-body ul,
+.sci-sec-body ol{margin:.5rem 0 .75rem 1.1rem;font-size:.8rem;color:var(--txt2);line-height:1.7}
 
-  /* Stats/grid rows */
-  .grid-4{ grid-template-columns:repeat(2,1fr) !important; }
-  .grid-3{ grid-template-columns:repeat(2,1fr) !important; }
-  .stat-grid, .dash-stats{ grid-template-columns:repeat(2,1fr) !important; }
+.sci-table{width:100%;border-collapse:collapse;font-size:.76rem;margin:0 0 1rem}
+.sci-table thead tr{background:rgba(0,131,143,.15)}
+.sci-table th{padding:.55rem .7rem;text-align:left;font-size:.64rem;font-weight:700;color:var(--teal2);text-transform:uppercase;letter-spacing:.07em;border-bottom:1px solid var(--border)}
+.sci-table td{padding:.5rem .7rem;border-bottom:1px solid rgba(255,255,255,.04);color:var(--txt2);vertical-align:top}
+.sci-table tr:last-child td{border-bottom:none}
+.sci-table tr:hover td{background:rgba(255,255,255,.02)}
+.sci-highlight{color:#80deea;font-weight:600}
 
-  /* Phase/week overview */
-  .phase-grid{ grid-template-columns:1fr !important; }
-  .wk-grid{ grid-template-columns:repeat(4,1fr) !important; }
+.sci-callout{border-radius:8px;padding:.9rem 1rem;margin:.5rem 0 1rem;border-left:3px solid}
+.sci-callout-title{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem}
+.sci-callout-blue{background:rgba(30,80,160,.12);border-color:#5b9bd5}
+.sci-callout-blue .sci-callout-title{color:#90caf9}
+.sci-callout-teal{background:rgba(0,131,143,.12);border-color:var(--teal)}
+.sci-callout-teal .sci-callout-title{color:var(--teal2)}
+.sci-callout-amber{background:rgba(255,160,0,.08);border-color:#ffb74d}
+.sci-callout-amber .sci-callout-title{color:#ffcc80}
 
-  /* Session blocks — key mobile fix */
-  .session-block{ padding:.85rem .9rem; }
-  .sess-header{ flex-wrap:wrap; gap:.4rem; }
-  .sess-title{ font-size:.9rem; }
+.sci-pillar-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.65rem;margin:.75rem 0 1.25rem}
+.sci-pillar{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:.9rem;display:flex;flex-direction:column;gap:.3rem}
+.sci-pillar-icon{font-size:1.4rem}
+.sci-pillar-name{font-size:.78rem;font-weight:700;color:var(--txt)}
+.sci-pillar-desc{font-size:.73rem;color:var(--txt3);line-height:1.55}
 
-  /* Exercise table — the big one */
-  .ex-table{ font-size:.75rem; }
-  .ex-table thead{ display:none; } /* hide header — labels shown inline */
-  .ex-table tbody tr{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:.15rem .5rem;
-    padding:.6rem .5rem;
-    border-bottom:1px solid rgba(48,54,61,.6);
-  }
-  .ex-table td{ padding:.15rem 0; border:none; }
-  .ex-table td:first-child{ grid-column:1/-1; font-weight:600; color:var(--txt); font-size:.8rem; }
-  .ex-table td.ex-note{ grid-column:1/-1; font-size:.7rem; color:var(--txt3); }
-  .tier{ font-size:.55rem; padding:.1rem .3rem; }
+.sci-recovery-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.65rem;margin:.75rem 0 1rem}
+.sci-recovery-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:.9rem}
+.sci-rc-icon{font-size:1.3rem;margin-bottom:.3rem}
+.sci-rc-name{font-size:.75rem;font-weight:700;color:var(--txt);margin-bottom:.25rem}
+.sci-rc-text{font-size:.73rem;color:var(--txt3);line-height:1.55}
 
-  /* Log row inputs */
-  .log-inputs{ flex-wrap:wrap; gap:.4rem; }
-  .log-input-group{ flex:1; min-width:80px; }
-  .log-input-group input{ width:100%; font-size:.8rem; padding:.3rem .45rem; }
+.sci-zone{display:inline-block;padding:.15rem .5rem;border-radius:4px;font-size:.65rem;font-weight:700}
+.z1{background:rgba(100,181,246,.15);color:#90caf9}
+.z2{background:rgba(102,187,106,.15);color:#a5d6a7}
+.z3{background:rgba(255,213,79,.15);color:#fff176}
+.z4{background:rgba(255,138,101,.15);color:#ffcc80}
+.z5{background:rgba(239,83,80,.15);color:#ef9a9a}
 
-  /* Warmup block */
-  .warmup-body table{ font-size:.75rem; }
-  .warmup-body td{ padding:.3rem .4rem; }
+.sci-tier{display:inline-block;padding:.15rem .45rem;border-radius:4px;font-size:.62rem;font-weight:700}
+.t1{background:rgba(0,180,200,.2);color:var(--teal2)}
+.t2{background:rgba(179,157,219,.2);color:#ce93d8}
+.t3{background:rgba(255,255,255,.08);color:var(--txt3)}
 
-  /* Form guide */
-  .form-guide-body{ font-size:.8rem; }
-  .form-cues{ grid-template-columns:1fr !important; }
-  .error-list li{ font-size:.75rem; }
+.sci-ev-grade{display:inline-block;padding:.15rem .45rem;border-radius:4px;font-size:.62rem;font-weight:800}
+.sci-ev-grade.a{background:rgba(102,187,106,.2);color:#a5d6a7}
+.sci-ev-grade.b{background:rgba(255,213,79,.15);color:#fff176}
 
-  /* Rest timer button */
-  .btn-timer{ font-size:.65rem; padding:.25rem .4rem; white-space:nowrap; }
+.sci-pri{display:inline-block;padding:.12rem .4rem;border-radius:4px;font-size:.6rem;font-weight:800;letter-spacing:.06em}
+.sci-pri.high{background:rgba(0,180,200,.15);color:var(--teal2)}
+.sci-pri.critical{background:rgba(239,83,80,.15);color:#ef9a9a}
 
-  /* Section headers */
-  .sec-title{ font-size:1.3rem; }
-  .sec-sub{ font-size:.8rem; }
-  .page-hdr{ flex-direction:column; align-items:flex-start; gap:.5rem; }
+.sci-pattern-tabs{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.75rem}
+.sci-ptab{background:var(--bg3);border:1px solid var(--border);color:var(--txt3);font-size:.7rem;padding:.3rem .7rem;border-radius:6px;cursor:pointer;transition:all .15s}
+.sci-ptab.active{background:var(--teal);color:#fff;border-color:var(--teal)}
+.sci-pattern-panel{display:none}
+.sci-pattern-panel.active{display:block}
 
-  /* Week navigation */
-  .wk-nav{ gap:.4rem; flex-wrap:wrap; }
-  .btn-wk{ font-size:.7rem; padding:.4rem .75rem; }
-  .btn-wk.nx{ margin-left:0; }
+.sci-phase-accordion{display:flex;flex-direction:column;gap:.5rem}
+.sci-phase-item{background:var(--bg3);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.sci-phase-hdr{display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;cursor:pointer;font-size:.82rem;color:var(--txt2);font-weight:600}
+.sci-phase-hdr:hover{background:rgba(255,255,255,.03)}
+.sci-phase-hdr span:nth-child(2){flex:1}
+.sci-phase-badge{display:inline-block;padding:.15rem .55rem;border-radius:5px;font-size:.62rem;font-weight:800;letter-spacing:.06em;flex-shrink:0}
+.sci-phase-badge.p1{background:rgba(100,181,246,.2);color:#90caf9}
+.sci-phase-badge.p2{background:rgba(102,187,106,.2);color:#a5d6a7}
+.sci-phase-badge.p3{background:rgba(255,213,79,.2);color:#fff176}
+.sci-phase-badge.p4{background:rgba(255,138,101,.2);color:#ffcc80}
+.sci-phase-badge.p5{background:rgba(239,83,80,.2);color:#ef9a9a}
+.sci-phase-badge.p6{background:rgba(179,157,219,.2);color:#ce93d8}
+.sci-phase-badge.p7{background:rgba(0,180,200,.2);color:var(--teal2)}
+.sci-phase-body{display:none;padding:.85rem 1rem 1rem}
+.sci-phase-item.open .sci-phase-body{display:block}
+.sci-phase-item.open .sci-chevron{transform:rotate(180deg)}
 
-  /* Habits */
-  .habit-grid{ grid-template-columns:1fr !important; }
-  .habit-card{ padding:1rem; }
+.sci-two-col{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem}
 
-  /* Nutrition cards */
-  .macro-grid{ grid-template-columns:repeat(2,1fr) !important; }
-  .timing-grid{ grid-template-columns:1fr !important; }
+.sci-closing{background:linear-gradient(135deg,#0a2744 0%,#001a2e 100%);margin:2rem -1.4rem -1.2rem;padding:2.5rem 2rem}
+.sci-closing-inner{max-width:640px;margin:0 auto;text-align:center}
+.sci-closing-p{font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.7;margin-bottom:.75rem}
+.sci-closing-big{font-family:var(--font-d);font-size:2rem;color:#fff;letter-spacing:.04em;margin:.5rem 0 1rem}
+.sci-closing-commit{font-size:.95rem;font-weight:700;color:var(--teal2);letter-spacing:.04em;margin:.75rem 0 1.5rem}
+.sci-closing-disclaimer{font-size:.65rem;color:rgba(255,255,255,.3);font-style:italic;line-height:1.6}
 
-  /* Logbook */
-  .log-page-filters{ gap:.4rem; }
-  .log-filter-btn{ font-size:.7rem; padding:.3rem .6rem; }
-  .lb-exercise-block{ margin-bottom:1.25rem; }
-  .lb-sets-table{ font-size:.75rem; }
-  .lb-sets-table td{ padding:.35rem .4rem; }
-
-  /* Biomarkers */
-  .bm-grid{ grid-template-columns:1fr !important; }
-  .bm-input-row{ flex-direction:column; gap:.5rem; }
-
-  /* Overview / phases */
-  .overview-phase{ padding:1rem; }
-  .ov-week-grid{ grid-template-columns:repeat(5,1fr) !important; }
-
-  /* Sidebar footer progress bar */
-  .sidebar-footer{ padding:.75rem; }
-
-  /* Level switcher buttons */
-  .level-switcher .level-btns{ gap:.3rem; }
-  .level-btn{ font-size:.65rem; padding:.35rem 0; }
-
-  /* Recipe modal */
-  #recipe-modal .rm-wrap{ flex-direction:column !important; }
-  .rm-left, .rm-right{ width:100% !important; }
-  .rm-left{ border-right:none !important; border-bottom:1px solid var(--border); }
-
-  /* Calc form */
-  .calc-form{ grid-template-columns:1fr !important; }
-  .calc-results{ grid-template-columns:1fr !important; }
-
-  /* Mobility */
-  .mob-day-grid{ grid-template-columns:1fr !important; }
-  .mob-exercise-card{ padding:1rem; }
-  .mob-phase-tabs{ flex-wrap:wrap; gap:.3rem; }
-  .mob-phase-tab{ font-size:.68rem; padding:.3rem .6rem; }
-
-  /* Dashboard phase recipe panel */
-  .prp-grid{ grid-template-columns:1fr !important; }
-
-  /* Planner */
-  .planner-grid{ grid-template-columns:repeat(2,1fr) !important; }
-  .planner-wrap{ padding:.85rem .9rem 3rem; }
-
-  /* Shopping */
-  .shop-cat-sections{ grid-template-columns:1fr !important; }
-}
-
-@media(max-width:480px){
-  /* CT nav is 70px on very small screens */
-  #sidebar{ top:70px !important; }
-  #main{ padding-top:70px !important; }
-
-  .hero h1{ font-size:1.55rem; }
-  .wk-grid{ grid-template-columns:repeat(3,1fr) !important; }
-  .ov-week-grid{ grid-template-columns:repeat(4,1fr) !important; }
-  .stat-grid, .dash-stats{ grid-template-columns:1fr !important; }
-  .macro-grid{ grid-template-columns:1fr !important; }
-  .planner-grid{ grid-template-columns:1fr !important; }
-
-  /* Exercise table even simpler on very small */
-  .ex-table tbody tr{ grid-template-columns:1fr; }
-  .ex-table td:first-child{ font-size:.82rem; }
-
-  /* Topbar buttons — allow scroll */
-  .tb-right{ overflow-x:auto; flex-wrap:nowrap; padding-bottom:.25rem; }
-  .btn-n, .tb-btn{ flex-shrink:0; }
-
-  /* Page padding */
-  .page{ padding:.7rem .75rem 5rem; }
-
-  /* Sync banner */
-  #sync-banner{ flex-wrap:wrap; gap:.5rem; font-size:.75rem; padding:.75rem 1rem; }
-  #sync-banner a{ width:100%; text-align:center; }
+@media(max-width:768px){
+  .sci-title{font-size:1.6rem}
+  .sci-pillar-grid,.sci-recovery-grid,.sci-two-col{grid-template-columns:1fr}
+  .sci-body{padding:1rem 1rem 3rem}
 }
 </style>
 </head>
@@ -1247,6 +1196,7 @@ body.dark .shop-cat-card{background:var(--paper2)}
       <button class="btn-n" onclick="showPage('logbook')">📊 Log</button>
       <button class="btn-n" onclick="showPage('biomarkers')">Biomarkers</button>
     <button class="tb-btn" onclick="showPage('mobility')">🌿 Mobility</button>
+      <button class="btn-n" onclick="showPage('science')">📖 Science</button>
     </div>
     <span id="tb-shop-cnt" style="display:none">0</span>
     <div id="tb-title" style="display:none"></div>
@@ -2730,116 +2680,8 @@ let completedWeeks={},progressLog={};
 let currentRecipeCat='all';
 let logFilter='all';
 
-// ═══════════════════════════════════════════════════════════════════
-// SUPABASE SYNC
-// ═══════════════════════════════════════════════════════════════════
-const SB_URL  = 'https://oqwyemyvmqubzbawcgfj.supabase.co';
-const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9xd3llbXl2bXF1YnpiYXdjZ2ZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5MTA1ODEsImV4cCI6MjA4ODQ4NjU4MX0.AghBMaHcRa9H0ZEbiT6qWCB_1Mpow4EN5rtJPjCTuXTA';
-let sbClient = null, sbUser = null;
-
-async function sbInit() {
-  return new Promise(resolve => {
-    if (window.supabase) { _sbReady(); return; }
-    const s = document.createElement('script');
-    s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
-    s.onload = _sbReady;
-    s.onerror = resolve; // fail silently
-    document.head.appendChild(s);
-    function _sbReady() {
-      try {
-        sbClient = window.supabase.createClient(SB_URL, SB_ANON);
-        sbClient.auth.getSession().then(({data}) => {
-          sbUser = data?.session?.user || null;
-          if (sbUser) hideSyncBanner();
-          else showSyncBanner();
-          resolve();
-        });
-      } catch(e) { resolve(); }
-    }
-  });
-}
-
-function showSyncBanner() {
-  let b = document.getElementById('sync-banner');
-  if (!b) {
-    b = document.createElement('div');
-    b.id = 'sync-banner';
-    b.style.cssText = 'position:fixed;bottom:0;left:280px;right:0;z-index:300;background:#1a2035;border-top:1px solid #303d58;padding:10px 24px;display:flex;align-items:center;gap:16px;font-family:"DM Sans",sans-serif;font-size:13px;color:#7a8aaa;';
-    b.innerHTML = '<span>💾 <strong style="color:#e2ddd6">Progress not synced</strong> — log in to save across devices</span>'
-      + '<a href="signup.html" style="margin-left:auto;background:#CD0404;color:#fff;padding:7px 18px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;white-space:nowrap;flex-shrink:0;">Log In to Save →</a>'
-      + '<button onclick="document.getElementById(\'sync-banner\').style.display=\'none\'" style="background:none;border:none;color:#4a5a78;cursor:pointer;font-size:18px;padding:0 4px;flex-shrink:0;">×</button>';
-    document.body.appendChild(b);
-  }
-  b.style.display = 'flex';
-}
-function hideSyncBanner() {
-  const b = document.getElementById('sync-banner');
-  if (b) b.style.display = 'none';
-}
-
-async function sbSaveProgress() {
-  if (!sbClient || !sbUser) return;
-  try {
-    await sbClient.from('program_progress').upsert({
-      user_id: sbUser.id,
-      current_week: currentWeek,
-      current_level: currentLevel,
-      completed_weeks: completedWeeks,
-      updated_at: new Date().toISOString()
-    }, { onConflict: 'user_id' });
-  } catch(e) { console.warn('Sync progress failed:', e); }
-}
-
-async function sbSaveLogEntry(exName, logKey, setIdx, reps, weight, rpe) {
-  if (!sbClient || !sbUser) return;
-  try {
-    await sbClient.from('workout_log').upsert({
-      user_id: sbUser.id,
-      exercise_name: exName,
-      log_key: logKey,
-      set_index: setIdx,
-      reps: reps || '',
-      weight: weight || '',
-      rpe: rpe || '',
-      logged_at: new Date().toISOString()
-    }, { onConflict: 'user_id,exercise_name,log_key,set_index' });
-  } catch(e) { console.warn('Sync log failed:', e); }
-}
-
-async function sbLoadState() {
-  if (!sbClient || !sbUser) return false;
-  try {
-    const [prog, logs] = await Promise.all([
-      sbClient.from('program_progress').select('*').eq('user_id', sbUser.id).single(),
-      sbClient.from('workout_log').select('*').eq('user_id', sbUser.id)
-    ]);
-    if (prog.data) {
-      currentWeek   = prog.data.current_week   || 1;
-      currentLevel  = prog.data.current_level  || 'beginner';
-      completedWeeks= prog.data.completed_weeks|| {};
-    }
-    if (logs.data && logs.data.length > 0) {
-      progressLog = {};
-      logs.data.forEach(row => {
-        if (!progressLog[row.exercise_name]) progressLog[row.exercise_name] = [];
-        progressLog[row.exercise_name].push({
-          key: row.log_key, set: row.set_index,
-          reps: row.reps, weight: row.weight, rpe: row.rpe
-        });
-      });
-    }
-    return true;
-  } catch(e) { console.warn('Load from Supabase failed:', e); return false; }
-}
-
-// ═══════════════════════════════════════════════════════════════════
-// STATE (localStorage + Supabase)
-// ═══════════════════════════════════════════════════════════════════
 function saveState(){
-  // Always save locally for instant persistence
   try{localStorage.setItem('hfp2_state',JSON.stringify({level:currentLevel,week:currentWeek,completed:completedWeeks,log:progressLog}));}catch(e){}
-  // Async sync to Supabase if logged in
-  sbSaveProgress();
 }
 function loadState(){
   try{
@@ -2882,64 +2724,199 @@ function mkEx(tier,name,sets,reps,load,rpe,note,phaseId){
 }
 
 function buildP1(week,pWk,level){
-  const load=level==='beginner'?'55–65%':level==='advanced'?'67–73%':'62–70%';
-  const sets=level==='beginner'?2:level==='advanced'?4:3;
-  const z2m=level==='beginner'?30:level==='advanced'?50:40;
+  // ── per-level Foundation parameters ──────────────────────────────
+  const cfg = {
+    beginner: {
+      load:      '55–65%',
+      sets:      2,
+      z2min:     30,
+      rpe: {
+        t1_main:  'RPE 5–6',   // learning the pattern — no strain
+        t1_acc:   'RPE 5',
+        t2:       'RPE 5',
+        t3:       'RPE 5',
+      },
+      squat:     'Goblet Squat',
+      deadlift:  'Romanian Deadlift (DB)',
+      press:     'DB Bench Press',
+      pull:      'Lat Pulldown',
+      pullSat:   'Lat Pulldown (wide grip)',
+      pullSatRep:'10–12',
+      splitSq:   'Box Step-Up',
+      hipThrust: 'Glute Bridge (banded)',
+      notes: {
+        squat:    'Goblet hold teaches upright torso automatically. Feel the stretch at the bottom. 3s down, 1s pause, 1s up.',
+        rdl:      'DB version — focus entirely on the hip hinge movement. Shoulder blades back, hinge at hip, feel hamstrings stretch. This is the most important pattern you will learn.',
+        bench:    '3s eccentric. Retract shoulder blades before every rep. No bouncing off the chest.',
+        row:      'Feel the full stretch at the start of every rep. Drive elbows back — not hands.',
+        pullup:   'Full dead hang start. Initiate by pulling shoulder blades down — then pull. Chin clears bar.',
+        carry:    'Light load — this is a posture lesson, not a strength test. Shoulder packed, spine tall.',
+      },
+      tip_mon:   '<strong>Foundation for Beginners:</strong> RPE 5–6 means you should feel like you could do 4–5 more reps. This is intentional — the first 2 weeks are about building the motor pattern, not the muscle. The technique you build now is the ceiling for everything that follows.',
+      tip_fri:   '<strong>The Hip Hinge:</strong> The RDL movement pattern is the most important thing you will learn in this phase. Every posterior chain exercise in this program — deadlifts, RDLs, KB swings — starts from this groove. Take video from the side every session.',
+      tip_sat:   '<strong>Pulling Strength:</strong> Lat pulldowns now will build you to pull-ups later. Every rep counts. Full range — full stretch at the top, full contraction at the bottom.',
+      duration_note: 'Phase 1 takes 4 full weeks. Do not rush.',
+    },
+    intermediate: {
+      load:      '62–70%',
+      sets:      3,
+      z2min:     40,
+      rpe: {
+        t1_main:  'RPE 6–7',   // working sets — controlled effort
+        t1_acc:   'RPE 6',
+        t2:       'RPE 6–7',
+        t3:       'RPE 6',
+      },
+      squat:     'Back Squat',
+      deadlift:  'Romanian Deadlift (Barbell)',
+      press:     'Barbell Bench Press',
+      pull:      'Lat Pulldown',
+      pullSat:   'Pull-Up / Lat Pulldown',
+      pullSatRep:'6–10 / AMRAP',
+      splitSq:   'Bulgarian Split Squat',
+      hipThrust: 'Hip Thrust (barbell)',
+      notes: {
+        squat:    'Depth = hip crease below knee. Film from the side. 3s eccentric — control every rep. This is movement quality reset after your previous blocks.',
+        rdl:      'Barbell version. Hip hinge with purpose. Shoulder blades retracted. Feel hamstrings load. This is your posterior chain audit — identify any side asymmetry.',
+        bench:    'Retract scapulae before unracking. Control 3s eccentric. Pause at bottom if grip/touch-and-go is habitually sloppy.',
+        row:      'Full stretch at start. Drive elbows to hips. No body swing — if you are swinging, reduce load.',
+        pullup:   'Dead hang start mandatory. This phase: focus on full ROM, not reps. Add weight when AMRAP exceeds 10 clean reps.',
+        carry:    'Moderate KB. Upright posture. This is a loaded test of spinal stability — treat it seriously.',
+      },
+      tip_mon:   '<strong>Foundation at Your Level:</strong> RPE 6–7 means 3–4 reps in reserve. You will feel worked but controlled. Foundation is a technique audit and aerobic base builder — not a vacation from effort.',
+      tip_fri:   '<strong>RDL Reset:</strong> After strength phases, the hip hinge can accumulate technical debt. Use these 4 weeks to audit and refine. Film from the side — back position, depth, bar path.',
+      tip_sat:   '<strong>Pull-Up Priority:</strong> If you can do 10+ clean pull-ups, add a 5–10kg weight belt from week 3 of Foundation.',
+      duration_note: 'Foundation: 4 weeks. Can compress to 3 if returning from a recent well-trained block.',
+    },
+    advanced: {
+      load:      '67–75%',
+      sets:      4,
+      z2min:     50,
+      rpe: {
+        t1_main:  'RPE 7–8',   // purposeful effort — still 2+ RIR
+        t1_acc:   'RPE 7',
+        t2:       'RPE 7–8',
+        t3:       'RPE 7',
+      },
+      squat:     'Back Squat',
+      deadlift:  'Romanian Deadlift (Barbell)',
+      press:     'Barbell Bench Press',
+      pull:      'Weighted Pull-Up',
+      pullSat:   'Weighted Pull-Up',
+      pullSatRep:'6–8 (weighted)',
+      splitSq:   'Bulgarian Split Squat (barbell)',
+      hipThrust: 'Hip Thrust (heavy barbell)',
+      notes: {
+        squat:    '3s eccentric every rep — no exceptions. At 67–75% this should feel deliberate and controlled. Any technical breakdown = reduce load, not acceptable in Foundation.',
+        rdl:      'Barbell. Perfect hip hinge mechanics are non-negotiable — you will be pulling 90–100% in Phase 5. Any compromise here compounds. Film every session in weeks 1–2.',
+        bench:    'Pause reps optional (1s pause at chest on last set of each exercise). This eliminates stretch-reflex dependence and exposes true strength. 3s eccentric minimum.',
+        row:      'Full ROM — no half-repping. Drive elbows back, not shoulder blades only. 3s eccentric on every rep.',
+        pullup:   'Add 10–20kg weight belt. Full dead hang. Chin over bar — no partial reps. This is your strength floor for Phase 2.',
+        carry:    'Heavy KB or loaded barbell trap bar. 30m per set. This is functional strength — not accessory work.',
+      },
+      tip_mon:   '<strong>Foundation for Advanced Trainees:</strong> RPE 7–8 with 2+ RIR — you are working, not coasting. The purpose is movement quality reset, connective tissue conditioning, and aerobic base building. You are laying the technical foundation for 90–100% work in Phase 5. Every sloppy rep now is a missed rep later.',
+      tip_fri:   '<strong>RDL at This Level:</strong> 4 × 10–12 at 70–75% with perfect mechanics is harder than it sounds. This is not warm-up work — it is loaded posterior chain technique work that directly determines your Phase 3 deadlift ceiling.',
+      tip_sat:   '<strong>Weighted Pull-Ups:</strong> If you are not yet doing weighted pull-ups, Foundation is where that starts. Add 10kg and build from there. Grip strength at this stage is a longevity indicator.',
+      duration_note: 'Advanced trainees can compress Foundation to 2–3 weeks if returning from a recent high-quality block within 4 weeks.',
+    }
+  };
+  const c = cfg[level];
+
   return[
+    // ── MONDAY: Lower Push ───────────────────────────────────────────
     {day:"Mon",type:"strength",label:"Lower Body — Push",icon:"🦵",badge:"Strength A",badgeColor:"#00838f",warmupType:"lower_push",
      exercises:[
-      mkEx(1,level==='beginner'?'Goblet Squat':'Back Squat',sets,'10–12',load,'RPE 6–7','Depth = hip crease below knee. Film every session in P1. 3s eccentric.',1),
-      mkEx(1,'Leg Press',sets,'10–15','65–70%','RPE 6','Full ROM. Feet shoulder-width. Control the descent.',1),
-      mkEx(2,level==='beginner'?'Box Step-Up':'Bulgarian Split Squat',Math.max(sets-1,2),'10/side','BW / Light DB','RPE 5–6','Single-leg stability. Use wall if needed.',1),
-      mkEx(3,'Standing Calf Raise',2,'15–20','BW','RPE 6','Full dorsiflexion stretch at bottom. Slow 3s eccentric.',1)
+      mkEx(1,c.squat,c.sets,'10–12',c.load,c.rpe.t1_main,c.notes.squat,1),
+      mkEx(1,'Leg Press',c.sets,'10–15',c.load,c.rpe.t1_acc,'Full ROM. Feet shoulder-width. Control the descent.',1),
+      mkEx(2,c.splitSq,Math.max(c.sets-1,2),'10/side',level==='beginner'?'BW':'Light–Mod',c.rpe.t2,'Single-leg stability. Control descent. Use wall if needed.',1),
+      mkEx(3,'Standing Calf Raise',2,'15–20','BW',c.rpe.t3,'Full dorsiflexion stretch at bottom. Slow 3s eccentric.',1)
      ],
      cardio:{type:'Zone 1 Warm-Up',dur:'10 min',zones:[5,0,0,0,0],proto:['5 min light walk or easy row — Zone 1 (HR 50–60% max)','Dynamic warm-up: full protocol above']},
-     tip:'<strong>Phase 1 Goal:</strong> This is your technique phase. Add weight ONLY when every rep is technically perfect. Film your squat from the side — it will change your training.'},
+     tip:c.tip_mon},
+
+    // ── TUESDAY: Zone 2 ─────────────────────────────────────────────
     {day:"Tue",type:"cardio",label:"Zone 2 Aerobic",icon:"🚴",badge:"Cardio",badgeColor:"#1565c0",warmupType:"cardio",
      exercises:[],
-     cardio:{type:'Zone 2 Steady State',dur:`${z2m+pWk*2} min`,zones:[0,9,1,0,0],proto:['5 min Zone 1 warm-up','Continuous Zone 2 — HR 61–70% max. Nose-breathing test: should be able to speak in full sentences','5 min Zone 1 cool-down','Mode: walk (hilly), cycling, rowing, elliptical, swimming']},
-     tip:'<strong>Zone 2 Calibration:</strong> Find the pace where you can speak in complete sentences but feel mild effort. That is Zone 2. If breathing increases significantly, slow down. Correct is uncomfortable — not breathless.'},
+     cardio:{type:'Zone 2 Steady State',dur:`${c.z2min+pWk*2} min`,zones:[0,9,1,0,0],proto:[
+       '5 min Zone 1 warm-up',
+       'Continuous Zone 2 — HR 61–70% max. Nose-breathing test: should be able to speak in full sentences',
+       '5 min Zone 1 cool-down',
+       level==='advanced'
+         ? 'Mode: cycling or rowing preferred for advanced — more specific to metabolic adaptation. Add tempo variation: 10 min steady → 5 min slightly faster → back to steady.'
+         : 'Mode: walk (hilly), cycling, rowing, elliptical, swimming'
+     ]},
+     tip:level==='advanced'
+       ? '<strong>Zone 2 at Your Level:</strong> You likely know where Zone 2 feels like. The advanced addition: nose-only breathing as a real-time calibration. If you cannot breathe through your nose, slow down — you have drifted into Zone 3.'
+       : '<strong>Zone 2 Calibration:</strong> Find the pace where you can speak in complete sentences but feel mild effort. That is Zone 2. If breathing increases significantly, slow down.'},
+
+    // ── WEDNESDAY: Upper Push + Pull ────────────────────────────────
     {day:"Wed",type:"strength",label:"Upper Body — Push & Pull",icon:"💪",badge:"Strength B",badgeColor:"#00838f",warmupType:"upper_push",
      exercises:[
-      mkEx(1,level==='beginner'?'DB Bench Press':'Barbell Bench Press',sets,'10–12',load,'RPE 6–7','Retract scapulae before unracking. Control 3s eccentric.',1),
-      mkEx(1,'Seated Cable Row',sets,'10–12',load,'RPE 6–7','Full stretch at start. Drive elbows to hips. No body swing.',1),
-      mkEx(2,'DB Shoulder Press',Math.max(sets-1,2),'12–15','Light–Mod','RPE 6','Neutral grip. Control eccentric. No arching lower back.',1),
-      mkEx(2,level==='beginner'?'Lat Pulldown':'Lat Pulldown',Math.max(sets-1,2),'10–12','Moderate','RPE 6','Lean back slightly. Pull to chin. Full stretch at top.',1),
-      mkEx(3,'Face Pull',2,'15–20','Light','RPE 6','Non-negotiable for shoulder health. External rotation at end range.',1),
-      mkEx(3,'Lateral Raise',2,'15–20','Light','RPE 5–6','Lead with elbow. Slow 4s eccentric. Stop at shoulder height.',1)
+      mkEx(1,c.press,c.sets,'10–12',c.load,c.rpe.t1_main,c.notes.bench,1),
+      mkEx(1,'Seated Cable Row',c.sets,'10–12',c.load,c.rpe.t1_main,c.notes.row,1),
+      mkEx(2,'DB Shoulder Press',Math.max(c.sets-1,2),'12–15',level==='advanced'?'Moderate–Heavy':'Light–Mod',c.rpe.t2,'Neutral grip. Control eccentric. No arching lower back.',1),
+      mkEx(2,level==='beginner'?'Lat Pulldown':'Lat Pulldown / Pull-Up',Math.max(c.sets-1,2),'10–12','Moderate',c.rpe.t2,'Full ROM. Lean back slightly. Pull to chin.',1),
+      mkEx(3,'Face Pull',2,'15–20','Light',c.rpe.t3,'Non-negotiable for shoulder health. External rotation at end range.',1),
+      mkEx(3,'Lateral Raise',2,'15–20','Light',c.rpe.t3,'Lead with elbow. Slow 4s eccentric. Stop at shoulder height.',1)
      ],
      cardio:{type:'Zone 1 Warm-Up',dur:'10 min',zones:[5,0,0,0,0],proto:['10 min Zone 1 — light row or treadmill walk','Full upper warm-up protocol above']},
      tip:'<strong>Push:Pull Ratio:</strong> Today has equal pushing and pulling volume. This must be maintained throughout the program — it is the primary prevention of shoulder impingement and postural imbalances.'},
+
+    // ── THURSDAY: Active Recovery ────────────────────────────────────
     {day:"Thu",type:"active",label:"Active Recovery",icon:"🚶",badge:"Recovery",badgeColor:"#455a64",warmupType:"active",
      exercises:[],
-     cardio:{type:'Zone 1 Active Recovery',dur:'30–45 min',zones:[8,2,0,0,0],proto:['30–45 min Zone 1 walk — outdoors preferred','Optional: 10 min diaphragmatic breathing (box: 4-4-4-4)','Optional: foam roll major muscle groups (2 min per group)']},
-     tip:'<strong>Active Recovery Science:</strong> Zone 1 activity increases blood flow without adding training stress — this accelerates metabolic waste removal, reduces DOMS, and improves next session performance.'},
+     cardio:{type:'Zone 1 Active Recovery',dur: level==='advanced'?'40–60 min':'30–45 min',zones:[8,2,0,0,0],proto:[
+       level==='advanced'?'40–60 min Zone 1 walk or light cycle — outdoors preferred':'30–45 min Zone 1 walk — outdoors preferred',
+       'Optional: 10 min diaphragmatic breathing (box: 4-4-4-4)',
+       'Optional: foam roll major muscle groups (2 min per group)',
+       level==='advanced'?'Advanced addition: 15 min groundwork mobility session (see Mobility page)':''
+     ].filter(Boolean)},
+     tip:level==='advanced'
+       ? '<strong>Active Recovery for Advanced:</strong> At this training frequency and volume, Thursday recovery quality directly determines Friday and Saturday output. Prioritise sleep tonight. Consider 20 min of targeted mobility work if any area felt restricted this week.'
+       : '<strong>Active Recovery Science:</strong> Zone 1 activity increases blood flow without adding training stress — this accelerates metabolic waste removal, reduces DOMS, and improves next session performance.'},
+
+    // ── FRIDAY: Lower Pull + Core ────────────────────────────────────
     {day:"Fri",type:"strength",label:"Lower Body — Pull & Core",icon:"🔗",badge:"Strength C",badgeColor:"#00838f",warmupType:"lower_pull",
      exercises:[
-      mkEx(1,level==='beginner'?'Romanian Deadlift (DB)':'Romanian Deadlift (Barbell)',sets,'10–12',load,'RPE 6–7','Hip hinge. Feel hamstring stretch. NEVER round lower back. This is your #1 technique priority.',1),
-      mkEx(2,'Seated Leg Curl',Math.max(sets-1,2),'12–15','Moderate','RPE 6','Full ROM. Slow 3s eccentric.',1),
-      mkEx(2,'Hip Thrust (banded or barbell)',Math.max(sets-1,2),'12–15',level==='beginner'?'Band/BW':'Moderate','RPE 6','Pause 2s at top. Glute squeeze maximum. Neutral spine.',1),
-      mkEx(3,'Dead Bug',2,'8/side','BW','RPE 5','Lower back pressed to floor. Breathe throughout. Slow and controlled.',1),
-      mkEx(3,'Pallof Press',2,'10/side','Light Cable','RPE 5','Anti-rotation. Resist the cable. Pause at full extension.',1)
+      mkEx(1,c.deadlift,c.sets,'10–12',c.load,c.rpe.t1_main,c.notes.rdl,1),
+      mkEx(2,'Seated Leg Curl',Math.max(c.sets-1,2),'12–15','Moderate',c.rpe.t2,'Full ROM. Slow 3s eccentric.',1),
+      mkEx(2,c.hipThrust,Math.max(c.sets-1,2),'12–15',level==='beginner'?'Band/BW':level==='advanced'?'Heavy':'Moderate',c.rpe.t2,'Pause 2s at top. Glute squeeze maximum. Neutral spine.',1),
+      mkEx(3,'Dead Bug',2,'8/side','BW',c.rpe.t3,'Lower back pressed to floor. Breathe throughout. Slow and controlled.',1),
+      mkEx(3,'Pallof Press',2,'10/side','Light Cable',c.rpe.t3,'Anti-rotation. Resist the cable. Pause at full extension.',1),
+      ...(level==='advanced'?[mkEx(3,'Ab Wheel Rollout',2,'8–12','BW',c.rpe.t3,'Kneeling version. Full extension. Do not let hips sag.',1)]:[] )
      ],
      cardio:{type:'Zone 1 Warm-Up',dur:'10 min',zones:[5,0,0,0,0],proto:['10 min Zone 1 — light bike or walk','Full lower pull warm-up protocol above']},
-     tip:'<strong>RDL is Everything:</strong> Mastering the hip hinge in Phase 1 pays dividends in every subsequent phase. The deadlift, RDL, kettlebell swing, and every posterior chain exercise starts here. Get it right now.'},
+     tip:c.tip_fri},
+
+    // ── SATURDAY: Upper Pull Focus + Zone 2 ─────────────────────────
     {day:"Sat",type:"strength",label:"Upper Pull Focus + Zone 2",icon:"🔝",badge:"Strength D",badgeColor:"#00838f",warmupType:"upper_pull",
      exercises:[
-      mkEx(1,level==='beginner'?'Lat Pulldown (wide grip)':'Pull-Up / Chin-Up',sets,level==='beginner'?'10–12':'AMRAP','Moderate/BW','RPE 7','Full dead hang. Chin clears bar. Pull elbows to hips.',1),
-      mkEx(2,'DB Single-Arm Row',Math.max(sets-1,2),'10–12/side','Moderate','RPE 6–7','Long range of motion. Allow lat stretch at top of movement.',1),
-      mkEx(2,'Incline DB Press',Math.max(sets-1,2),'10–12',load,'RPE 6','30° incline. Upper pec emphasis. Control descent.',1),
-      mkEx(3,'Bicep Curl (DB)',2,'12–15','Light–Mod','RPE 6','Supinate at top. Full ROM. Slow eccentric.',1),
-      mkEx(3,'Farmer Carry',2,'20–30m',level==='beginner'?'Light DB':'Moderate KB','RPE 6','Upright posture. Shoulder packed. Do NOT lean sideways.',1)
+      mkEx(1,c.pullSat,c.sets,c.pullSatRep,level==='beginner'?'Moderate':'BW + weight',c.rpe.t1_main,c.notes.pullup,1),
+      mkEx(2,'DB Single-Arm Row',Math.max(c.sets-1,2),'10–12/side','Moderate',c.rpe.t2,'Long range of motion. Allow lat stretch at top of movement.',1),
+      mkEx(2,'Incline DB Press',Math.max(c.sets-1,2),'10–12',c.load,c.rpe.t2,'30° incline. Upper pec emphasis. Control descent.',1),
+      mkEx(3,'Bicep Curl (DB)',2,'12–15','Light–Mod',c.rpe.t3,'Supinate at top. Full ROM. Slow eccentric.',1),
+      mkEx(3,'Farmer Carry',2, level==='advanced'?'30–40m':'20–30m', c.notes.carry, c.rpe.t3, 'Upright posture. Shoulder packed. Do NOT lean sideways.',1)
      ],
-     cardio:{type:'Zone 2 Finisher',dur:'20 min',zones:[0,8,2,0,0],proto:['Immediately after lifting: 20 min Zone 2 on bike, rower, or treadmill','HR 61–70% max. Concurrent strength + aerobic adaptation.']},
-     tip:'<strong>Grip Strength = Longevity:</strong> The INTERHEART study (Lancet, 2015): grip strength was the strongest predictor of all-cause mortality across 17 countries. The Farmer Carry is your longevity intervention — not just an exercise.'},
+     cardio:{type:'Zone 2 Finisher',dur:`${level==='advanced'?'25':'20'} min`,zones:[0,8,2,0,0],proto:[
+       `Immediately after lifting: ${level==='advanced'?'25':'20'} min Zone 2 on bike, rower, or treadmill`,
+       'HR 61–70% max. Concurrent strength + aerobic adaptation.'
+     ]},
+     tip:c.tip_sat},
+
+    // ── SUNDAY: Rest ─────────────────────────────────────────────────
     {day:"Sun",type:"rest",label:"Full Rest or Zone 1",icon:"😴",badge:"Recovery",badgeColor:"#37474f",warmupType:"active",
      exercises:[],
-     cardio:{type:'Full Rest or Light Walk',dur:'Optional 30 min',zones:[7,3,0,0,0],proto:['Full rest is encouraged in Phase 1 weeks 1–2','From week 3: optional 20–30 min Zone 1 walk outdoors','Focus: 8+ hours sleep, high protein intake, hydration, review form videos']},
-     tip:'<strong>Sunday Sleep Target:</strong> Sleep is when growth hormone peaks (70% of daily total) and protein synthesis occurs. Protect your 7–9 hours tonight as you prepare for Monday.'}
+     cardio:{type:'Full Rest or Light Walk',dur:'Optional 30–45 min',zones:[7,3,0,0,0],proto:[
+       level==='beginner'?'Full rest is strongly encouraged in Phase 1 weeks 1–2':'Optional 20–30 min Zone 1 walk or mobility session',
+       'From week 3: optional 20–30 min Zone 1 walk outdoors',
+       `Focus: 8+ hours sleep, high protein intake (${level==='advanced'?'≥1.8':'1.6'}g/kg), hydration, review form videos`
+     ]},
+     tip:level==='advanced'
+       ? `<strong>Advanced Foundation Note:</strong> ${c.duration_note} Sunday is your full recovery window. At 4 strength sessions this week, CNS recovery is real — do not add extra sessions. Review your week's training videos tonight.`
+       : `<strong>Sunday Priority:</strong> Sleep is when growth hormone peaks (70% of daily total). Protect your 7–9 hours. ${c.duration_note}`}
   ];
 }
+
 
 function buildP2(week,pWk,level,progress){
   const sets=level==='beginner'?3:level==='advanced'?5:4;
@@ -3388,26 +3365,19 @@ const BIOMARKERS=[
 // ═══════════════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════════════
-window.addEventListener('load', async () => {
+window.addEventListener('load',()=>{
   loadState();
-  await sbInit();
-  if (sbUser) {
-    const loaded = await sbLoadState();
-    if (loaded) {
-      try { localStorage.setItem('hfp2_state', JSON.stringify({level:currentLevel,week:currentWeek,completed:completedWeeks,log:progressLog})); } catch(e) {}
-    }
-  }
-  setTimeout(() => {
-    const l = document.getElementById('loader');
-    l.style.opacity = '0';
-    setTimeout(() => { l.style.display = 'none'; }, 500);
+  setTimeout(()=>{
+    const l=document.getElementById('loader');
+    l.style.opacity='0';
+    setTimeout(()=>{l.style.display='none'},500);
     try {
-      buildSidebar(); buildOverview(); buildHabits(); buildNutrition(); buildBiomarkers();
-      renderGrid(); buildChapterStrip();
-      updateDashboard(); updateLevelBtns(); updateProgress();
-      if (currentWeek > 1) showWeek(currentWeek);
+      buildSidebar();buildOverview();buildHabits();buildNutrition();buildBiomarkers();
+      renderGrid();buildChapterStrip();
+      updateDashboard();updateLevelBtns();updateProgress();
+      if(currentWeek>1)showWeek(currentWeek);
     } catch(e) { console.error('Init error:', e); }
-  }, 1400);
+  },1400);
 });
 
 // ═══════════════════════════════════════════════════════════════════
@@ -3464,7 +3434,7 @@ function showPage(name){
   if(pg)pg.classList.add('active');
   const ni=document.getElementById('nav-'+name);if(ni)ni.classList.add('active');
   currentPage=name;
-  const names={dashboard:'Dashboard',overview:'Program Overview',habits:'Daily Habits',nutrition:'Nutrition',recipes:'🍳 Performance Kitchen',calculator:'🔢 Macro Calculator',planner:'📅 Meal Planner',shopping:'🛒 Shopping List',logbook:'Progress Log',biomarkers:'Biomarkers',mobility:'🌿 Groundwork Mobility'};
+  const names={dashboard:'Dashboard',overview:'Program Overview',habits:'Daily Habits',nutrition:'Nutrition',recipes:'🍳 Performance Kitchen',calculator:'🔢 Macro Calculator',planner:'📅 Meal Planner',shopping:'🛒 Shopping List',logbook:'Progress Log',biomarkers:'Biomarkers',mobility:'🌿 Groundwork Mobility',science:'📖 Science & Research'};
   document.getElementById('breadcrumb').innerHTML=`<span>${names[name]||name}</span>`;
   if(name==='recipes'){renderGrid();buildChapterStrip();}
   if(name==='planner'){buildPlanner();}
@@ -3753,8 +3723,6 @@ function autoSaveLog(logKey,setIdx,exName){
   if(existIdx>=0)progressLog[exName][existIdx]=entry;
   else progressLog[exName].push(entry);
   saveState();
-  // Sync this entry to Supabase
-  sbSaveLogEntry(exName, logKey, setIdx, r, w, '');
   const msg=document.getElementById('lsm-'+logKey);
   if(msg){msg.style.display='inline';setTimeout(()=>msg.style.display='none',1500);}
 }
@@ -4102,7 +4070,805 @@ function renderMobDay(idx) {
   container.innerHTML = html;
 }
 
+
+function sciToggle(id){
+  const el = document.getElementById('sci-'+id);
+  if(el) el.classList.toggle('open');
+}
+function sciShowPattern(btn, id){
+  document.querySelectorAll('.sci-ptab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.sci-pattern-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  const panel = document.getElementById('scp-'+id);
+  if(panel) panel.classList.add('active');
+}
+
 </script>
-<script src="nav.js" onload="CTNav.init('longevity')" onerror="console.warn('nav.js not found')"></script>
 </body>
-</html>
+</html
+  <div class="page" id="page-science">
+    <div class="sci-hero">
+      <div class="sci-hero-inner">
+        <div class="sci-badge">WHO · ACSM · AHA · NSCA · 2025</div>
+        <h1 class="sci-title">Global Health, Fitness &amp; Longevity Program</h1>
+        <p class="sci-subtitle">Evidence-Based Protocol for Strength, Hypertrophy, Cardiovascular Health &amp; Longevity</p>
+        <div class="sci-ref-strip">
+          <span>WHO 2020 Guidelines</span><span>·</span>
+          <span>ACSM Position Stand 2022</span><span>·</span>
+          <span>Stamatakis et al., Lancet 2022</span><span>·</span>
+          <span>Laukkanen et al., JAMA 2021</span><span>·</span>
+          <span>San-Millan &amp; Brooks 2018</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sci-toc">
+      <div class="sci-toc-title">Contents</div>
+      <div class="sci-toc-grid">
+        <a class="sci-toc-item" onclick="sciToggle('preamble')">📋 Preamble</a>
+        <a class="sci-toc-item" onclick="sciToggle('s1')">1. WHO Activity Guidelines</a>
+        <a class="sci-toc-item" onclick="sciToggle('s2')">2. Four Training Pillars</a>
+        <a class="sci-toc-item" onclick="sciToggle('s3')">3. Full Training Program</a>
+        <a class="sci-toc-item" onclick="sciToggle('s4')">4. Periodisation Structure</a>
+        <a class="sci-toc-item" onclick="sciToggle('s5')">5. Nutrition &amp; Longevity</a>
+        <a class="sci-toc-item" onclick="sciToggle('s6')">6. Daily Habits</a>
+        <a class="sci-toc-item" onclick="sciToggle('s7')">7. Health Monitoring</a>
+        <a class="sci-toc-item" onclick="sciToggle('s8')">8. Special Populations</a>
+        <a class="sci-toc-item" onclick="sciToggle('s9')">9. Troubleshooting</a>
+        <a class="sci-toc-item" onclick="sciToggle('appendix')">📎 Appendix</a>
+      </div>
+    </div>
+
+    <div class="sci-body">
+
+      <!-- PREAMBLE -->
+      <div class="sci-section" id="sci-preamble">
+        <div class="sci-sec-header" onclick="sciToggle('preamble')">
+          <span class="sci-sec-num">📋</span>
+          <span class="sci-sec-title">Preamble: The Science of Living Better, Longer</span>
+          <span class="sci-chevron">▼</span>
+        </div>
+        <div class="sci-sec-body">
+          <p>This program synthesises the most current recommendations from the World Health Organization (WHO), the American College of Sports Medicine (ACSM), the American Heart Association (AHA), the National Strength and Conditioning Association (NSCA), and the broader corpus of peer-reviewed exercise science literature published between 2018 and 2025.</p>
+          <p>It is not a short-term body transformation plan. It is a comprehensive, periodised, evidence-based system for building the physical capacity, metabolic resilience, and daily habits that the science now consistently identifies as the most powerful predictors of healthy lifespan — often referred to as <strong>healthspan</strong>.</p>
+          <div class="sci-callout sci-callout-blue">
+            <div class="sci-callout-title">Core Evidence Foundation</div>
+            <ul>
+              <li>WHO Global Action Plan on Physical Activity 2018–2030 &amp; 2020 Guidelines on Physical Activity and Sedentary Behaviour</li>
+              <li>ACSM Position Stand: Quantity and Quality of Exercise (2022 Update)</li>
+              <li>Vigorous vs. Moderate PA &amp; All-Cause Mortality: Stamatakis et al., <em>Lancet</em> 2022</li>
+              <li>Muscle Strength &amp; Longevity: Laukkanen et al., <em>JAMA Network Open</em> 2021</li>
+              <li>Resistance Training &amp; Cardiovascular Health: Liu et al., <em>British Journal of Sports Medicine</em> 2019</li>
+              <li>Zone 2 Training &amp; Mitochondrial Biogenesis: Iaia &amp; Bangsbo, <em>Journal of Physiology</em> 2010; San-Millan &amp; Brooks 2018</li>
+              <li>Sleep, Recovery &amp; Performance: Walker, Matthew. <em>Why We Sleep</em>, 2017; Fullagar et al., <em>Sports Medicine</em> 2015</li>
+              <li>Dietary Protein &amp; Muscle Hypertrophy: Morton et al., <em>AJCN</em> 2018; Stokes et al., <em>Nutrients</em> 2018</li>
+              <li>Time-Restricted Eating &amp; Metabolic Health: Wilkinson et al., <em>Cell Metabolism</em> 2020</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 1 -->
+      <div class="sci-section" id="sci-s1">
+        <div class="sci-sec-header" onclick="sciToggle('s1')">
+          <span class="sci-sec-num">1</span>
+          <span class="sci-sec-title">WHO Physical Activity Guidelines — The Baseline</span>
+          <span class="sci-chevron">▼</span>
+        </div>
+        <div class="sci-sec-body">
+          <p>The 2020 WHO Guidelines on Physical Activity and Sedentary Behaviour represent the most comprehensive and current global consensus on exercise recommendations. Understanding these benchmarks is critical, as they define the minimum thresholds for health preservation. This program is designed to meet and strategically exceed them.</p>
+
+          <h3>1.1 Minimum Weekly Activity Targets (Adults 18–64)</h3>
+          <table class="sci-table">
+            <thead><tr><th>Category</th><th>Minimum</th><th>Additional Benefit</th><th>This Program Target</th></tr></thead>
+            <tbody>
+              <tr><td>Moderate-Intensity Aerobic</td><td>150–300 min/week</td><td>300+ min/week</td><td class="sci-highlight">200–320 min/week</td></tr>
+              <tr><td>Vigorous-Intensity Aerobic</td><td>75–150 min/week</td><td>150+ min/week</td><td class="sci-highlight">60–120 min/week</td></tr>
+              <tr><td>Muscle-Strengthening</td><td>2 days/week</td><td>3 days/week</td><td class="sci-highlight">3–4 days/week</td></tr>
+              <tr><td>Sedentary Behaviour</td><td>Minimize &amp; break up</td><td>Move every 30–60 min</td><td class="sci-highlight">Break every 45 min</td></tr>
+              <tr><td>Balance/Functional Training</td><td>Older adults: 3×/week</td><td>Daily</td><td class="sci-highlight">Daily mobility (separate plan)</td></tr>
+            </tbody>
+          </table>
+
+          <h3>1.2 Why Exceeding Minimums Matters</h3>
+          <p>The WHO minimums represent the threshold below which health risks substantially increase. However, the dose-response relationship between physical activity and health outcomes is not flat — research consistently demonstrates meaningful additional benefit up to approximately 2–4× the minimum recommendations, after which returns diminish.</p>
+          <div class="sci-callout sci-callout-teal">
+            <div class="sci-callout-title">Key Research Insights</div>
+            <ul>
+              <li><strong>Stamatakis et al. (Lancet, 2022):</strong> Replacing 30 min/day of sedentary behaviour with any physical activity reduces all-cause mortality risk by up to 35%.</li>
+              <li><strong>Wen et al. (Lancet, 2011):</strong> As little as 15 min/day of moderate activity reduces all-cause mortality by 14% vs. inactive controls.</li>
+              <li><strong>Ekelund et al. (BMJ, 2016):</strong> 60–75 min/day of moderate activity eliminates the elevated mortality risk associated with prolonged sitting.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 2 -->
+      <div class="sci-section" id="sci-s2">
+        <div class="sci-sec-header" onclick="sciToggle('s2')">
+          <span class="sci-sec-num">2</span>
+          <span class="sci-sec-title">The Four Training Pillars</span>
+          <span class="sci-chevron">▼</span>
+        </div>
+        <div class="sci-sec-body">
+          <p>This program is built on four distinct but synergistic training modalities. Each addresses a different physiological system, and each has robust independent evidence linking it to improved health, performance, and longevity outcomes. <strong>None is optional.</strong></p>
+
+          <div class="sci-pillar-grid">
+            <div class="sci-pillar">
+              <div class="sci-pillar-icon">🏋️</div>
+              <div class="sci-pillar-name">Strength Training</div>
+              <div class="sci-pillar-desc">Primary reservoir for glucose disposal. Grip and leg strength are among the strongest predictors of all-cause mortality.</div>
+            </div>
+            <div class="sci-pillar">
+              <div class="sci-pillar-icon">❤️</div>
+              <div class="sci-pillar-name">Cardiovascular Training</div>
+              <div class="sci-pillar-desc">VO2max is the single strongest predictor of longevity in scientific literature — stronger than smoking, blood pressure, or blood lipids.</div>
+            </div>
+            <div class="sci-pillar">
+              <div class="sci-pillar-icon">⚙️</div>
+              <div class="sci-pillar-name">Functional Movement</div>
+              <div class="sci-pillar-desc">Movement asymmetries and limitations precede injury. Seven fundamental patterns underlie all activities of daily living.</div>
+            </div>
+            <div class="sci-pillar">
+              <div class="sci-pillar-icon">🌙</div>
+              <div class="sci-pillar-name">Recovery &amp; Regeneration</div>
+              <div class="sci-pillar-desc">Recovery is not passive — it is when training adaptations occur. Sleep, nutrition, and stress management are as important as training itself.</div>
+            </div>
+          </div>
+
+          <h3>Pillar 1 — Strength Training</h3>
+          <p>Resistance training is arguably the single most underutilised health intervention available. Beyond its aesthetic effects, the metabolic, hormonal, skeletal, and longevity-related benefits of consistent strength training are profound and increasingly well-documented.</p>
+          <div class="sci-callout sci-callout-amber">
+            <div class="sci-callout-title">Why Strength Training Extends Healthspan</div>
+            <ul>
+              <li>Muscle mass is the primary reservoir for glucose disposal, <strong>reducing type 2 diabetes risk by 30–50%</strong> in those with high muscle mass (Scott et al., Diabetologia 2020).</li>
+              <li>Grip strength and leg press strength are among the <strong>strongest predictors of all-cause mortality</strong> — independent of cardiovascular fitness (Leong et al., Lancet 2015).</li>
+              <li>Resistance training preserves bone mineral density, reducing fracture risk — a leading cause of morbidity and mortality in older adults.</li>
+              <li>Anti-inflammatory myokines released during resistance exercise reduce systemic inflammation — a root driver of nearly all chronic disease (Pedersen &amp; Febbraio, Nat Rev Endocrinol 2012).</li>
+            </ul>
+          </div>
+          <table class="sci-table">
+            <thead><tr><th>Variable</th><th>Strength Focus</th><th>Hypertrophy Focus</th><th>Evidence Source</th></tr></thead>
+            <tbody>
+              <tr><td>Sets per muscle/week</td><td>10–16</td><td>14–20+</td><td>Schoenfeld et al., JSCR 2017</td></tr>
+              <tr><td>Reps per set</td><td>1–5</td><td>6–12 (up to 30)</td><td>Morton et al., JPhysiology 2016</td></tr>
+              <tr><td>Load (%1RM)</td><td>85–100%</td><td>60–80%</td><td>ACSM Position Stand 2022</td></tr>
+              <tr><td>Rest between sets</td><td>3–5 min</td><td>1.5–3 min</td><td>Schoenfeld et al., JSCR 2016</td></tr>
+              <tr><td>Weekly frequency</td><td>2–3× per muscle</td><td>2–4× per muscle</td><td>Ralston et al., JSCR 2017</td></tr>
+              <tr><td>Proximity to failure</td><td>1–3 RIR for compounds</td><td>0–2 RIR key sets</td><td>Androulakis-Korakakis 2020</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Pillar 2 — Cardiovascular Training</h3>
+          <p>Cardiovascular fitness, measured by VO2max, is the <strong>single strongest predictor of longevity</strong> identified in the scientific literature — stronger than smoking, blood pressure, diabetes, or blood lipids (Mandsager et al., JAMA Network Open 2018).</p>
+          <table class="sci-table">
+            <thead><tr><th>Zone</th><th>% Max HR</th><th>Feel</th><th>Primary Benefit</th><th>Weekly Target</th></tr></thead>
+            <tbody>
+              <tr><td><span class="sci-zone z1">Zone 1</span> Recovery</td><td>50–60%</td><td>Full conversation easy</td><td>Active recovery, blood flow</td><td>Walk/light movement daily</td></tr>
+              <tr><td><span class="sci-zone z2">Zone 2</span> Aerobic Base</td><td>61–70%</td><td>Full sentence, mild effort</td><td>Mitochondrial density, fat oxidation</td><td class="sci-highlight">100–180 min/week</td></tr>
+              <tr><td><span class="sci-zone z3">Zone 3</span> Tempo</td><td>71–80%</td><td>Short phrases, noticeable effort</td><td>Lactate threshold elevation</td><td>30–60 min/week</td></tr>
+              <tr><td><span class="sci-zone z4">Zone 4</span> Threshold</td><td>81–90%</td><td>Single words, hard effort</td><td>VO2max improvement, LT2</td><td>15–30 min/week</td></tr>
+              <tr><td><span class="sci-zone z5">Zone 5</span> VO2max</td><td>91–100%</td><td>Cannot speak, near max</td><td>Peak cardiac output, VO2max</td><td>5–20 min/week</td></tr>
+            </tbody>
+          </table>
+          <div class="sci-callout sci-callout-teal">
+            <div class="sci-callout-title">Zone 2: The Foundation of Longevity Cardio</div>
+            <p>Research by Inigo San-Millan (University of Colorado) and George Brooks (UC Berkeley) has reestablished the primacy of the lactate shuttle and mitochondrial biogenesis as central to metabolic health. Zone 2 training maximally stimulates mitochondrial biogenesis — essential for energy production and metabolic efficiency. Elite athletes spend approximately <strong>80% of training time in Zone 2</strong> — this "80/20 rule" translates directly to general population programming.</p>
+          </div>
+          <div class="sci-callout sci-callout-amber">
+            <div class="sci-callout-title">HIIT Protocols — Evidence Graded</div>
+            <ul>
+              <li><strong>4×4 Protocol (Most Evidence):</strong> 4 sets of 4 min at 85–95% HRmax, 3 min active rest — 3×/week. Wisloff et al., Circulation 2007.</li>
+              <li><strong>Sprint Intervals (8×30s):</strong> 8 × 30 sec all-out / 4 min rest. Gibala et al., JPhysiology 2006. Time-efficient but high fatigue.</li>
+              <li><strong>Tabata (4 min):</strong> 8 × 20s max / 10s rest. Extreme intensity. Reserve for advanced trainees with excellent base fitness.</li>
+              <li>⚠️ HIIT should comprise no more than <strong>20% of total cardiovascular volume</strong>. Exceeding this impairs recovery and blunts Zone 2 adaptations.</li>
+            </ul>
+          </div>
+
+          <h3>Pillar 3 — Functional Movement Quality</h3>
+          <table class="sci-table">
+            <thead><tr><th>Pattern</th><th>Primary Muscles</th><th>Primary Exercise</th><th>Longevity Relevance</th></tr></thead>
+            <tbody>
+              <tr><td>Hip Hinge</td><td>Glutes, hamstrings, spinal erectors</td><td>Deadlift, Romanian DL, Kettlebell swing</td><td>Injury prevention, power transfer</td></tr>
+              <tr><td>Squat</td><td>Quads, glutes, core</td><td>Back squat, goblet squat, leg press</td><td>Lower body strength, mobility</td></tr>
+              <tr><td>Vertical Push</td><td>Shoulders, triceps, upper chest</td><td>Overhead press, pike push-up</td><td>Shoulder health, overhead stability</td></tr>
+              <tr><td>Vertical Pull</td><td>Lats, biceps, rear delts</td><td>Pull-up, lat pulldown</td><td>Scapular health, posture</td></tr>
+              <tr><td>Horizontal Push</td><td>Pecs, shoulders, triceps</td><td>Bench press, push-up, DB press</td><td>Upper body pressing strength</td></tr>
+              <tr><td>Horizontal Pull</td><td>Rhomboids, lats, rear delts</td><td>Row variations, face pull</td><td>Postural correction, scapula</td></tr>
+              <tr><td>Carry/Loaded Walk</td><td>Core, glutes, traps, grip</td><td>Farmer carry, suitcase carry</td><td>Functional strength, stability</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Pillar 4 — Recovery &amp; Regeneration</h3>
+          <div class="sci-recovery-grid">
+            <div class="sci-recovery-card">
+              <div class="sci-rc-icon">😴</div>
+              <div class="sci-rc-name">Sleep</div>
+              <div class="sci-rc-text">7–9 hours/night non-negotiable. Sleep is when growth hormone peaks (70% of total daily secretion), protein synthesis accelerates, and neural motor patterns consolidate.</div>
+            </div>
+            <div class="sci-recovery-card">
+              <div class="sci-rc-icon">📈</div>
+              <div class="sci-rc-name">HRV</div>
+              <div class="sci-rc-text">The most validated biomarker for training readiness. High HRV = recovery complete. Low HRV = modify intensity. Track daily on waking.</div>
+            </div>
+            <div class="sci-recovery-card">
+              <div class="sci-rc-icon">🚶</div>
+              <div class="sci-rc-name">Active Recovery</div>
+              <div class="sci-rc-text">Zone 1 activity accelerates metabolic waste clearance, reduces DOMS, and improves subsequent session performance (Wiltshire et al., IJSM 2010).</div>
+            </div>
+            <div class="sci-recovery-card">
+              <div class="sci-rc-icon">🧊</div>
+              <div class="sci-rc-name">Cold Exposure</div>
+              <div class="sci-rc-text">Cold water immersion post-resistance training blunts hypertrophy signalling. Do NOT use post-strength work. Reserve for post-endurance sessions only.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 3 -->
+      <div class="sci-section" id="sci-s3">
+        <div class="sci-sec-header" onclick="sciToggle('s3')">
+          <span class="sci-sec-num">3</span>
+          <span class="sci-sec-title">The Full Training Program</span>
+          <span class="sci-chevron">▼</span>
+        </div>
+        <div class="sci-sec-body">
+          <p>This is a 52-week, fully periodised training program built on an undulating periodisation model — the approach with the strongest evidence base for simultaneous strength, hypertrophy, and fitness development (Fleck &amp; Kraemer, 2014; Prestes et al., JSCR 2009).</p>
+
+          <h3>3.1 Program Architecture Overview</h3>
+          <table class="sci-table">
+            <thead><tr><th>Phase</th><th>Weeks</th><th>Primary Focus</th><th>Volume</th><th>Intensity</th><th>Key Adaptation</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Phase 1</strong> — Foundation</td><td>1–4</td><td>Movement quality, GPP</td><td>Low-Moderate</td><td>Low-Moderate</td><td>Motor patterns, aerobic base</td></tr>
+              <tr><td><strong>Phase 2</strong> — Hypertrophy I</td><td>5–10</td><td>Muscle building</td><td>High</td><td>Moderate</td><td>Muscle cross-section, size</td></tr>
+              <tr><td><strong>Phase 3</strong> — Strength I</td><td>11–14</td><td>Maximal strength</td><td>Moderate</td><td>High</td><td>Neural efficiency, force output</td></tr>
+              <tr><td><strong>Phase 4</strong> — Hypertrophy II</td><td>15–20</td><td>Muscle building + cardio</td><td>High</td><td>Moderate-High</td><td>Muscle size, VO2max</td></tr>
+              <tr><td><strong>Phase 5</strong> — Strength II</td><td>21–26</td><td>Peak strength</td><td>Low-Moderate</td><td>Very High</td><td>Maximal strength, CNS</td></tr>
+              <tr><td><strong>Phase 6</strong> — Cardio Peak</td><td>27–32</td><td>Cardiovascular peak</td><td>High cardio</td><td>Varied zones</td><td>VO2max, mitochondrial density</td></tr>
+              <tr><td><strong>Phase 7</strong> — Integration</td><td>33–52</td><td>Maintain all qualities</td><td>Moderate</td><td>Moderate-High</td><td>Concurrent fitness, longevity base</td></tr>
+            </tbody>
+          </table>
+
+          <h3>3.2 Weekly Training Schedule Template</h3>
+          <table class="sci-table">
+            <thead><tr><th>Day</th><th>Session Type</th><th>Duration</th><th>Primary Zones/Reps</th><th>Key Notes</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Monday</strong></td><td>Strength — Lower Body (Push)</td><td>60–75 min</td><td>Strength: 3–5 reps | Hypertrophy: 8–12 reps</td><td>Squat pattern primary; Zone 2 finisher optional</td></tr>
+              <tr><td><strong>Tuesday</strong></td><td>Zone 2 Cardiovascular</td><td>45–60 min</td><td>Zone 2 (61–70% Max HR)</td><td>Cycling, rowing, or brisk walk. Nose breathing test.</td></tr>
+              <tr><td><strong>Wednesday</strong></td><td>Strength — Upper Body (Push + Pull)</td><td>65–80 min</td><td>Strength: 3–6 reps | Hypertrophy: 8–15 reps</td><td>Balanced push/pull ratio. Horizontal emphasis.</td></tr>
+              <tr><td><strong>Thursday</strong></td><td>HIIT + Zone 2 Combination</td><td>45–60 min</td><td>Zone 4–5 HIIT + Zone 2 cool-down</td><td>4×4 protocol. 30 min Zone 2 finish.</td></tr>
+              <tr><td><strong>Friday</strong></td><td>Strength — Lower Body (Pull) + Core</td><td>60–75 min</td><td>Strength: 3–5 reps | Hypertrophy: 8–12 reps</td><td>Hinge pattern primary; Romanian DL, leg curl.</td></tr>
+              <tr><td><strong>Saturday</strong></td><td>Strength — Upper Body (Pull) + Cardio</td><td>70–85 min</td><td>Hypertrophy: 8–15 reps | Zone 2: 20 min</td><td>Vertical pull emphasis. Farmer carries. Zone 2 finisher.</td></tr>
+              <tr><td><strong>Sunday</strong></td><td>Active Recovery</td><td>30–60 min</td><td>Zone 1 (50–60% Max HR)</td><td>Walk, yoga, light swim. Full rest acceptable.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>3.3 Exercise Selection by Movement Pattern</h3>
+          <div class="sci-pattern-tabs">
+            <button class="sci-ptab active" onclick="sciShowPattern(this,'squat')">Squat</button>
+            <button class="sci-ptab" onclick="sciShowPattern(this,'hinge')">Hinge</button>
+            <button class="sci-ptab" onclick="sciShowPattern(this,'hpush')">H. Push</button>
+            <button class="sci-ptab" onclick="sciShowPattern(this,'vpush')">V. Push</button>
+            <button class="sci-ptab" onclick="sciShowPattern(this,'vpull')">V. Pull</button>
+            <button class="sci-ptab" onclick="sciShowPattern(this,'hpull')">H. Pull</button>
+            <button class="sci-ptab" onclick="sciShowPattern(this,'core')">Core</button>
+          </div>
+          <div class="sci-pattern-panel active" id="scp-squat">
+            <table class="sci-table"><thead><tr><th>Tier</th><th>Exercise</th><th>Sets × Reps</th><th>Notes</th></tr></thead><tbody>
+              <tr><td><span class="sci-tier t1">Tier 1</span></td><td>Back Squat or Front Squat</td><td>3–5 × 3–6 (strength) / 4 × 6–10 (hyp)</td><td>Primary lift. Film for form. Depth = hip crease below knee.</td></tr>
+              <tr><td><span class="sci-tier t1">Tier 1</span></td><td>Leg Press</td><td>3–4 × 8–15</td><td>Used when managing injury or fatigue. Full ROM.</td></tr>
+              <tr><td><span class="sci-tier t2">Tier 2</span></td><td>Bulgarian Split Squat</td><td>3 × 8–12 per leg</td><td>Single-leg stability. Loaded with DBs or bar.</td></tr>
+              <tr><td><span class="sci-tier t2">Tier 2</span></td><td>Hack Squat or Goblet Squat</td><td>3 × 10–15</td><td>Quad emphasis. Goblet excellent for technique.</td></tr>
+              <tr><td><span class="sci-tier t3">Tier 3</span></td><td>Leg Extension</td><td>2–3 × 12–20</td><td>Terminal knee extension. VMO targeting.</td></tr>
+              <tr><td><span class="sci-tier t3">Tier 3</span></td><td>Standing Calf Raise</td><td>3–4 × 12–20</td><td>Full dorsiflexion stretch at bottom. Slow eccentric.</td></tr>
+            </tbody></table>
+          </div>
+          <div class="sci-pattern-panel" id="scp-hinge">
+            <table class="sci-table"><thead><tr><th>Tier</th><th>Exercise</th><th>Sets × Reps</th><th>Notes</th></tr></thead><tbody>
+              <tr><td><span class="sci-tier t1">Tier 1</span></td><td>Conventional or Sumo Deadlift</td><td>3–5 × 1–5 (strength) / 3 × 6–8 (hyp)</td><td>King of posterior chain exercises. 3–5 min rest.</td></tr>
+              <tr><td><span class="sci-tier t1">Tier 1</span></td><td>Romanian Deadlift (RDL)</td><td>3–4 × 8–12</td><td>Hip hinge mobility + hamstring hypertrophy. No lockout.</td></tr>
+              <tr><td><span class="sci-tier t2">Tier 2</span></td><td>Nordic Hamstring Curl</td><td>2–3 × 4–8 (eccentric focus)</td><td>Highest eccentric load for hamstrings. Injury prevention.</td></tr>
+              <tr><td><span class="sci-tier t2">Tier 2</span></td><td>Hip Thrust or Glute Bridge</td><td>3–4 × 10–15</td><td>Glute isolation. Pause at top. Barbell or banded.</td></tr>
+              <tr><td><span class="sci-tier t3">Tier 3</span></td><td>Seated Leg Curl</td><td>3 × 10–15</td><td>Knee flexion isolated. Full ROM essential.</td></tr>
+              <tr><td><span class="sci-tier t3">Tier 3</span></td><td>Seated Calf Raise</td><td>3 × 12–20</td><td>Soleus emphasis. Different to standing variation.</td></tr>
+            </tbody></table>
+          </div>
+          <div class="sci-pattern-panel" id="scp-hpush">
+            <table class="sci-table"><thead><tr><th>Tier</th><th>Exercise</th><th>Sets × Reps</th><th>Notes</th></tr></thead><tbody>
+              <tr><td><span class="sci-tier t1">Tier 1</span></td><td>Barbell Bench Press</td><td>3–5 × 3–6 (strength) / 4 × 6–10 (hyp)</td><td>Retract scapulae. Slight arch. Control eccentric.</td></tr>
+              <tr><td><span class="sci-tier t1">Tier 1</span></td><td>Incline Dumbbell Press</td><td>3–4 × 8–12</td><td>30–45° incline. Upper chest emphasis. Better shoulder safety.</td></tr>
+              <tr><td><span class="sci-tier t2">Tier 2</span></td><td>Cable Chest Fly or Pec Dec</td><td>3 × 12–20</td><td>Full stretch at bottom. Peak contraction at midline.</td></tr>
+              <tr><td><span class="sci-tier t2">Tier 2</span></td><td>Push-Up Variations</td><td>2–3 × max reps</td><td>Weighted, ring, or feet-elevated. Scapular protraction.</td></tr>
+            </tbody></table>
+          </div>
+          <div class="sci-pattern-panel" id="scp-vpush">
+            <table class="sci-table"><thead><tr><th>Tier</th><th>Exercise</th><th>Sets × Reps</th><th>Notes</th></tr></thead><tbody>
+              <tr><td><span class="sci-tier t1">Tier 1</span></td><td>Seated or Standing Overhead Press</td><td>3–4 × 5–8 (str) / 3 × 8–12 (hyp)</td><td>Elbows slightly forward. Full lockout overhead.</td></tr>
+              <tr><td><span class="sci-tier t2">Tier 2</span></td><td>Arnold Press</td><td>2–3 × 10–15</td><td>Adds rotation component. Greater delt recruitment.</td></tr>
+              <tr><td><span class="sci-tier t3">Tier 3</span></td><td>Lateral Raise (cable or DB)</td><td>3–4 × 15–25</td><td>Slight forward lean. Lead with elbow not wrist.</td></tr>
+              <tr><td><span class="sci-tier t3">Tier 3</span></td><td>Face Pull</td><td>3–4 × 15–20</td><td>Rear delt + external rotation. Critical for shoulder health.</td></tr>
+            </tbody></table>
+          </div>
+          <div class="sci-pattern-panel" id="scp-vpull">
+            <table class="sci-table"><thead><tr><th>Tier</th><th>Exercise</th><th>Sets × Reps</th><th>Notes</th></tr></thead><tbody>
+              <tr><td><span class="sci-tier t1">Tier 1</span></td><td>Pull-Up / Chin-Up</td><td>3–5 × 3–8 (str) / 4 × 6–12 (hyp)</td><td>Full dead hang start. Chin clears bar. Weighted when able.</td></tr>
+              <tr><td><span class="sci-tier t1">Tier 1</span></td><td>Lat Pulldown</td><td>3–4 × 8–15</td><td>Substitute or supplement. Lean back slightly. Pull to chin.</td></tr>
+              <tr><td><span class="sci-tier t2">Tier 2</span></td><td>Straight-Arm Pulldown</td><td>3 × 12–20</td><td>Lat isolation with straight arms. End range contraction.</td></tr>
+              <tr><td><span class="sci-tier t3">Tier 3</span></td><td>Bicep Curl (barbell/DB/cable)</td><td>3–4 × 10–15</td><td>Supinate at top. Eccentric control. Vary angles.</td></tr>
+            </tbody></table>
+          </div>
+          <div class="sci-pattern-panel" id="scp-hpull">
+            <table class="sci-table"><thead><tr><th>Tier</th><th>Exercise</th><th>Sets × Reps</th><th>Notes</th></tr></thead><tbody>
+              <tr><td><span class="sci-tier t1">Tier 1</span></td><td>Barbell or Dumbbell Row</td><td>3–5 × 4–8 (str) / 4 × 8–12 (hyp)</td><td>Neutral spine. Pull to lower chest. Full scapular retraction.</td></tr>
+              <tr><td><span class="sci-tier t2">Tier 2</span></td><td>Cable Seated Row</td><td>3–4 × 10–15</td><td>Neutral grip. Drive elbows back. Full stretch at start.</td></tr>
+              <tr><td><span class="sci-tier t2">Tier 2</span></td><td>Single-Arm DB Row</td><td>3 × 10–15 per arm</td><td>Long ROM. Allows greater lat stretch at top.</td></tr>
+              <tr><td><span class="sci-tier t3">Tier 3</span></td><td>Rear Delt Fly (DB or cable)</td><td>3 × 15–25</td><td>Horizontal abduction. Critical rotator cuff health.</td></tr>
+            </tbody></table>
+          </div>
+          <div class="sci-pattern-panel" id="scp-core">
+            <table class="sci-table"><thead><tr><th>Category</th><th>Exercise</th><th>Sets × Duration/Reps</th><th>Key Cues</th></tr></thead><tbody>
+              <tr><td>Anti-Extension</td><td>Dead Bug</td><td>3 × 8–12 reps/side</td><td>Lower back pressed to floor. Breathe throughout.</td></tr>
+              <tr><td>Anti-Extension</td><td>Ab Wheel Rollout</td><td>3 × 8–15 reps</td><td>Begin kneeling. Progress to standing. Control return.</td></tr>
+              <tr><td>Anti-Rotation</td><td>Pallof Press</td><td>3 × 10–15 reps/side</td><td>Resist cable rotation. Pause at end range.</td></tr>
+              <tr><td>Anti-Lateral Flexion</td><td>Suitcase Carry</td><td>3 × 20–30m per side</td><td>Upright posture. Do not lean toward weight.</td></tr>
+              <tr><td>Extension</td><td>Back Extension / 45° Hyper</td><td>3 × 12–15 reps</td><td>Glute-initiated. Do not hyperextend lumbar.</td></tr>
+              <tr><td>Rotation</td><td>Landmine Rotation</td><td>3 × 10–12 per side</td><td>Rotation from hips, not arms. Powerful.</td></tr>
+              <tr><td>Plank Variations</td><td>RKC Plank, Copenhagen Plank</td><td>3 × 20–40 sec</td><td>Maximum total body tension. Not passive holding.</td></tr>
+            </tbody></table>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 4 -->
+      <div class="sci-section" id="sci-s4">
+        <div class="sci-sec-header" onclick="sciToggle('s4')">
+          <span class="sci-sec-num">4</span>
+          <span class="sci-sec-title">Periodisation — The Year-Long Structure</span>
+          <span class="sci-chevron">▼</span>
+        </div>
+        <div class="sci-sec-body">
+          <p>Periodisation is the systematic manipulation of training variables (volume, intensity, frequency, exercise selection) over time to maximise long-term adaptation and prevent accommodation, overtraining, and plateaus. This program uses <strong>Daily Undulating Periodisation (DUP)</strong> nested within a macro-level Linear Periodisation framework.</p>
+
+          <div class="sci-phase-accordion">
+            <div class="sci-phase-item">
+              <div class="sci-phase-hdr" onclick="this.parentElement.classList.toggle('open')">
+                <span class="sci-phase-badge p1">Phase 1</span>
+                <span>Foundation — Weeks 1–4</span><span class="sci-chevron">▼</span>
+              </div>
+              <div class="sci-phase-body">
+                <div class="sci-callout sci-callout-blue">
+                  <div class="sci-callout-title">Phase 1 Goals</div>
+                  <ul>
+                    <li>Establish movement quality across all 7 fundamental patterns</li>
+                    <li>Build aerobic base in Zone 2 (mitochondrial primer)</li>
+                    <li>Introduce progressive overload at moderate loads (65–75% 1RM)</li>
+                    <li>Identify and address any movement asymmetries</li>
+                    <li>Establish daily habits and recovery protocols</li>
+                  </ul>
+                </div>
+                <table class="sci-table"><thead><tr><th>Day</th><th>Session</th><th>Strength Sets/Reps</th><th>Cardio</th><th>Notes</th></tr></thead><tbody>
+                  <tr><td>Mon</td><td>Lower Push</td><td>3 × 10–12 @ 65–70% 1RM</td><td>10 min Zone 1 warm-up</td><td>Technique focus. Video form.</td></tr>
+                  <tr><td>Tue</td><td>Zone 2 Cardio</td><td>—</td><td>40 min Zone 2</td><td>Cycle/row. HR 61–70% max.</td></tr>
+                  <tr><td>Wed</td><td>Upper Push + Pull</td><td>3 × 10–12 @ 65–70% 1RM</td><td>10 min Zone 1 warm-up</td><td>Equal push/pull ratio.</td></tr>
+                  <tr><td>Thu</td><td>Active Recovery</td><td>—</td><td>30 min Zone 1 walk</td><td>Breathwork, light stretch.</td></tr>
+                  <tr><td>Fri</td><td>Lower Pull + Core</td><td>3 × 10–12 @ 65–70% 1RM</td><td>10 min Zone 1 warm-up</td><td>RDL technique critical.</td></tr>
+                  <tr><td>Sat</td><td>Upper + Zone 2</td><td>3 × 10–12 (limited selection)</td><td>20 min Zone 2 post-lift</td><td>Introduce pull-ups.</td></tr>
+                  <tr><td>Sun</td><td>Full Rest or Walk</td><td>—</td><td>30–60 min Zone 1</td><td>Recovery paramount in P1.</td></tr>
+                </tbody></table>
+              </div>
+            </div>
+            <div class="sci-phase-item">
+              <div class="sci-phase-hdr" onclick="this.parentElement.classList.toggle('open')">
+                <span class="sci-phase-badge p2">Phase 2</span>
+                <span>Hypertrophy Block I — Weeks 5–10</span><span class="sci-chevron">▼</span>
+              </div>
+              <div class="sci-phase-body">
+                <div class="sci-callout sci-callout-blue">
+                  <div class="sci-callout-title">Phase 2 Goals</div>
+                  <ul>
+                    <li>Maximise muscle hypertrophy through high volume, moderate intensity training</li>
+                    <li>Volume: 16–20 sets per muscle group per week at peak (progressive volume loading)</li>
+                    <li>Intensity: 65–80% 1RM (6–12 reps primary range)</li>
+                    <li>Introduce HIIT (1×/week) to begin VO2max development alongside base</li>
+                    <li>Progressive overload: add weight when all reps completed with 1+ RIR</li>
+                  </ul>
+                </div>
+                <table class="sci-table"><thead><tr><th>Week</th><th>Strength Volume</th><th>Intensity</th><th>Cardio</th><th>Key Focus</th></tr></thead><tbody>
+                  <tr><td>Week 5–6</td><td>12–14 sets/muscle/week</td><td>70–75% 1RM, 8–12 reps</td><td>3× Zone 2 (45 min) + 1× HIIT</td><td>Volume introduction. Technique maintained.</td></tr>
+                  <tr><td>Week 7–8</td><td>14–17 sets/muscle/week</td><td>70–78% 1RM, 6–12 reps</td><td>3× Zone 2 (50 min) + 1× HIIT</td><td>Progressive overload on all compounds.</td></tr>
+                  <tr><td>Week 9–10</td><td>16–20 sets/muscle/week</td><td>72–80% 1RM, 6–12 reps</td><td>3× Zone 2 (55 min) + 1× HIIT</td><td>Peak volume. Last 2 sets to near failure.</td></tr>
+                  <tr><td>DELOAD (W11)</td><td>8–10 sets/muscle/week</td><td>60–65% 1RM, 10–15 reps</td><td>2× Zone 2 (30 min) only</td><td>Mandatory. Do not skip. Supercompensation.</td></tr>
+                </tbody></table>
+              </div>
+            </div>
+            <div class="sci-phase-item">
+              <div class="sci-phase-hdr" onclick="this.parentElement.classList.toggle('open')">
+                <span class="sci-phase-badge p3">Phase 3</span>
+                <span>Strength Block I — Weeks 11–14</span><span class="sci-chevron">▼</span>
+              </div>
+              <div class="sci-phase-body">
+                <p>Following the hypertrophy block, this strength phase capitalises on increased muscle cross-section and teaches the nervous system to maximally recruit those fibres. Expect significant strength gains during this phase.</p>
+                <table class="sci-table"><thead><tr><th>Exercise</th><th>Week 11</th><th>Week 12</th><th>Week 13</th><th>Week 14 (Test)</th></tr></thead><tbody>
+                  <tr><td>Back Squat</td><td>5 × 5 @ 80%</td><td>4 × 3 @ 85%</td><td>3 × 2 @ 90%</td><td>1 × 1 @ 95%+ (test)</td></tr>
+                  <tr><td>Deadlift</td><td>5 × 3 @ 82%</td><td>4 × 2 @ 87%</td><td>3 × 1 @ 92%</td><td>1 × 1 @ 97%+ (test)</td></tr>
+                  <tr><td>Bench Press</td><td>5 × 5 @ 80%</td><td>4 × 3 @ 85%</td><td>3 × 2 @ 90%</td><td>1 × 1 @ 95%+ (test)</td></tr>
+                  <tr><td>Overhead Press</td><td>5 × 4 @ 78%</td><td>4 × 3 @ 83%</td><td>3 × 2 @ 88%</td><td>1 × 1 @ 93%+ (test)</td></tr>
+                  <tr><td>Pull-Up</td><td>5 × 4 (weighted)</td><td>4 × 3 (heavier)</td><td>3 × 2 (heavy)</td><td>Max set bodyweight</td></tr>
+                </tbody></table>
+              </div>
+            </div>
+            <div class="sci-phase-item">
+              <div class="sci-phase-hdr" onclick="this.parentElement.classList.toggle('open')">
+                <span class="sci-phase-badge p4">Phase 4</span>
+                <span>Hypertrophy Block II — Weeks 15–20</span><span class="sci-chevron">▼</span>
+              </div>
+              <div class="sci-phase-body">
+                <p>Phase 4 is the highest-volume block of the entire program. Using the strength gained in Phase 3, heavier loads can now be used within the hypertrophy rep ranges, producing greater mechanical tension and a more powerful hypertrophic stimulus than Phase 2.</p>
+                <div class="sci-callout sci-callout-amber">
+                  <div class="sci-callout-title">Phase 4 Innovations</div>
+                  <ul>
+                    <li>Introduction of advanced hypertrophy techniques: mechanical drop sets, rest-pause sets, myo-reps (1–2 sets per exercise maximum)</li>
+                    <li>Concurrent cardiovascular development: VO2max becomes a secondary focus alongside hypertrophy</li>
+                    <li>HIIT frequency increases to 2×/week during weeks 18–20</li>
+                    <li>Nutrition periodisation: caloric surplus on training days (especially lower body days)</li>
+                    <li>Volume: 18–22+ working sets per muscle group at peak (weeks 18–20)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="sci-phase-item">
+              <div class="sci-phase-hdr" onclick="this.parentElement.classList.toggle('open')">
+                <span class="sci-phase-badge p5">Phase 5</span>
+                <span>Strength Block II &amp; Peak — Weeks 21–26</span><span class="sci-chevron">▼</span>
+              </div>
+              <div class="sci-phase-body">
+                <p>This is the intensity pinnacle of the program. Volume drops significantly, intensity climbs to 90–100% 1RM. This is a true powerbuilding peaking phase. Expect to set new personal records in all major lifts.</p>
+                <table class="sci-table"><thead><tr><th>Metric</th><th>Typical Improvement from Baseline (Wk 1)</th></tr></thead><tbody>
+                  <tr><td>Squat 1RM</td><td>+15–25% for intermediate trainees</td></tr>
+                  <tr><td>Deadlift 1RM</td><td>+20–30% for intermediate trainees</td></tr>
+                  <tr><td>Bench Press 1RM</td><td>+10–20% for intermediate trainees</td></tr>
+                  <tr><td>Overhead Press 1RM</td><td>+10–18% for intermediate trainees</td></tr>
+                  <tr><td>VO2max</td><td>+5–15% improvement over 26 weeks</td></tr>
+                  <tr><td>Lean Body Mass</td><td>+2–5 kg depending on diet adherence</td></tr>
+                  <tr><td>Body Fat %</td><td>−2–5% if nutrition compliant</td></tr>
+                </tbody></table>
+              </div>
+            </div>
+            <div class="sci-phase-item">
+              <div class="sci-phase-hdr" onclick="this.parentElement.classList.toggle('open')">
+                <span class="sci-phase-badge p6">Phase 6</span>
+                <span>Cardiovascular Development Peak — Weeks 27–32</span><span class="sci-chevron">▼</span>
+              </div>
+              <div class="sci-phase-body">
+                <p>For 6 weeks, the cardiovascular system takes primacy. Strength training is maintained at 2×/week (minimum effective dose) to prevent detraining, while cardio volume peaks. This phase targets maximum VO2max improvement and metabolic health biomarkers.</p>
+                <table class="sci-table"><thead><tr><th>Day</th><th>Session</th><th>Duration</th><th>Zone/Intensity</th></tr></thead><tbody>
+                  <tr><td>Mon</td><td>Strength Full Body (maintain)</td><td>55 min</td><td>70–80% 1RM, 8–12 reps</td></tr>
+                  <tr><td>Tue</td><td>Zone 2 Long Aerobic</td><td>60–75 min</td><td>Zone 2 sustained</td></tr>
+                  <tr><td>Wed</td><td>HIIT — 4×4 Protocol</td><td>45 min</td><td>4 × 4 min @ 85–95% + Z2 cool-down</td></tr>
+                  <tr><td>Thu</td><td>Zone 2 Medium</td><td>50 min</td><td>Zone 2 sustained</td></tr>
+                  <tr><td>Fri</td><td>Strength Full Body (maintain)</td><td>55 min</td><td>70–80% 1RM, 8–12 reps</td></tr>
+                  <tr><td>Sat</td><td>Zone 2 Long + Functional</td><td>70–90 min</td><td>Zone 2 + Farmer carries, sled push</td></tr>
+                  <tr><td>Sun</td><td>Active Recovery</td><td>30–45 min</td><td>Zone 1 only</td></tr>
+                </tbody></table>
+              </div>
+            </div>
+            <div class="sci-phase-item">
+              <div class="sci-phase-hdr" onclick="this.parentElement.classList.toggle('open')">
+                <span class="sci-phase-badge p7">Phase 7</span>
+                <span>Long-Term Maintenance &amp; Longevity Integration — Weeks 33–52</span><span class="sci-chevron">▼</span>
+              </div>
+              <div class="sci-phase-body">
+                <p>The final 20 weeks solidify all adaptations into a sustainable long-term lifestyle. The program becomes somewhat self-directed, using the principles, autoregulation skills, and body awareness developed over the preceding 32 weeks.</p>
+                <div class="sci-callout sci-callout-teal">
+                  <div class="sci-callout-title">Maintenance Minimum Effective Dose (MED)</div>
+                  <ul>
+                    <li><strong>Strength:</strong> 2–3 sessions/week, 10–14 sets/muscle group/week at 75–85% 1RM.</li>
+                    <li><strong>Zone 2:</strong> 150–200 min/week. Non-negotiable WHO minimum for cardiovascular health preservation.</li>
+                    <li><strong>HIIT:</strong> 1–2 sessions/week, 4×4 or equivalent. Maintains VO2max adaptations.</li>
+                    <li><strong>Weekly step count:</strong> 8,000–10,000 steps/day (Paluch et al., JAMA Network Open 2022 — strong dose-response with mortality reduction).</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 5 -->
+      <div class="sci-section" id="sci-s5">
+        <div class="sci-sec-header" onclick="sciToggle('s5')">
+          <span class="sci-sec-num">5</span>
+          <span class="sci-sec-title">Nutrition for Performance, Body Composition &amp; Longevity</span>
+          <span class="sci-chevron">▼</span>
+        </div>
+        <div class="sci-sec-body">
+          <h3>5.1 Macronutrient Targets</h3>
+          <table class="sci-table"><thead><tr><th>Macronutrient</th><th>Target (per kg bodyweight/day)</th><th>Goal</th><th>Key Sources</th></tr></thead><tbody>
+            <tr><td><strong>Protein</strong></td><td>1.6–2.2 g/kg (muscle gain) | 1.2–1.6 g/kg (maintenance)</td><td>MPS, recovery, satiety</td><td>Chicken, fish, eggs, Greek yogurt, legumes, whey</td></tr>
+            <tr><td><strong>Carbohydrates</strong></td><td>3–7 g/kg (varies with training load)</td><td>Glycogen resynthesis, training performance</td><td>Oats, rice, sweet potato, fruit, legumes, whole grains</td></tr>
+            <tr><td><strong>Fats</strong></td><td>0.8–1.2 g/kg</td><td>Hormonal health, brain function, fat-soluble vitamins</td><td>Olive oil, avocado, fatty fish, nuts, seeds</td></tr>
+            <tr><td><strong>Fibre</strong></td><td>30–38 g/day (males) | 21–25 g/day (females)</td><td>Gut health, cardiovascular, longevity</td><td>Vegetables, legumes, whole grains, fruit, flaxseed</td></tr>
+            <tr><td><strong>Hydration</strong></td><td>35–45 ml/kg/day + 500–750 ml per hour of exercise</td><td>Performance, recovery, organ function</td><td>Water, electrolyte drinks (exercise &gt;60 min), herbal tea</td></tr>
+          </tbody></table>
+
+          <h3>5.2 Protein — The Non-Negotiable Macronutrient</h3>
+          <p>Protein is the most evidence-supported nutritional intervention for body composition and muscle health. The optimal dose for muscle protein synthesis (MPS) stimulation is 0.3–0.4 g/kg per meal (roughly 20–40g for most adults), with distribution across 4–5 meals per day producing superior results to the same total protein in 2–3 meals (Areta et al., JPhysiology 2013).</p>
+          <div class="sci-callout sci-callout-teal">
+            <div class="sci-callout-title">Key Protein Research</div>
+            <ul>
+              <li><strong>Morton et al. (AJCN, 2018):</strong> Meta-analysis of 49 RCTs — protein supplementation significantly augments gains in muscle mass and strength. Upper threshold for benefit approximately 1.62 g/kg/day.</li>
+              <li><strong>Moore et al. (JPhysiology, 2009):</strong> 20–40g protein post-exercise maximally stimulates MPS. Amounts above 40g show no additional MPS benefit.</li>
+              <li><strong>Older adults (50+):</strong> Requirements increase to 1.8–2.4 g/kg/day due to anabolic resistance — the reduced sensitivity of aging muscle to protein feeding (Burd et al., Nutrients 2019).</li>
+            </ul>
+          </div>
+
+          <h3>5.3 Nutrient Timing</h3>
+          <table class="sci-table"><thead><tr><th>Timing Window</th><th>Priority Nutrients</th><th>Targets</th><th>Evidence Quality</th></tr></thead><tbody>
+            <tr><td>Pre-Workout (1–3 hrs)</td><td>Carbs (1–2 g/kg) + Protein (0.3 g/kg)</td><td>Glycogen loading, pre-MPS primer</td><td>Moderate-High</td></tr>
+            <tr><td>Intra-Workout (&gt;60 min)</td><td>Fast carbs (30–60 g/hr) + Electrolytes</td><td>Glycogen sparing, hydration</td><td>High for endurance</td></tr>
+            <tr><td>Post-Workout (0–2 hrs)</td><td>Protein (30–40g) + Carbs (0.5–1 g/kg)</td><td>MPS initiation, glycogen resynthesis</td><td>High (compounds)</td></tr>
+            <tr><td>Pre-Sleep</td><td>Casein protein 30–40g (cottage cheese, Greek yogurt)</td><td>Overnight MPS, reduce muscle breakdown</td><td>Moderate (Res 2020)</td></tr>
+          </tbody></table>
+
+          <h3>5.5 Evidence-Based Supplements</h3>
+          <table class="sci-table"><thead><tr><th>Supplement</th><th>Dose</th><th>Evidence Level</th><th>Primary Benefit</th><th>Notes</th></tr></thead><tbody>
+            <tr><td><strong>Creatine Monohydrate</strong></td><td>3–5 g/day</td><td><span class="sci-ev-grade a">Grade A</span></td><td>Strength +5–15%, muscle volume, cognitive</td><td>Most studied supplement. Morning or post-workout.</td></tr>
+            <tr><td><strong>Vitamin D3 + K2</strong></td><td>2,000–4,000 IU D3 + 100mcg K2/day</td><td><span class="sci-ev-grade a">Grade A</span></td><td>Bone, immune, testosterone, mortality</td><td>Test serum levels. Target 50–80 ng/mL.</td></tr>
+            <tr><td><strong>Omega-3 (EPA+DHA)</strong></td><td>2–3 g combined EPA/DHA/day</td><td><span class="sci-ev-grade a">Grade A</span></td><td>Cardiovascular, inflammation, muscle</td><td>Triglycerides −20–30%. Marine or algae source.</td></tr>
+            <tr><td><strong>Magnesium Glycinate</strong></td><td>300–400 mg/evening</td><td><span class="sci-ev-grade b">Grade B</span></td><td>Sleep quality, muscle function, blood pressure</td><td>Most absorbed form. Avoid oxide form.</td></tr>
+            <tr><td><strong>Caffeine</strong></td><td>3–6 mg/kg pre-workout</td><td><span class="sci-ev-grade a">Grade A</span></td><td>Endurance +3–5%, strength +2–3%, focus</td><td>Tolerance develops. Cycle off 1 week/month.</td></tr>
+            <tr><td><strong>Beta-Alanine</strong></td><td>3.2–6.4 g/day (split doses)</td><td><span class="sci-ev-grade b">Grade B</span></td><td>Muscular endurance (1–4 min efforts)</td><td>Carnosine buffer. Tingling is normal.</td></tr>
+            <tr><td><strong>Whey Protein</strong></td><td>25–40 g as needed to hit daily target</td><td><span class="sci-ev-grade a">Grade A</span></td><td>Convenient high-quality protein source</td><td>Leucine-rich. Fastest digesting protein.</td></tr>
+            <tr><td><strong>Ashwagandha (KSM-66)</strong></td><td>300–600 mg/day</td><td><span class="sci-ev-grade b">Grade B</span></td><td>Cortisol reduction, recovery, testosterone</td><td>Adaptogen. Best evidence of all adaptogens.</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+
+      <!-- SECTION 6 -->
+      <div class="sci-section" id="sci-s6">
+        <div class="sci-sec-header" onclick="sciToggle('s6')">
+          <span class="sci-sec-num">6</span>
+          <span class="sci-sec-title">Daily Habits for Health &amp; Longevity</span>
+          <span class="sci-chevron">▼</span>
+        </div>
+        <div class="sci-sec-body">
+          <h3>6.1 Sleep — The Ultimate Recovery Tool</h3>
+          <table class="sci-table"><thead><tr><th>Sleep Metric</th><th>Target</th><th>Evidence</th></tr></thead><tbody>
+            <tr><td>Total duration</td><td>7–9 hours/night</td><td>WHO, AHA, AAP. &lt;6 hrs: 4.2× increased cold susceptibility (Prather, Sleep 2015)</td></tr>
+            <tr><td>Sleep efficiency</td><td>&gt;85% time in bed asleep</td><td>Insomnia significantly increases CV risk even with adequate time in bed</td></tr>
+            <tr><td>REM sleep</td><td>20–25% of total (90–120 min)</td><td>Memory consolidation, emotional regulation, neural maintenance</td></tr>
+            <tr><td>Deep sleep (SWS)</td><td>15–20% of total (60–90 min)</td><td>Growth hormone secretion (70% of daily total), physical repair</td></tr>
+            <tr><td>Sleep consistency</td><td>±30 min same bedtime/wake time</td><td>Consistent circadian timing reduces metabolic disease risk</td></tr>
+            <tr><td>Pre-sleep window</td><td>No screens 60–90 min before bed</td><td>Blue light suppresses melatonin onset by up to 3 hours</td></tr>
+          </tbody></table>
+
+          <h3>6.2 Stress Management</h3>
+          <div class="sci-callout sci-callout-blue">
+            <div class="sci-callout-title">Evidence-Based Stress Reduction Practices</div>
+            <ul>
+              <li><strong>Mindfulness-Based Stress Reduction (MBSR):</strong> Kabat-Zinn's 8-week MBSR program reduces cortisol, improves sleep, and reduces anxiety. Even 10 minutes of daily meditation shows measurable HPA axis benefits (Creswell et al., Biological Psychiatry 2016).</li>
+              <li><strong>Diaphragmatic (box) breathing:</strong> 4-4-4-4 pattern (inhale 4s, hold 4s, exhale 4s, hold 4s). Activates the parasympathetic nervous system via the vagus nerve. 5–10 minutes post-workout is optimal.</li>
+              <li><strong>Nature exposure:</strong> White et al., Scientific Reports 2019 — 120 minutes/week in nature associated with significant health and wellbeing benefits.</li>
+              <li><strong>Social connection:</strong> Holt-Lunstad et al. (PLOS Medicine, 2010): Social isolation increases mortality risk by 29%, comparable to smoking 15 cigarettes/day.</li>
+            </ul>
+          </div>
+
+          <h3>6.3 NEPA — The Missing Variable</h3>
+          <div class="sci-callout sci-callout-teal">
+            <div class="sci-callout-title">Daily NEPA Targets</div>
+            <ul>
+              <li><strong>Steps:</strong> 8,000–10,000 steps/day. Paluch et al. (JAMA Network Open, 2022): 8,000 steps/day associated with 51% lower all-cause mortality vs 4,000 steps/day.</li>
+              <li>Break sitting every 45–60 minutes with 2–5 minutes of movement. Even brief movement breaks acutely improve blood glucose and blood pressure.</li>
+              <li>Standing desk: Target 2–4 hours standing per 8-hour work day.</li>
+            </ul>
+          </div>
+
+          <h3>6.4 Daily Habit Stack</h3>
+          <table class="sci-table"><thead><tr><th>Time</th><th>Habit</th><th>Duration</th><th>Mechanism/Benefit</th><th>Priority</th></tr></thead><tbody>
+            <tr><td>On waking</td><td>Do NOT check phone for 30–60 min</td><td>—</td><td>Preserve cortisol awakening response (CAR). Mental clarity.</td><td><span class="sci-pri high">HIGH</span></td></tr>
+            <tr><td>Morning</td><td>Outdoor sunlight exposure</td><td>10–30 min</td><td>Circadian entrainment, Vitamin D, serotonin synthesis</td><td><span class="sci-pri high">HIGH</span></td></tr>
+            <tr><td>Morning</td><td>Hydrate: 500–750ml water + electrolytes</td><td>5 min</td><td>Rehydrate after overnight fast. Cortisol modulation.</td><td><span class="sci-pri high">HIGH</span></td></tr>
+            <tr><td>Morning/Midday</td><td>Structured exercise session</td><td>45–90 min</td><td>All benefits outlined in this document</td><td><span class="sci-pri critical">CRITICAL</span></td></tr>
+            <tr><td>Throughout day</td><td>8,000–10,000 steps</td><td>All day</td><td>NEAT, metabolic health, insulin sensitivity</td><td><span class="sci-pri high">HIGH</span></td></tr>
+            <tr><td>Afternoon</td><td>No caffeine after 1–2pm</td><td>—</td><td>Sleep quality protection</td><td><span class="sci-pri high">HIGH</span></td></tr>
+            <tr><td>Pre-sleep</td><td>Dim lights. No screens.</td><td>60–90 min</td><td>Melatonin secretion. Circadian wind-down.</td><td><span class="sci-pri high">HIGH</span></td></tr>
+            <tr><td>Sleep</td><td>7–9 hours quality sleep</td><td>7–9 hrs</td><td>Growth hormone, neural consolidation, repair</td><td><span class="sci-pri critical">CRITICAL</span></td></tr>
+          </tbody></table>
+        </div>
+      </div>
+
+      <!-- SECTION 7 -->
+      <div class="sci-section" id="sci-s7">
+        <div class="sci-sec-header" onclick="sciToggle('s7')">
+          <span class="sci-sec-num">7</span>
+          <span class="sci-sec-title">Health Monitoring &amp; Biomarkers</span>
+          <span class="sci-chevron">▼</span>
+        </div>
+        <div class="sci-sec-body">
+          <h3>7.1 Annual Blood Panel — Minimum Recommended</h3>
+          <table class="sci-table"><thead><tr><th>Biomarker</th><th>Optimal Range</th><th>Why It Matters</th><th>Frequency</th></tr></thead><tbody>
+            <tr><td>HbA1c</td><td>&lt;5.6% (non-diabetic)</td><td>3-month average blood glucose. Early T2D detection.</td><td>Annual</td></tr>
+            <tr><td>Fasting insulin</td><td>&lt;8 mIU/L (optimal &lt;5)</td><td>Insulin resistance precedes HbA1c elevation by years</td><td>Annual</td></tr>
+            <tr><td>hs-CRP</td><td>&lt;1.0 mg/L (optimal)</td><td>High-sensitivity C-reactive protein. Systemic inflammation.</td><td>Annual</td></tr>
+            <tr><td>Testosterone (total)</td><td>600–900 ng/dL (males)</td><td>Muscle mass, libido, energy, bone density</td><td>Annual if &lt;40, 6-monthly if declining</td></tr>
+            <tr><td>Vitamin D (25-OH)</td><td>50–80 ng/mL</td><td>Immune, bone, cardiovascular, hormonal function</td><td>Annual (ideally winter)</td></tr>
+            <tr><td>LDL-C (advanced)</td><td>&lt;100 mg/dL (&lt;70 if high risk)</td><td>Cardiovascular risk. Request LDL-P and ApoB for accuracy.</td><td>Annual</td></tr>
+            <tr><td>Triglycerides</td><td>&lt;100 mg/dL</td><td>Metabolic health proxy. Responds to carb intake.</td><td>Annual</td></tr>
+            <tr><td>Ferritin</td><td>100–200 ng/mL (males)</td><td>Iron stores. Low = impaired O2 delivery, fatigue.</td><td>Annual</td></tr>
+            <tr><td>Thyroid (TSH)</td><td>1.0–2.5 mIU/L</td><td>Metabolic rate, energy, body comp, mood regulation</td><td>Annual or if symptomatic</td></tr>
+          </tbody></table>
+
+          <h3>7.2 Fitness Performance Benchmarks</h3>
+          <table class="sci-table"><thead><tr><th>Fitness Test</th><th>Below Average</th><th>Average</th><th>Good</th><th>Excellent (Longevity Target)</th></tr></thead><tbody>
+            <tr><td>VO2max (ml/kg/min)</td><td>&lt;35 (M) / &lt;28 (F)</td><td>40 (M) / 32 (F)</td><td>46 (M) / 38 (F)</td><td class="sci-highlight">&gt;52 (M) / &gt;44 (F)</td></tr>
+            <tr><td>Push-ups (max reps)</td><td>&lt;10 (M) / &lt;6 (F)</td><td>15–20 (M) / 10–15 (F)</td><td>25–30 (M) / 20–25 (F)</td><td class="sci-highlight">&gt;40 (M) / &gt;30 (F)</td></tr>
+            <tr><td>Dead hang (sec)</td><td>&lt;20 sec</td><td>30–45 sec</td><td>60 sec</td><td class="sci-highlight">&gt;90 sec</td></tr>
+            <tr><td>Plank hold (sec)</td><td>&lt;30 sec</td><td>60 sec</td><td>90–120 sec</td><td class="sci-highlight">&gt;3 min (controlled)</td></tr>
+            <tr><td>Grip strength (kg)</td><td>&lt;35 (M) / &lt;21 (F)</td><td>45 (M) / 28 (F)</td><td>52 (M) / 34 (F)</td><td class="sci-highlight">&gt;58 (M) / &gt;38 (F)</td></tr>
+            <tr><td>Resting heart rate (bpm)</td><td>&gt;75</td><td>65–75</td><td>55–65</td><td class="sci-highlight">&lt;55 (athlete range)</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+
+      <!-- SECTION 8 -->
+      <div class="sci-section" id="sci-s8">
+        <div class="sci-sec-header" onclick="sciToggle('s8')">
+          <span class="sci-sec-num">8</span>
+          <span class="sci-sec-title">Considerations for Special Populations</span>
+          <span class="sci-chevron">▼</span>
+        </div>
+        <div class="sci-sec-body">
+          <h3>8.1 Older Adults (50+)</h3>
+          <div class="sci-callout sci-callout-amber">
+            <ul>
+              <li>Sarcopenia begins at age 30–35 at approximately 0.5–1% per year, accelerating to 1.5–2% per year after 60. Without consistent resistance training, this is linear and progressive.</li>
+              <li>Protein requirements increase to 1.8–2.4 g/kg/day due to anabolic resistance of ageing muscle (Churchward-Venne et al., JPhysiology 2016).</li>
+              <li>Balance training becomes independently critical: Falls are the leading cause of injury death in adults &gt;65. WHO guidelines specifically add balance/functional training 3×/week for older adults.</li>
+              <li>Creatine is particularly beneficial in older adults, where benefits extend beyond performance to include brain health, bone density, and fall prevention (Gualano et al., JSCR 2014).</li>
+            </ul>
+          </div>
+
+          <h3>8.2 Females — Cycle-Phase Training</h3>
+          <table class="sci-table"><thead><tr><th>Cycle Phase</th><th>Duration</th><th>Hormone Profile</th><th>Training Recommendation</th></tr></thead><tbody>
+            <tr><td>Menstrual (Day 1–5)</td><td>~5 days</td><td>Estrogen + Progesterone low</td><td>Moderate intensity. Listen to body. Prioritise sleep.</td></tr>
+            <tr><td>Follicular (Day 1–13)</td><td>~13 days</td><td>Estrogen rising</td><td class="sci-highlight">Optimal for high-intensity training. PR attempts here.</td></tr>
+            <tr><td>Ovulation (Day 12–16)</td><td>~4 days</td><td>Estrogen peak, LH surge</td><td class="sci-highlight">Peak power output. HIIT. Strength tests.</td></tr>
+            <tr><td>Luteal (Day 15–28)</td><td>~14 days</td><td>Progesterone dominant</td><td>Zone 2, moderate resistance. Greater RPE for same effort.</td></tr>
+          </tbody></table>
+
+          <h3>8.3 Beginners (No Prior Training)</h3>
+          <div class="sci-callout sci-callout-blue">
+            <div class="sci-callout-title">Beginner Priority Rules</div>
+            <ol>
+              <li><strong>Never sacrifice technique for load.</strong> Every set of every exercise should be technically sound before load is increased.</li>
+              <li><strong>Start at 50–60% of what you think you can do.</strong> The limiting factor for adaptation is recovery, not stimulus intensity, in weeks 1–4.</li>
+              <li><strong>The warm-up IS training.</strong> Dynamic warm-up, activation work, and movement prep are training for beginners.</li>
+              <li><strong>Learn to RPE.</strong> Develop the ability to gauge proximity to failure. This skill takes months to calibrate.</li>
+              <li><strong>Two high-quality sessions per week per muscle group</strong> will outperform three poor-quality sessions. Quality always precedes quantity.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 9 -->
+      <div class="sci-section" id="sci-s9">
+        <div class="sci-sec-header" onclick="sciToggle('s9')">
+          <span class="sci-sec-num">9</span>
+          <span class="sci-sec-title">Troubleshooting, Plateaus &amp; Autoregulation</span>
+          <span class="sci-chevron">▼</span>
+        </div>
+        <div class="sci-sec-body">
+          <h3>9.1 When Progress Stalls</h3>
+          <div class="sci-two-col">
+            <div class="sci-callout sci-callout-amber">
+              <div class="sci-callout-title">Strength Plateau</div>
+              <ul>
+                <li>Deload first. If strength hasn't progressed in 3+ weeks, recovery is the most likely culprit.</li>
+                <li>Audit sleep and protein. These are responsible for the majority of non-structural strength plateaus.</li>
+                <li>Change rep ranges. If 5×5 has stalled, switch to 3×3 or 8×3. Neural adaptation responds to novel stimuli.</li>
+                <li>Consider technique refinement. Small form adjustments often unlock significant strength gains.</li>
+              </ul>
+            </div>
+            <div class="sci-callout sci-callout-amber">
+              <div class="sci-callout-title">Hypertrophy Plateau</div>
+              <ul>
+                <li>Increase proximity to failure. Most hypertrophy plateaus are a volume problem masquerading as a training problem.</li>
+                <li>Audit caloric intake. Muscle does not grow in a significant caloric deficit. A modest surplus of 200–400 kcal/day accelerates hypertrophy.</li>
+                <li>Add one more set per exercise. Volume drives hypertrophy.</li>
+              </ul>
+            </div>
+          </div>
+
+          <h3>9.2 Autoregulation Principles</h3>
+          <table class="sci-table"><thead><tr><th>HRV / Readiness Status</th><th>Session Modification</th></tr></thead><tbody>
+            <tr><td>🟢 HRV &gt;10% above 7-day baseline</td><td>Push hard. Consider adding a set or increasing load. Ideal day for PRs.</td></tr>
+            <tr><td>🟡 HRV within ±5% of 7-day baseline</td><td>Train as programmed. Execute the plan.</td></tr>
+            <tr><td>🟠 HRV 5–10% below 7-day baseline</td><td>Reduce intensity by 10–15%. Maintain volume. Cut HIIT if programmed.</td></tr>
+            <tr><td>🔴 HRV &gt;10% below baseline</td><td>Zone 1 or 2 only. No heavy lifting. Prioritise sleep, hydration, nutrition.</td></tr>
+            <tr><td>⚫ Subjective wellbeing &lt;5/10 for 3+ days</td><td>Full deload regardless of HRV. Investigate systemic cause.</td></tr>
+          </tbody></table>
+
+          <h3>9.3 Injury Management Principles</h3>
+          <div class="sci-callout sci-callout-blue">
+            <ul>
+              <li><strong>Never train into sharp, acute, or radiating pain.</strong> Modify immediately.</li>
+              <li>Distinguish DOMS from actual injury: DOMS peaks 24–48 hours post-exercise, is symmetric, and resolves with activity. Injury pain is typically sharper, localised, and may worsen with activity.</li>
+              <li><strong>Train the uninjured limb.</strong> Cross-education effect: training the unaffected limb reduces strength loss in the injured limb by up to 25% (Magnus et al., JNeurophysiology 2010).</li>
+              <li>Seek professional assessment for any pain persisting beyond 7–10 days.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- APPENDIX -->
+      <div class="sci-section" id="sci-appendix">
+        <div class="sci-sec-header" onclick="sciToggle('appendix')">
+          <span class="sci-sec-num">📎</span>
+          <span class="sci-sec-title">Appendix: Quick Reference Tables</span>
+          <span class="sci-chevron">▼</span>
+        </div>
+        <div class="sci-sec-body">
+          <h3>A1 — RPE / RIR Reference Scale</h3>
+          <table class="sci-table"><thead><tr><th>RPE</th><th>RIR</th><th>Description</th><th>When to Use</th></tr></thead><tbody>
+            <tr><td>10</td><td>0</td><td>Absolute maximum. Could not do another rep.</td><td>1RM testing only</td></tr>
+            <tr><td>9.5</td><td>0–1</td><td>Could maybe do 1 more if life depended on it</td><td>Top sets in peaking phase</td></tr>
+            <tr><td>9</td><td>1</td><td>Could definitely do 1 more rep</td><td>Last sets of compound lifts</td></tr>
+            <tr><td>8.5</td><td>1–2</td><td>Could do 1–2 more reps</td><td>Working sets in hypertrophy</td></tr>
+            <tr><td>8</td><td>2</td><td>Could do 2 more reps clearly</td><td>Primary hypertrophy range</td></tr>
+            <tr><td>7</td><td>3</td><td>3 more reps in the tank</td><td>Sub-maximal strength work</td></tr>
+            <tr><td>6</td><td>4+</td><td>Easy effort, multiple reps left</td><td>Warm-up, deload, technique work</td></tr>
+            <tr><td>&lt;6</td><td>5+</td><td>Very light / recovery</td><td>Active recovery, warm-up</td></tr>
+          </tbody></table>
+
+          <h3>A2 — Deload Protocol</h3>
+          <table class="sci-table"><thead><tr><th>Deload Variable</th><th>Full Deload</th><th>Volume Deload</th><th>Intensity Deload</th></tr></thead><tbody>
+            <tr><td>When to use</td><td>Every 4–6 weeks, post-peak phase, illness recovery</td><td>After high-volume blocks (P2, P4)</td><td>After high-intensity blocks (P3, P5)</td></tr>
+            <tr><td>Volume change</td><td>Reduce to 40–50% of peak week</td><td>Reduce to 40–50% of peak week</td><td>Maintain at 80–90% of peak</td></tr>
+            <tr><td>Intensity change</td><td>Reduce to 60–65% 1RM</td><td>Maintain at working loads</td><td>Reduce to 50–60% 1RM</td></tr>
+            <tr><td>Duration</td><td>5–7 days</td><td>5–7 days</td><td>5–7 days</td></tr>
+            <tr><td>Cardio</td><td>Zone 1–2 only. No HIIT.</td><td>Maintain as normal</td><td>Maintain as normal</td></tr>
+          </tbody></table>
+
+          <h3>A3 — Sample Daily Meal Plan (80kg Male, Muscle Building Phase)</h3>
+          <p style="font-size:.8rem;color:var(--txt3);margin-bottom:.75rem">Targets: ~180g protein · ~350g carbs · ~80g fat · ~2,800–3,000 kcal. Adjust proportionally for your bodyweight and goals.</p>
+          <table class="sci-table"><thead><tr><th>Meal</th><th>Foods</th><th>Protein</th><th>Carbs</th><th>Fats</th><th>kcal</th></tr></thead><tbody>
+            <tr><td>Breakfast (7am)</td><td>4 eggs + 3 egg whites scrambled, 100g oats, mixed berries, black coffee</td><td>38g</td><td>75g</td><td>20g</td><td>625</td></tr>
+            <tr><td>Mid-Morning (10am)</td><td>Greek yogurt (200g full fat) + 30g walnuts + 1 apple</td><td>22g</td><td>28g</td><td>18g</td><td>360</td></tr>
+            <tr><td>Pre-Workout (12pm)</td><td>200g chicken breast, 200g white rice, 100g broccoli, 1 tbsp olive oil</td><td>48g</td><td>80g</td><td>16g</td><td>660</td></tr>
+            <tr><td>Post-Workout (2–3pm)</td><td>40g whey protein in 300ml milk OR cottage cheese (200g)</td><td>40g</td><td>22g</td><td>8g</td><td>320</td></tr>
+            <tr><td>Dinner (6:30pm)</td><td>200g salmon, 200g sweet potato, large green salad, 2 tbsp olive oil dressing</td><td>46g</td><td>50g</td><td>26g</td><td>615</td></tr>
+            <tr><td>Pre-Sleep (9:30pm)</td><td>200g cottage cheese + 1 tbsp almond butter + handful of berries</td><td>30g</td><td>18g</td><td>12g</td><td>300</td></tr>
+            <tr><td><strong>TOTAL</strong></td><td>—</td><td><strong>~224g</strong></td><td><strong>~273g</strong></td><td><strong>~100g</strong></td><td><strong>~2,880</strong></td></tr>
+          </tbody></table>
+
+          <h3>A4 — Universal Warm-Up Protocol</h3>
+          <div class="sci-callout sci-callout-teal">
+            <div class="sci-callout-title">8–12 Minute Pre-Session Sequence — Do Not Skip</div>
+            <ol>
+              <li><strong>5 minutes:</strong> Light cardio (row, cycle, walk) to raise core temperature — until light sweat onset</li>
+              <li><strong>90 sec:</strong> World's Greatest Stretch — 3 reps per side (hip flexor, thoracic rotation, hamstring)</li>
+              <li><strong>60 sec:</strong> Hip 90/90 transitions — 5 per side (hip internal/external rotation)</li>
+              <li><strong>60 sec:</strong> Band pull-aparts — 2 × 15 reps (scapular retraction primer)</li>
+              <li><strong>60 sec:</strong> Bodyweight squat to box (3 second hold at bottom) — 10 reps</li>
+              <li><strong>60 sec:</strong> Dead bug — 5 reps per side (core activation)</li>
+              <li><strong>Specific warm-up sets:</strong> 2–3 progressively loaded warm-up sets at 40%, 60%, 75% of working weight before first working set.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <!-- CLOSING NOTE -->
+      <div class="sci-closing">
+        <div class="sci-closing-inner">
+          <p class="sci-closing-p">The single most predictive variable in long-term health, fitness, and longevity outcomes is not training intensity, programme sophistication, supplement protocol, or dietary precision.</p>
+          <p class="sci-closing-big">It is consistency.</p>
+          <p class="sci-closing-p">A good program executed consistently over years will always outperform the perfect program executed inconsistently. Do not let the perfect be the enemy of the good.</p>
+          <p class="sci-closing-commit">This program will work. Commit to it.</p>
+          <p class="sci-closing-disclaimer">This document is for educational and informational purposes. Always consult with a qualified medical professional before beginning any new exercise or nutritional program, particularly if you have pre-existing health conditions.</p>
+        </div>
+      </div>
+
+    </div><!-- /sci-body -->
+  </div><!-- /page-science -->
+
+>
