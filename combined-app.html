@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,8 +38,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-b);font-size:1
 @keyframes ld{from{width:0}to{width:100%}}
 
 /* SIDEBAR */
-#sidebar{position:fixed;top:84px;left:0;bottom:0;width:280px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:100;overflow:hidden;transition:transform .3s}
-.sb-logo{padding:1.25rem 1.25rem .85rem;border-bottom:1px solid var(--border);flex-shrink:0}
+#sidebar{position:fixed;top:84px;left:0;bottom:0;width:280px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:100;overflow:hidden;transition:transform .3s}.sb-logo{padding:1.25rem 1.25rem .85rem;border-bottom:1px solid var(--border);flex-shrink:0}
 .sb-logo h2{font-family:var(--font-d);font-size:1.45rem;color:var(--teal2);letter-spacing:.05em;line-height:1.1}
 .sb-logo p{color:var(--txt3);font-size:.68rem;margin-top:.2rem;text-transform:uppercase;letter-spacing:.08em}
 .lv-sw{padding:.55rem .75rem;border-bottom:1px solid var(--border);flex-shrink:0}
@@ -73,8 +71,8 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-b);font-size:1
 .prog-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--teal2));border-radius:2px;transition:width .4s}
 
 /* MAIN */
-#main{margin-left:280px;min-height:100vh;position:relative;isolation:isolate;padding-top:84px;}
-#topbar{position:sticky;top:84px;z-index:150;background:#0d1117;backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.7rem 1.75rem;display:flex;align-items:center;gap:.85rem;flex-wrap:wrap}
+#main{margin-left:280px;min-height:100vh;position:relative;isolation:isolate;background:var(--bg);}
+#topbar{position:sticky;top:0;z-index:150;background:#0d1117;border-bottom:1px solid var(--border);padding:.7rem 1.75rem;display:flex;align-items:center;gap:.85rem;flex-wrap:wrap}
 .breadcrumb{display:flex;align-items:center;gap:.45rem;font-size:.78rem;color:var(--txt3)}
 .breadcrumb span{color:var(--txt2)}
 .tb-right{margin-left:auto;display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
@@ -979,9 +977,10 @@ body.dark .shop-cat-card{background:var(--paper2)}
 @media(max-width:900px){
 
   /* CT nav + app topbar spacing */
-  #sidebar{ top:168px !important; } /* CT nav 84px + topbar ~84px */
+  #sidebar{ top:70px !important; }
   #sync-banner{ left:0 !important; }
-  #main{ padding-top:0 !important; } /* topbar is sticky so no extra padding needed on mobile */
+  #main{ padding-top:70px !important; }
+  #topbar{ top:70px !important; }
 
   /* Topbar — wrap and stack gracefully */
   #topbar{
@@ -1122,7 +1121,8 @@ body.dark .shop-cat-card{background:var(--paper2)}
 
 @media(max-width:480px){
   /* CT nav is 70px on very small screens */
-  #sidebar{ top:154px !important; } /* 70px CT nav + ~84px topbar */
+  #sidebar{ top:70px !important; }
+  #main{ padding-top:70px !important; }
 
   .hero h1{ font-size:1.55rem; }
   .wk-grid{ grid-template-columns:repeat(3,1fr) !important; }
