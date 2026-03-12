@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CT Fitness — Free Tools</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f1117;--surface:#161b27;--surface2:#1d2333;--surface3:#232b3e;
+  --border:#252e44;--border2:#303d58;--border3:#3d4f70;
+  --white:#fff;--off-white:#e2ddd6;--muted:#7a8aaa;--muted2:#4a5a78;
+  --red:#CD0404;--green:#4caf7d;--blue:#7eb8e0;--amber:#d4a843;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;overflow-x:hidden;}
+
+/* HERO */
+.hero{padding:100px 48px 72px;max-width:1200px;margin:0 auto;}
+.hero-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(40px,6vw,80px);font-weight:900;line-height:0.95;letter-spacing:-2px;margin-bottom:20px;}
+.hero-title .t-red{color:var(--red);}
+.hero-sub{font-size:15px;color:var(--muted);line-height:1.75;max-width:520px;}
+
+.divider{width:100%;height:1px;background:var(--border);}
+
+/* TOOLS GRID */
+.tools-section{max-width:1200px;margin:0 auto;padding:64px 48px 100px;}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);}
+
+.tool-card{background:var(--surface);padding:36px 32px;display:flex;flex-direction:column;gap:18px;transition:background 0.2s;text-decoration:none;color:inherit;}
+.tool-card:hover{background:var(--surface2);}
+.tool-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+.tool-icon{font-size:32px;line-height:1;}
+.tool-badge{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:4px 10px;border:1px solid var(--border2);color:var(--muted);white-space:nowrap;}
+.tool-name{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
+.tool-desc{font-size:13px;color:var(--muted);line-height:1.7;}
+.tool-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.tool-tag{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 8px;background:var(--surface3);border:1px solid var(--border2);color:var(--muted2);}
+.tool-cta{display:inline-flex;align-items:center;gap:8px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--off-white);margin-top:auto;padding-top:10px;border-top:1px solid var(--border);transition:color 0.2s;}
+.tool-card:hover .tool-cta{color:var(--red);}
+
+/* BOTTOM CALLOUT */
+.callout{max-width:1200px;margin:0 auto;padding:0 48px 80px;}
+.callout-inner{background:var(--surface);border:1px solid var(--border2);padding:44px;display:flex;justify-content:space-between;align-items:center;gap:40px;flex-wrap:wrap;}
+.callout-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--red);margin-bottom:10px;}
+.callout-title{font-family:'Playfair Display',serif;font-size:clamp(20px,2.5vw,30px);font-weight:700;margin-bottom:10px;}
+.callout-body{font-size:13px;color:var(--muted);line-height:1.75;max-width:540px;}
+.btn-primary{background:var(--red);color:#fff;padding:14px 28px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;transition:background 0.2s;text-decoration:none;display:inline-block;white-space:nowrap;}
+.btn-primary:hover{background:#e03333;}
+
+@media(max-width:768px){
+  .hero,.tools-section,.callout{padding-left:20px;padding-right:20px;}
+  .hero{padding-top:80px;}
+  .tools-grid{grid-template-columns:1fr;}
+  .callout-inner{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-eyebrow">CT Fitness · Free Tools</div>
+  <h1 class="hero-title">Five Tools.<br><span class="t-red">All Free.</span></h1>
+  <p class="hero-sub">Every calculator and planner you need — body composition, calorie targets, training structure, strength benchmarks, and weekly workout programming. No account required.</p>
+</div>
+
+<div class="divider"></div>
+
+<div class="tools-section">
+  <div class="tools-grid">
+
+    <a class="tool-card" href="calorie-calculator.html">
+      <div class="tool-card-top">
+        <div class="tool-icon">🔥</div>
+        <div class="tool-badge">Nutrition</div>
+      </div>
+      <div>
+        <div class="tool-name">Calorie Calculator</div>
+        <div class="tool-desc">Find your TDEE and personalised calorie targets for fat loss, muscle gain, or maintenance — based on your activity level, age, height, and weight.</div>
+      </div>
+      <div class="tool-tags">
+        <span class="tool-tag">TDEE</span>
+        <span class="tool-tag">Macros</span>
+        <span class="tool-tag">Mifflin-St Jeor</span>
+      </div>
+      <div class="tool-cta">Open Calculator →</div>
+    </a>
+
+    <a class="tool-card" href="body-fat.html">
+      <div class="tool-card-top">
+        <div class="tool-icon">📊</div>
+        <div class="tool-badge">Body Composition</div>
+      </div>
+      <div>
+        <div class="tool-name">Body Fat Estimator</div>
+        <div class="tool-desc">Estimate your body fat percentage using the Navy method — no calipers required. Understand your lean mass and set a realistic target body fat.</div>
+      </div>
+      <div class="tool-tags">
+        <span class="tool-tag">Navy Method</span>
+        <span class="tool-tag">Lean Mass</span>
+        <span class="tool-tag">Body Composition</span>
+      </div>
+      <div class="tool-cta">Open Estimator →</div>
+    </a>
+
+    <a class="tool-card" href="training-split.html">
+      <div class="tool-card-top">
+        <div class="tool-icon">📅</div>
+        <div class="tool-badge">Programming</div>
+      </div>
+      <div>
+        <div class="tool-name">Training Split Calculator</div>
+        <div class="tool-desc">Input your available training days and goals — get a recommended split structure (Push/Pull/Legs, Upper/Lower, Full Body) with rationale.</div>
+      </div>
+      <div class="tool-tags">
+        <span class="tool-tag">Split Design</span>
+        <span class="tool-tag">Frequency</span>
+        <span class="tool-tag">Weekly Structure</span>
+      </div>
+      <div class="tool-cta">Open Calculator →</div>
+    </a>
+
+    <a class="tool-card" href="strength-standards.html">
+      <div class="tool-card-top">
+        <div class="tool-icon">🏋</div>
+        <div class="tool-badge">Benchmarking</div>
+      </div>
+      <div>
+        <div class="tool-name">Strength Standards</div>
+        <div class="tool-desc">See where your lifts rank across 9 movements — from Beginner to Elite — relative to your bodyweight. Know exactly what you're training toward.</div>
+      </div>
+      <div class="tool-tags">
+        <span class="tool-tag">9 Movements</span>
+        <span class="tool-tag">Relative Strength</span>
+        <span class="tool-tag">Benchmarks</span>
+      </div>
+      <div class="tool-cta">Check Standards →</div>
+    </a>
+
+    <a class="tool-card" href="workout-planner.html">
+      <div class="tool-card-top">
+        <div class="tool-icon">📋</div>
+        <div class="tool-badge">Planning</div>
+      </div>
+      <div>
+        <div class="tool-name">Workout Planner</div>
+        <div class="tool-desc">Build and save your weekly training schedule. Drag exercises into days, log sets, reps, and weight. A simple but complete planning tool.</div>
+      </div>
+      <div class="tool-tags">
+        <span class="tool-tag">Weekly Planning</span>
+        <span class="tool-tag">Exercise Library</span>
+        <span class="tool-tag">Logging</span>
+      </div>
+      <div class="tool-cta">Open Planner →</div>
+    </a>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="callout">
+  <div class="callout-inner">
+    <div>
+      <div class="callout-eyebrow">Want More?</div>
+      <div class="callout-title">Browse the Full Program Library</div>
+      <p class="callout-body">The free tools give you the numbers. The programs give you the structure — periodised, science-backed, and built for long-term results. From body recomposition to longevity training.</p>
+    </div>
+    <a href="programs.html" class="btn-primary">View Programs →</a>
+  </div>
+</div>
+
+<script src="nav.js" onload="CTNav.init('tools')" onerror="console.warn('nav.js not found')"></script>
+</body>
+</html>
