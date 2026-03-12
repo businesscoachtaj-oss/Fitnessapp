@@ -6,15 +6,15 @@
   var SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9xd3llbXl2bXF1YnpiYXdjZ2ZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5MTA1ODEsImV4cCI6MjA4ODQ4NjU4MX0.AghBMaHcRa9H0ZEbiT6qWCB_1Mpw4EN5rtJPjCTuXTA';
 
   var PAGES = [
-    { id: 'home',      label: 'Home',              icon: '⌂',  href: 'index.html' },
-    { id: 'calories',  label: 'Calorie Calculator', icon: '🔥', href: 'calorie-calculator.html' },
-    { id: 'bodyfat',   label: 'Body Fat',           icon: '📊', href: 'body-fat.html' },
-    { id: 'split',     label: 'Training Split',     icon: '📅', href: 'training-split.html' },
-    { id: 'strength',  label: 'Strength Standards', icon: '🏋', href: 'strength-standards.html' },
-    { id: 'planner',   label: 'Workout Planner',    icon: '📋', href: 'workout-planner.html' },
-    { id: 'programs',  label: 'Programs',           icon: '◈',  href: 'programs.html' },
-    { id: 'services',  label: 'Services',           icon: '◆',  href: 'services.html' },
+    { id: 'home',      label: 'Home',          icon: '⌂',  href: 'index.html' },
+    { id: 'tools',     label: 'Free Tools',    icon: '🔧', href: 'free-tools.html' },
+    { id: 'programs',  label: 'Programs',      icon: '◈',  href: 'programs.html' },
+    { id: 'longevity', label: '52-Week',       icon: '📈', href: 'combined-app.html' },
+    { id: 'services',  label: 'Services',      icon: '◆',  href: 'services.html' },
   ];
+
+  // Pages that are "children" of Free Tools — mark their nav link as tools-active
+  var TOOL_PAGES = ['calories','bodyfat','split','strength','planner'];
 
   var CSS = `
     #ct-nav{
@@ -107,18 +107,21 @@
 
   window.CTNav = {
     init: function(activePageId) {
+      // Treat tool sub-pages as 'tools' for nav highlighting
+      var effectiveId = TOOL_PAGES.indexOf(activePageId) !== -1 ? 'tools' : activePageId;
+
       var style = document.createElement('style');
       style.textContent = CSS;
       document.head.appendChild(style);
 
       var linksHtml = PAGES.map(function(p) {
-        var isActive = p.id === activePageId;
+        var isActive = p.id === effectiveId;
         return '<a class="ct-nav-link' + (isActive ? ' active' : '') + '" href="' + p.href + '">' +
           '<span class="ct-nav-icon">' + p.icon + '</span>' + p.label + '</a>';
       }).join('');
 
       var drawerHtml = PAGES.map(function(p) {
-        var isActive = p.id === activePageId;
+        var isActive = p.id === effectiveId;
         return '<a class="ct-nav-drawer-link' + (isActive ? ' active' : '') + '" href="' + p.href + '">' +
           '<span class="ct-nav-drawer-icon">' + p.icon + '</span>' + p.label + '</a>';
       }).join('');
