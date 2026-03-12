@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,7 +73,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-b);font-size:1
 .prog-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--teal2));border-radius:2px;transition:width .4s}
 
 /* MAIN */
-#main{margin-left:280px;min-height:100vh;position:relative;isolation:isolate;}
+#main{margin-left:280px;min-height:100vh;position:relative;isolation:isolate;padding-top:84px;}
 #topbar{position:sticky;top:84px;z-index:150;background:#0d1117;backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.7rem 1.75rem;display:flex;align-items:center;gap:.85rem;flex-wrap:wrap}
 .breadcrumb{display:flex;align-items:center;gap:.45rem;font-size:.78rem;color:var(--txt3)}
 .breadcrumb span{color:var(--txt2)}
@@ -980,6 +981,7 @@ body.dark .shop-cat-card{background:var(--paper2)}
   /* CT nav + app topbar spacing */
   #sidebar{ top:168px !important; } /* CT nav 84px + topbar ~84px */
   #sync-banner{ left:0 !important; }
+  #main{ padding-top:0 !important; } /* topbar is sticky so no extra padding needed on mobile */
 
   /* Topbar — wrap and stack gracefully */
   #topbar{
