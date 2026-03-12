@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dan · Phase 1 Workout Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#00838f;--teal2:#00b4c8;--teal-dk:#005662;--teal-lt:#e0f7fa;
+  --green:#2e7d32;--green-lt:#e8f5e9;--amber:#e65100;--amber-lt:#fff3e0;
+  --purple:#6a1b9a;--purple-lt:#f3e5f5;--gold:#f9a825;--red:#c62828;
+  --bg:#0d1117;--bg2:#161b22;--bg3:#1c2230;--surface:#21262d;
+  --border:#30363d;--border2:#444c56;
+  --txt:#e6edf3;--txt2:#8b949e;--txt3:#6e7681;
+  --font-d:'Bebas Neue',sans-serif;--font-b:'DM Sans',sans-serif;--font-m:'DM Mono',monospace;
+  /* Dan accent — warm amber to differentiate from David */
+  --accent:#e65100;--accent2:#ff8f00;--accent-dk:#3e1f00;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:var(--font-b);font-size:15px;line-height:1.6;min-height:100vh}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+/* ── TOPBAR ── */
+#topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.75rem 2rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:100}
+#topbar h1{font-family:var(--font-d);font-size:1.4rem;color:var(--accent2);letter-spacing:.05em;margin:0}
+.tb-client{font-family:var(--font-m);font-size:.72rem;color:var(--txt3);margin-left:.5rem}
+.tb-right{margin-left:auto;display:flex;gap:.5rem}
+.tab-btn{padding:.32rem .85rem;border-radius:5px;font-family:var(--font-b);font-size:.74rem;font-weight:600;border:1px solid var(--border);background:transparent;color:var(--txt2);cursor:pointer;transition:all .2s;text-transform:uppercase;letter-spacing:.05em}
+.tab-btn:hover{border-color:var(--accent2);color:var(--accent2)}
+.tab-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* ── PAGES ── */
+.page{display:none;padding:2rem 2.5rem 5rem;max-width:1050px;margin:0 auto}
+.page.active{display:block;animation:fi .3s}
+@keyframes fi{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(135deg,var(--accent-dk) 0%,#1a0e00 60%,var(--bg2) 100%);border:1px solid var(--border);border-radius:12px;padding:2.25rem;margin-bottom:1.75rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40px;right:-40px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(255,143,0,.1) 0%,transparent 70%)}
+.hero-lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:.15em;color:var(--accent2);margin-bottom:.4rem}
+.hero h1{font-family:var(--font-d);font-size:3.2rem;letter-spacing:.04em;line-height:1;color:#fff}
+.hero h1 span{color:var(--accent2)}
+.hero p{color:var(--txt2);margin-top:.65rem;max-width:540px;font-size:.92rem;line-height:1.7}
+.hero-stats{display:flex;gap:1.75rem;margin-top:1.5rem;flex-wrap:wrap}
+.hero-stat .num{font-family:var(--font-d);font-size:2.3rem;color:var(--accent2);letter-spacing:.04em}
+.hero-stat .lbl{font-size:.68rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.08em}
+
+/* ── CARDS ── */
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin-bottom:1.4rem}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:.9rem;margin-bottom:1.4rem}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:1.15rem;transition:border-color .2s}
+.card:hover{border-color:var(--border2)}
+.card-icon{font-size:1.4rem;margin-bottom:.5rem}
+.card-lbl{font-size:.65rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.1em}
+.card-val{font-family:var(--font-d);font-size:1.9rem;color:var(--txt);letter-spacing:.04em;margin-top:.1rem}
+.card-sub{font-size:.75rem;color:var(--txt2);margin-top:.2rem}
+.card.ac{border-color:var(--accent)}.card.ac .card-val{color:var(--accent2)}
+
+/* ── HAMSTRING ALERT BANNER ── */
+.hs-banner{background:linear-gradient(135deg,rgba(230,81,0,.12),rgba(255,143,0,.06));border:1px solid rgba(230,81,0,.35);border-radius:10px;padding:1.1rem 1.35rem;margin-bottom:1.35rem;display:flex;align-items:flex-start;gap:.9rem}
+.hs-icon{font-size:1.6rem;flex-shrink:0;margin-top:.1rem}
+.hs-body{}
+.hs-title{font-family:var(--font-d);font-size:1.05rem;color:var(--accent2);letter-spacing:.04em;margin-bottom:.3rem}
+.hs-text{font-size:.82rem;color:var(--txt2);line-height:1.65}
+.hs-text strong{color:var(--accent2)}
+
+/* ── WORKOUT HEADER ── */
+.wk-phase-tag{display:inline-flex;align-items:center;gap:.4rem;padding:.28rem .75rem;border-radius:20px;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem}
+.wk-num{font-family:var(--font-d);font-size:3.5rem;color:var(--border2);letter-spacing:.04em;line-height:1}
+.wk-title{font-family:var(--font-d);font-size:1.85rem;color:var(--txt);letter-spacing:.04em}
+.wk-desc{color:var(--txt2);font-size:.86rem;max-width:560px;margin-top:.35rem;line-height:1.65;margin-bottom:1.25rem}
+
+/* ── DAY TABS ── */
+.day-tabs{display:flex;gap:.4rem;margin-bottom:1.4rem;flex-wrap:wrap}
+.day-tab{padding:.45rem 1.1rem;border-radius:6px;border:1px solid var(--border);background:var(--bg2);color:var(--txt2);font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--font-b);display:flex;flex-direction:column;align-items:center;gap:.1rem}
+.day-tab .dt-d{font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;opacity:.7}
+.day-tab:hover{border-color:var(--accent2);color:var(--txt)}
+.day-tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* ── SESSION BLOCK ── */
+.session-block{display:none}
+.session-block.active{display:block;animation:fi .25s}
+.sess-hdr{display:flex;align-items:center;gap:.7rem;margin-bottom:1.2rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
+.sess-icon{font-size:1.65rem}
+.sess-title{font-family:var(--font-d);font-size:1.5rem;letter-spacing:.04em}
+.sess-sub{font-size:.78rem;color:var(--txt2)}
+.sess-badge{margin-left:auto;padding:.28rem .7rem;border-radius:20px;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+
+/* ── WARMUP ── */
+.warmup-panel{background:var(--bg2);border:1px solid var(--border);border-radius:8px;margin-bottom:1.3rem;overflow:hidden}
+.warmup-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;cursor:pointer;user-select:none;transition:background .15s}
+.warmup-header:hover{background:var(--bg3)}
+.warmup-header h4{font-size:.82rem;font-weight:600;color:var(--txt2)}
+.warmup-toggle{font-size:.72rem;color:var(--accent2);font-family:var(--font-m);transition:transform .2s}
+.warmup-body{padding:0 1rem;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s}
+.warmup-body.open{max-height:700px;padding:.75rem 1rem 1rem}
+.warmup-step{display:flex;gap:.65rem;padding:.4rem 0;border-bottom:1px solid rgba(48,54,61,.5)}
+.warmup-step:last-child{border-bottom:none}
+.warmup-step.hs-step{background:rgba(230,81,0,.05);border-radius:5px;padding:.45rem .5rem;margin:.1rem 0;border-bottom:none;border:1px solid rgba(230,81,0,.15)}
+.ws-num{font-family:var(--font-m);font-size:.7rem;color:var(--accent2);min-width:18px;margin-top:.1rem}
+.ws-name{font-size:.82rem;font-weight:500;color:var(--txt)}
+.ws-detail{font-size:.76rem;color:var(--txt3);margin-top:.05rem}
+.ws-duration{font-size:.68rem;color:var(--amber);margin-top:.08rem;font-family:var(--font-m)}
+.ws-hs-tag{display:inline-block;font-size:.55rem;font-family:var(--font-m);padding:.08rem .3rem;border-radius:3px;background:rgba(230,81,0,.2);color:var(--accent2);margin-left:.35rem;vertical-align:middle;text-transform:uppercase;letter-spacing:.05em}
+
+/* ── EX TABLE ── */
+.ex-table{width:100%;border-collapse:collapse;margin-bottom:1.3rem}
+.ex-table thead th{padding:.55rem .75rem;text-align:left;font-size:.65rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border);font-weight:600}
+.ex-table tbody tr{border-bottom:1px solid rgba(48,54,61,.5);transition:background .15s}
+.ex-table tbody tr:hover{background:rgba(255,255,255,.025)}
+.ex-table tbody tr.hs-row{border-left:2px solid var(--accent)}
+.ex-table td{padding:.65rem .75rem;font-size:.83rem;vertical-align:top}
+.ex-table td:first-child{color:var(--txt);font-weight:500}
+.tier{font-size:.6rem;font-family:var(--font-m);padding:.1rem .3rem;border-radius:3px;margin-right:.35rem}
+.t1{background:rgba(0,180,200,.15);color:var(--teal2)}
+.t2{background:rgba(249,168,37,.15);color:var(--gold)}
+.t3{background:rgba(158,66,245,.15);color:#ce93d8}
+.hs-tag{display:inline-block;font-size:.56rem;font-family:var(--font-m);padding:.08rem .3rem;border-radius:3px;background:rgba(230,81,0,.2);color:var(--accent2);margin-left:.3rem;vertical-align:middle;text-transform:uppercase;letter-spacing:.04em}
+.mono{font-family:var(--font-m);font-size:.78rem;color:var(--teal2);white-space:nowrap}
+.rpe-p{display:inline-block;font-family:var(--font-m);font-size:.68rem;padding:.08rem .35rem;border-radius:3px;background:rgba(46,125,50,.2);color:#81c784}
+.ex-note{font-size:.76rem;color:var(--txt2)}
+.ss-badge{display:inline-block;font-size:.58rem;font-family:var(--font-m);padding:.1rem .35rem;border-radius:3px;background:rgba(230,81,0,.15);color:var(--amber);margin-left:.3rem;vertical-align:middle}
+
+/* ── TIP BOX ── */
+.tip-box{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--teal);border-radius:8px;padding:.9rem 1.15rem;margin-bottom:1.15rem;font-size:.83rem;color:var(--txt2);line-height:1.65}
+.tip-box strong{color:var(--teal2)}
+.tip-box.warn{border-left-color:var(--accent)}.tip-box.warn strong{color:var(--accent2)}
+.tip-box.gn{border-left-color:var(--green)}.tip-box.gn strong{color:#66bb6a}
+.tip-box.hs{border-left-color:var(--accent2)}.tip-box.hs strong{color:var(--accent2)}
+
+/* ── SECTION TITLE ── */
+.sec-title{font-family:var(--font-d);font-size:2rem;color:var(--txt);letter-spacing:.04em;margin-bottom:.3rem}
+.sec-sub{font-size:.86rem;color:var(--txt2);margin-bottom:1.5rem;line-height:1.6;max-width:620px}
+
+/* ── PHASE OVERVIEW ── */
+.phase-overview{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:1.5rem;margin-bottom:1rem}
+.phase-overview h3{font-family:var(--font-d);font-size:1.4rem;color:var(--accent2);letter-spacing:.04em;margin-bottom:.5rem}
+.phase-overview p{font-size:.84rem;color:var(--txt2);line-height:1.65;margin-bottom:.5rem}
+.phase-tag-row{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.75rem}
+.phase-tag{font-size:.66rem;padding:.2rem .55rem;border-radius:4px;text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+
+/* ── WORKOUT CARD ── */
+.workout-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:1.35rem;margin-bottom:.85rem;cursor:pointer;transition:all .2s}
+.workout-card:hover{border-color:var(--accent2);transform:translateX(3px)}
+.wc-top{display:flex;align-items:center;gap:.9rem;margin-bottom:.4rem}
+.wc-num{font-family:var(--font-d);font-size:2.5rem;color:var(--border);letter-spacing:.04em;line-height:1}
+.wc-label{font-family:var(--font-d);font-size:1.15rem;color:var(--txt);letter-spacing:.03em}
+.wc-meta{font-size:.77rem;color:var(--txt2);margin-top:.18rem}
+.wc-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.55rem}
+
+/* ── LOG ROW ── */
+.log-row{background:rgba(230,81,0,.04);border:1px solid rgba(230,81,0,.12);border-radius:6px;padding:.65rem .85rem;margin-top:.35rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+.log-label{font-size:.65rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}
+.log-set{display:flex;align-items:center;gap:.3rem}
+.log-set input{width:55px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--txt);font-family:var(--font-m);font-size:.72rem;padding:.2rem .4rem;text-align:center;outline:none}
+.log-set input:focus{border-color:var(--accent2)}
+.log-set-lbl{font-size:.6rem;color:var(--txt3);font-family:var(--font-m)}
+
+/* ── REST TIMER BTN ── */
+.btn-timer{padding:.22rem .55rem;border-radius:4px;font-size:.65rem;border:1px solid var(--border);background:var(--surface);color:var(--txt3);cursor:pointer;transition:all .2s;font-family:var(--font-m);white-space:nowrap}
+.btn-timer:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── TIMER OVERLAY ── */
+#timer-overlay{display:none;position:fixed;inset:0;background:rgba(10,10,15,.88);backdrop-filter:blur(14px);z-index:500;align-items:center;justify-content:center}
+#timer-overlay.show{display:flex}
+.timer-box{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:2rem;text-align:center;min-width:300px;position:relative}
+.timer-label{font-family:var(--font-d);font-size:1.5rem;color:var(--txt);letter-spacing:.08em;margin-bottom:.25rem}
+.timer-ex-name{font-size:.82rem;color:var(--txt2);margin-bottom:1.25rem}
+.timer-ring{position:relative;display:inline-flex;align-items:center;justify-content:center;margin-bottom:1.25rem}
+.timer-ring-bg{fill:none;stroke:var(--border);stroke-width:5}
+.timer-ring-fill{fill:none;stroke:var(--accent2);stroke-width:5;stroke-linecap:round;stroke-dasharray:427;stroke-dashoffset:0;transform:rotate(-90deg);transform-origin:center;transition:stroke-dashoffset .9s linear}
+.timer-ring-text{position:absolute;font-family:var(--font-d);font-size:2.4rem;color:var(--txt);letter-spacing:.04em}
+.timer-controls{display:flex;gap:.6rem;justify-content:center}
+.timer-btn{padding:.45rem 1rem;border-radius:6px;font-size:.8rem;border:1px solid var(--border);background:var(--surface);color:var(--txt2);cursor:pointer;transition:all .2s;font-family:var(--font-b);font-weight:600}
+.timer-btn:hover{border-color:var(--accent2);color:var(--accent2)}
+.timer-btn.start{background:var(--accent);border-color:var(--accent);color:#fff}
+.timer-close{position:absolute;top:1rem;right:1rem;width:28px;height:28px;border-radius:50%;background:var(--surface);border:1px solid var(--border);color:var(--txt2);cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .page{padding:1rem 1rem 4rem}
+  .grid-4{grid-template-columns:repeat(2,1fr)}
+  .grid-2{grid-template-columns:1fr}
+  .hero h1{font-size:2rem}
+  .ex-table thead{display:none}
+  .ex-table tbody tr{display:grid;grid-template-columns:1fr 1fr;gap:.1rem .5rem;padding:.6rem .5rem}
+  .ex-table td{padding:.15rem 0;border:none}
+  .ex-table td:first-child{grid-column:1/-1;font-weight:600}
+  .ex-table td.ex-note{grid-column:1/-1;font-size:.7rem}
+  #topbar{padding:.65rem 1rem}
+  .hs-banner{flex-direction:column;gap:.6rem}
+}
+</style>
+</head>
+<body>
+
+<!-- TIMER OVERLAY -->
+<div id="timer-overlay">
+  <div class="timer-box">
+    <button class="timer-close" onclick="closeTimer()">✕</button>
+    <div class="timer-label">REST PERIOD</div>
+    <div class="timer-ex-name" id="timer-ex-name"></div>
+    <div class="timer-ring">
+      <svg width="140" height="140" viewBox="0 0 160 160">
+        <circle class="timer-ring-bg" cx="80" cy="80" r="68"/>
+        <circle class="timer-ring-fill" id="timer-ring-fill" cx="80" cy="80" r="68"/>
+      </svg>
+      <div class="timer-ring-text" id="timer-display">2:00</div>
+    </div>
+    <div class="timer-controls">
+      <button class="timer-btn" onclick="resetTimer()">↺</button>
+      <button class="timer-btn start" id="timer-start-btn" onclick="toggleTimer()">▶ Start</button>
+      <button class="timer-btn" onclick="closeTimer()">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOPBAR -->
+<div id="topbar">
+  <h1>CLIENT PLANS <span class="tb-client">/ DAN</span></h1>
+  <div class="tb-right">
+    <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
+    <button class="tab-btn" onclick="showTab('workout-a')">Workout A</button>
+    <button class="tab-btn" onclick="showTab('workout-b')">Workout B</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     OVERVIEW PAGE
+════════════════════════════════ -->
+<div class="page active" id="page-overview">
+
+  <div class="hero">
+    <div class="hero-lbl">Phase 1 · Full Body · 2× per Week · 30 min · Hamstring Modified</div>
+    <h1>DAN<br><span>PHASE 1</span></h1>
+    <p>Full body training twice per week. Modified for light hamstring sensitivity — banded hip thrusts replace loaded hinge work until the hamstrings are ready to take more load. All other movements unaffected.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">2</div><div class="lbl">Sessions / Week</div></div>
+      <div class="hero-stat"><div class="num">30</div><div class="lbl">Min Each</div></div>
+      <div class="hero-stat"><div class="num">P1</div><div class="lbl">Phase</div></div>
+      <div class="hero-stat"><div class="num">MOD</div><div class="lbl">Hamstring Modified</div></div>
+    </div>
+  </div>
+
+  <!-- HAMSTRING NOTE -->
+  <div class="hs-banner">
+    <div class="hs-icon">⚠️</div>
+    <div class="hs-body">
+      <div class="hs-title">Hamstring Modification — Phase 1</div>
+      <div class="hs-text">
+        Dan has <strong>light hamstring sensitivity</strong> that needs to be managed through Phase 1. The approach: <strong>banded hip thrusts</strong> are used as the primary posterior chain driver — they load the glutes heavily with minimal hamstring stretch stress, which builds the hip extension pattern safely. <strong>Romanian deadlifts and leg curls are removed</strong> from Phase 1. As the hamstrings settle, we reintroduce light RDLs in Phase 2 with a short ROM and progress from there. <strong>Everything else in the plan is unmodified.</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-4">
+    <div class="card ac">
+      <div class="card-icon">⚡</div>
+      <div class="card-lbl">Phase</div>
+      <div class="card-val">1</div>
+      <div class="card-sub">Foundation</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📅</div>
+      <div class="card-lbl">Structure</div>
+      <div class="card-val">A / B</div>
+      <div class="card-sub">Alternating workouts</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">💪</div>
+      <div class="card-lbl">Level</div>
+      <div class="card-val">MOD</div>
+      <div class="card-sub">Moderate strength</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔧</div>
+      <div class="card-lbl">Modified</div>
+      <div class="card-val">HS</div>
+      <div class="card-sub">Hamstring protocol</div>
+    </div>
+  </div>
+
+  <div class="phase-overview">
+    <h3>Phase 1 — Foundation Block</h3>
+    <p>Same structure as the standard Phase 1: two 30-minute full body sessions per week, alternating A and B. Every session hits push, pull, squat, hip extension, and core. The difference is in <em>how</em> we drive the posterior chain.</p>
+    <p>Instead of Romanian deadlifts or leg curls, Dan uses <strong>banded hip thrusts</strong> as the glute/hip extension anchor in both sessions. The band provides accommodating resistance — lighter at the bottom (where the hamstrings are most at risk under stretch load) and heavier at the top (where the glutes are in full contraction). This is a smart way to build hip extension strength without irritating the hamstrings.</p>
+    <p><strong style="color:var(--accent2)">Progression rule:</strong> Move to a heavier band, add a small plate across the hips, or increase reps when you can complete all sets with full glute squeeze and zero hamstring discomfort. Any hamstring sensation during the thrust = flag it immediately.</p>
+    <div class="phase-tag-row">
+      <span class="phase-tag" style="background:rgba(230,81,0,.15);color:var(--accent2)">HS Modified</span>
+      <span class="phase-tag" style="background:rgba(0,180,200,.12);color:var(--teal2)">Full Body</span>
+      <span class="phase-tag" style="background:rgba(249,168,37,.12);color:var(--gold)">2× / Week</span>
+      <span class="phase-tag" style="background:rgba(46,125,50,.12);color:#66bb6a">30 Min</span>
+      <span class="phase-tag" style="background:rgba(106,27,154,.12);color:#ce93d8">Banded Hip Thrust</span>
+    </div>
+  </div>
+
+  <div class="tip-box hs" style="margin-top:1rem">
+    <strong>Hamstring pain scale:</strong> 0 = nothing · 1–2 = mild awareness (acceptable, monitor) · 3+ = stop and tell your trainer. The banded hip thrust should feel like a glute exercise. If it pulls behind the knee or in the belly of the hamstring, reduce band tension and shorten the ROM at the bottom.
+  </div>
+
+  <div style="margin-top:1.25rem">
+    <div class="sec-title" style="font-size:1.35rem;margin-bottom:.75rem">Sessions at a Glance</div>
+    <div class="grid-2">
+      <div class="workout-card" onclick="showTab('workout-a')">
+        <div class="wc-top">
+          <div class="wc-num">A</div>
+          <div>
+            <div class="wc-label">Workout A — Squat Focus</div>
+            <div class="wc-meta">Goblet Squat · DB Row · Push-Up · Banded Hip Thrust · Lateral Raise · Core</div>
+          </div>
+        </div>
+        <div class="wc-tags">
+          <span class="phase-tag" style="background:rgba(0,180,200,.12);color:var(--teal2)">Squats</span>
+          <span class="phase-tag" style="background:rgba(249,168,37,.12);color:var(--gold)">Horizontal Pull</span>
+          <span class="phase-tag" style="background:rgba(230,81,0,.15);color:var(--accent2)">Banded Thrust</span>
+        </div>
+      </div>
+      <div class="workout-card" onclick="showTab('workout-b')">
+        <div class="wc-top">
+          <div class="wc-num">B</div>
+          <div>
+            <div class="wc-label">Workout B — Press Focus</div>
+            <div class="wc-meta">DB Press · Lat Pulldown · Reverse Lunge · Banded Hip Thrust · Face Pull · Core</div>
+          </div>
+        </div>
+        <div class="wc-tags">
+          <span class="phase-tag" style="background:rgba(0,180,200,.12);color:var(--teal2)">Vertical Push</span>
+          <span class="phase-tag" style="background:rgba(249,168,37,.12);color:var(--gold)">Vertical Pull</span>
+          <span class="phase-tag" style="background:rgba(230,81,0,.15);color:var(--accent2)">Banded Thrust</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     WORKOUT A PAGE
+════════════════════════════════ -->
+<div class="page" id="page-workout-a">
+
+  <div style="margin-bottom:1.5rem">
+    <div class="wk-phase-tag" style="background:rgba(230,81,0,.12);color:var(--accent2)">⚡ Phase 1 · Full Body · HS Modified</div>
+    <div class="wk-num">A</div>
+    <div class="wk-title">Workout A — Squat Focus</div>
+    <div class="wk-desc">Full body session led by the goblet squat. Banded hip thrust replaces loaded hinge work as the posterior chain driver. Hits push, pull, squat, glutes, shoulder isolation, and core in 30 minutes.</div>
+  </div>
+
+  <!-- WARMUP -->
+  <div class="warmup-panel">
+    <div class="warmup-header" onclick="toggleWarmup('wu-a')">
+      <h4>🔥 Warm-Up Protocol — 5 min (includes hamstring prep)</h4>
+      <span class="warmup-toggle" id="wu-a-tog">▼ Show</span>
+    </div>
+    <div class="warmup-body" id="wu-a">
+      <div class="warmup-step hs-step">
+        <div class="ws-num">1</div>
+        <div class="ws-content">
+          <div class="ws-name">90/90 Hip Stretch <span class="ws-hs-tag">HS prep</span></div>
+          <div class="ws-detail">Sit on floor, both knees at 90°. Gently rotate forward over front leg. No forcing — just let gravity work. Breathe into any tightness.</div>
+          <div class="ws-duration">⏱ 30–45 sec each side</div>
+        </div>
+      </div>
+      <div class="warmup-step hs-step">
+        <div class="ws-num">2</div>
+        <div class="ws-content">
+          <div class="ws-name">Glute Bridge (bodyweight) <span class="ws-hs-tag">HS prep</span></div>
+          <div class="ws-detail">Feet flat, drive hips up, squeeze glutes at top. Focus on feeling the glutes — if hamstrings cramp or pull, reduce range of motion. This also warms up the hip thrust pattern.</div>
+          <div class="ws-duration">⏱ 15 reps, slow</div>
+        </div>
+      </div>
+      <div class="warmup-step">
+        <div class="ws-num">3</div>
+        <div class="ws-content">
+          <div class="ws-name">Hip Circles + Leg Swings</div>
+          <div class="ws-detail">10 hip circles each direction, then 10 forward swings each leg — controlled, not aggressive</div>
+          <div class="ws-duration">⏱ 60 sec</div>
+        </div>
+      </div>
+      <div class="warmup-step">
+        <div class="ws-num">4</div>
+        <div class="ws-content">
+          <div class="ws-name">Bodyweight Squat</div>
+          <div class="ws-detail">Slow, controlled, find your depth. Knees tracking toes. This warms up the goblet squat pattern.</div>
+          <div class="ws-duration">⏱ 10 reps</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIP -->
+  <div class="tip-box hs">
+    <strong>Session A note:</strong> The banded hip thrust is the most important exercise in this session for Dan specifically. Set up the band just above the knees, lie back with upper back on the bench, and drive hips to full extension with a hard glute squeeze. If there is any hamstring pull at the bottom of the movement, reduce how far the hips drop — a shortened ROM is completely fine in Phase 1.
+  </div>
+
+  <!-- EXERCISE TABLE -->
+  <table class="ex-table">
+    <thead>
+      <tr>
+        <th style="width:28%">Exercise</th>
+        <th style="width:14%">Sets × Reps</th>
+        <th style="width:12%">Load</th>
+        <th style="width:10%">RPE</th>
+        <th>Notes</th>
+        <th style="width:9%">Timer</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- T1: Goblet Squat -->
+      <tr>
+        <td><span class="tier t1">T1</span>Goblet Squat</td>
+        <td><span class="mono">3×10</span></td>
+        <td><span class="mono" style="color:var(--gold)">Moderate</span></td>
+        <td><span class="rpe-p">RPE 6–7</span></td>
+        <td class="ex-note">Hold DB at chest. Sit into depth — hip crease below knee. 2s eccentric. Drive through heels. Elbows inside knees at the bottom.</td>
+        <td><button class="btn-timer" onclick="openTimer('Goblet Squat',90)">⏱ 90s</button></td>
+      </tr>
+      <tr style="background:rgba(230,81,0,.03)">
+        <td colspan="6" style="padding:.45rem .75rem">
+          <div class="log-row">
+            <span class="log-label">Log sets:</span>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S1</span></div>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S2</span></div>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S3</span></div>
+            <div class="log-set"><input type="text" placeholder="reps"><span class="log-set-lbl">Reps</span></div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- T1: DB Row -->
+      <tr>
+        <td><span class="tier t1">T1</span>DB Row (Single Arm)</td>
+        <td><span class="mono">3×10 ea</span></td>
+        <td><span class="mono" style="color:var(--gold)">Moderate</span></td>
+        <td><span class="rpe-p">RPE 6–7</span></td>
+        <td class="ex-note">Brace knee on bench or hand on rack. Pull DB to hip. Full arm extension at bottom. Slow controlled lower. Squeeze the lat at the top — not just the arm.</td>
+        <td><button class="btn-timer" onclick="openTimer('DB Row',90)">⏱ 90s</button></td>
+      </tr>
+      <tr style="background:rgba(230,81,0,.03)">
+        <td colspan="6" style="padding:.45rem .75rem">
+          <div class="log-row">
+            <span class="log-label">Log sets:</span>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S1</span></div>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S2</span></div>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S3</span></div>
+            <div class="log-set"><input type="text" placeholder="reps"><span class="log-set-lbl">Reps</span></div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- T2: Banded Hip Thrust — HS MODIFIED -->
+      <tr class="hs-row">
+        <td><span class="tier t2">T2</span>Banded Hip Thrust <span class="hs-tag">HS mod</span></td>
+        <td><span class="mono">3×12–15</span></td>
+        <td><span class="mono" style="color:var(--gold)">Light band</span></td>
+        <td><span class="rpe-p">RPE 5–6</span></td>
+        <td class="ex-note">Upper back on bench, band just above knees, feet flat &amp; hip-width. Drive hips up — full extension, hard glute squeeze, 1s pause at top. Lower slowly. <strong style="color:var(--accent2)">Stop if hamstrings pull.</strong> Shorten ROM at bottom if needed.</td>
+        <td><button class="btn-timer" onclick="openTimer('Banded Hip Thrust',75)">⏱ 75s</button></td>
+      </tr>
+      <tr style="background:rgba(230,81,0,.04)">
+        <td colspan="6" style="padding:.45rem .75rem">
+          <div class="log-row">
+            <span class="log-label">Log sets:</span>
+            <div class="log-set"><input type="text" placeholder="band"><span class="log-set-lbl">Band</span></div>
+            <div class="log-set"><input type="text" placeholder="reps"><span class="log-set-lbl">S1</span></div>
+            <div class="log-set"><input type="text" placeholder="reps"><span class="log-set-lbl">S2</span></div>
+            <div class="log-set"><input type="text" placeholder="reps"><span class="log-set-lbl">S3</span></div>
+            <div class="log-set"><input type="text" placeholder="0–3" title="Hamstring sensation 0=none, 3=stop"><span class="log-set-lbl">HS feel</span></div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- T2: Push-Up -->
+      <tr>
+        <td><span class="tier t2">T2</span>Push-Up <span class="ss-badge">superset →</span></td>
+        <td><span class="mono">3×8–15</span></td>
+        <td><span class="mono" style="color:var(--gold)">Bodyweight</span></td>
+        <td><span class="rpe-p">RPE 6–7</span></td>
+        <td class="ex-note">Chest to floor. Elbows ~45° from torso. Full lockout at top. Superset with lateral raise below — no rest between them.</td>
+        <td><button class="btn-timer" onclick="openTimer('Push-Up',30)">⏱ 30s</button></td>
+      </tr>
+
+      <!-- T3: Lateral Raise -->
+      <tr>
+        <td><span class="tier t3">T3</span>DB Lateral Raise</td>
+        <td><span class="mono">3×12–15</span></td>
+        <td><span class="mono" style="color:var(--gold)">Light</span></td>
+        <td><span class="rpe-p">RPE 6</span></td>
+        <td class="ex-note">Slight elbow bend. Lead with pinky side up. Don't shrug. Stop at shoulder height. Rest 45s after the push-up + lateral raise superset, then repeat.</td>
+        <td><button class="btn-timer" onclick="openTimer('Lateral Raise',45)">⏱ 45s</button></td>
+      </tr>
+
+      <!-- T3: Dead Bug -->
+      <tr>
+        <td><span class="tier t3">T3</span>Dead Bug</td>
+        <td><span class="mono">2×30–40s</span></td>
+        <td><span class="mono" style="color:var(--gold)">Bodyweight</span></td>
+        <td><span class="rpe-p">RPE 5</span></td>
+        <td class="ex-note">Lower back pressed flat to floor — this is the whole exercise. Exhale as opposite arm and leg extend. Slow and deliberate. No arching.</td>
+        <td><button class="btn-timer" onclick="openTimer('Dead Bug',60)">⏱ 60s</button></td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <div class="tip-box warn" style="margin-top:.5rem">
+    <strong>30-Min Pacing:</strong> Warm-up 5 min → Goblet Squat + DB Row ~12 min (main lifts, 90s rest) → Banded Hip Thrust ~5 min (75s rest) → Push-Up/Lateral Raise superset ~5 min → Dead Bug ~3 min. That's 30 min. Keep it tight.
+  </div>
+
+  <div style="margin-top:1.25rem;display:flex;gap:.7rem">
+    <button onclick="showTab('overview')" style="padding:.55rem 1.1rem;border-radius:6px;font-size:.8rem;border:1px solid var(--border);background:var(--surface);color:var(--txt2);cursor:pointer;font-family:var(--font-b);font-weight:500">← Overview</button>
+    <button onclick="showTab('workout-b')" style="margin-left:auto;padding:.55rem 1.1rem;border-radius:6px;font-size:.8rem;border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;font-family:var(--font-b);font-weight:600">Workout B →</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     WORKOUT B PAGE
+════════════════════════════════ -->
+<div class="page" id="page-workout-b">
+
+  <div style="margin-bottom:1.5rem">
+    <div class="wk-phase-tag" style="background:rgba(249,168,37,.12);color:var(--gold)">⚡ Phase 1 · Full Body · HS Modified</div>
+    <div class="wk-num">B</div>
+    <div class="wk-title">Workout B — Press Focus</div>
+    <div class="wk-desc">Full body session anchored by the DB shoulder press and lat pulldown. The second banded hip thrust session of the week — same movement, builds the glute/hip extension pattern consistently. Unilateral leg work via reverse lunge with zero hamstring risk.</div>
+  </div>
+
+  <!-- WARMUP -->
+  <div class="warmup-panel">
+    <div class="warmup-header" onclick="toggleWarmup('wu-b')">
+      <h4>🔥 Warm-Up Protocol — 5 min (includes hamstring prep)</h4>
+      <span class="warmup-toggle" id="wu-b-tog">▼ Show</span>
+    </div>
+    <div class="warmup-body" id="wu-b">
+      <div class="warmup-step hs-step">
+        <div class="ws-num">1</div>
+        <div class="ws-content">
+          <div class="ws-name">Supine Hamstring Stretch (gentle) <span class="ws-hs-tag">HS prep</span></div>
+          <div class="ws-detail">Lie on back, bring one knee to chest, then gently straighten the leg until you feel a light stretch. Hold 20s each side. Never force. This is assessment AND mobility — note if one side is tighter.</div>
+          <div class="ws-duration">⏱ 20 sec each side × 2</div>
+        </div>
+      </div>
+      <div class="warmup-step hs-step">
+        <div class="ws-num">2</div>
+        <div class="ws-content">
+          <div class="ws-name">Glute Bridge (bodyweight) <span class="ws-hs-tag">HS prep</span></div>
+          <div class="ws-detail">Same as Session A — this is the on-ramp to the banded thrust. Focus on glutes contracting, not hamstrings pulling.</div>
+          <div class="ws-duration">⏱ 15 reps</div>
+        </div>
+      </div>
+      <div class="warmup-step">
+        <div class="ws-num">3</div>
+        <div class="ws-content">
+          <div class="ws-name">Arm Circles + Shoulder Rolls</div>
+          <div class="ws-detail">Large slow circles both directions, then forward + backward shoulder rolls — prepping for pressing and pulling</div>
+          <div class="ws-duration">⏱ 60 sec</div>
+        </div>
+      </div>
+      <div class="warmup-step">
+        <div class="ws-num">4</div>
+        <div class="ws-content">
+          <div class="ws-name">Bodyweight Reverse Lunge</div>
+          <div class="ws-detail">Step back, rear knee floats just above floor. Front shin vertical. Drive up through front heel. Gets the lunge pattern moving without load.</div>
+          <div class="ws-duration">⏱ 5 reps each leg</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIP -->
+  <div class="tip-box hs">
+    <strong>Session B note:</strong> This session's thrust setup is identical to Session A. The reverse lunge is safe — it loads the quad and glute, with the hamstrings acting passively. If Dan feels any pull during the lunge step, it's likely at a deeper range — shorten the step slightly. The goal is zero hamstring awareness across both sessions.
+  </div>
+
+  <!-- EXERCISE TABLE -->
+  <table class="ex-table">
+    <thead>
+      <tr>
+        <th style="width:28%">Exercise</th>
+        <th style="width:14%">Sets × Reps</th>
+        <th style="width:12%">Load</th>
+        <th style="width:10%">RPE</th>
+        <th>Notes</th>
+        <th style="width:9%">Timer</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- T1: DB Shoulder Press -->
+      <tr>
+        <td><span class="tier t1">T1</span>DB Shoulder Press</td>
+        <td><span class="mono">3×10–12</span></td>
+        <td><span class="mono" style="color:var(--gold)">Moderate</span></td>
+        <td><span class="rpe-p">RPE 6–7</span></td>
+        <td class="ex-note">Seated or standing. DBs at ear level. Press to full overhead extension — controlled. Don't lean back into the lift. Core braced throughout. 2s lower.</td>
+        <td><button class="btn-timer" onclick="openTimer('DB Shoulder Press',90)">⏱ 90s</button></td>
+      </tr>
+      <tr style="background:rgba(230,81,0,.03)">
+        <td colspan="6" style="padding:.45rem .75rem">
+          <div class="log-row">
+            <span class="log-label">Log sets:</span>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S1</span></div>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S2</span></div>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S3</span></div>
+            <div class="log-set"><input type="text" placeholder="reps"><span class="log-set-lbl">Reps</span></div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- T1: Lat Pulldown -->
+      <tr>
+        <td><span class="tier t1">T1</span>Lat Pulldown</td>
+        <td><span class="mono">3×10–12</span></td>
+        <td><span class="mono" style="color:var(--gold)">Moderate</span></td>
+        <td><span class="rpe-p">RPE 6–7</span></td>
+        <td class="ex-note">Grip just outside shoulder width. Pull to upper chest. Lead with elbows down and back — not just your hands. Slow controlled return to full arm extension. No leaning back excessively.</td>
+        <td><button class="btn-timer" onclick="openTimer('Lat Pulldown',90)">⏱ 90s</button></td>
+      </tr>
+      <tr style="background:rgba(230,81,0,.03)">
+        <td colspan="6" style="padding:.45rem .75rem">
+          <div class="log-row">
+            <span class="log-label">Log sets:</span>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S1</span></div>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S2</span></div>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S3</span></div>
+            <div class="log-set"><input type="text" placeholder="reps"><span class="log-set-lbl">Reps</span></div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- T2: Banded Hip Thrust — HS MODIFIED -->
+      <tr class="hs-row">
+        <td><span class="tier t2">T2</span>Banded Hip Thrust <span class="hs-tag">HS mod</span></td>
+        <td><span class="mono">3×12–15</span></td>
+        <td><span class="mono" style="color:var(--gold)">Light band</span></td>
+        <td><span class="rpe-p">RPE 5–6</span></td>
+        <td class="ex-note">Identical setup to Session A. Band above knees, upper back on bench, feet hip-width. Drive to full hip extension — 1s squeeze at the top. Lower with control. <strong style="color:var(--accent2)">Log HS sensation every session.</strong></td>
+        <td><button class="btn-timer" onclick="openTimer('Banded Hip Thrust',75)">⏱ 75s</button></td>
+      </tr>
+      <tr style="background:rgba(230,81,0,.04)">
+        <td colspan="6" style="padding:.45rem .75rem">
+          <div class="log-row">
+            <span class="log-label">Log sets:</span>
+            <div class="log-set"><input type="text" placeholder="band"><span class="log-set-lbl">Band</span></div>
+            <div class="log-set"><input type="text" placeholder="reps"><span class="log-set-lbl">S1</span></div>
+            <div class="log-set"><input type="text" placeholder="reps"><span class="log-set-lbl">S2</span></div>
+            <div class="log-set"><input type="text" placeholder="reps"><span class="log-set-lbl">S3</span></div>
+            <div class="log-set"><input type="text" placeholder="0–3" title="Hamstring sensation 0=none, 3=stop"><span class="log-set-lbl">HS feel</span></div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- T2: Reverse Lunge -->
+      <tr>
+        <td><span class="tier t2">T2</span>DB Reverse Lunge <span class="ss-badge">superset →</span></td>
+        <td><span class="mono">3×8 ea</span></td>
+        <td><span class="mono" style="color:var(--gold)">Light-Mod</span></td>
+        <td><span class="rpe-p">RPE 6</span></td>
+        <td class="ex-note">Step back — rear knee floats just above floor. Front shin vertical. Drive through front heel. If any hamstring pull on the step back, shorten stride slightly. Superset with face pull below.</td>
+        <td><button class="btn-timer" onclick="openTimer('Reverse Lunge',45)">⏱ 45s</button></td>
+      </tr>
+      <tr style="background:rgba(230,81,0,.03)">
+        <td colspan="6" style="padding:.45rem .75rem">
+          <div class="log-row">
+            <span class="log-label">Log sets:</span>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S1</span></div>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S2</span></div>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S3</span></div>
+            <div class="log-set"><input type="text" placeholder="reps"><span class="log-set-lbl">Reps</span></div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- T3: Face Pull -->
+      <tr>
+        <td><span class="tier t3">T3</span>Face Pull or Band Pull-Apart</td>
+        <td><span class="mono">2×15–20</span></td>
+        <td><span class="mono" style="color:var(--gold)">Light</span></td>
+        <td><span class="rpe-p">RPE 5</span></td>
+        <td class="ex-note">Cable face pull: pull to forehead, elbows high, thumbs back. Or band pull-apart at face height. Rear delt and rotator cuff — pairs with the pressing work above. Don't skip this.</td>
+        <td><button class="btn-timer" onclick="openTimer('Face Pull',30)">⏱ 30s</button></td>
+      </tr>
+
+      <!-- T3: Pallof Press -->
+      <tr>
+        <td><span class="tier t3">T3</span>Pallof Press or Plank</td>
+        <td><span class="mono">2×10 ea / 30s</span></td>
+        <td><span class="mono" style="color:var(--gold)">Light / BW</span></td>
+        <td><span class="rpe-p">RPE 5–6</span></td>
+        <td class="ex-note">Pallof press: cable at chest height, press straight out, hold 1s, return. Resist rotation — this is the whole exercise. Or substitute 30s forearm plank if no cable available.</td>
+        <td><button class="btn-timer" onclick="openTimer('Core Finisher',60)">⏱ 60s</button></td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <div class="tip-box gn" style="margin-top:.5rem">
+    <strong>Phase 2 progression plan:</strong> Once Dan completes Phase 1 with consistent 0–1 on the HS feel scale across both sessions, Phase 2 introduces a <em>short-ROM Romanian deadlift</em> — starting from mid-shin level (not the floor), which limits the hamstring stretch load. We progress ROM only as the tissue tolerates. The banded hip thrust can remain as a warm-up movement even after RDLs are reintroduced.
+  </div>
+
+  <div style="margin-top:1.25rem;display:flex;gap:.7rem">
+    <button onclick="showTab('workout-a')" style="padding:.55rem 1.1rem;border-radius:6px;font-size:.8rem;border:1px solid var(--border);background:var(--surface);color:var(--txt2);cursor:pointer;font-family:var(--font-b);font-weight:500">← Workout A</button>
+    <button onclick="showTab('overview')" style="margin-left:auto;padding:.55rem 1.1rem;border-radius:6px;font-size:.8rem;border:1px solid var(--border);background:var(--surface);color:var(--txt2);cursor:pointer;font-family:var(--font-b);font-weight:500">Overview</button>
+  </div>
+</div>
+
+<script>
+// ── TAB NAVIGATION ──
+function showTab(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const pg = document.getElementById('page-' + name);
+  if (pg) pg.classList.add('active');
+  const map = { 'overview': 0, 'workout-a': 1, 'workout-b': 2 };
+  const btns = document.querySelectorAll('.tab-btn');
+  if (map[name] !== undefined) btns[map[name]].classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── WARMUP TOGGLE ──
+function toggleWarmup(id) {
+  const body = document.getElementById(id);
+  const tog = document.getElementById(id + '-tog');
+  if (!body) return;
+  body.classList.toggle('open');
+  tog.textContent = body.classList.contains('open') ? '▲ Hide' : '▼ Show';
+}
+
+// ── REST TIMER ──
+let timerInterval = null, timerRunning = false, timerSeconds = 0, timerTotal = 0;
+
+function openTimer(exName, secs) {
+  timerTotal = secs;
+  timerSeconds = secs;
+  timerRunning = false;
+  clearInterval(timerInterval);
+  document.getElementById('timer-ex-name').textContent = exName;
+  document.getElementById('timer-display').textContent = fmtTime(secs);
+  document.getElementById('timer-start-btn').textContent = '▶ Start';
+  updateRing(secs, secs);
+  document.getElementById('timer-overlay').classList.add('show');
+}
+
+function closeTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  document.getElementById('timer-overlay').classList.remove('show');
+}
+
+function toggleTimer() {
+  if (timerRunning) {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    document.getElementById('timer-start-btn').textContent = '▶ Resume';
+  } else {
+    timerRunning = true;
+    document.getElementById('timer-start-btn').textContent = '⏸ Pause';
+    timerInterval = setInterval(() => {
+      timerSeconds--;
+      document.getElementById('timer-display').textContent = fmtTime(timerSeconds);
+      updateRing(timerSeconds, timerTotal);
+      if (timerSeconds <= 0) {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        document.getElementById('timer-start-btn').textContent = '▶ Start';
+        document.getElementById('timer-display').textContent = 'GO!';
+      }
+    }, 1000);
+  }
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  timerSeconds = timerTotal;
+  document.getElementById('timer-display').textContent = fmtTime(timerTotal);
+  document.getElementById('timer-start-btn').textContent = '▶ Start';
+  updateRing(timerTotal, timerTotal);
+}
+
+function updateRing(current, total) {
+  const circumference = 427;
+  const progress = total > 0 ? current / total : 0;
+  const offset = circumference * (1 - progress);
+  document.getElementById('timer-ring-fill').style.strokeDashoffset = offset;
+}
+
+function fmtTime(s) {
+  const m = Math.floor(Math.max(s, 0) / 60);
+  const sec = Math.max(s, 0) % 60;
+  return `${m}:${String(sec).padStart(2, '0')}`;
+}
+
+document.getElementById('timer-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeTimer();
+});
+</script>
+</body>
+</html>
