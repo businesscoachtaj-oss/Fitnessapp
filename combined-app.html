@@ -2565,6 +2565,60 @@ function printShop() { window.print(); }
 
 
 // Phase-aware recipe recommendations
+// ═══════════════════════════════════════════════════════════════════
+// SUPPLEMENTARY DATA
+// ═══════════════════════════════════════════════════════════════════
+const HABITS_DATA=[
+  {time:"On Waking",name:"No phone 30–60 min",desc:"Preserves cortisol awakening response (CAR). Checking notifications immediately suppresses CAR and increases baseline anxiety.",priority:"critical"},
+  {time:"Morning (15–30 min after waking)",name:"Outdoor sunlight 10–30 min",desc:"Sets circadian clock, triggers cortisol response, initiates melatonin timer for that evening. Even cloudy outdoor light is 10–50× brighter than indoor.",priority:"critical"},
+  {time:"Morning",name:"Hydrate — 500–750ml water + electrolytes",desc:"Rehydrate after 7–9 hours overnight fast. Pinch sea salt or electrolyte powder if training in the morning. Coffee does not count.",priority:"high"},
+  {time:"Morning",name:"Core supplement protocol",desc:"Creatine with water. Vitamin D + omega-3 with a fatty meal for absorption. Magnesium reserved for pre-sleep.",priority:"high"},
+  {time:"Pre-Training",name:"Caffeine 3–6mg/kg (if using)",desc:"30–60 min before training. Not within 6 hours of sleep. Cycle off 1 week per month to prevent tolerance build-up.",priority:"medium"},
+  {time:"Training Window",name:"Structured exercise session",desc:"Execute the scheduled session. This is the single highest-leverage health intervention available to a human being. Shortened > missed.",priority:"critical"},
+  {time:"Post-Training (within 2h)",name:"30–40g protein",desc:"Initiate muscle protein synthesis. Whole food preferred. Whey protein acceptable if no meal is possible in time.",priority:"high"},
+  {time:"Throughout Day",name:"8,000–10,000 daily steps",desc:"Paluch et al. (JAMA Network Open, 2022): 8,000 steps/day = 51% lower all-cause mortality vs 4,000 steps. NEAT can be 300–1,500 kcal/day of energy expenditure.",priority:"high"},
+  {time:"Every 45–60 min",name:"Break sitting — 2–5 min movement",desc:"Even brief movement breaks acutely improve blood glucose, blood pressure, and cognitive function. Recurring alarm recommended.",priority:"high"},
+  {time:"Afternoon",name:"No caffeine after 1–2pm",desc:"Caffeine half-life 5–7 hours. A 200mg coffee at 2pm still has 50mg active at midnight. Protect sleep architecture at all costs.",priority:"critical"},
+  {time:"Evening",name:"Mediterranean-style dinner",desc:"Olive oil, vegetables, protein (fish 2× per week minimum), legumes, whole grains. Most evidence-backed dietary pattern for cardiovascular health and longevity.",priority:"high"},
+  {time:"Pre-Sleep (30–60 min)",name:"Magnesium glycinate 300–400mg",desc:"Improves sleep quality, reduces muscle cramping, modulates cortisol. Most absorbed form. Magnesium oxide is poorly absorbed — avoid.",priority:"medium"},
+  {time:"Pre-Sleep (60–90 min)",name:"Dim lights. No screens.",desc:"Melatonin suppressed by blue light. Even dim room light at the wrong time can shift melatonin onset by 90+ minutes.",priority:"critical"},
+  {time:"Bedtime",name:"Consistent sleep time (30 min)",desc:"Circadian regularity as important as sleep duration. Irregular bedtimes disrupt sleep architecture even when total hours are maintained.",priority:"high"},
+  {time:"Sleep",name:"7–9 hours quality sleep",desc:"Walker: Chronic less than 7h associated with 4x cardiovascular disease risk, 2x cancer risk, 2x dementia risk. Non-negotiable for athletic adaptation and longevity.",priority:"critical"}
+];
+
+const NUTR_DATA={
+  beginner:{p:'1.6–1.8',c:'3–5',f:'0.8–1.0',kcal:'2,000–2,600',note:"Establish consistent eating patterns first. Hit protein targets before optimising anything else."},
+  intermediate:{p:'1.8–2.0',c:'4–6',f:'0.9–1.1',kcal:'2,400–3,200',note:"Nutrient timing matters now. Pre/post workout nutrition and periodic caloric surplus on training days."},
+  advanced:{p:'2.0–2.4',c:'4–7',f:'0.9–1.2',kcal:'2,800–3,800',note:"Nutritional periodisation: caloric surplus in hypertrophy phases, maintenance in strength phases."}
+};
+
+const SUPPS=[
+  {n:'Creatine Monohydrate',d:'3–5g/day',g:'A',b:'Strength +5–15%, muscle volume, cognitive function',note:'Most studied supplement. Morning or post-workout.'},
+  {n:'Vitamin D3 + K2',d:'2,000–4,000 IU D3 + 100mcg K2',g:'A',b:'Bone, immune, testosterone, mortality reduction',note:'Test serum levels. Target 50–80 ng/mL.'},
+  {n:'Omega-3 (EPA+DHA)',d:'2–3g EPA+DHA/day',g:'A',b:'Cardiovascular, inflammation, MPS support',note:'Fish oil or algae. Take with food.'},
+  {n:'Magnesium Glycinate',d:'300–400mg/evening',g:'B',b:'Sleep quality, muscle function, blood pressure',note:'Pre-sleep. Avoid oxide form (poorly absorbed).'},
+  {n:'Caffeine',d:'3–6mg/kg pre-workout',g:'A',b:'Endurance +3–5%, strength +2–3%, focus',note:'Cycle off monthly. Avoid after 1–2pm.'},
+  {n:'Whey Protein',d:'25–40g as needed',g:'A',b:'Complete protein to hit daily targets',note:'Post-workout or between meals.'},
+  {n:'Ashwagandha (KSM-66)',d:'300–600mg/day',g:'B',b:'Cortisol reduction, recovery, testosterone',note:'Best adaptogen by evidence. Evening meal.'},
+  {n:'Citrulline Malate',d:'6–8g pre-workout',g:'B',b:'Reduced fatigue, blood flow, performance',note:'30–60 min pre-training.'}
+];
+
+const BIOMARKERS=[
+  {n:'HbA1c',r:'<5.6%',w:'3-month blood glucose average. Type 2 diabetes early detection. Responds to Zone 2 training.',f:'Annual'},
+  {n:'Fasting Insulin',r:'<8 mIU/L (opt <5)',w:'Insulin resistance precedes HbA1c elevation by years. True early warning.',f:'Annual'},
+  {n:'hs-CRP',r:'<1.0 mg/L',w:'Systemic inflammation. Responds to exercise, diet, sleep, and stress management.',f:'Annual'},
+  {n:'Vitamin D (25-OH)',r:'50–80 ng/mL',w:'Immune, bone, cardiovascular, hormonal. Deficiency is epidemic globally.',f:'Annual (winter)'},
+  {n:'Testosterone (Total)',r:'600–900 ng/dL (M)',w:'Muscle mass, energy, libido, bone density. Responds to strength training, sleep, zinc.',f:'Annual'},
+  {n:'LDL / ApoB',r:'<100 mg/dL LDL',w:'Request ApoB or LDL-P for accuracy. Standard LDL misses risk in fit individuals.',f:'Annual'},
+  {n:'Triglycerides',r:'<100 mg/dL',w:'Metabolic health proxy. Primary driver: refined carbs and sugar.',f:'Annual'},
+  {n:'HDL Cholesterol',r:'>60 mg/dL',w:'Reverse cholesterol transport. Raised by Zone 2 and omega-3.',f:'Annual'},
+  {n:'Ferritin',r:'100–200 ng/mL (M)',w:'Iron stores. Low ferritin = impaired O2 delivery, fatigue, poor performance.',f:'Annual'},
+  {n:'Resting HR',r:'<55 bpm (athlete)',w:'VO2max proxy. Each bpm reduction approx 1% VO2max improvement.',f:'Daily (wearable)'},
+  {n:'HRV (morning)',r:'Personal baseline+',w:'Best single training readiness marker. Falling HRV = systemic stress too high.',f:'Daily (wearable)'}
+];
+
+
+
 const PHASE_NUTRITION_FOCUS={
   1:{primary:"performance",goals:["performance","longevity"],note:"Foundation Phase: Balanced whole foods. Establish consistent nutritional patterns."},
   2:{primary:"muscle",goals:["muscle","performance"],note:"Hypertrophy I: Caloric surplus 200-300 kcal. Pre/post-workout nutrition critical. High protein across 5 meals."},
@@ -2922,16 +2976,39 @@ function buildP2(week,pWk,level,progress){
   const sets=level==='beginner'?3:level==='advanced'?5:4;
   const vSets=sets+(progress>0.5?1:0);
   const load=level==='beginner'?'65–72%':level==='advanced'?'72–80%':'68–76%';
-  const rpe=pWk>=4?'RPE 8–9':'RPE 7–8';
   const z2=level==='beginner'?45:level==='advanced'?60:50;
+
+  // Per-level RPE — flat single value was the bug
+  // Beginner: RPE 7 early → 7–8 late (leave room, still learning volume)
+  // Intermediate: RPE 7–8 early → 8–9 late (standard hypertrophy prescription)
+  // Advanced: RPE 8 early → 9 late (high proximity; they handle the fatigue)
+  const rpeT1 = level==='beginner'
+    ? (pWk>=4?'RPE 7–8':'RPE 7')
+    : level==='advanced'
+    ? (pWk>=4?'RPE 9':'RPE 8')
+    : (pWk>=4?'RPE 8–9':'RPE 7–8');
+  const rpeT2 = level==='beginner'
+    ? (pWk>=4?'RPE 7':'RPE 6–7')
+    : level==='advanced'
+    ? (pWk>=4?'RPE 8–9':'RPE 8')
+    : (pWk>=4?'RPE 8':'RPE 7–8');
+  const rpeT3 = level==='beginner'?'RPE 6–7':level==='advanced'?'RPE 8':'RPE 7';
+
+  // Advanced-only note for proximity-to-failure sets
+  const advNote = level==='advanced'
+    ? 'ADVANCED: Last 1–2 sets taken to 0–1 RIR. Prior sets: 2 RIR.'
+    : level==='intermediate'
+    ? 'Last set: 0–2 RIR. All prior sets: 2–3 RIR. Progressive load each week.'
+    : 'Beginner: 2–3 RIR all sets. Never grind — technique degrades under fatigue.';
+
   return[
     {day:"Mon",type:"strength",label:"Lower Push — Hypertrophy",icon:"🦵",badge:"Hyp I — A",badgeColor:"#2e7d32",warmupType:"lower_push",
      exercises:[
-      mkEx(1,level==='beginner'?'Squat (to box)':'Back Squat',vSets,'6–10',load,rpe,`Last set: 0–2 RIR. All prior sets: 2–3 RIR. Progressive load each week.`,2),
-      mkEx(2,'Bulgarian Split Squat',vSets-1,'8–12/side','DB Moderate',rpe,'Progressive load each week. Film for depth consistency.',2),
-      mkEx(2,'Leg Press',vSets-1,'10–15','Moderate–Heavy',rpe,'Full ROM. Vary foot width weekly.',2),
-      mkEx(3,'Leg Extension',2,'15–20','Moderate','RPE 7','VMO targeting. Full extension. Slow 3s eccentric.',2),
-      mkEx(3,'Seated Calf Raise',3,'15–20','Moderate','RPE 7–8','Soleus emphasis. Stretch fully at bottom.',2)
+      mkEx(1,level==='beginner'?'Squat (to box)':'Back Squat',vSets,'6–10',load,rpeT1,advNote,2),
+      mkEx(2,'Bulgarian Split Squat',vSets-1,'8–12/side','DB Moderate',rpeT2,'Progressive load each week. Film for depth consistency.',2),
+      mkEx(2,'Leg Press',vSets-1,'10–15','Moderate–Heavy',rpeT2,'Full ROM. Vary foot width weekly.',2),
+      mkEx(3,'Leg Extension',2,'15–20','Moderate',rpeT3,'VMO targeting. Full extension. Slow 3s eccentric.',2),
+      mkEx(3,'Seated Calf Raise',3,'15–20','Moderate',rpeT3,'Soleus emphasis. Stretch fully at bottom.',2)
      ],
      cardio:{type:'Zone 1 Warm-Up + Optional Zone 2 Finisher',dur:'10–20 min',zones:[4,5,1,0,0],proto:['10 min Zone 1 + full lower push warm-up','Optional: 10–15 min Zone 2 after if energy permits']},
      tip:`<strong>Hypertrophy Driver:</strong> The last 1–2 sets of each exercise must be within 0–2 reps of failure. This mechanical tension is what drives muscle growth. Prior sets: 2–3 RIR for quality volume.`},
@@ -2943,15 +3020,15 @@ function buildP2(week,pWk,level,progress){
        pWk>=2?'3 min active recovery between each interval (Zone 1–2 walk/jog)':'',
        pWk>=2?'15–20 min Zone 2 cool-down after final interval':''
      ].filter(Boolean)},
-     tip:'<strong>4×4 Evidence (Wisloff et al., Circulation 2007):</strong> The Norwegian 4×4 HIIT protocol increased VO2max by 7.2 ml/kg/min vs 4.8 ml/kg/min for moderate continuous exercise. It also significantly improved endothelial function and cardiac output.'},
+     tip:'<strong>4×4 Evidence (Wisloff et al., Circulation 2007):</strong> The Norwegian 4×4 HIIT protocol increased VO2max by 7.2 ml/kg/min vs 4.8 ml/kg/min for moderate continuous exercise.'},
     {day:"Wed",type:"strength",label:"Upper — Push Emphasis",icon:"💪",badge:"Hyp I — B",badgeColor:"#2e7d32",warmupType:"upper_push",
      exercises:[
-      mkEx(1,level==='beginner'?'DB Bench Press':'Barbell Bench Press',vSets,'6–10',load,rpe,'Increase weight when all reps done with 1+ RIR on final set.',2),
-      mkEx(1,'Incline DB Press',vSets-1,'8–12','Moderate',rpe,'30–45° incline. Better shoulder safety than flat bar.',2),
-      mkEx(2,'Overhead Press',vSets-1,'8–12',load,rpe,'Seated for stability. Elbows slightly forward.',2),
-      mkEx(2,'Cable Chest Fly',2,'12–15','Moderate','RPE 7','Full stretch at bottom. Peak contraction at midline.',2),
-      mkEx(3,'Lateral Raise',3,'15–20','Light','RPE 7–8','3 sets. Slow 4s eccentric. Shoulder pain: reduce load immediately.',2),
-      mkEx(3,'Face Pull',3,'15–20','Light–Mod','RPE 7','Every upper session. Shoulder longevity protocol.',2)
+      mkEx(1,level==='beginner'?'DB Bench Press':'Barbell Bench Press',vSets,'6–10',load,rpeT1,'Increase weight when all reps done with 1+ RIR on final set.',2),
+      mkEx(1,'Incline DB Press',vSets-1,'8–12','Moderate',rpeT1,'30–45° incline. Better shoulder safety than flat bar.',2),
+      mkEx(2,'Overhead Press',vSets-1,'8–12',load,rpeT2,'Seated for stability. Elbows slightly forward.',2),
+      mkEx(2,'Cable Chest Fly',2,'12–15','Moderate',rpeT2,'Full stretch at bottom. Peak contraction at midline.',2),
+      mkEx(3,'Lateral Raise',3,'15–20','Light',rpeT3,'3 sets. Slow 4s eccentric. Shoulder pain: reduce load immediately.',2),
+      mkEx(3,'Face Pull',3,'15–20','Light–Mod',rpeT3,'Every upper session. Shoulder longevity protocol.',2)
      ],
      cardio:{type:'Zone 1 Warm-Up',dur:'10 min',zones:[5,0,0,0,0],proto:['Full upper body warm-up protocol above']},
      tip:'<strong>Progressive Overload (Hypertrophy):</strong> Add weight when you can complete all sets/reps with at least 1 RIR on the final set. Log every session — progressive overload requires measurement.'},
@@ -2961,22 +3038,22 @@ function buildP2(week,pWk,level,progress){
      tip:'<strong>Thursday Modality:</strong> Heavy lower body was Monday. Choose cycling or swimming to minimise mechanical leg load while maximising cardiovascular stimulus.'},
     {day:"Fri",type:"strength",label:"Lower Pull — Hinge & Core",icon:"🔗",badge:"Hyp I — C",badgeColor:"#2e7d32",warmupType:"lower_pull",
      exercises:[
-      mkEx(1,level==='beginner'?'Romanian Deadlift (DB)':'Conventional Deadlift',vSets-1,level==='beginner'?'10–12':'6–8',level==='beginner'?'65–72%':'75–82%',rpe,level==='beginner'?'Progressive DB load. Hip hinge mastery.':'3–5 min rest. Film every set.',2),
-      mkEx(1,'Romanian Deadlift',vSets-1,'8–12','65–72%',rpe,'Slow eccentric. Feel hamstrings. Stop before lower back rounds.',2),
+      mkEx(1,level==='beginner'?'Romanian Deadlift (DB)':'Conventional Deadlift',vSets-1,level==='beginner'?'10–12':'6–8',level==='beginner'?'65–72%':'75–82%',rpeT1,level==='beginner'?'Progressive DB load. Hip hinge mastery.':'3–5 min rest. Film every set.',2),
+      mkEx(1,'Romanian Deadlift',vSets-1,'8–12','65–72%',rpeT1,'Slow eccentric. Feel hamstrings. Stop before lower back rounds.',2),
       mkEx(2,'Nordic Hamstring Curl',2,'4–6','BW eccentric','RPE 8','Eccentric only: lower slowly, use hands to return. Highest hamstring injury prevention exercise.',2),
-      mkEx(2,'Hip Thrust',vSets-1,'10–15','Moderate–Heavy',rpe,'Pause 2s at top. Drive through heels.',2),
-      mkEx(3,'Ab Wheel Rollout',2,'8–12','BW','RPE 7','Kneel if needed. Full extension only when back feels stable.',2),
+      mkEx(2,'Hip Thrust',vSets-1,'10–15','Moderate–Heavy',rpeT2,'Pause 2s at top. Drive through heels.',2),
+      mkEx(3,'Ab Wheel Rollout',2,level==='beginner'?'6–10':'8–12','BW',rpeT3,'Kneel if needed. Full extension only when back feels stable.',2),
       mkEx(3,'Suitcase Carry',2,'25m/side','Moderate KB','RPE 6','Anti-lateral flexion. Upright posture. Do NOT lean toward the weight.',2)
      ],
      cardio:{type:'Zone 1 Warm-Up',dur:'10 min',zones:[5,0,0,0,0],proto:['Deadlift-specific warm-up: cat-cow, hip circles, band pull-throughs 2×15, deadlift at 40–60–75%']},
-     tip:'<strong>Deadlift Loading P2:</strong> Increase load by 2.5–5kg per week if technique is perfect. Ego lifting here is the #1 training injury cause. Every rep must be technically sound before adding weight.'},
+     tip:'<strong>Deadlift Loading P2:</strong> Increase load by 2.5–5kg per week if technique is perfect. Ego lifting here is the #1 training injury cause.'},
     {day:"Sat",type:"strength",label:"Upper Pull Focus + Zone 2",icon:"🔝",badge:"Hyp I — D",badgeColor:"#2e7d32",warmupType:"upper_pull",
      exercises:[
-      mkEx(1,'Pull-Up / Weighted Pull-Up',vSets,level==='beginner'?'6–10 (assisted)':'Max / 6–10',level==='beginner'?'Band assisted':'BW + belt weight','RPE 8–9','Last set to failure or near failure. Log total reps per session.',2),
-      mkEx(2,'Barbell or DB Row',vSets-1,'8–12','Moderate–Heavy',rpe,'Neutral spine. Pull to lower chest. Full scapular retraction.',2),
-      mkEx(2,'Seated Cable Row',vSets-1,'10–15','Moderate',rpe,'Alternate: close neutral and wide pronated grip weekly.',2),
-      mkEx(3,'Rear Delt Fly',3,'15–20','Light','RPE 7','Horizontal abduction. Critical rotator cuff health.',2),
-      mkEx(3,'Bicep Curl',3,'12–15','Light–Mod','RPE 7–8','Vary: barbell, DB, cable, preacher. Supinate at top.',2)
+      mkEx(1,'Pull-Up / Weighted Pull-Up',vSets,level==='beginner'?'6–10 (assisted)':'Max / 6–10',level==='beginner'?'Band assisted':'BW + belt weight',rpeT1,'Last set to failure or near failure. Log total reps per session.',2),
+      mkEx(2,'Barbell or DB Row',vSets-1,'8–12','Moderate–Heavy',rpeT2,'Neutral spine. Pull to lower chest. Full scapular retraction.',2),
+      mkEx(2,'Seated Cable Row',vSets-1,'10–15','Moderate',rpeT2,'Alternate: close neutral and wide pronated grip weekly.',2),
+      mkEx(3,'Rear Delt Fly',3,'15–20','Light',rpeT3,'Horizontal abduction. Critical rotator cuff health.',2),
+      mkEx(3,'Bicep Curl',3,'12–15','Light–Mod',rpeT3,'Vary: barbell, DB, cable, preacher. Supinate at top.',2)
      ],
      cardio:{type:'Zone 2 Post-Lift',dur:'25 min',zones:[0,9,1,0,0],proto:['25 min Zone 2 immediately after lifting. Bike or treadmill incline walk.','HR 61–70% max.']},
      tip:'<strong>Volume Tracking:</strong> By end of Phase 2 (Week 10), you should be hitting 16–20 working sets per muscle group per week. Log everything. Progressive volume is what drives hypertrophy.'},
@@ -2986,6 +3063,8 @@ function buildP2(week,pWk,level,progress){
      tip:'<strong>Weekly Audit:</strong> 4 questions that predict your results: Did every muscle group get 12–16+ working sets? Was protein >1.6g/kg/day? Was Zone 2 completed? Did you sleep 7–9 hours each night?'}
   ];
 }
+
+
 
 function buildP3(week,pWk,level){
   const loadsMap={beginner:['75%','80%','85%','90%'],intermediate:['80%','85%','90%','95%'],advanced:['83%','88%','93%','97%']};
@@ -3046,30 +3125,53 @@ function buildP3(week,pWk,level){
 function buildP4(week,pWk,level,progress){
   const sets=level==='beginner'?4:level==='advanced'?6:5;
   const load=level==='beginner'?'68–76%':level==='advanced'?'74–82%':'70–78%';
-  const adv=progress>0.5;
   const z2=level==='beginner'?50:level==='advanced'?65:55;
+  const adv=level==='advanced'&&progress>0.5; // advanced techniques only in back half
+
+  // P4 RPE: highest volume block — loads are moderate-high, sets are high
+  // Beginner: RPE 7–8 (they're not ready for grinding 22-set weeks)
+  // Intermediate: RPE 8–9 (standard peak hypertrophy prescription)
+  // Advanced: RPE 8–9 early → 9 late, with techniques that push beyond
+  const rpeT1 = level==='beginner'?'RPE 7–8':level==='advanced'?(progress>0.5?'RPE 9':'RPE 8–9'):'RPE 8–9';
+  const rpeT2 = level==='beginner'?'RPE 7':level==='advanced'?(progress>0.5?'RPE 8–9':'RPE 8'):'RPE 8';
+  const rpeT3 = level==='beginner'?'RPE 6–7':level==='advanced'?'RPE 8':'RPE 7–8';
+
+  // Squat note: only advanced get rest-pause; beginners get clear volume instruction
+  const squatNote = level==='beginner'
+    ? 'All sets: 2–3 RIR. Volume is the driver here — do not grind sets.'
+    : level==='advanced'
+    ? (adv?'ADVANCED: Last set rest-pause — reach 0 RIR, rest 15s, squeeze 2–3 more reps.':'Controlled proximity: last set 1 RIR, all prior sets 2–3 RIR.')
+    : 'Last set: 1–2 RIR. Prior sets: 2–3 RIR. Progressive overload each week.';
+
+  // Leg extension note: myo-reps for advanced only
+  const legExtNote = adv
+    ? 'MECH DROP SET (advanced): Full ROM ×10 → ¼ ROM (short) ×10 immediately. 1–2 sets max.'
+    : level==='beginner'
+    ? 'Standard sets. 2–3 RIR. Terminal quad pump is normal.'
+    : 'Standard 3 sets. Last to near failure. Mechanical tension in shortened position.';
+
   return[
     {day:"Mon",type:"strength",label:"Lower Push — Peak Hypertrophy",icon:"🔥",badge:"Hyp II — A",badgeColor:"#e65100",warmupType:"lower_push",
      exercises:[
-      mkEx(1,'Back Squat',sets,'6–10',load,'RPE 8–9',adv?'ADVANCED: Last set rest-pause — reach failure, rest 15s, do 2–3 more reps.':'Progressive overload each week on load or reps.',4),
-      mkEx(2,'Hack Squat / Goblet Squat',sets-1,'10–15','Moderate','RPE 8','Quad emphasis. Heels slightly elevated if needed.',4),
-      mkEx(2,'Bulgarian Split Squat',sets-1,'8–12/side','Heavier than Phase 2','RPE 8','Should feel significantly heavier than Phase 2.',4),
-      mkEx(3,'Leg Extension',3,'15–25','Moderate',adv?'RPE 8–9':'RPE 8',adv?'MECH DROP SET: Full ROM ×10 → ¼ ROM (short) ×10 immediately':'Standard 3 sets. Last to near failure.',4),
-      mkEx(3,'Calf Raise (standing)',4,'15–20','Moderate–Heavy','RPE 8','4 sets — calves need high volume. Full dorsiflexion stretch.',4)
+      mkEx(1,'Back Squat',sets,'6–10',load,rpeT1,squatNote,4),
+      mkEx(2,'Hack Squat / Goblet Squat',sets-1,'10–15','Moderate',rpeT2,'Quad emphasis. Heels slightly elevated if needed.',4),
+      mkEx(2,'Bulgarian Split Squat',sets-1,'8–12/side','Heavier than Phase 2',rpeT2,'Should feel significantly heavier than Phase 2.',4),
+      mkEx(3,'Leg Extension',3,'15–25','Moderate',rpeT3,legExtNote,4),
+      mkEx(3,'Calf Raise (standing)',4,'15–20','Moderate–Heavy',rpeT3,'4 sets — calves need high volume. Full dorsiflexion stretch.',4)
      ],
      cardio:{type:'Zone 2 Finisher',dur:'15–20 min',zones:[0,8,2,0,0],proto:['Optional 15–20 min Zone 2 post-session (HIIT is Tuesday)']},
      tip:'<strong>Phase 4 Volume Target:</strong> By weeks 18–20, aim for 18–22+ working sets per muscle group per week. Recovery becomes the limiting factor — sleep, protein, and creatine are your primary recovery tools.'},
     {day:"Tue",type:"cardio",label:"HIIT + Zone 2 Combination",icon:"❤️",badge:"VO2max",badgeColor:"#c62828",warmupType:"cardio",
      exercises:[],
-     cardio:{type:'4×4 HIIT Protocol + Zone 2',dur:`${z2} min total`,zones:[0,5,1,3,1],proto:['10 min Zone 2 warm-up — HR must be at 60–65% max before intervals','INTERVAL 1: 4 min at 85–95% HRmax → RECOVERY: 3 min Zone 1','INTERVAL 2: 4 min at 85–95% HRmax → RECOVERY: 3 min Zone 1','INTERVAL 3: 4 min at 85–95% HRmax → RECOVERY: 3 min Zone 1','INTERVAL 4: 4 min at 85–95% HRmax','20 min Zone 2 cool-down — lactate clearance (not optional)']},
-     tip:'<strong>Cool-Down Mechanism:</strong> The 20 min Zone 2 after HIIT is not arbitrary — it actively clears blood lactate, stimulates PGC-1α expression, and maximises the dual cardiovascular adaptation signal. Skipping it reduces adaptation by approximately 30%.'},
+     cardio:{type:'4×4 HIIT Protocol + Zone 2',dur:`${z2} min total`,zones:[0,5,1,3,1],proto:['10 min Zone 2 warm-up — HR must be at 60–65% max before intervals','INTERVAL 1: 4 min at 85–95% HRmax → RECOVERY: 3 min Zone 1','INTERVAL 2: 4 min at 85–95% HRmax → RECOVERY: 3 min Zone 1','INTERVAL 3: 4 min at 85–95% HRmax → RECOVERY: 3 min Zone 1','INTERVAL 4: 4 min at 85–95% HRmax','20 min Zone 2 cool-down — lactate clearance (not optional)',level==='advanced'?'ADVANCED wks 18–20: increase to 5 intervals or push to 95% HRmax ceiling.':''].filter(Boolean)},
+     tip:'<strong>Cool-Down Mechanism:</strong> The 20 min Zone 2 after HIIT is not arbitrary — it actively clears blood lactate, stimulates PGC-1α expression, and maximises the dual cardiovascular adaptation signal.'},
     {day:"Wed",type:"strength",label:"Upper — Push Hypertrophy",icon:"💪",badge:"Hyp II — B",badgeColor:"#e65100",warmupType:"upper_push",
      exercises:[
-      mkEx(1,'Barbell Bench Press',sets,'6–10',load,'RPE 8–9','Increased load vs Phase 2 — use Phase 3 strength gains here.',4),
-      mkEx(1,'Incline DB Press',sets-1,'8–12','Heavier than P2','RPE 8',adv?'ADVANCED: Rest-pause on last set':'Standard sets.',4),
-      mkEx(2,'Cable Crossover',3,'12–20','Moderate','RPE 8','Full stretch at start. Peak contraction. High reps valid.',4),
-      mkEx(2,'Overhead Press',sets-1,'8–12',load,'RPE 8','Standing OHP for core activation.',4),
-      mkEx(3,'Lateral Raise',4,'15–25','Light–Mod','RPE 8–9','4 sets — shoulder width responds to high volume.',4),
+      mkEx(1,'Barbell Bench Press',sets,'6–10',load,rpeT1,'Increased load vs Phase 2 — use Phase 3 strength gains here.',4),
+      mkEx(1,'Incline DB Press',sets-1,'8–12','Heavier than P2',rpeT1,adv?'ADVANCED: Rest-pause on last set (0 RIR → 15s → 2–3 reps).':'Standard sets. Last set 1–2 RIR.',4),
+      mkEx(2,'Cable Crossover',3,'12–20','Moderate',rpeT2,'Full stretch at start. Peak contraction. High reps valid.',4),
+      mkEx(2,'Overhead Press',sets-1,'8–12',load,rpeT2,'Standing OHP for core activation.',4),
+      mkEx(3,'Lateral Raise',4,'15–25','Light–Mod',rpeT3,'4 sets — shoulder width responds to high volume.',4),
       mkEx(3,'Face Pull',3,'20','Light','RPE 7','Mandatory every upper session.',4)
      ],
      cardio:{type:'Zone 1 Warm-Up',dur:'10 min',zones:[5,0,0,0,0],proto:['Upper body warm-up only']},
@@ -3080,30 +3182,32 @@ function buildP4(week,pWk,level,progress){
      tip:'<strong>Concurrent Training:</strong> HIIT on the same day as heavy leg training can impair both adaptations. Phase 4 schedules HIIT on Tue/Thu (not Mon/Fri leg days) to minimise interference.'},
     {day:"Fri",type:"strength",label:"Lower Pull — Hinge Peak Volume",icon:"🔗",badge:"Hyp II — C",badgeColor:"#e65100",warmupType:"lower_pull",
      exercises:[
-      mkEx(1,'Conventional Deadlift',sets-1,'6–8',level==='beginner'?'72–78%':'78–84%','RPE 8–9','Using new 1RM from Phase 3. No failure on deadlift.',4),
-      mkEx(1,'Romanian Deadlift',sets,'8–12','68–74%','RPE 8','Peak hamstring volume week. Slow eccentric critical.',4),
-      mkEx(2,'Leg Curl (seated)',sets-1,'12–15','Moderate–Heavy','RPE 8','Full ROM. Pause at contracted position.',4),
-      mkEx(2,'Hip Thrust (barbell)',sets-1,'10–15','Heavy','RPE 8','Glute peak. Pause 2s at top.',4),
-      mkEx(3,'Copenhagen Plank',3,'20–30 sec/side','BW','RPE 7','Adductor strength. Reduces groin injury risk.',4)
+      mkEx(1,'Conventional Deadlift',sets-1,'6–8',level==='beginner'?'72–78%':'78–84%',rpeT1,'Using new 1RM from Phase 3. No failure on deadlift — stop at 1 RIR.',4),
+      mkEx(1,'Romanian Deadlift',sets,'8–12','68–74%',rpeT1,'Peak hamstring volume week. Slow eccentric critical.',4),
+      mkEx(2,'Leg Curl (seated)',sets-1,'12–15','Moderate–Heavy',rpeT2,'Full ROM. Pause at contracted position.',4),
+      mkEx(2,'Hip Thrust (barbell)',sets-1,'10–15','Heavy',rpeT2,'Glute peak. Pause 2s at top.',4),
+      mkEx(3,'Copenhagen Plank',3,'20–30 sec/side','BW',rpeT3,'Adductor strength. Reduces groin injury risk.',4)
      ],
      cardio:{type:'Zone 1–2 Flush',dur:'15 min',zones:[4,6,0,0,0],proto:['15 min easy Zone 1–2 flush post-session']},
-     tip:'<strong>Peak Volume Warning Signs:</strong> Persistent joint pain (not soreness), chronic exhaustion, sleep disruption = reduce volume 20% for 1 week before scheduled deload. This is autoregulation, not failure.'},
+     tip:'<strong>Peak Volume Warning Signs:</strong> Persistent joint pain (not soreness), chronic exhaustion, sleep disruption = reduce volume 20% for 1 week before scheduled deload.'},
     {day:"Sat",type:"strength",label:"Upper Pull + Cardio",icon:"🔝",badge:"Hyp II — D",badgeColor:"#e65100",warmupType:"upper_pull",
      exercises:[
-      mkEx(1,'Weighted Pull-Up',sets,'6–10','BW + added weight','RPE 8–9','Heavier than any previous phase. Use lifting belt.',4),
-      mkEx(2,'Barbell Row',sets-1,'6–10','Moderate–Heavy','RPE 8','Strict form. Pull to lower chest. No body swing.',4),
-      mkEx(2,'Straight-Arm Pulldown',3,'15–20','Moderate','RPE 8','Lat isolation. Straight arms throughout.',4),
-      mkEx(3,'Rear Delt Fly (cable)',3,'20','Light','RPE 8','Rotator cuff health and rear delt development.',4),
-      mkEx(3,'Hammer + Regular Curl',3,'10–12 each','Light–Mod','RPE 7–8','Peak bicep volume. Vary grip.',4)
+      mkEx(1,'Weighted Pull-Up',sets,'6–10','BW + added weight',rpeT1,'Heavier than any previous phase. Use lifting belt.',4),
+      mkEx(2,'Barbell Row',sets-1,'6–10','Moderate–Heavy',rpeT2,'Strict form. Pull to lower chest. No body swing.',4),
+      mkEx(2,'Straight-Arm Pulldown',3,'15–20','Moderate',rpeT2,'Lat isolation. Straight arms throughout.',4),
+      mkEx(3,'Rear Delt Fly (cable)',3,'20','Light',rpeT3,'Rotator cuff health and rear delt development.',4),
+      mkEx(3,'Hammer + Regular Curl',3,'10–12 each','Light–Mod',rpeT3,'Peak bicep volume. Vary grip.',4)
      ],
      cardio:{type:'Zone 2 + HIIT (advanced option weeks 18–20)',dur:'30–40 min',zones:[0,7,1,2,0],proto:['Standard: 30 min Zone 2 post-lift','Advanced weeks 18–20: 20 min Z2 + 2×4 HIIT + 10 min Z2']},
      tip:'<strong>Phase 4 is the Crucible:</strong> This is the hardest block of the year. Volume and intensity are both high. Nutrition must support it: 200–300 kcal surplus on training days, protein >2g/kg, creatine daily.'},
     {day:"Sun",type:"rest",label:"Rest & Recovery",icon:"😴",badge:"Recovery",badgeColor:"#37474f",warmupType:"active",
      exercises:[],
      cardio:{type:'Rest',dur:'30–45 min walk optional',zones:[8,2,0,0,0],proto:['Full rest or Zone 1 walk only','Meal prep: protein priority, complex carbs for glycogen','Sleep: 8+ hours','Supplements: creatine, Vitamin D, omega-3, magnesium']},
-     tip:'<strong>Advanced Technique Note:</strong> Rest-pause and myo-reps are high-intensity techniques. Limit to 1–2 sets per exercise. Overuse leads to excessive fatigue accumulation.'}
+     tip:level==='beginner'?'<strong>Beginner P4 Note:</strong> Rest-pause and myo-reps are advanced techniques you will not see in your sessions yet. Your job this phase: hit every set with 2–3 RIR, add weight weekly, and nail recovery. That is the entire formula.':'<strong>Advanced Technique Note:</strong> Rest-pause and myo-reps are high-intensity techniques. Limit to 1–2 sets per exercise. Overuse leads to excessive fatigue accumulation.'}
   ];
 }
+
+
 
 function buildP5(week,pWk,level){
   const ldMap={beginner:['80%','87%','92%','95%','97%','99%'],intermediate:['85%','90%','95%','97%','99%','100%'],advanced:['87%','92%','96%','98%','100%','100%+']};
@@ -3123,7 +3227,7 @@ function buildP5(week,pWk,level){
     {day:"Tue",type:"cardio",label:"Active Recovery + Zone 2",icon:"🚴",badge:"Recovery",badgeColor:"#455a64",warmupType:"cardio",
      exercises:[],
      cardio:{type:'Zone 2 — Reduced Volume',dur:`${z2-5} min`,zones:[0,8,2,0,0],proto:[`${z2-5} min Zone 2 only. Reduce to 20 min in peak week.`,'Mental rehearsal time: visualise your peak lifts during Zone 2.']},
-     tip:'<strong>Mental Preparation:</strong> Peak strength is 50% physical, 50% mental. Use Zone 2 to visualise your squat, deadlift, and bench attempts. Research on mental rehearsal shows measurable performance improvements.'},
+     tip:'<strong>Mental Preparation:</strong> Peak strength is 50% physical, 50% mental. Use Zone 2 to visualise your squat, deadlift, and bench attempts.'},
     {day:"Wed",type:"strength",label:"Bench & OHP Peak",icon:"💪",badge:`Peak W${pWk}`,badgeColor:"#b71c1c",warmupType:"upper_push",
      exercises:[
       mkEx(1,'Bench Press',isTest?3:4,isTest?`1–2 @ ${load}`:`2–3 @ ${load}`,load,isTest?'RPE 10':'RPE 9',isTest?'BENCH TEST. Maximum attempt. Spotter essential.':'Technical perfection. 4–5 min rest.',5),
@@ -3131,18 +3235,30 @@ function buildP5(week,pWk,level){
       mkEx(2,'Weighted Pull-Up',3,'2–4','Heavy + belt','RPE 9','Upper body pulling strength maintained.',5)
      ],
      cardio:{type:'Minimal',dur:'10 min warm-up only',zones:[5,0,0,0,0],proto:['10 min rotator cuff warm-up and shoulder activation only']},
-     tip:'<strong>Bench Peak Technique:</strong> Maximum arch, foot drive, leg drive through floor, pause at chest, maximum full-body tension at lockout. Every cue active simultaneously.'},
-    {day:"Thu",type:"rest",label:"Complete Rest — Pre-Deadlift",icon:"😴",badge:"Recovery",badgeColor:"#37474f",warmupType:"active",
-     exercises:[],
-     cardio:{type:'Complete Rest',dur:'Full rest',zones:[10,0,0,0,0],proto:['No training. No cardio. Complete rest.','Allows maximal glycogen replenishment and CNS recovery for Friday deadlift','Sleep: 8+ hours. High carb + protein dinner tonight']},
-     tip:'<strong>48h Pre-Deadlift Rule:</strong> The deadlift demands the highest total CNS output of any lift. 48 hours complete rest before a peak attempt is evidence-based. Elite powerlifters structure their entire week around this.'},
+     tip:'<strong>Bench Peak Technique:</strong> Maximum arch, foot drive, leg drive through floor, pause at chest, maximum full-body tension at lockout.'},
+    // ── THURSDAY: was thin/leftover — now a proper CNS prep + mobility day ──
+    {day:"Thu",type:"active",label:"CNS Recovery & Mobility Prep",icon:"🧘",badge:"Active Recovery",badgeColor:"#455a64",warmupType:"active",
+     exercises:[
+      mkEx(3,'RKC Plank',3,'20–30 sec','BW','RPE 6','Maximum total-body tension. Activates CNS without loading the spine. Perfect pre-peak primer.',5),
+      mkEx(3,'Dead Bug',3,'6/side','BW','RPE 5','Breathing + core stability. Resets bracing pattern for Friday deadlift.',5),
+      mkEx(3,'Hip 90/90 + Hip CARs',2,'5/side','BW','RPE 4','Hip joint health. Ensures full ROM going into Friday pull.',5),
+      mkEx(3,'Band Pull-Apart + Face Pull',3,'20 each','Light band / Light cable','RPE 5','Rotator cuff activation. Pre-loads the shoulder joint before Saturday upper session.',5),
+      ...(level==='advanced'?[mkEx(3,'Farmer Carry (light)',2,'20m','Light–Mod','RPE 5','CNS activation — not a strength session. Grip and posture only.',5)]:[])
+     ],
+     cardio:{type:'Zone 1 + Optional Mobility',dur:level==='advanced'?'40–50 min':'30–40 min',zones:[8,2,0,0,0],proto:[
+       '20–30 min Zone 1 walk — outdoor preferred (Vitamin D, circadian benefit)',
+       'Groundwork Mobility session (see Mobility page) — hip, thoracic, ankle as needed',
+       'High carb + protein dinner tonight — glycogen loading for Friday deadlift',
+       '8–9 hours sleep target tonight — do not compromise this'
+     ]},
+     tip:'<strong>Thursday in Peak Phase:</strong> This is not a rest day or a training day — it is a deliberate CNS preparation day. Light activation work raises neural drive for Friday without adding fatigue. Elite powerlifters call this "priming." The mobility work ensures you hit full ROM under maximal load tomorrow.'},
     {day:"Fri",type:"strength",label:"Deadlift Peak",icon:"⚡",badge:`Deadlift Peak`,badgeColor:"#b71c1c",warmupType:"lower_pull",
      exercises:[
       mkEx(1,'Conventional Deadlift',isTest?3:4,isTest?`1 @ ${load}`:`1–2 @ ${load}`,load,'RPE 10',isTest?'DEADLIFT PEAK. Chalk, belt, straps permitted. 5–8 min between attempts.':'Low rep, high load. Every rep is technically perfect.',5),
       mkEx(2,'Deficit Deadlift or RDL',2,'3–4','70%','RPE 7','Accessory work. Maintains starting strength.',5)
      ],
      cardio:{type:'Zone 1 Flush',dur:'15 min',zones:[6,4,0,0,0],proto:['15 min light Zone 1 flush post-peak. Clears metabolic byproducts significantly.']},
-     tip:'<strong>Phase 5 Expected Results:</strong> Squat +10–20%, Deadlift +12–25%, Bench +8–15%, OHP +8–12% from Phase 3 test week. Intermediate trainees typically see the higher end. Log all new maxes.'},
+     tip:'<strong>Phase 5 Expected Results:</strong> Squat +10–20%, Deadlift +12–25%, Bench +8–15%, OHP +8–12% from Phase 3 test week. Log all new maxes.'},
     {day:"Sat",type:"strength",label:"Upper Maintenance + Cardio",icon:"🔝",badge:"Maintenance",badgeColor:"#455a64",warmupType:"upper_pull",
      exercises:[
       mkEx(2,'Pull-Up',3,'5–8','BW or light weight','RPE 7','Maintenance. Not heavy today.',5),
@@ -3159,55 +3275,71 @@ function buildP5(week,pWk,level){
   ];
 }
 
+
+
 function buildP6(week,pWk,level){
   const z2m=level==='beginner'?55:level==='advanced'?75:65;
   const z2d=level==='beginner'?45:level==='advanced'?60:50;
+
+  // P6 strength maintenance — MED differs by level
+  // Beginner: 3×5–8 @ 70–75%, RPE 7 — enough to maintain, not so much it impairs cardio
+  // Intermediate: 3–4×5–8 @ 75–80%, RPE 7–8 — slightly higher stimulus to hold more mass
+  // Advanced: 4×4–6 @ 80–85%, RPE 7–8 — must train heavier to prevent detraining of higher 1RM
+  const strSets = level==='beginner'?3:level==='advanced'?4:3;
+  const strLoad = level==='beginner'?'70–75%':level==='advanced'?'80–85%':'75–80%';
+  const strRpe  = level==='beginner'?'RPE 7':level==='advanced'?'RPE 7–8':'RPE 7';
+  const strReps = level==='advanced'?'4–6':'5–8';
+  const pullRpe = level==='beginner'?'RPE 7':level==='advanced'?'RPE 7–8':'RPE 7';
+  const pullLoad= level==='advanced'?'BW + light belt':'BW';
+
   return[
     {day:"Mon",type:"strength",label:"Full Body — Strength Maintenance",icon:"🏋️",badge:"Maintain Strength",badgeColor:"#2e7d32",warmupType:"full_body",
      exercises:[
-      mkEx(1,'Back Squat',3,'5–8','75–80%','RPE 7','Maintenance: 3×6 at moderate load. Preserve squat strength.',6),
-      mkEx(1,'Bench Press',3,'5–8','75–80%','RPE 7','3×6 moderate. Maintain pressing strength.',6),
-      mkEx(2,'Pull-Up',3,'6–10','BW','RPE 7','Bodyweight only this phase.',6),
-      mkEx(2,'Romanian Deadlift',3,'8–10','70%','RPE 7','Hamstring maintenance.',6),
+      mkEx(1,'Back Squat',strSets,strReps,strLoad,strRpe,`Maintenance: ${strSets}×${level==='advanced'?4:6} at ${strLoad}. Preserve squat strength without taxing recovery for cardio days.`,6),
+      mkEx(1,'Bench Press',strSets,strReps,strLoad,strRpe,`${strSets}×${level==='advanced'?4:6} moderate. Maintain pressing strength.`,6),
+      mkEx(2,'Pull-Up',strSets,level==='advanced'?'5–8':'6–10',pullLoad,pullRpe,level==='advanced'?'Light added weight or bodyweight. Maintain pulling strength.':'Bodyweight only this phase.',6),
+      mkEx(2,'Romanian Deadlift',strSets,'8–10',level==='advanced'?'72%':'70%',strRpe,'Hamstring and posterior chain maintenance.',6),
       mkEx(3,'Face Pull + Lateral Raise',2,'15–20','Light','RPE 6','Shoulder health maintenance — always.',6)
      ],
      cardio:{type:'Zone 2 Finisher',dur:'15 min',zones:[0,8,2,0,0],proto:['15 min Zone 2 finisher post-lift. Keep total Mon session under 75 min.']},
-     tip:'<strong>Minimum Effective Dose:</strong> Bickel et al. (Medicine & Science in Sports, 2011): 1/3 of normal volume maintains strength for 32 weeks. 2×/week full body at moderate load is your strength insurance policy.'},
+     tip:`<strong>Minimum Effective Dose (MED):</strong> Bickel et al. (Medicine & Science in Sports, 2011): 1/3 of normal volume maintains strength for 32 weeks. ${level==='advanced'?'Advanced trainees need slightly higher loads (80–85%) to maintain a higher 1RM — the principle is the same, the threshold is higher.':'2×/week full body at moderate load is your strength insurance policy.'}`},
     {day:"Tue",type:"cardio",label:"Zone 2 — Long",icon:"❤️",badge:"VO2max Phase",badgeColor:"#1565c0",warmupType:"cardio",
      exercises:[],
-     cardio:{type:'Zone 2 Long Aerobic Effort',dur:`${z2m} min`,zones:[0,9,1,0,0],proto:['5 min Zone 1 warm-up',`${z2m-10} min continuous Zone 2 — HR strictly 61–70% max`,'5 min Zone 1 cool-down','Mode: rowing ideal (full body), cycling, treadmill 10–12% incline walk']},
-     tip:'<strong>Mitochondrial Biogenesis:</strong> Zone 2 maximally stimulates PGC-1α — the master regulator of mitochondrial biogenesis. New mitochondria = more energy capacity, improved fat oxidation at rest. This is the metabolic foundation of healthy ageing.'},
+     cardio:{type:'Zone 2 Long Aerobic Effort',dur:`${z2m} min`,zones:[0,9,1,0,0],proto:['5 min Zone 1 warm-up',`${z2m-10} min continuous Zone 2 — HR strictly 61–70% max`,'5 min Zone 1 cool-down','Mode: rowing ideal (full body), cycling, treadmill 10–12% incline walk',level==='advanced'?'Advanced: track pace-at-HR every session. Should improve weekly.':''].filter(Boolean)},
+     tip:'<strong>Mitochondrial Biogenesis:</strong> Zone 2 maximally stimulates PGC-1α — the master regulator of mitochondrial biogenesis. New mitochondria = more energy capacity, improved fat oxidation at rest.'},
     {day:"Wed",type:"cardio",label:"HIIT — 4×4 Protocol",icon:"🔥",badge:"HIIT",badgeColor:"#c62828",warmupType:"cardio",
      exercises:[],
-     cardio:{type:'Norwegian 4×4 HIIT',dur:`${50+(level==='advanced'?10:0)} min total`,zones:[0,4,1,3,2],proto:['10 min Zone 2 warm-up — essential, do not skip','INTERVAL 1: 4 min at 85–95% HRmax → RECOVERY: 3 min active rest','INTERVAL 2: 4 min at 85–95% HRmax → RECOVERY: 3 min active rest','INTERVAL 3: 4 min at 85–95% HRmax → RECOVERY: 3 min active rest','INTERVAL 4: 4 min at 85–95% HRmax','15–20 min Zone 2 cool-down — not optional, mechanistically important',level==='advanced'?'ADVANCED: Add 1–2 extra intervals (5–6 total). Or increase to 95% HRmax.':'Standard: 4 intervals only.']},
-     tip:'<strong>Why the Cool-Down Matters:</strong> The 15–20 min Zone 2 post-HIIT actively clears blood lactate AND stimulates PGC-1α expression for mitochondrial biogenesis. Skipping it significantly reduces the cardiovascular adaptation from the session.'},
+     cardio:{type:'Norwegian 4×4 HIIT',dur:`${50+(level==='advanced'?10:0)} min total`,zones:[0,4,1,3,2],proto:['10 min Zone 2 warm-up — essential, do not skip','INTERVAL 1: 4 min at 85–95% HRmax → RECOVERY: 3 min active rest','INTERVAL 2: 4 min at 85–95% HRmax → RECOVERY: 3 min active rest','INTERVAL 3: 4 min at 85–95% HRmax → RECOVERY: 3 min active rest','INTERVAL 4: 4 min at 85–95% HRmax','15–20 min Zone 2 cool-down — not optional, mechanistically important',level==='advanced'?'ADVANCED: Add 1–2 extra intervals (5–6 total). Or increase to 95% HRmax ceiling.':'Standard: 4 intervals only.']},
+     tip:'<strong>Why the Cool-Down Matters:</strong> The 15–20 min Zone 2 post-HIIT actively clears blood lactate AND stimulates PGC-1α expression for mitochondrial biogenesis.'},
     {day:"Thu",type:"cardio",label:"Zone 2 — Medium",icon:"🚴",badge:"Aerobic Base",badgeColor:"#1565c0",warmupType:"cardio",
      exercises:[],
      cardio:{type:'Zone 2 Continuous',dur:`${z2d} min`,zones:[0,9,1,0,0],proto:[`${z2d} min Zone 2 steady state`,'Thursday is 24h after HIIT — lower intensity for recovery','Mode: outdoor cycling preferred (mental recovery + Vitamin D)','Track: speed at same HR should increase week over week (fitness improving)']},
-     tip:'<strong>Zone 2 Progression Metric:</strong> Week over week, your pace at the same heart rate should increase. This is the direct objective measure of improving aerobic efficiency. Track it every Thursday session.'},
+     tip:'<strong>Zone 2 Progression Metric:</strong> Week over week, your pace at the same heart rate should increase. This is the direct objective measure of improving aerobic efficiency.'},
     {day:"Fri",type:"strength",label:"Full Body — Strength Maintenance",icon:"🏋️",badge:"Maintain Strength",badgeColor:"#2e7d32",warmupType:"full_body",
      exercises:[
-      mkEx(1,'Deadlift',3,'3–5','75–80%','RPE 7','Maintenance deadlift. 3×4 at moderate load. Perfect form.',6),
-      mkEx(1,'Overhead Press',3,'5–8','70–78%','RPE 7','OHP maintenance.',6),
-      mkEx(2,'Single-Arm DB Row',3,'8–12/side','Moderate','RPE 7','Row maintenance.',6),
-      mkEx(2,'Hip Thrust',3,'10–15','Moderate','RPE 7','Glute maintenance.',6),
-      mkEx(3,'Suitcase Carry + Plank',2,'30m / 45 sec','Moderate','RPE 7','Core maintenance.',6)
+      mkEx(1,'Deadlift',strSets,level==='advanced'?'3–4':strReps,strLoad,strRpe,`Maintenance deadlift. ${strSets}×${level==='advanced'?3:4} at ${strLoad}. Perfect form.`,6),
+      mkEx(1,'Overhead Press',strSets,strReps,level==='advanced'?'72–80%':'70–78%',strRpe,'OHP maintenance.',6),
+      mkEx(2,'Single-Arm DB Row',strSets,'8–12/side','Moderate',strRpe,'Row maintenance.',6),
+      mkEx(2,'Hip Thrust',strSets,'10–15','Moderate',strRpe,'Glute maintenance.',6),
+      mkEx(3,'Suitcase Carry + Plank',2,'30m / 45 sec','Moderate','RPE 6–7','Core maintenance.',6)
      ],
      cardio:{type:'Zone 2 Finisher',dur:'20 min',zones:[0,8,2,0,0],proto:['20 min Zone 2 finisher. Total weekly Zone 2 target: 180–220 min.']},
-     tip:'<strong>Concurrent Training Meta-Analysis:</strong> Wilson et al. (JSCR, 2012): When cardio and resistance training are separated by 6+ hours (or different days), interference effect is negligible. Both adaptations maximise simultaneously.'},
+     tip:'<strong>Concurrent Training Meta-Analysis:</strong> Wilson et al. (JSCR, 2012): When cardio and resistance training are separated by 6+ hours (or different days), interference effect is negligible.'},
     {day:"Sat",type:"cardio",label:"Long Zone 2 + Functional",icon:"🌄",badge:"Endurance",badgeColor:"#1565c0",warmupType:"cardio",
      exercises:[
       mkEx(2,'Farmer Carry',4,'40m','Moderate–Heavy','RPE 7','Functional strength within cardio day.',6),
       mkEx(2,'Sled Push or Incline Walk',4,'30m','Moderate','RPE 7','Functional cardio. Metabolic conditioning.',6)
      ],
      cardio:{type:'Zone 2 Long + Functional Work',dur:`${z2m+10} min`,zones:[0,7,2,1,0],proto:['5 min Zone 1','20 min Zone 2 continuous','Functional work: 4×40m farmer carry + 4×30m sled push','Return to Zone 2: 30–35 min continuous','5 min cool-down — total 70–85 min session']},
-     tip:'<strong>Phase 6 Target:</strong> By week 32, total weekly Zone 2 volume should reach 180–220+ min. Expected VO2max improvement: 5–10% from pre-Phase 6 baseline. Retest with 1-mile run time.'},
+     tip:'<strong>Phase 6 Target:</strong> By week 32, total weekly Zone 2 volume should reach 180–220+ min. Expected VO2max improvement: 5–10% from pre-Phase 6 baseline.'},
     {day:"Sun",type:"rest",label:"Active Recovery",icon:"😴",badge:"Recovery",badgeColor:"#37474f",warmupType:"active",
      exercises:[],
      cardio:{type:'Active Recovery',dur:'30 min walk',zones:[8,2,0,0,0],proto:['30 min Zone 1 outdoor walk. Non-negotiable during high-cardio phases.','Carbohydrate replenishment after Saturday long session','Check Zone 2 pace data — going faster at same HR = fitness improving']},
      tip:'<strong>VO2max is Your Life Insurance:</strong> Mandsager et al. (JAMA Network Open, 2018): Low VO2max is a stronger mortality predictor than smoking, diabetes, hypertension, or cardiovascular disease. Phase 6 is literally extending your lifespan.'}
   ];
 }
+
+
 
 function buildP7(week,pWk,level){
   const patt=((pWk-1)%4)+1;
@@ -3266,13 +3398,25 @@ function buildP7(week,pWk,level){
 }
 
 function buildDeloadSessions(week,level){
-  const load=level==='beginner'?'55–60%':'60–65%';
-  const z2=35;
+  // Deload load and structure differentiated by level
+  // Beginner:     55–60%, 2 sets — very light; nervous system benefits most from rest
+  // Intermediate: 60–65%, 2 sets — standard deload, well-established protocol
+  // Advanced:     65–70%, 3 sets — must hit slightly higher load to prevent detraining
+  //               Advanced deloads are still RPE 5–6, just at a higher absolute weight
+  const load = level==='beginner'?'55–60%':level==='advanced'?'65–70%':'60–65%';
+  const sets = level==='advanced'?3:2;
+  const z2   = level==='advanced'?40:35;
+  const deloadNote = level==='advanced'
+    ? 'Advanced deload: 3 sets at 65–70%. Still RPE 5–6. You are not training — you are maintaining the neural pattern while letting fatigue dissipate.'
+    : level==='beginner'
+    ? 'Light. Easy. Focus entirely on movement quality. This is recovery-promoting movement, not training stimulus.'
+    : 'Light. Easy. This is recovery-promoting movement, not training stimulus.';
+
   return[
     {day:"Mon",type:"strength",label:"Lower Body — Deload",icon:"💤",badge:"DELOAD",badgeColor:"#e65100",warmupType:"lower_push",
      exercises:[
-      mkEx(2,'Squat (choice)',2,'10–12',load,'RPE 5–6','Light. Easy. This is recovery-promoting movement, not training stimulus.',1),
-      mkEx(2,'RDL',2,'12',load,'RPE 5','Easy movement. Maintain the pattern. No strain.',1)
+      mkEx(2,'Squat (choice)',sets,'10–12',load,'RPE 5–6',deloadNote,1),
+      mkEx(2,'RDL',sets,'12',load,'RPE 5','Easy movement. Maintain the pattern. No strain.',1)
      ],
      cardio:{type:'Easy Zone 1–2',dur:'25 min',zones:[5,5,0,0,0],proto:['25 min easy walk or light cycle. Zone 1–2 only.']},
      tip:'<strong>Deload is Mandatory:</strong> Planned deloads prevent plateau accumulation, allow connective tissue repair (3–5 day lag behind muscle), and trigger supercompensation — you will be stronger after this week than before.'},
@@ -3282,8 +3426,8 @@ function buildDeloadSessions(week,level){
      tip:'<strong>Deload Cardio Rule:</strong> Zone 2 volume cut to 50%. No HIIT. The goal is active recovery and adaptation consolidation — not fitness gains.'},
     {day:"Wed",type:"strength",label:"Upper Body — Deload",icon:"💤",badge:"DELOAD",badgeColor:"#e65100",warmupType:"upper_push",
      exercises:[
-      mkEx(2,'Bench Press',2,'10–12',load,'RPE 5–6','Light technique work. Scapular positioning and bar path focus.',1),
-      mkEx(2,'Row Variation',2,'12',load,'RPE 5','Easy row. Full ROM.',1),
+      mkEx(2,'Bench Press',sets,'10–12',load,'RPE 5–6','Light technique work. Scapular positioning and bar path focus.',1),
+      mkEx(2,'Row Variation',sets,'12',load,'RPE 5','Easy row. Full ROM.',1),
       mkEx(3,'Face Pull',2,'20','Light','RPE 5','Always present, even in deloads.',1)
      ],
      cardio:{type:'None',dur:'10 min warm-up only',zones:[5,0,0,0,0],proto:['10 min movement prep only']},
@@ -3294,8 +3438,8 @@ function buildDeloadSessions(week,level){
      tip:'<strong>Sleep Priority this Week:</strong> Use reduced training load to focus on sleep quality. 8–9 hours. Growth hormone, testosterone, and recovery hormones are restored to optimal levels.'},
     {day:"Fri",type:"strength",label:"Lower Pull — Deload",icon:"💤",badge:"DELOAD",badgeColor:"#e65100",warmupType:"lower_pull",
      exercises:[
-      mkEx(2,'Deadlift (light)',2,'5',load,'RPE 5','Light pull. Pattern maintenance. Nothing near failure.',1),
-      mkEx(2,'Hip Thrust',2,'15','Light','RPE 5','Glute activation maintenance.',1)
+      mkEx(2,'Deadlift (light)',sets,'5',load,'RPE 5','Light pull. Pattern maintenance. Nothing near failure.',1),
+      mkEx(2,'Hip Thrust',sets,'15','Light','RPE 5','Glute activation maintenance.',1)
      ],
      cardio:{type:'Easy Zone 1–2',dur:'20 min',zones:[6,4,0,0,0],proto:['20 min easy movement only']},
      tip:'<strong>Connective Tissue Recovery:</strong> Tendons and ligaments heal 3–5 days behind muscle tissue. A deload that feels unnecessary for your muscles is exactly the right duration for connective tissue repair.'},
@@ -3305,84 +3449,13 @@ function buildDeloadSessions(week,level){
      tip:'<strong>Supercompensation Window:</strong> After this deload following a high-volume block, the body rebounds to a new higher performance plateau. You will lift more next week than you could before the deload.'},
     {day:"Sun",type:"rest",label:"Full Rest",icon:"😴",badge:"DELOAD",badgeColor:"#37474f",warmupType:"active",
      exercises:[],
-     cardio:{type:'Complete Rest',dur:'Rest',zones:[10,0,0,0,0],proto:['Complete rest. You earned it.','Prepare mentally for next phase. Review what is coming, set new load targets.','Maintain protein intake. Reduce calories slightly on deload (lower energy expenditure).']},
+     cardio:{type:'Complete Rest',dur:'Rest',zones:[10,0,0,0,0],proto:['Complete rest. You earned it.','Prepare mentally for next phase. Review what is coming, set new load targets.',`Maintain protein intake${level==='advanced'?' — advanced: keep protein at full dose during deload to support connective tissue repair':''}.`,'Reduce calories slightly on deload (lower energy expenditure).']},
      tip:'<strong>Deload Complete:</strong> Return to training Monday with 100% energy. Your muscles, CNS, connective tissue, and hormonal system are ready. Progress awaits.'}
   ];
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// SUPPLEMENTARY DATA
-// ═══════════════════════════════════════════════════════════════════
-const HABITS_DATA=[
-  {time:"On Waking",name:"No phone 30–60 min",desc:"Preserves cortisol awakening response (CAR). Checking notifications immediately suppresses CAR and increases baseline anxiety.",priority:"critical"},
-  {time:"Morning (15–30 min after waking)",name:"Outdoor sunlight 10–30 min",desc:"Sets circadian clock, triggers cortisol response, initiates melatonin timer for that evening. Even cloudy outdoor light is 10–50× brighter than indoor.",priority:"critical"},
-  {time:"Morning",name:"Hydrate — 500–750ml water + electrolytes",desc:"Rehydrate after 7–9 hours overnight fast. Pinch sea salt or electrolyte powder if training in the morning. Coffee does not count.",priority:"high"},
-  {time:"Morning",name:"Core supplement protocol",desc:"Creatine with water. Vitamin D + omega-3 with a fatty meal for absorption. Magnesium reserved for pre-sleep.",priority:"high"},
-  {time:"Pre-Training",name:"Caffeine 3–6mg/kg (if using)",desc:"30–60 min before training. Not within 6 hours of sleep. Cycle off 1 week per month to prevent tolerance build-up.",priority:"medium"},
-  {time:"Training Window",name:"Structured exercise session",desc:"Execute the scheduled session. This is the single highest-leverage health intervention available to a human being. Shortened > missed.",priority:"critical"},
-  {time:"Post-Training (within 2h)",name:"30–40g protein",desc:"Initiate muscle protein synthesis. Whole food preferred. Whey protein acceptable if no meal is possible in time.",priority:"high"},
-  {time:"Throughout Day",name:"8,000–10,000 daily steps",desc:"Paluch et al. (JAMA Network Open, 2022): 8,000 steps/day = 51% lower all-cause mortality vs 4,000 steps. NEAT can be 300–1,500 kcal/day of energy expenditure.",priority:"high"},
-  {time:"Every 45–60 min",name:"Break sitting — 2–5 min movement",desc:"Even brief movement breaks acutely improve blood glucose, blood pressure, and cognitive function. Recurring alarm recommended.",priority:"high"},
-  {time:"Afternoon",name:"No caffeine after 1–2pm",desc:"Caffeine half-life 5–7 hours. A 200mg coffee at 2pm still has 50mg active at midnight. Protect sleep architecture at all costs.",priority:"critical"},
-  {time:"Evening",name:"Mediterranean-style dinner",desc:"Olive oil, vegetables, protein (fish 2×/week minimum), legumes, whole grains. Most evidence-backed dietary pattern for cardiovascular health and longevity.",priority:"high"},
-  {time:"Pre-Sleep (30–60 min)",name:"Magnesium glycinate 300–400mg",desc:"Improves sleep quality, reduces muscle cramping, modulates cortisol. Most absorbed form. Magnesium oxide is poorly absorbed — avoid.",priority:"medium"},
-  {time:"Pre-Sleep (60–90 min)",name:"Dim lights. No screens.",desc:"Melatonin suppressed by blue light. Even dim room light at the wrong time can shift melatonin onset by 90+ minutes.",priority:"critical"},
-  {time:"Bedtime",name:"Consistent sleep time (±30 min)",desc:"Circadian regularity as important as sleep duration. Irregular bedtimes disrupt sleep architecture even when total hours are maintained.",priority:"high"},
-  {time:"Sleep",name:"7–9 hours quality sleep",desc:"Walker: Chronic <7h associated with 4× cardiovascular disease risk, 2× cancer risk, 2× dementia risk. Non-negotiable for athletic adaptation and longevity.",priority:"critical"}
-];
 
-const NUTR_DATA={
-  beginner:{p:'1.6–1.8',c:'3–5',f:'0.8–1.0',kcal:'2,000–2,600',note:"Establish consistent eating patterns first. Hit protein targets before optimising anything else."},
-  intermediate:{p:'1.8–2.0',c:'4–6',f:'0.9–1.1',kcal:'2,400–3,200',note:"Nutrient timing matters now. Pre/post workout nutrition and periodic caloric surplus on training days."},
-  advanced:{p:'2.0–2.4',c:'4–7',f:'0.9–1.2',kcal:'2,800–3,800',note:"Nutritional periodisation: caloric surplus in hypertrophy phases, maintenance in strength phases."}
-};
 
-const SUPPS=[
-  {n:'Creatine Monohydrate',d:'3–5g/day',g:'A',b:'Strength +5–15%, muscle volume, cognitive function',note:'Most studied supplement. Morning or post-workout.'},
-  {n:'Vitamin D3 + K2',d:'2,000–4,000 IU D3 + 100mcg K2',g:'A',b:'Bone, immune, testosterone, mortality reduction',note:'Test serum levels. Target 50–80 ng/mL.'},
-  {n:'Omega-3 (EPA+DHA)',d:'2–3g EPA+DHA/day',g:'A',b:'Cardiovascular, inflammation, MPS support',note:'Fish oil or algae. Take with food.'},
-  {n:'Magnesium Glycinate',d:'300–400mg/evening',g:'B',b:'Sleep quality, muscle function, blood pressure',note:'Pre-sleep. Avoid oxide form (poorly absorbed).'},
-  {n:'Caffeine',d:'3–6mg/kg pre-workout',g:'A',b:'Endurance +3–5%, strength +2–3%, focus',note:'Cycle off monthly. Avoid after 1–2pm.'},
-  {n:'Whey Protein',d:'25–40g as needed',g:'A',b:'Complete protein to hit daily targets',note:'Post-workout or between meals.'},
-  {n:'Ashwagandha (KSM-66)',d:'300–600mg/day',g:'B',b:'Cortisol reduction, recovery, testosterone',note:'Best adaptogen by evidence. Evening meal.'},
-  {n:'Citrulline Malate',d:'6–8g pre-workout',g:'B',b:'Reduced fatigue, blood flow, performance',note:'30–60 min pre-training.'},
-];
-
-const BIOMARKERS=[
-  {n:'HbA1c',r:'<5.6%',w:'3-month blood glucose average. Type 2 diabetes early detection. Responds to Zone 2 training.',f:'Annual'},
-  {n:'Fasting Insulin',r:'<8 mIU/L (opt <5)',w:'Insulin resistance precedes HbA1c elevation by years. True early warning.',f:'Annual'},
-  {n:'hs-CRP',r:'<1.0 mg/L',w:'Systemic inflammation. Responds to exercise, diet, sleep, and stress management.',f:'Annual'},
-  {n:'Vitamin D (25-OH)',r:'50–80 ng/mL',w:'Immune, bone, cardiovascular, hormonal. Deficiency is epidemic globally.',f:'Annual (winter)'},
-  {n:'Testosterone (Total)',r:'600–900 ng/dL (M)',w:'Muscle mass, energy, libido, bone density. Responds to strength training, sleep, zinc.',f:'Annual'},
-  {n:'LDL / ApoB',r:'<100 mg/dL LDL',w:'Request ApoB or LDL-P for accuracy. Standard LDL misses risk in fit individuals.',f:'Annual'},
-  {n:'Triglycerides',r:'<100 mg/dL',w:'Metabolic health proxy. Primary driver: refined carbs and sugar.',f:'Annual'},
-  {n:'HDL Cholesterol',r:'>60 mg/dL',w:'Reverse cholesterol transport. Raised by Zone 2 and omega-3.',f:'Annual'},
-  {n:'Ferritin',r:'100–200 ng/mL (M)',w:'Iron stores. Low ferritin = impaired O2 delivery, fatigue, poor performance.',f:'Annual'},
-  {n:'Resting HR',r:'<55 bpm (athlete)',w:'VO2max proxy. Each bpm reduction ≈ 1% VO2max improvement.',f:'Daily (wearable)'},
-  {n:'HRV (morning)',r:'Personal baseline+',w:'Best single training readiness marker. Falling HRV = systemic stress too high.',f:'Daily (wearable)'},
-];
-
-// ═══════════════════════════════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════════════════════════════
-window.addEventListener('load',()=>{
-  loadState();
-  setTimeout(()=>{
-    const l=document.getElementById('loader');
-    l.style.opacity='0';
-    setTimeout(()=>{l.style.display='none'},500);
-    try {
-      buildSidebar();buildOverview();buildHabits();buildNutrition();buildBiomarkers();
-      renderGrid();buildChapterStrip();
-      updateDashboard();updateLevelBtns();updateProgress();
-      if(currentWeek>1)showWeek(currentWeek);
-    } catch(e) { console.error('Init error:', e); }
-  },1400);
-});
-
-// ═══════════════════════════════════════════════════════════════════
-// SIDEBAR
-// ═══════════════════════════════════════════════════════════════════
 function buildSidebar(){
   const nav=document.getElementById('sidebarNav');
   let h=`<div><div class="nav-sec-t">Navigation</div>
@@ -4070,6 +4143,23 @@ function renderMobDay(idx) {
   container.innerHTML = html;
 }
 
+
+// ═══════════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════════
+window.addEventListener('load',()=>{
+  loadState();
+  setTimeout(()=>{
+    const l=document.getElementById('loader');
+    if(l){l.style.opacity='0';setTimeout(()=>{l.style.display='none'},500);}
+    try {
+      buildSidebar();buildOverview();buildHabits();buildNutrition();buildBiomarkers();
+      renderGrid();buildChapterStrip();
+      updateDashboard();updateLevelBtns();updateProgress();
+      if(currentWeek>1)showWeek(currentWeek);
+    } catch(e) { console.error('Init error:', e); }
+  },1400);
+});
 
 function sciToggle(id){
   const el = document.getElementById('sci-'+id);
