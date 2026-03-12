@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>David · Phase 1 Workout Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#00838f;--teal2:#00b4c8;--teal-dk:#005662;--teal-lt:#e0f7fa;
+  --green:#2e7d32;--green-lt:#e8f5e9;--amber:#e65100;--amber-lt:#fff3e0;
+  --purple:#6a1b9a;--purple-lt:#f3e5f5;--gold:#f9a825;--red:#c62828;
+  --bg:#0d1117;--bg2:#161b22;--bg3:#1c2230;--surface:#21262d;
+  --border:#30363d;--border2:#444c56;
+  --txt:#e6edf3;--txt2:#8b949e;--txt3:#6e7681;
+  --font-d:'Bebas Neue',sans-serif;--font-b:'DM Sans',sans-serif;--font-m:'DM Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:var(--font-b);font-size:15px;line-height:1.6;min-height:100vh}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+/* ── TOPBAR ── */
+#topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.75rem 2rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:100}
+#topbar h1{font-family:var(--font-d);font-size:1.4rem;color:var(--teal2);letter-spacing:.05em;margin:0}
+.tb-client{font-family:var(--font-m);font-size:.72rem;color:var(--txt3);margin-left:.5rem}
+.tb-right{margin-left:auto;display:flex;gap:.5rem}
+.tab-btn{padding:.32rem .85rem;border-radius:5px;font-family:var(--font-b);font-size:.74rem;font-weight:600;border:1px solid var(--border);background:transparent;color:var(--txt2);cursor:pointer;transition:all .2s;text-transform:uppercase;letter-spacing:.05em}
+.tab-btn:hover{border-color:var(--teal);color:var(--teal)}
+.tab-btn.active{background:var(--teal);border-color:var(--teal);color:#fff}
+
+/* ── PAGES ── */
+.page{display:none;padding:2rem 2.5rem 5rem;max-width:1050px;margin:0 auto}
+.page.active{display:block;animation:fi .3s}
+@keyframes fi{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(135deg,var(--teal-dk) 0%,#001f24 60%,var(--bg2) 100%);border:1px solid var(--border);border-radius:12px;padding:2.25rem;margin-bottom:1.75rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40px;right:-40px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(0,180,200,.12) 0%,transparent 70%)}
+.hero-lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:.15em;color:var(--teal2);margin-bottom:.4rem}
+.hero h1{font-family:var(--font-d);font-size:3.2rem;letter-spacing:.04em;line-height:1;color:#fff}
+.hero h1 span{color:var(--teal2)}
+.hero p{color:var(--txt2);margin-top:.65rem;max-width:540px;font-size:.92rem;line-height:1.7}
+.hero-stats{display:flex;gap:1.75rem;margin-top:1.5rem;flex-wrap:wrap}
+.hero-stat .num{font-family:var(--font-d);font-size:2.3rem;color:var(--teal2);letter-spacing:.04em}
+.hero-stat .lbl{font-size:.68rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.08em}
+
+/* ── CARDS ── */
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin-bottom:1.4rem}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:.9rem;margin-bottom:1.4rem}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:1.15rem;transition:border-color .2s}
+.card:hover{border-color:var(--border2)}
+.card-icon{font-size:1.4rem;margin-bottom:.5rem}
+.card-lbl{font-size:.65rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.1em}
+.card-val{font-family:var(--font-d);font-size:1.9rem;color:var(--txt);letter-spacing:.04em;margin-top:.1rem}
+.card-sub{font-size:.75rem;color:var(--txt2);margin-top:.2rem}
+.card.tc{border-color:var(--teal)}.card.tc .card-val{color:var(--teal2)}
+
+/* ── WORKOUT HEADER ── */
+.wk-phase-tag{display:inline-flex;align-items:center;gap:.4rem;padding:.28rem .75rem;border-radius:20px;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem}
+.wk-num{font-family:var(--font-d);font-size:3.5rem;color:var(--border2);letter-spacing:.04em;line-height:1}
+.wk-title{font-family:var(--font-d);font-size:1.85rem;color:var(--txt);letter-spacing:.04em}
+.wk-desc{color:var(--txt2);font-size:.86rem;max-width:560px;margin-top:.35rem;line-height:1.65;margin-bottom:1.25rem}
+
+/* ── DAY TABS ── */
+.day-tabs{display:flex;gap:.4rem;margin-bottom:1.4rem;flex-wrap:wrap}
+.day-tab{padding:.45rem 1.1rem;border-radius:6px;border:1px solid var(--border);background:var(--bg2);color:var(--txt2);font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--font-b);display:flex;flex-direction:column;align-items:center;gap:.1rem}
+.day-tab .dt-d{font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;opacity:.7}
+.day-tab:hover{border-color:var(--teal2);color:var(--txt)}
+.day-tab.active{background:var(--teal);border-color:var(--teal);color:#fff}
+
+/* ── SESSION BLOCK ── */
+.session-block{display:none}
+.session-block.active{display:block;animation:fi .25s}
+.sess-hdr{display:flex;align-items:center;gap:.7rem;margin-bottom:1.2rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
+.sess-icon{font-size:1.65rem}
+.sess-title{font-family:var(--font-d);font-size:1.5rem;letter-spacing:.04em}
+.sess-sub{font-size:.78rem;color:var(--txt2)}
+.sess-badge{margin-left:auto;padding:.28rem .7rem;border-radius:20px;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+
+/* ── WARMUP ── */
+.warmup-panel{background:var(--bg2);border:1px solid var(--border);border-radius:8px;margin-bottom:1.3rem;overflow:hidden}
+.warmup-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;cursor:pointer;user-select:none;transition:background .15s}
+.warmup-header:hover{background:var(--bg3)}
+.warmup-header h4{font-size:.82rem;font-weight:600;color:var(--txt2)}
+.warmup-toggle{font-size:.72rem;color:var(--teal2);font-family:var(--font-m);transition:transform .2s}
+.warmup-body{padding:0 1rem;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s}
+.warmup-body.open{max-height:600px;padding:.75rem 1rem 1rem}
+.warmup-step{display:flex;gap:.65rem;padding:.4rem 0;border-bottom:1px solid rgba(48,54,61,.5)}
+.warmup-step:last-child{border-bottom:none}
+.ws-num{font-family:var(--font-m);font-size:.7rem;color:var(--teal2);min-width:18px;margin-top:.1rem}
+.ws-name{font-size:.82rem;font-weight:500;color:var(--txt)}
+.ws-detail{font-size:.76rem;color:var(--txt3);margin-top:.05rem}
+.ws-duration{font-size:.68rem;color:var(--amber);margin-top:.08rem;font-family:var(--font-m)}
+
+/* ── EX TABLE ── */
+.ex-table{width:100%;border-collapse:collapse;margin-bottom:1.3rem}
+.ex-table thead th{padding:.55rem .75rem;text-align:left;font-size:.65rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border);font-weight:600}
+.ex-table tbody tr{border-bottom:1px solid rgba(48,54,61,.5);transition:background .15s}
+.ex-table tbody tr:hover{background:rgba(255,255,255,.025)}
+.ex-table td{padding:.65rem .75rem;font-size:.83rem;vertical-align:top}
+.ex-table td:first-child{color:var(--txt);font-weight:500}
+.tier{font-size:.6rem;font-family:var(--font-m);padding:.1rem .3rem;border-radius:3px;margin-right:.35rem}
+.t1{background:rgba(0,180,200,.15);color:var(--teal2)}
+.t2{background:rgba(249,168,37,.15);color:var(--gold)}
+.t3{background:rgba(158,66,245,.15);color:#ce93d8}
+.mono{font-family:var(--font-m);font-size:.78rem;color:var(--teal2);white-space:nowrap}
+.rpe-p{display:inline-block;font-family:var(--font-m);font-size:.68rem;padding:.08rem .35rem;border-radius:3px;background:rgba(46,125,50,.2);color:#81c784}
+.ex-note{font-size:.76rem;color:var(--txt2)}
+
+/* ── SUPERSET BADGE ── */
+.ss-badge{display:inline-block;font-size:.58rem;font-family:var(--font-m);padding:.1rem .35rem;border-radius:3px;background:rgba(230,81,0,.15);color:var(--amber);margin-left:.3rem;vertical-align:middle}
+
+/* ── TIP BOX ── */
+.tip-box{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--teal);border-radius:8px;padding:.9rem 1.15rem;margin-bottom:1.15rem;font-size:.83rem;color:var(--txt2);line-height:1.65}
+.tip-box strong{color:var(--teal2)}
+.tip-box.warn{border-left-color:var(--amber)}.tip-box.warn strong{color:var(--amber)}
+.tip-box.gn{border-left-color:var(--green)}.tip-box.gn strong{color:#66bb6a}
+
+/* ── SECTION TITLE ── */
+.sec-title{font-family:var(--font-d);font-size:2rem;color:var(--txt);letter-spacing:.04em;margin-bottom:.3rem}
+.sec-sub{font-size:.86rem;color:var(--txt2);margin-bottom:1.5rem;line-height:1.6;max-width:620px}
+
+/* ── PHASE OVERVIEW ── */
+.phase-overview{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:1.5rem;margin-bottom:1rem}
+.phase-overview h3{font-family:var(--font-d);font-size:1.4rem;color:var(--teal2);letter-spacing:.04em;margin-bottom:.5rem}
+.phase-overview p{font-size:.84rem;color:var(--txt2);line-height:1.65;margin-bottom:.5rem}
+.phase-tag-row{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.75rem}
+.phase-tag{font-size:.66rem;padding:.2rem .55rem;border-radius:4px;text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+
+/* ── WORKOUT CARD ── */
+.workout-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:1.35rem;margin-bottom:.85rem;cursor:pointer;transition:all .2s}
+.workout-card:hover{border-color:var(--teal);transform:translateX(3px)}
+.wc-top{display:flex;align-items:center;gap:.9rem;margin-bottom:.4rem}
+.wc-num{font-family:var(--font-d);font-size:2.5rem;color:var(--border);letter-spacing:.04em;line-height:1}
+.wc-label{font-family:var(--font-d);font-size:1.15rem;color:var(--txt);letter-spacing:.03em}
+.wc-meta{font-size:.77rem;color:var(--txt2);margin-top:.18rem}
+.wc-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.55rem}
+
+/* ── PROGRESS / LOG ── */
+.log-row{background:rgba(0,180,200,.04);border:1px solid rgba(0,180,200,.12);border-radius:6px;padding:.65rem .85rem;margin-top:.35rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+.log-label{font-size:.65rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}
+.log-set{display:flex;align-items:center;gap:.3rem}
+.log-set input{width:55px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--txt);font-family:var(--font-m);font-size:.72rem;padding:.2rem .4rem;text-align:center;outline:none}
+.log-set input:focus{border-color:var(--teal2)}
+.log-set-lbl{font-size:.6rem;color:var(--txt3);font-family:var(--font-m)}
+
+/* ── REST TIMER BTN ── */
+.btn-timer{padding:.22rem .55rem;border-radius:4px;font-size:.65rem;border:1px solid var(--border);background:var(--surface);color:var(--txt3);cursor:pointer;transition:all .2s;font-family:var(--font-m);white-space:nowrap}
+.btn-timer:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── TIMER OVERLAY ── */
+#timer-overlay{display:none;position:fixed;inset:0;background:rgba(10,10,15,.88);backdrop-filter:blur(14px);z-index:500;align-items:center;justify-content:center}
+#timer-overlay.show{display:flex}
+.timer-box{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:2rem;text-align:center;min-width:300px}
+.timer-label{font-family:var(--font-d);font-size:1.5rem;color:var(--txt);letter-spacing:.08em;margin-bottom:.25rem}
+.timer-ex-name{font-size:.82rem;color:var(--txt2);margin-bottom:1.25rem}
+.timer-ring{position:relative;display:inline-flex;align-items:center;justify-content:center;margin-bottom:1.25rem}
+.timer-ring-bg{fill:none;stroke:var(--border);stroke-width:5}
+.timer-ring-fill{fill:none;stroke:var(--teal2);stroke-width:5;stroke-linecap:round;stroke-dasharray:427;stroke-dashoffset:0;transform:rotate(-90deg);transform-origin:center;transition:stroke-dashoffset .9s linear}
+.timer-ring-text{position:absolute;font-family:var(--font-d);font-size:2.4rem;color:var(--txt);letter-spacing:.04em}
+.timer-controls{display:flex;gap:.6rem;justify-content:center}
+.timer-btn{padding:.45rem 1rem;border-radius:6px;font-size:.8rem;border:1px solid var(--border);background:var(--surface);color:var(--txt2);cursor:pointer;transition:all .2s;font-family:var(--font-b);font-weight:600}
+.timer-btn:hover{border-color:var(--teal);color:var(--teal)}
+.timer-btn.start{background:var(--teal);border-color:var(--teal);color:#fff}
+.timer-close{position:absolute;top:1rem;right:1rem;width:28px;height:28px;border-radius:50%;background:var(--surface);border:1px solid var(--border);color:var(--txt2);cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .page{padding:1rem 1rem 4rem}
+  .grid-4{grid-template-columns:repeat(2,1fr)}
+  .grid-2{grid-template-columns:1fr}
+  .hero h1{font-size:2rem}
+  .ex-table thead{display:none}
+  .ex-table tbody tr{display:grid;grid-template-columns:1fr 1fr;gap:.1rem .5rem;padding:.6rem .5rem}
+  .ex-table td{padding:.15rem 0;border:none}
+  .ex-table td:first-child{grid-column:1/-1;font-weight:600}
+  .ex-table td.ex-note{grid-column:1/-1;font-size:.7rem}
+}
+</style>
+</head>
+<body>
+
+<!-- TIMER OVERLAY -->
+<div id="timer-overlay">
+  <div class="timer-box" style="position:relative">
+    <button class="timer-close" onclick="closeTimer()">✕</button>
+    <div class="timer-label">REST PERIOD</div>
+    <div class="timer-ex-name" id="timer-ex-name"></div>
+    <div class="timer-ring">
+      <svg width="140" height="140" viewBox="0 0 160 160">
+        <circle class="timer-ring-bg" cx="80" cy="80" r="68"/>
+        <circle class="timer-ring-fill" id="timer-ring-fill" cx="80" cy="80" r="68"/>
+      </svg>
+      <div class="timer-ring-text" id="timer-display">2:00</div>
+    </div>
+    <div class="timer-controls">
+      <button class="timer-btn" onclick="resetTimer()">↺</button>
+      <button class="timer-btn start" id="timer-start-btn" onclick="toggleTimer()">▶ Start</button>
+      <button class="timer-btn" onclick="closeTimer()">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOPBAR -->
+<div id="topbar">
+  <h1>CLIENT PLANS <span class="tb-client">/ DAVID</span></h1>
+  <div class="tb-right">
+    <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
+    <button class="tab-btn" onclick="showTab('workout-a')">Workout A</button>
+    <button class="tab-btn" onclick="showTab('workout-b')">Workout B</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     OVERVIEW PAGE
+════════════════════════════════ -->
+<div class="page active" id="page-overview">
+
+  <div class="hero">
+    <div class="hero-lbl">Phase 1 · Full Body · 2× per Week · 30 min</div>
+    <h1>DAVID<br><span>PHASE 1</span></h1>
+    <p>Full body training twice per week. Building foundational strength, movement quality, and workout consistency. Moderate intensity with variety in exercise selection and rep ranges.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">2</div><div class="lbl">Sessions / Week</div></div>
+      <div class="hero-stat"><div class="num">30</div><div class="lbl">Min Each</div></div>
+      <div class="hero-stat"><div class="num">3</div><div class="lbl">Tiers</div></div>
+      <div class="hero-stat"><div class="num">P1</div><div class="lbl">Phase</div></div>
+    </div>
+  </div>
+
+  <div class="grid-4">
+    <div class="card tc">
+      <div class="card-icon">⚡</div>
+      <div class="card-lbl">Phase</div>
+      <div class="card-val">1</div>
+      <div class="card-sub">Foundation</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📅</div>
+      <div class="card-lbl">Structure</div>
+      <div class="card-val">A / B</div>
+      <div class="card-sub">Alternating workouts</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">💪</div>
+      <div class="card-lbl">Level</div>
+      <div class="card-val">MOD</div>
+      <div class="card-sub">Moderate strength</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔁</div>
+      <div class="card-lbl">Frequency</div>
+      <div class="card-val">2×</div>
+      <div class="card-sub">Per week</div>
+    </div>
+  </div>
+
+  <div class="phase-overview">
+    <h3>Phase 1 — Foundation Block</h3>
+    <p>The goal of Phase 1 is to build consistent training habits, establish strong movement patterns, and accumulate quality volume across all major muscle groups. With 30-minute sessions twice a week, every minute counts — the workouts are dense and efficient.</p>
+    <p>Workouts A and B alternate each week. Both are full-body, hitting push, pull, hinge, and squat patterns every session. Exercise and rep scheme variety keeps sessions engaging and drives broad adaptation.</p>
+    <p><strong style="color:var(--teal2)">Progression rule:</strong> When you can complete all reps with 2+ reps in reserve on every set, increase load by the smallest increment available next session.</p>
+    <div class="phase-tag-row">
+      <span class="phase-tag" style="background:rgba(0,180,200,.15);color:var(--teal2)">Full Body</span>
+      <span class="phase-tag" style="background:rgba(249,168,37,.15);color:var(--gold)">2× / Week</span>
+      <span class="phase-tag" style="background:rgba(46,125,50,.15);color:#66bb6a">30 Min</span>
+      <span class="phase-tag" style="background:rgba(106,27,154,.15);color:#ce93d8">Moderate Intensity</span>
+      <span class="phase-tag" style="background:rgba(230,81,0,.15);color:var(--amber)">Variety Focus</span>
+    </div>
+  </div>
+
+  <div class="tip-box gn" style="margin-top:1rem">
+    <strong>How to use this plan:</strong> Click <strong>Workout A</strong> or <strong>Workout B</strong> above to view the full session. Aim for 48h+ between sessions (e.g. Mon + Thu, or Tue + Fri). Log your weights each session — this data drives progression.
+  </div>
+
+  <div style="margin-top:1.25rem">
+    <div class="sec-title" style="font-size:1.35rem;margin-bottom:.75rem">Sessions at a Glance</div>
+    <div class="grid-2">
+      <div class="workout-card" onclick="showTab('workout-a')">
+        <div class="wc-top">
+          <div class="wc-num">A</div>
+          <div>
+            <div class="wc-label">Workout A — Squat Focus</div>
+            <div class="wc-meta">Goblet Squat · DB Row · Push-Up · RDL · Lateral Raise · Core</div>
+          </div>
+        </div>
+        <div class="wc-tags">
+          <span class="phase-tag" style="background:rgba(0,180,200,.12);color:var(--teal2)">Squats</span>
+          <span class="phase-tag" style="background:rgba(249,168,37,.12);color:var(--gold)">Horizontal Pull</span>
+          <span class="phase-tag" style="background:rgba(46,125,50,.12);color:#66bb6a">Hinge</span>
+        </div>
+      </div>
+      <div class="workout-card" onclick="showTab('workout-b')">
+        <div class="wc-top">
+          <div class="wc-num">B</div>
+          <div>
+            <div class="wc-label">Workout B — Hinge Focus</div>
+            <div class="wc-meta">DB Deadlift · DB Press · Pull-Aparts · Lunge · OH Press · Core</div>
+          </div>
+        </div>
+        <div class="wc-tags">
+          <span class="phase-tag" style="background:rgba(0,180,200,.12);color:var(--teal2)">Deadlift</span>
+          <span class="phase-tag" style="background:rgba(249,168,37,.12);color:var(--gold)">Vertical Press</span>
+          <span class="phase-tag" style="background:rgba(46,125,50,.12);color:#66bb6a">Lunge</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     WORKOUT A PAGE
+════════════════════════════════ -->
+<div class="page" id="page-workout-a">
+
+  <div style="margin-bottom:1.5rem">
+    <div class="wk-phase-tag" style="background:rgba(0,180,200,.12);color:var(--teal2)">⚡ Phase 1 · Full Body</div>
+    <div class="wk-num">A</div>
+    <div class="wk-title">Workout A — Squat Focus</div>
+    <div class="wk-desc">Full body session anchored by the goblet squat. Hits all major patterns — squat, hinge, horizontal push & pull, shoulder isolation, and core. ~30 min with minimal rest between accessories.</div>
+  </div>
+
+  <!-- WARMUP -->
+  <div class="warmup-panel">
+    <div class="warmup-header" onclick="toggleWarmup('wu-a')">
+      <h4>🔥 Warm-Up Protocol — 5 min</h4>
+      <span class="warmup-toggle" id="wu-a-tog">▼ Show</span>
+    </div>
+    <div class="warmup-body" id="wu-a">
+      <div class="warmup-step">
+        <div class="ws-num">1</div>
+        <div class="ws-content">
+          <div class="ws-name">Hip Circles + Leg Swings</div>
+          <div class="ws-detail">10 circles each direction, 10 swings each leg — mobilise hips before squatting</div>
+          <div class="ws-duration">⏱ 60 sec</div>
+        </div>
+      </div>
+      <div class="warmup-step">
+        <div class="ws-num">2</div>
+        <div class="ws-content">
+          <div class="ws-name">Bodyweight Squat</div>
+          <div class="ws-detail">Slow, controlled — find your depth, heels down, knees tracking over toes</div>
+          <div class="ws-duration">⏱ 12 reps</div>
+        </div>
+      </div>
+      <div class="warmup-step">
+        <div class="ws-num">3</div>
+        <div class="ws-content">
+          <div class="ws-name">Band Pull-Apart or Shoulder Circles</div>
+          <div class="ws-detail">Activate rear delts and external rotators — primes shoulders for rows and push-ups</div>
+          <div class="ws-duration">⏱ 15 reps</div>
+        </div>
+      </div>
+      <div class="warmup-step">
+        <div class="ws-num">4</div>
+        <div class="ws-content">
+          <div class="ws-name">Cat-Cow + Thoracic Rotation</div>
+          <div class="ws-detail">5 slow cat-cows, then 5 rotations each side — spine mobility and core activation</div>
+          <div class="ws-duration">⏱ 60 sec</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIP -->
+  <div class="tip-box">
+    <strong>Session A Focus:</strong> Goblet squat is your main lift today — treat the first set as another warm-up. On the DB row, drive your elbow back like you're starting a lawnmower. Keep rest short between accessories (30–45 sec) to stay within 30 minutes.
+  </div>
+
+  <!-- EXERCISE TABLE -->
+  <table class="ex-table">
+    <thead>
+      <tr>
+        <th style="width:28%">Exercise</th>
+        <th style="width:14%">Sets × Reps</th>
+        <th style="width:12%">Load</th>
+        <th style="width:10%">RPE</th>
+        <th>Notes</th>
+        <th style="width:9%">Timer</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- T1: Goblet Squat -->
+      <tr>
+        <td><span class="tier t1">T1</span>Goblet Squat</td>
+        <td><span class="mono">3×10</span></td>
+        <td><span class="mono" style="color:var(--gold)">Moderate</span></td>
+        <td><span class="rpe-p">RPE 6–7</span></td>
+        <td class="ex-note">Hold DB at chest. Sit into squat — hip crease below knee. 2s down, drive through heels up. Elbows inside knees.</td>
+        <td><button class="btn-timer" onclick="openTimer('Goblet Squat',90)">⏱ 90s</button></td>
+      </tr>
+      <tr style="background:rgba(0,180,200,.03)">
+        <td colspan="6" style="padding:.45rem .75rem">
+          <div class="log-row">
+            <span class="log-label">Log sets:</span>
+            <div class="log-set"><input type="text" placeholder="kg" title="Set 1 weight"><span class="log-set-lbl">S1</span></div>
+            <div class="log-set"><input type="text" placeholder="kg" title="Set 2 weight"><span class="log-set-lbl">S2</span></div>
+            <div class="log-set"><input type="text" placeholder="kg" title="Set 3 weight"><span class="log-set-lbl">S3</span></div>
+            <div class="log-set"><input type="text" placeholder="reps" title="Reps achieved"><span class="log-set-lbl">Reps</span></div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- T1: DB Row -->
+      <tr>
+        <td><span class="tier t1">T1</span>DB Row (Single Arm)</td>
+        <td><span class="mono">3×10 ea</span></td>
+        <td><span class="mono" style="color:var(--gold)">Moderate</span></td>
+        <td><span class="rpe-p">RPE 6–7</span></td>
+        <td class="ex-note">Brace knee on bench or hand on rack. Pull DB to hip, not armpit. Full arm extension at bottom. Slow lower.</td>
+        <td><button class="btn-timer" onclick="openTimer('DB Row',90)">⏱ 90s</button></td>
+      </tr>
+      <tr style="background:rgba(0,180,200,.03)">
+        <td colspan="6" style="padding:.45rem .75rem">
+          <div class="log-row">
+            <span class="log-label">Log sets:</span>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S1</span></div>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S2</span></div>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S3</span></div>
+            <div class="log-set"><input type="text" placeholder="reps"><span class="log-set-lbl">Reps</span></div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- T2: Push-Up -->
+      <tr>
+        <td><span class="tier t2">T2</span>Push-Up <span class="ss-badge">superset →</span></td>
+        <td><span class="mono">3×8–15</span></td>
+        <td><span class="mono" style="color:var(--gold)">Bodyweight</span></td>
+        <td><span class="rpe-p">RPE 6–7</span></td>
+        <td class="ex-note">Chest to floor. Elbows ~45° from torso. Full lockout at top. Scale: incline on bench if needed, weighted vest if too easy.</td>
+        <td><button class="btn-timer" onclick="openTimer('Push-Up',45)">⏱ 45s</button></td>
+      </tr>
+
+      <!-- T2: DB RDL (supersetted) -->
+      <tr>
+        <td><span class="tier t2">T2</span>DB Romanian Deadlift</td>
+        <td><span class="mono">3×10–12</span></td>
+        <td><span class="mono" style="color:var(--gold)">Moderate</span></td>
+        <td><span class="rpe-p">RPE 6–7</span></td>
+        <td class="ex-note">Hip hinge — push hips back, not down. Feel hamstring tension. Stop before lower back rounds. 2s eccentric. Superset with Push-Up above.</td>
+        <td><button class="btn-timer" onclick="openTimer('Romanian Deadlift',75)">⏱ 75s</button></td>
+      </tr>
+      <tr style="background:rgba(0,180,200,.03)">
+        <td colspan="6" style="padding:.45rem .75rem">
+          <div class="log-row">
+            <span class="log-label">Log sets (RDL):</span>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S1</span></div>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S2</span></div>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S3</span></div>
+            <div class="log-set"><input type="text" placeholder="reps"><span class="log-set-lbl">Reps</span></div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- T3: Lateral Raise -->
+      <tr>
+        <td><span class="tier t3">T3</span>DB Lateral Raise</td>
+        <td><span class="mono">2×12–15</span></td>
+        <td><span class="mono" style="color:var(--gold)">Light</span></td>
+        <td><span class="rpe-p">RPE 6</span></td>
+        <td class="ex-note">Slight bend in elbow. Lead with pinky finger up. Don't shrug. Stop at shoulder height. Short rest — go straight to plank.</td>
+        <td><button class="btn-timer" onclick="openTimer('Lateral Raise',30)">⏱ 30s</button></td>
+      </tr>
+
+      <!-- T3: Plank -->
+      <tr>
+        <td><span class="tier t3">T3</span>Plank Hold</td>
+        <td><span class="mono">2×30–45s</span></td>
+        <td><span class="mono" style="color:var(--gold)">Bodyweight</span></td>
+        <td><span class="rpe-p">RPE 5–6</span></td>
+        <td class="ex-note">Forearm plank. Squeeze glutes, brace abs, neutral spine. No hips sagging or piking. Progress to 60s over the phase.</td>
+        <td><button class="btn-timer" onclick="openTimer('Plank',60)">⏱ 60s</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="tip-box warn" style="margin-top:.5rem">
+    <strong>30-Min Pacing Guide:</strong> Warm-up 5 min → Goblet Squat + DB Row ~12 min (main lifts, 90s rest) → Push-Up/RDL superset ~8 min (45s between) → Lateral Raise + Plank ~5 min. That's 30 min exactly. Keep it tight.
+  </div>
+
+  <div style="margin-top:1.25rem;display:flex;gap:.7rem">
+    <button onclick="showTab('overview')" style="padding:.55rem 1.1rem;border-radius:6px;font-size:.8rem;border:1px solid var(--border);background:var(--surface);color:var(--txt2);cursor:pointer;font-family:var(--font-b);font-weight:500">← Overview</button>
+    <button onclick="showTab('workout-b')" style="margin-left:auto;padding:.55rem 1.1rem;border-radius:6px;font-size:.8rem;border:1px solid var(--teal);background:var(--teal);color:#fff;cursor:pointer;font-family:var(--font-b);font-weight:600">Workout B →</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     WORKOUT B PAGE
+════════════════════════════════ -->
+<div class="page" id="page-workout-b">
+
+  <div style="margin-bottom:1.5rem">
+    <div class="wk-phase-tag" style="background:rgba(249,168,37,.12);color:var(--gold)">⚡ Phase 1 · Full Body</div>
+    <div class="wk-num">B</div>
+    <div class="wk-title">Workout B — Hinge Focus</div>
+    <div class="wk-desc">Full body session anchored by the DB deadlift. Shifts emphasis to the posterior chain, vertical pressing, and unilateral legs. Different exercises and rep ranges to Workout A — complementary, not duplicate.</div>
+  </div>
+
+  <!-- WARMUP -->
+  <div class="warmup-panel">
+    <div class="warmup-header" onclick="toggleWarmup('wu-b')">
+      <h4>🔥 Warm-Up Protocol — 5 min</h4>
+      <span class="warmup-toggle" id="wu-b-tog">▼ Show</span>
+    </div>
+    <div class="warmup-body" id="wu-b">
+      <div class="warmup-step">
+        <div class="ws-num">1</div>
+        <div class="ws-content">
+          <div class="ws-name">Good Morning (bodyweight)</div>
+          <div class="ws-detail">Feet hip-width, soft knee bend, hinge at the hip — prime the hamstrings and glutes for deadlifting</div>
+          <div class="ws-duration">⏱ 10 reps</div>
+        </div>
+      </div>
+      <div class="warmup-step">
+        <div class="ws-num">2</div>
+        <div class="ws-content">
+          <div class="ws-name">Glute Bridge</div>
+          <div class="ws-detail">Lying on floor, drive hips up, squeeze glutes hard at top, 1s pause — activates posterior chain</div>
+          <div class="ws-duration">⏱ 15 reps</div>
+        </div>
+      </div>
+      <div class="warmup-step">
+        <div class="ws-num">3</div>
+        <div class="ws-content">
+          <div class="ws-name">Arm Circles + Band Pull-Apart</div>
+          <div class="ws-detail">Large circles both directions, then 15 pull-aparts if band available — shoulder health for pressing</div>
+          <div class="ws-duration">⏱ 60 sec</div>
+        </div>
+      </div>
+      <div class="warmup-step">
+        <div class="ws-num">4</div>
+        <div class="ws-content">
+          <div class="ws-name">Reverse Lunge (bodyweight)</div>
+          <div class="ws-detail">Step back, knee hovers above floor — mobility and balance prep for the working lunges ahead</div>
+          <div class="ws-duration">⏱ 6 reps each leg</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIP -->
+  <div class="tip-box">
+    <strong>Session B Focus:</strong> The DB deadlift is your main mover — keep the weights close to your legs, think "push the floor away" rather than "pull the weight up." On the DB shoulder press, don't lock out violently — controlled full extension. The face pull at the end is your shoulder health exercise — don't skip it.
+  </div>
+
+  <!-- EXERCISE TABLE -->
+  <table class="ex-table">
+    <thead>
+      <tr>
+        <th style="width:28%">Exercise</th>
+        <th style="width:14%">Sets × Reps</th>
+        <th style="width:12%">Load</th>
+        <th style="width:10%">RPE</th>
+        <th>Notes</th>
+        <th style="width:9%">Timer</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- T1: DB Deadlift -->
+      <tr>
+        <td><span class="tier t1">T1</span>DB Deadlift</td>
+        <td><span class="mono">3×8</span></td>
+        <td><span class="mono" style="color:var(--gold)">Moderate-H</span></td>
+        <td><span class="rpe-p">RPE 7</span></td>
+        <td class="ex-note">DBs outside legs, hinge down — bar-path drill. Chest up. Drag the weights up close to your body. Full hip extension at top. 2s down.</td>
+        <td><button class="btn-timer" onclick="openTimer('DB Deadlift',105)">⏱ 105s</button></td>
+      </tr>
+      <tr style="background:rgba(0,180,200,.03)">
+        <td colspan="6" style="padding:.45rem .75rem">
+          <div class="log-row">
+            <span class="log-label">Log sets:</span>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S1</span></div>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S2</span></div>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S3</span></div>
+            <div class="log-set"><input type="text" placeholder="reps"><span class="log-set-lbl">Reps</span></div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- T1: DB Shoulder Press -->
+      <tr>
+        <td><span class="tier t1">T1</span>DB Shoulder Press</td>
+        <td><span class="mono">3×10–12</span></td>
+        <td><span class="mono" style="color:var(--gold)">Moderate</span></td>
+        <td><span class="rpe-p">RPE 6–7</span></td>
+        <td class="ex-note">Seated or standing. DBs at ear height to start. Press overhead, slight arc inward. Don't lean back excessively — brace your core throughout.</td>
+        <td><button class="btn-timer" onclick="openTimer('DB Shoulder Press',90)">⏱ 90s</button></td>
+      </tr>
+      <tr style="background:rgba(0,180,200,.03)">
+        <td colspan="6" style="padding:.45rem .75rem">
+          <div class="log-row">
+            <span class="log-label">Log sets:</span>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S1</span></div>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S2</span></div>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S3</span></div>
+            <div class="log-set"><input type="text" placeholder="reps"><span class="log-set-lbl">Reps</span></div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- T2: Reverse Lunge -->
+      <tr>
+        <td><span class="tier t2">T2</span>DB Reverse Lunge <span class="ss-badge">superset →</span></td>
+        <td><span class="mono">3×8 ea</span></td>
+        <td><span class="mono" style="color:var(--gold)">Light-Mod</span></td>
+        <td><span class="rpe-p">RPE 6</span></td>
+        <td class="ex-note">Step back — rear knee floats just above floor. Front shin stays vertical. Drive through front heel to stand. Alternate legs or do all on one side.</td>
+        <td><button class="btn-timer" onclick="openTimer('Reverse Lunge',45)">⏱ 45s</button></td>
+      </tr>
+      <tr style="background:rgba(0,180,200,.03)">
+        <td colspan="6" style="padding:.45rem .75rem">
+          <div class="log-row">
+            <span class="log-label">Log sets:</span>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S1</span></div>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S2</span></div>
+            <div class="log-set"><input type="text" placeholder="kg"><span class="log-set-lbl">S3</span></div>
+            <div class="log-set"><input type="text" placeholder="reps"><span class="log-set-lbl">Reps</span></div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- T2: Incline DB Curl (supersetted) -->
+      <tr>
+        <td><span class="tier t2">T2</span>DB Curl (incline or standing)</td>
+        <td><span class="mono">3×10–15</span></td>
+        <td><span class="mono" style="color:var(--gold)">Light</span></td>
+        <td><span class="rpe-p">RPE 6</span></td>
+        <td class="ex-note">Superset with reverse lunge. Seated incline version stretches the bicep at the bottom — more range. Don't swing elbows forward. Slow lower.</td>
+        <td><button class="btn-timer" onclick="openTimer('DB Curl',60)">⏱ 60s</button></td>
+      </tr>
+
+      <!-- T3: Face Pull / Band Pull-Apart -->
+      <tr>
+        <td><span class="tier t3">T3</span>Face Pull or Band Pull-Apart</td>
+        <td><span class="mono">2×15–20</span></td>
+        <td><span class="mono" style="color:var(--gold)">Light</span></td>
+        <td><span class="rpe-p">RPE 5</span></td>
+        <td class="ex-note">Cable face pull: pull to forehead, thumbs behind ears, elbows high. Or band pull-apart at face height. Rear delt and rotator cuff health — do not skip.</td>
+        <td><button class="btn-timer" onclick="openTimer('Face Pull',30)">⏱ 30s</button></td>
+      </tr>
+
+      <!-- T3: Ab Exercise -->
+      <tr>
+        <td><span class="tier t3">T3</span>Dead Bug or Hollow Hold</td>
+        <td><span class="mono">2×30–40s</span></td>
+        <td><span class="mono" style="color:var(--gold)">Bodyweight</span></td>
+        <td><span class="rpe-p">RPE 5–6</span></td>
+        <td class="ex-note">Dead bug: lower back pressed into floor at all times. Extend opposite arm/leg simultaneously, exhale as you extend. Or hollow hold for 30s if preferred.</td>
+        <td><button class="btn-timer" onclick="openTimer('Core',60)">⏱ 60s</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="tip-box gn" style="margin-top:.5rem">
+    <strong>Variety Note:</strong> Workouts A and B deliberately use different exercises to train the same patterns (e.g. goblet squat vs. DB deadlift, push-up vs. shoulder press, lateral raise vs. face pull). This variety is intentional — it builds broader movement competency and keeps training engaging. Over time, exercises will rotate to continue providing variety.
+  </div>
+
+  <div style="margin-top:1.25rem;display:flex;gap:.7rem">
+    <button onclick="showTab('workout-a')" style="padding:.55rem 1.1rem;border-radius:6px;font-size:.8rem;border:1px solid var(--border);background:var(--surface);color:var(--txt2);cursor:pointer;font-family:var(--font-b);font-weight:500">← Workout A</button>
+    <button onclick="showTab('overview')" style="margin-left:auto;padding:.55rem 1.1rem;border-radius:6px;font-size:.8rem;border:1px solid var(--border);background:var(--surface);color:var(--txt2);cursor:pointer;font-family:var(--font-b);font-weight:500">Overview</button>
+  </div>
+</div>
+
+<script>
+// ── TAB NAVIGATION ──
+function showTab(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const pg = document.getElementById('page-' + name);
+  if (pg) pg.classList.add('active');
+  const map = { 'overview': 0, 'workout-a': 1, 'workout-b': 2 };
+  const btns = document.querySelectorAll('.tab-btn');
+  if (map[name] !== undefined) btns[map[name]].classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── WARMUP TOGGLE ──
+function toggleWarmup(id) {
+  const body = document.getElementById(id);
+  const tog = document.getElementById(id + '-tog');
+  if (!body) return;
+  body.classList.toggle('open');
+  tog.textContent = body.classList.contains('open') ? '▲ Hide' : '▼ Show';
+}
+
+// ── REST TIMER ──
+let timerInterval = null, timerRunning = false, timerSeconds = 0, timerTotal = 0;
+
+function openTimer(exName, secs) {
+  timerTotal = secs;
+  timerSeconds = secs;
+  timerRunning = false;
+  clearInterval(timerInterval);
+  document.getElementById('timer-ex-name').textContent = exName;
+  document.getElementById('timer-display').textContent = fmtTime(secs);
+  document.getElementById('timer-start-btn').textContent = '▶ Start';
+  updateRing(secs, secs);
+  document.getElementById('timer-overlay').classList.add('show');
+}
+
+function closeTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  document.getElementById('timer-overlay').classList.remove('show');
+}
+
+function toggleTimer() {
+  if (timerRunning) {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    document.getElementById('timer-start-btn').textContent = '▶ Resume';
+  } else {
+    timerRunning = true;
+    document.getElementById('timer-start-btn').textContent = '⏸ Pause';
+    timerInterval = setInterval(() => {
+      timerSeconds--;
+      document.getElementById('timer-display').textContent = fmtTime(timerSeconds);
+      updateRing(timerSeconds, timerTotal);
+      if (timerSeconds <= 0) {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        document.getElementById('timer-start-btn').textContent = '▶ Start';
+        document.getElementById('timer-display').textContent = 'GO!';
+      }
+    }, 1000);
+  }
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  timerSeconds = timerTotal;
+  document.getElementById('timer-display').textContent = fmtTime(timerTotal);
+  document.getElementById('timer-start-btn').textContent = '▶ Start';
+  updateRing(timerTotal, timerTotal);
+}
+
+function updateRing(current, total) {
+  const circumference = 427;
+  const progress = total > 0 ? current / total : 0;
+  const offset = circumference * (1 - progress);
+  document.getElementById('timer-ring-fill').style.strokeDashoffset = offset;
+}
+
+function fmtTime(s) {
+  const m = Math.floor(Math.max(s, 0) / 60);
+  const sec = Math.max(s, 0) % 60;
+  return `${m}:${String(sec).padStart(2, '0')}`;
+}
+
+// Close timer on background click
+document.getElementById('timer-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeTimer();
+});
+</script>
+</body>
+</html>
