@@ -38,7 +38,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-b);font-size:1
 @keyframes ld{from{width:0}to{width:100%}}
 
 /* SIDEBAR */
-#sidebar{position:fixed;top:0;left:0;bottom:0;width:280px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:100;overflow:hidden;transition:transform .3s}
+#sidebar{position:fixed;top:84px;left:0;bottom:0;width:280px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:100;overflow:hidden;transition:transform .3s}
 .sb-logo{padding:1.25rem 1.25rem .85rem;border-bottom:1px solid var(--border);flex-shrink:0}
 .sb-logo h2{font-family:var(--font-d);font-size:1.45rem;color:var(--teal2);letter-spacing:.05em;line-height:1.1}
 .sb-logo p{color:var(--txt3);font-size:.68rem;margin-top:.2rem;text-transform:uppercase;letter-spacing:.08em}
@@ -73,7 +73,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-b);font-size:1
 
 /* MAIN */
 #main{margin-left:280px;min-height:100vh}
-#topbar{position:sticky;top:0;z-index:50;background:rgba(13,17,23,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.7rem 1.75rem;display:flex;align-items:center;gap:.85rem;flex-wrap:wrap}
+#topbar{position:sticky;top:84px;z-index:50;background:rgba(13,17,23,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.7rem 1.75rem;display:flex;align-items:center;gap:.85rem;flex-wrap:wrap}
 .breadcrumb{display:flex;align-items:center;gap:.45rem;font-size:.78rem;color:var(--txt3)}
 .breadcrumb span{color:var(--txt2)}
 .tb-right{margin-left:auto;display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
@@ -2555,8 +2555,116 @@ let completedWeeks={},progressLog={};
 let currentRecipeCat='all';
 let logFilter='all';
 
+// ═══════════════════════════════════════════════════════════════════
+// SUPABASE SYNC
+// ═══════════════════════════════════════════════════════════════════
+const SB_URL  = 'https://oqwyemyvmqubzbawcgfj.supabase.co';
+const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9xd3llbXl2bXF1YnpiYXdjZ2ZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5MTA1ODEsImV4cCI6MjA4ODQ4NjU4MX0.AghBMaHcRa9H0ZEbiT6qWCB_1Mpow4EN5rtJPjCTuXTA';
+let sbClient = null, sbUser = null;
+
+async function sbInit() {
+  return new Promise(resolve => {
+    if (window.supabase) { _sbReady(); return; }
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+    s.onload = _sbReady;
+    s.onerror = resolve; // fail silently
+    document.head.appendChild(s);
+    function _sbReady() {
+      try {
+        sbClient = window.supabase.createClient(SB_URL, SB_ANON);
+        sbClient.auth.getSession().then(({data}) => {
+          sbUser = data?.session?.user || null;
+          if (sbUser) hideSyncBanner();
+          else showSyncBanner();
+          resolve();
+        });
+      } catch(e) { resolve(); }
+    }
+  });
+}
+
+function showSyncBanner() {
+  let b = document.getElementById('sync-banner');
+  if (!b) {
+    b = document.createElement('div');
+    b.id = 'sync-banner';
+    b.style.cssText = 'position:fixed;bottom:0;left:280px;right:0;z-index:300;background:#1a2035;border-top:1px solid #303d58;padding:10px 24px;display:flex;align-items:center;gap:16px;font-family:"DM Sans",sans-serif;font-size:13px;color:#7a8aaa;';
+    b.innerHTML = '<span>💾 <strong style="color:#e2ddd6">Progress not synced</strong> — log in to save across devices</span>'
+      + '<a href="signup.html" style="margin-left:auto;background:#CD0404;color:#fff;padding:7px 18px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;white-space:nowrap;flex-shrink:0;">Log In to Save →</a>'
+      + '<button onclick="document.getElementById(\'sync-banner\').style.display=\'none\'" style="background:none;border:none;color:#4a5a78;cursor:pointer;font-size:18px;padding:0 4px;flex-shrink:0;">×</button>';
+    document.body.appendChild(b);
+  }
+  b.style.display = 'flex';
+}
+function hideSyncBanner() {
+  const b = document.getElementById('sync-banner');
+  if (b) b.style.display = 'none';
+}
+
+async function sbSaveProgress() {
+  if (!sbClient || !sbUser) return;
+  try {
+    await sbClient.from('program_progress').upsert({
+      user_id: sbUser.id,
+      current_week: currentWeek,
+      current_level: currentLevel,
+      completed_weeks: completedWeeks,
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'user_id' });
+  } catch(e) { console.warn('Sync progress failed:', e); }
+}
+
+async function sbSaveLogEntry(exName, logKey, setIdx, reps, weight, rpe) {
+  if (!sbClient || !sbUser) return;
+  try {
+    await sbClient.from('workout_log').upsert({
+      user_id: sbUser.id,
+      exercise_name: exName,
+      log_key: logKey,
+      set_index: setIdx,
+      reps: reps || '',
+      weight: weight || '',
+      rpe: rpe || '',
+      logged_at: new Date().toISOString()
+    }, { onConflict: 'user_id,exercise_name,log_key,set_index' });
+  } catch(e) { console.warn('Sync log failed:', e); }
+}
+
+async function sbLoadState() {
+  if (!sbClient || !sbUser) return false;
+  try {
+    const [prog, logs] = await Promise.all([
+      sbClient.from('program_progress').select('*').eq('user_id', sbUser.id).single(),
+      sbClient.from('workout_log').select('*').eq('user_id', sbUser.id)
+    ]);
+    if (prog.data) {
+      currentWeek   = prog.data.current_week   || 1;
+      currentLevel  = prog.data.current_level  || 'beginner';
+      completedWeeks= prog.data.completed_weeks|| {};
+    }
+    if (logs.data && logs.data.length > 0) {
+      progressLog = {};
+      logs.data.forEach(row => {
+        if (!progressLog[row.exercise_name]) progressLog[row.exercise_name] = [];
+        progressLog[row.exercise_name].push({
+          key: row.log_key, set: row.set_index,
+          reps: row.reps, weight: row.weight, rpe: row.rpe
+        });
+      });
+    }
+    return true;
+  } catch(e) { console.warn('Load from Supabase failed:', e); return false; }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// STATE (localStorage + Supabase)
+// ═══════════════════════════════════════════════════════════════════
 function saveState(){
+  // Always save locally for instant persistence
   try{localStorage.setItem('hfp2_state',JSON.stringify({level:currentLevel,week:currentWeek,completed:completedWeeks,log:progressLog}));}catch(e){}
+  // Async sync to Supabase if logged in
+  sbSaveProgress();
 }
 function loadState(){
   try{
@@ -3105,19 +3213,26 @@ const BIOMARKERS=[
 // ═══════════════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════════════
-window.addEventListener('load',()=>{
+window.addEventListener('load', async () => {
   loadState();
-  setTimeout(()=>{
-    const l=document.getElementById('loader');
-    l.style.opacity='0';
-    setTimeout(()=>{l.style.display='none'},500);
+  await sbInit();
+  if (sbUser) {
+    const loaded = await sbLoadState();
+    if (loaded) {
+      try { localStorage.setItem('hfp2_state', JSON.stringify({level:currentLevel,week:currentWeek,completed:completedWeeks,log:progressLog})); } catch(e) {}
+    }
+  }
+  setTimeout(() => {
+    const l = document.getElementById('loader');
+    l.style.opacity = '0';
+    setTimeout(() => { l.style.display = 'none'; }, 500);
     try {
-      buildSidebar();buildOverview();buildHabits();buildNutrition();buildBiomarkers();
-      renderGrid();buildChapterStrip();
-      updateDashboard();updateLevelBtns();updateProgress();
-      if(currentWeek>1)showWeek(currentWeek);
+      buildSidebar(); buildOverview(); buildHabits(); buildNutrition(); buildBiomarkers();
+      renderGrid(); buildChapterStrip();
+      updateDashboard(); updateLevelBtns(); updateProgress();
+      if (currentWeek > 1) showWeek(currentWeek);
     } catch(e) { console.error('Init error:', e); }
-  },1400);
+  }, 1400);
 });
 
 // ═══════════════════════════════════════════════════════════════════
@@ -3463,6 +3578,8 @@ function autoSaveLog(logKey,setIdx,exName){
   if(existIdx>=0)progressLog[exName][existIdx]=entry;
   else progressLog[exName].push(entry);
   saveState();
+  // Sync this entry to Supabase
+  sbSaveLogEntry(exName, logKey, setIdx, r, w, '');
   const msg=document.getElementById('lsm-'+logKey);
   if(msg){msg.style.display='inline';setTimeout(()=>msg.style.display='none',1500);}
 }
@@ -3811,5 +3928,6 @@ function renderMobDay(idx) {
 }
 
 </script>
+<script src="nav.js" onload="CTNav.init('longevity')" onerror="console.warn('nav.js not found')"></script>
 </body>
 </html>
