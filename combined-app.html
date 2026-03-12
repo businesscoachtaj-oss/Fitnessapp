@@ -72,8 +72,8 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-b);font-size:1
 .prog-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--teal2));border-radius:2px;transition:width .4s}
 
 /* MAIN */
-#main{margin-left:280px;min-height:100vh}
-#topbar{position:sticky;top:84px;z-index:50;background:rgba(13,17,23,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.7rem 1.75rem;display:flex;align-items:center;gap:.85rem;flex-wrap:wrap}
+#main{margin-left:280px;min-height:100vh;position:relative;isolation:isolate;}
+#topbar{position:sticky;top:84px;z-index:150;background:#0d1117;backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.7rem 1.75rem;display:flex;align-items:center;gap:.85rem;flex-wrap:wrap}
 .breadcrumb{display:flex;align-items:center;gap:.45rem;font-size:.78rem;color:var(--txt3)}
 .breadcrumb span{color:var(--txt2)}
 .tb-right{margin-left:auto;display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
@@ -84,7 +84,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-b);font-size:1
 
 /* PAGES */
 .page{display:none;padding:1.75rem 2.25rem 4rem;max-width:1100px}
-.page.active{display:block;animation:fi .3s}
+.page.active{display:block;animation:fi .3s;background:var(--bg);}
 @keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 /* HERO */
@@ -499,7 +499,7 @@ body.dark
 /* ══════════════════════════════════════
    FILTER BAR
 ══════════════════════════════════════ */
-.filter-bar{padding:1.1rem 2.5rem;background:var(--paper2);border-bottom:1px solid var(--border);display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;position:sticky;top:54px;z-index:90}
+.filter-bar{padding:1.1rem 2.5rem;background:var(--paper2);border-bottom:1px solid var(--border);display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;position:sticky;top:168px;z-index:90}
 body.dark .filter-bar{background:var(--paper2)}
 .filter-label{font-family:var(--font-c);font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--txt3);flex-shrink:0}
 .filter-pill{padding:.3rem .85rem;border-radius:20px;font-family:var(--font-c);font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--border);background:transparent;color:var(--txt3);cursor:pointer;transition:all .2s;white-space:nowrap}
@@ -970,6 +970,179 @@ body.dark .shop-cat-card{background:var(--paper2)}
 @media(max-width:768px){
   .mob-ex-setup-row{grid-template-columns:1fr}
   .mob-phase-meta-row{grid-template-columns:1fr}
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MOBILE OPTIMISATION — comprehensive
+   ═══════════════════════════════════════════════════════════════════ */
+@media(max-width:900px){
+
+  /* CT nav + app topbar spacing */
+  #sidebar{ top:168px !important; } /* CT nav 84px + topbar ~84px */
+  #sync-banner{ left:0 !important; }
+
+  /* Topbar — wrap and stack gracefully */
+  #topbar{
+    flex-wrap:wrap;
+    gap:.5rem;
+    padding:.6rem 1rem;
+  }
+  .tb-right{
+    width:100%;
+    justify-content:flex-start;
+    flex-wrap:wrap;
+    gap:.35rem;
+  }
+  .btn-n, .tb-btn{
+    font-size:.65rem;
+    padding:.3rem .55rem;
+  }
+
+  /* Page content */
+  .page{ padding:.85rem .9rem 5rem; }
+
+  /* Dashboard hero */
+  .hero{ padding:1.5rem 1rem 1.25rem; border-radius:8px; }
+  .hero h1{ font-size:1.8rem; }
+  .hero p{ font-size:.8rem; }
+
+  /* Stats/grid rows */
+  .grid-4{ grid-template-columns:repeat(2,1fr) !important; }
+  .grid-3{ grid-template-columns:repeat(2,1fr) !important; }
+  .stat-grid, .dash-stats{ grid-template-columns:repeat(2,1fr) !important; }
+
+  /* Phase/week overview */
+  .phase-grid{ grid-template-columns:1fr !important; }
+  .wk-grid{ grid-template-columns:repeat(4,1fr) !important; }
+
+  /* Session blocks — key mobile fix */
+  .session-block{ padding:.85rem .9rem; }
+  .sess-header{ flex-wrap:wrap; gap:.4rem; }
+  .sess-title{ font-size:.9rem; }
+
+  /* Exercise table — the big one */
+  .ex-table{ font-size:.75rem; }
+  .ex-table thead{ display:none; } /* hide header — labels shown inline */
+  .ex-table tbody tr{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:.15rem .5rem;
+    padding:.6rem .5rem;
+    border-bottom:1px solid rgba(48,54,61,.6);
+  }
+  .ex-table td{ padding:.15rem 0; border:none; }
+  .ex-table td:first-child{ grid-column:1/-1; font-weight:600; color:var(--txt); font-size:.8rem; }
+  .ex-table td.ex-note{ grid-column:1/-1; font-size:.7rem; color:var(--txt3); }
+  .tier{ font-size:.55rem; padding:.1rem .3rem; }
+
+  /* Log row inputs */
+  .log-inputs{ flex-wrap:wrap; gap:.4rem; }
+  .log-input-group{ flex:1; min-width:80px; }
+  .log-input-group input{ width:100%; font-size:.8rem; padding:.3rem .45rem; }
+
+  /* Warmup block */
+  .warmup-body table{ font-size:.75rem; }
+  .warmup-body td{ padding:.3rem .4rem; }
+
+  /* Form guide */
+  .form-guide-body{ font-size:.8rem; }
+  .form-cues{ grid-template-columns:1fr !important; }
+  .error-list li{ font-size:.75rem; }
+
+  /* Rest timer button */
+  .btn-timer{ font-size:.65rem; padding:.25rem .4rem; white-space:nowrap; }
+
+  /* Section headers */
+  .sec-title{ font-size:1.3rem; }
+  .sec-sub{ font-size:.8rem; }
+  .page-hdr{ flex-direction:column; align-items:flex-start; gap:.5rem; }
+
+  /* Week navigation */
+  .wk-nav{ gap:.4rem; flex-wrap:wrap; }
+  .btn-wk{ font-size:.7rem; padding:.4rem .75rem; }
+  .btn-wk.nx{ margin-left:0; }
+
+  /* Habits */
+  .habit-grid{ grid-template-columns:1fr !important; }
+  .habit-card{ padding:1rem; }
+
+  /* Nutrition cards */
+  .macro-grid{ grid-template-columns:repeat(2,1fr) !important; }
+  .timing-grid{ grid-template-columns:1fr !important; }
+
+  /* Logbook */
+  .log-page-filters{ gap:.4rem; }
+  .log-filter-btn{ font-size:.7rem; padding:.3rem .6rem; }
+  .lb-exercise-block{ margin-bottom:1.25rem; }
+  .lb-sets-table{ font-size:.75rem; }
+  .lb-sets-table td{ padding:.35rem .4rem; }
+
+  /* Biomarkers */
+  .bm-grid{ grid-template-columns:1fr !important; }
+  .bm-input-row{ flex-direction:column; gap:.5rem; }
+
+  /* Overview / phases */
+  .overview-phase{ padding:1rem; }
+  .ov-week-grid{ grid-template-columns:repeat(5,1fr) !important; }
+
+  /* Sidebar footer progress bar */
+  .sidebar-footer{ padding:.75rem; }
+
+  /* Level switcher buttons */
+  .level-switcher .level-btns{ gap:.3rem; }
+  .level-btn{ font-size:.65rem; padding:.35rem 0; }
+
+  /* Recipe modal */
+  #recipe-modal .rm-wrap{ flex-direction:column !important; }
+  .rm-left, .rm-right{ width:100% !important; }
+  .rm-left{ border-right:none !important; border-bottom:1px solid var(--border); }
+
+  /* Calc form */
+  .calc-form{ grid-template-columns:1fr !important; }
+  .calc-results{ grid-template-columns:1fr !important; }
+
+  /* Mobility */
+  .mob-day-grid{ grid-template-columns:1fr !important; }
+  .mob-exercise-card{ padding:1rem; }
+  .mob-phase-tabs{ flex-wrap:wrap; gap:.3rem; }
+  .mob-phase-tab{ font-size:.68rem; padding:.3rem .6rem; }
+
+  /* Dashboard phase recipe panel */
+  .prp-grid{ grid-template-columns:1fr !important; }
+
+  /* Planner */
+  .planner-grid{ grid-template-columns:repeat(2,1fr) !important; }
+  .planner-wrap{ padding:.85rem .9rem 3rem; }
+
+  /* Shopping */
+  .shop-cat-sections{ grid-template-columns:1fr !important; }
+}
+
+@media(max-width:480px){
+  /* CT nav is 70px on very small screens */
+  #sidebar{ top:154px !important; } /* 70px CT nav + ~84px topbar */
+
+  .hero h1{ font-size:1.55rem; }
+  .wk-grid{ grid-template-columns:repeat(3,1fr) !important; }
+  .ov-week-grid{ grid-template-columns:repeat(4,1fr) !important; }
+  .stat-grid, .dash-stats{ grid-template-columns:1fr !important; }
+  .macro-grid{ grid-template-columns:1fr !important; }
+  .planner-grid{ grid-template-columns:1fr !important; }
+
+  /* Exercise table even simpler on very small */
+  .ex-table tbody tr{ grid-template-columns:1fr; }
+  .ex-table td:first-child{ font-size:.82rem; }
+
+  /* Topbar buttons — allow scroll */
+  .tb-right{ overflow-x:auto; flex-wrap:nowrap; padding-bottom:.25rem; }
+  .btn-n, .tb-btn{ flex-shrink:0; }
+
+  /* Page padding */
+  .page{ padding:.7rem .75rem 5rem; }
+
+  /* Sync banner */
+  #sync-banner{ flex-wrap:wrap; gap:.5rem; font-size:.75rem; padding:.75rem 1rem; }
+  #sync-banner a{ width:100%; text-align:center; }
 }
 </style>
 </head>
