@@ -5,16 +5,22 @@
   var SUPABASE_URL  = 'https://oqwyemyvmqubzbawcgfj.supabase.co';
   var SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9xd3llbXl2bXF1YnpiYXdjZ2ZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5MTA1ODEsImV4cCI6MjA4ODQ4NjU4MX0.AghBMaHcRa9H0ZEbiT6qWCB_1Mpw4EN5rtJPjCTuXTA';
 
+  // Detect if we're in a subfolder (e.g. /infinity-foods/)
+  var _inSubfolder = window.location.pathname.split('/').filter(Boolean).length > 2;
+  var _root = _inSubfolder ? '../' : '';
+
   var PAGES = [
-    { id: 'home',      label: 'Home',          icon: '⌂',  href: 'index.html' },
-    { id: 'tools',     label: 'Free Tools',    icon: '🔧', href: 'free-tools.html' },
-    { id: 'programs',  label: 'Programs',      icon: '◈',  href: 'programs.html' },
-    { id: 'longevity', label: '52-Week',       icon: '📈', href: 'combined-app.html' },
-    { id: 'services',  label: 'Services',      icon: '◆',  href: 'services.html' },
+    { id: 'home',         label: 'Home',           icon: '⌂',  href: _root + 'index.html' },
+    { id: 'tools',        label: 'Free Tools',     icon: '🔧', href: _root + 'free-tools.html' },
+    { id: 'programs',     label: 'Programs',       icon: '◈',  href: _root + 'programs.html' },
+    { id: 'longevity',    label: '52-Week',        icon: '📈', href: _root + 'combined-app.html' },
+    { id: 'infinity-foods', label: 'Infinity Foods', icon: '🌾', href: _root + 'infinity-foods/index.html' },
+    { id: 'services',     label: 'Services',       icon: '◆',  href: _root + 'services.html' },
   ];
 
   // Pages that are "children" of Free Tools — mark their nav link as tools-active
   var TOOL_PAGES = ['calories','bodyfat','split','strength','planner'];
+  var INFINITY_PAGES = ['sourdough','kefir','lacto-veg'];
 
   var CSS = `
     #ct-nav{
@@ -108,7 +114,7 @@
   window.CTNav = {
     init: function(activePageId) {
       // Treat tool sub-pages as 'tools' for nav highlighting
-      var effectiveId = TOOL_PAGES.indexOf(activePageId) !== -1 ? 'tools' : activePageId;
+      var effectiveId = TOOL_PAGES.indexOf(activePageId) !== -1 ? 'tools' : INFINITY_PAGES.indexOf(activePageId) !== -1 ? 'infinity-foods' : activePageId;
 
       var style = document.createElement('style');
       style.textContent = CSS;
@@ -128,7 +134,7 @@
 
       var navHtml = '<nav id="ct-nav">' +
         '<div id="ct-nav-inner">' +
-          '<a id="ct-nav-logo" href="index.html">CT FITNESS<span>Coach Taj Donaldson</span></a>' +
+          '<a id="ct-nav-logo" href="' + _root + 'index.html">CT FITNESS<span>Coach Taj Donaldson</span></a>' +
           '<div id="ct-nav-links">' + linksHtml + '</div>' +
           '<div id="ct-nav-auth"><a class="ct-nav-auth-btn ct-nav-login" href="signup.html">Log In</a></div>' +
           '<button id="ct-nav-burger" aria-label="Menu">&#9776;</button>' +
