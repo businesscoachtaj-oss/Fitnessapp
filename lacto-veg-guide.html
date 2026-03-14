@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brine — A Nutritionist's Guide to Lacto-Fermented Vegetables</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void: #0a0f08;
+  --forest: #0e1a0c;
+  --deep: #162014;
+  --canopy: #1e3020;
+  --fern: #2d4a2a;
+  --moss: #3d6b38;
+  --leaf: #5a9e52;
+  --acid: #a8e063;
+  --lime: #c8f060;
+  --cream: #f2edd8;
+  --parchment: #e8e0c8;
+  --fog: rgba(242,237,216,0.6);
+  --fog-dim: rgba(242,237,216,0.35);
+  --acid-dim: rgba(168,224,99,0.12);
+  --acid-border: rgba(168,224,99,0.25);
+  --red: #e05a3a;
+  --red-dim: rgba(224,90,58,0.12);
+  --gold: #d4a843;
+  --gold-dim: rgba(212,168,67,0.15);
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+body{
+  background:var(--void);
+  color:var(--cream);
+  font-family:'IBM Plex Sans',sans-serif;
+  font-weight:300;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+
+/* noise grain */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9999;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1rem 3rem;
+  background:rgba(10,15,8,0.9);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(168,224,99,0.15);
+}
+.nav-logo{
+  font-family:'Playfair Display',serif;
+  font-size:1.3rem;font-weight:900;
+  color:var(--acid);letter-spacing:0.04em;
+  font-style:italic;
+}
+.nav-links{display:flex;gap:1.5rem;list-style:none;}
+.nav-links a{
+  text-decoration:none;font-family:'IBM Plex Mono',monospace;
+  font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--fog);transition:color 0.2s;
+}
+.nav-links a:hover{color:var(--acid);}
+@media(max-width:768px){nav{padding:1rem 1.5rem;}.nav-links{display:none;}}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  display:grid;
+  grid-template-rows:1fr auto;
+  padding:10rem 5rem 5rem;
+  position:relative;overflow:hidden;
+  background:var(--forest);
+}
+
+.hero-bg-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(168,224,99,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168,224,99,0.03) 1px, transparent 1px);
+  background-size:60px 60px;
+}
+
+.hero-accent{
+  position:absolute;
+  right:-100px;top:-100px;
+  width:600px;height:600px;
+  background:radial-gradient(ellipse, rgba(45,74,42,0.6) 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero-accent2{
+  position:absolute;
+  left:-50px;bottom:-50px;
+  width:400px;height:400px;
+  background:radial-gradient(ellipse, rgba(168,224,99,0.04) 0%, transparent 70%);
+  pointer-events:none;
+}
+
+.hero-content{position:relative;z-index:1;max-width:800px;}
+
+.hero-mono{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--acid);margin-bottom:2rem;
+  opacity:0;animation:fadeUp 0.7s ease forwards 0.3s;
+}
+
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3.5rem,9vw,8rem);
+  font-weight:900;line-height:0.9;
+  color:var(--cream);
+  opacity:0;animation:fadeUp 0.8s ease forwards 0.5s;
+}
+.hero h1 .acid{color:var(--acid);}
+.hero h1 .italic{font-style:italic;font-weight:400;}
+.hero h1 .small-line{
+  display:block;
+  font-size:0.28em;
+  font-weight:300;font-style:normal;
+  letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--fog-dim);
+  font-family:'IBM Plex Mono',monospace;
+  margin-top:1.2rem;
+}
+
+.hero-desc{
+  font-size:1rem;color:var(--fog);max-width:520px;
+  line-height:1.85;margin-top:3rem;
+  opacity:0;animation:fadeUp 0.9s ease forwards 0.7s;
+}
+
+.hero-bottom{
+  position:relative;z-index:1;
+  display:flex;gap:0;
+  border:1px solid rgba(168,224,99,0.2);
+  border-radius:12px;overflow:hidden;
+  width:fit-content;
+  margin-top:4rem;
+  opacity:0;animation:fadeUp 1s ease forwards 1s;
+}
+.h-stat{
+  padding:1.2rem 2rem;
+  border-right:1px solid rgba(168,224,99,0.15);
+}
+.h-stat:last-child{border-right:none;}
+.h-stat-n{
+  font-family:'Playfair Display',serif;
+  font-size:2rem;font-weight:700;
+  color:var(--acid);display:block;line-height:1;
+}
+.h-stat-l{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--fog-dim);margin-top:0.3rem;display:block;
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(24px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+@media(max-width:768px){
+  .hero{padding:8rem 1.5rem 3rem;}
+  .hero-bottom{flex-wrap:wrap;width:100%;}
+  .h-stat{flex:1;min-width:120px;}
+}
+
+/* ── SHARED ── */
+.section{padding:7rem 0;}
+.container{max-width:860px;margin:0 auto;padding:0 2.5rem;}
+.container--wide{max-width:1140px;margin:0 auto;padding:0 2.5rem;}
+
+.mono-tag{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--acid);display:flex;align-items:center;gap:0.75rem;
+  margin-bottom:1.2rem;
+}
+.mono-tag::before{content:'//';opacity:0.5;}
+
+h2.headline{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,4vw,3.2rem);
+  font-weight:700;color:var(--cream);
+  line-height:1.1;margin-bottom:1.5rem;
+}
+h2.headline em{font-style:italic;color:var(--acid);font-weight:400;}
+h2.headline .red{color:var(--red);}
+h2.headline .gold{color:var(--gold);}
+
+p.body{font-size:0.97rem;line-height:1.85;color:var(--fog);margin-bottom:1.2rem;}
+
+.divider{height:1px;background:linear-gradient(to right,transparent,rgba(168,224,99,0.2),transparent);}
+
+/* ── WHAT IS ── */
+.what-section{background:var(--deep);padding:7rem 0;}
+
+.ferment-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:1px;margin-top:3rem;
+  background:rgba(168,224,99,0.1);
+  border:1px solid rgba(168,224,99,0.1);
+  border-radius:16px;overflow:hidden;
+}
+.ferment-card{
+  background:var(--forest);
+  padding:2rem;
+  transition:background 0.25s;
+  position:relative;overflow:hidden;
+}
+.ferment-card:hover{background:var(--canopy);}
+.ferment-card::before{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:2px;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 0.4s;
+}
+.ferment-card:hover::before{transform:scaleX(1);}
+.fc-kraut::before{background:var(--acid);}
+.fc-kimchi::before{background:var(--red);}
+.fc-pickle::before{background:var(--gold);}
+.fc-carrot::before{background:var(--leaf);}
+
+.fc-num{
+  font-family:'Playfair Display',serif;
+  font-size:3rem;font-weight:900;
+  opacity:0.06;position:absolute;top:1rem;right:1.5rem;
+  line-height:1;color:var(--cream);
+}
+.fc-type{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;
+  margin-bottom:0.75rem;display:block;
+}
+.fc-kraut .fc-type{color:var(--acid);}
+.fc-kimchi .fc-type{color:var(--red);}
+.fc-pickle .fc-type{color:var(--gold);}
+.fc-carrot .fc-type{color:var(--leaf);}
+
+.ferment-card h3{
+  font-family:'Playfair Display',serif;
+  font-size:1.4rem;font-weight:700;
+  color:var(--cream);margin-bottom:0.6rem;line-height:1.15;
+}
+.ferment-card p{font-size:0.85rem;color:var(--fog);line-height:1.75;}
+
+.brine-explainer{
+  margin-top:3rem;
+  border:1px solid rgba(168,224,99,0.2);
+  border-radius:12px;padding:2rem;
+  display:grid;grid-template-columns:1fr 2fr;gap:2rem;align-items:center;
+}
+@media(max-width:600px){.brine-explainer{grid-template-columns:1fr;}}
+.be-label{
+  font-family:'Playfair Display',serif;
+  font-size:2.5rem;font-weight:900;font-style:italic;
+  color:var(--acid);line-height:1;
+}
+.be-body{font-size:0.9rem;color:var(--fog);line-height:1.8;}
+.be-body strong{color:var(--acid);}
+
+/* ── SCIENCE ── */
+.science-section{background:var(--void);padding:7rem 0;}
+
+.sci-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1.5rem;margin-top:3rem;
+}
+@media(max-width:700px){.sci-grid{grid-template-columns:1fr;}}
+
+.sci-card{
+  border:1px solid rgba(168,224,99,0.12);
+  border-radius:14px;padding:2rem;
+  background:var(--forest);
+  transition:border-color 0.3s,transform 0.3s;
+  position:relative;overflow:hidden;
+}
+.sci-card:hover{border-color:rgba(168,224,99,0.3);transform:translateY(-4px);}
+.sci-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:var(--acid);transform:scaleX(0);transform-origin:left;
+  transition:transform 0.4s;
+}
+.sci-card:hover::after{transform:scaleX(1);}
+.sci-icon{font-size:1.8rem;margin-bottom:1rem;display:block;}
+.sci-h{
+  font-family:'Playfair Display',serif;
+  font-size:1.1rem;font-weight:700;
+  color:var(--acid);margin-bottom:0.6rem;
+}
+.sci-b{font-size:0.85rem;color:var(--fog-dim);line-height:1.8;}
+.sci-cite{
+  margin-top:0.9rem;padding-top:0.9rem;
+  border-top:1px solid rgba(168,224,99,0.1);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.72rem;color:var(--acid);opacity:0.7;
+  line-height:1.5;
+}
+
+.vs-bar{
+  margin-top:2.5rem;
+  border:1px solid rgba(168,224,99,0.15);
+  border-radius:12px;padding:1.5rem 2rem;
+  background:var(--forest);
+}
+.vs-bar p{font-size:0.88rem;color:var(--fog-dim);line-height:1.8;}
+.vs-bar strong{color:var(--acid);}
+
+/* ── SALT SCIENCE ── */
+.salt-section{
+  background:var(--deep);padding:5rem 0;
+  border-top:1px solid rgba(168,224,99,0.08);
+  border-bottom:1px solid rgba(168,224,99,0.08);
+}
+.salt-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1px;margin-top:2.5rem;
+  background:rgba(168,224,99,0.08);
+  border:1px solid rgba(168,224,99,0.1);
+  border-radius:12px;overflow:hidden;
+}
+.salt-cell{
+  background:var(--forest);padding:1.5rem;
+  text-align:center;
+}
+.salt-pct{
+  font-family:'Playfair Display',serif;
+  font-size:2.2rem;font-weight:900;
+  color:var(--acid);display:block;line-height:1;margin-bottom:0.4rem;
+}
+.salt-label{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--fog-dim);display:block;margin-bottom:0.6rem;
+}
+.salt-desc{font-size:0.82rem;color:var(--fog);line-height:1.6;}
+
+/* ── METHODS ── */
+.methods-section{padding:7rem 0;background:var(--forest);}
+
+.method-tabs{
+  display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:3rem;
+}
+.m-tab{
+  padding:0.55rem 1.2rem;
+  border:1px solid rgba(168,224,99,0.2);
+  background:none;cursor:pointer;border-radius:4px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--fog);transition:all 0.2s;
+}
+.m-tab:hover{border-color:var(--acid);color:var(--acid);}
+.m-tab.active{background:var(--acid);border-color:var(--acid);color:var(--void);font-weight:500;}
+.m-tab.red.active{background:var(--red);border-color:var(--red);}
+.m-tab.gold.active{background:var(--gold);border-color:var(--gold);}
+.m-tab.green.active{background:var(--leaf);border-color:var(--leaf);}
+
+.m-panel{display:none;}
+.m-panel.active{display:block;}
+
+.m-header{
+  display:flex;align-items:baseline;gap:1.5rem;
+  margin-bottom:0.5rem;flex-wrap:wrap;
+}
+.m-title{
+  font-family:'Playfair Display',serif;
+  font-size:2.2rem;font-weight:700;color:var(--cream);
+}
+.m-sub{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--fog-dim);
+}
+
+.m-grid{
+  display:grid;grid-template-columns:280px 1fr;
+  gap:3rem;align-items:start;margin-top:2rem;
+}
+@media(max-width:720px){.m-grid{grid-template-columns:1fr;} .m-ing{position:static !important;}}
+
+.m-ing{
+  background:var(--canopy);
+  border:1px solid rgba(168,224,99,0.15);
+  border-radius:12px;padding:1.8rem;
+  position:sticky;top:80px;
+}
+.m-ing h4{
+  font-family:'Playfair Display',serif;
+  font-size:1rem;font-weight:700;color:var(--cream);
+  margin-bottom:0.2rem;
+}
+.m-ing .sub{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--fog-dim);margin-bottom:1.2rem;display:block;
+}
+.i-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:0.45rem 0;border-bottom:1px solid rgba(168,224,99,0.1);
+  font-size:0.85rem;
+}
+.i-row:last-of-type{border-bottom:none;}
+.i-n{color:var(--fog);}
+.i-a{
+  font-family:'Playfair Display',serif;
+  font-size:0.9rem;font-weight:700;
+}
+.i-a-acid{color:var(--acid);}
+.i-a-red{color:var(--red);}
+.i-a-gold{color:var(--gold);}
+.i-a-green{color:var(--leaf);}
+
+.m-note{
+  margin-top:1rem;
+  background:var(--acid-dim);
+  border-left:2px solid var(--acid);
+  border-radius:0 6px 6px 0;
+  padding:0.7rem 0.9rem;
+  font-size:0.8rem;color:rgba(168,224,99,0.8);
+  line-height:1.6;
+}
+.m-note strong{color:var(--acid);display:block;margin-bottom:0.2rem;}
+.m-note.red-note{background:var(--red-dim);border-left-color:var(--red);color:rgba(224,90,58,0.8);}
+.m-note.red-note strong{color:var(--red);}
+.m-note.gold-note{background:var(--gold-dim);border-left-color:var(--gold);color:rgba(212,168,67,0.8);}
+.m-note.gold-note strong{color:var(--gold);}
+
+.step{
+  display:flex;gap:1.5rem;margin-bottom:2rem;
+  opacity:0;transform:translateX(-10px);
+  transition:opacity 0.45s,transform 0.45s;
+}
+.step.vis{opacity:1;transform:none;}
+.step-num{
+  flex-shrink:0;
+  font-family:'Playfair Display',serif;
+  font-size:2.5rem;font-weight:900;
+  line-height:1;margin-top:-4px;
+  min-width:40px;
+}
+.step-num-acid{color:rgba(168,224,99,0.2);}
+.step-num-red{color:rgba(224,90,58,0.2);}
+.step-num-gold{color:rgba(212,168,67,0.2);}
+.step-num-green{color:rgba(90,158,82,0.2);}
+
+.step-body h4{
+  font-family:'Playfair Display',serif;
+  font-size:1rem;font-weight:700;
+  color:var(--cream);margin-bottom:0.3rem;
+}
+.step-body p{font-size:0.9rem;color:var(--fog);line-height:1.8;}
+.step-why{
+  display:inline-block;margin-top:0.5rem;
+  font-size:0.78rem;font-family:'IBM Plex Mono',monospace;
+  padding:0.35rem 0.7rem;border-radius:4px;line-height:1.5;
+}
+.why-acid{background:var(--acid-dim);color:rgba(168,224,99,0.85);}
+.why-red{background:var(--red-dim);color:rgba(224,90,58,0.85);}
+.why-gold{background:var(--gold-dim);color:rgba(212,168,67,0.85);}
+.why-green{background:rgba(90,158,82,0.12);color:rgba(90,158,82,0.85);}
+
+/* Timeline table */
+.tl-card{
+  background:var(--canopy);border:1px solid rgba(168,224,99,0.12);
+  border-radius:12px;overflow:hidden;margin-top:2rem;
+}
+.tl-row{
+  display:grid;grid-template-columns:100px 1fr auto;
+  gap:1rem;padding:0.9rem 1.5rem;
+  border-bottom:1px solid rgba(168,224,99,0.08);
+  align-items:center;
+  transition:background 0.2s;
+}
+.tl-row:last-child{border-bottom:none;}
+.tl-row:hover{background:rgba(168,224,99,0.04);}
+.tl-day{
+  font-family:'Playfair Display',serif;
+  font-size:0.95rem;font-weight:700;
+}
+.tl-day-acid{color:var(--acid);}
+.tl-day-red{color:var(--red);}
+.tl-day-gold{color:var(--gold);}
+.tl-day-green{color:var(--leaf);}
+.tl-desc{font-size:0.85rem;color:var(--fog);line-height:1.6;}
+.tl-action{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--fog-dim);white-space:nowrap;text-align:right;
+}
+
+/* ── RECIPES ── */
+.recipes-section{padding:7rem 0;background:var(--void);}
+
+.r-intro-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:1.5rem;margin-top:3rem;
+}
+
+.r-card{
+  background:var(--forest);
+  border:1px solid rgba(168,224,99,0.1);
+  border-radius:14px;overflow:hidden;
+  transition:transform 0.25s,border-color 0.25s;
+}
+.r-card:hover{transform:translateY(-4px);border-color:rgba(168,224,99,0.25);}
+.r-card.red-card{border-color:rgba(224,90,58,0.1);}
+.r-card.red-card:hover{border-color:rgba(224,90,58,0.3);}
+.r-card.gold-card{border-color:rgba(212,168,67,0.1);}
+.r-card.gold-card:hover{border-color:rgba(212,168,67,0.3);}
+.r-card.green-card{border-color:rgba(90,158,82,0.1);}
+.r-card.green-card:hover{border-color:rgba(90,158,82,0.3);}
+
+.r-card-bar{height:3px;}
+.bar-acid{background:var(--acid);}
+.bar-red{background:var(--red);}
+.bar-gold{background:var(--gold);}
+.bar-green{background:var(--leaf);}
+
+.r-card-top{padding:1.5rem 1.5rem 0;display:flex;align-items:flex-start;gap:1rem;}
+.r-emoji{font-size:2rem;flex-shrink:0;margin-top:2px;}
+.r-card-top h3{
+  font-family:'Playfair Display',serif;
+  font-size:1.15rem;font-weight:700;color:var(--cream);margin-bottom:0.1rem;
+}
+.r-meta{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--fog-dim);
+}
+.r-card-body{padding:1rem 1.5rem 1.5rem;}
+.r-desc{font-size:0.85rem;color:var(--fog);line-height:1.7;margin-bottom:1rem;font-style:italic;}
+.r-ings{list-style:none;margin-bottom:1rem;}
+.r-ings li{
+  display:flex;justify-content:space-between;
+  font-size:0.82rem;padding:0.32rem 0;
+  border-bottom:1px solid rgba(168,224,99,0.08);
+  color:rgba(242,237,216,0.6);
+}
+.r-ings li:last-child{border-bottom:none;}
+.r-amt-acid{color:var(--acid);font-family:'Playfair Display',serif;}
+.r-amt-red{color:var(--red);font-family:'Playfair Display',serif;}
+.r-amt-gold{color:var(--gold);font-family:'Playfair Display',serif;}
+.r-amt-green{color:var(--leaf);font-family:'Playfair Display',serif;}
+
+.r-steps-title{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;
+  margin-bottom:0.5rem;
+}
+.r-steps-title-acid{color:var(--acid);}
+.r-steps-title-red{color:var(--red);}
+.r-steps-title-gold{color:var(--gold);}
+.r-steps-title-green{color:var(--leaf);}
+
+.r-steps{list-style:none;counter-reset:rs;}
+.r-steps li{
+  counter-increment:rs;
+  font-size:0.82rem;color:var(--fog-dim);
+  line-height:1.65;padding:0.28rem 0 0.28rem 1.3rem;
+  position:relative;
+}
+.r-steps li::before{
+  content:counter(rs);
+  position:absolute;left:0;
+  font-family:'Playfair Display',serif;
+  font-size:0.8rem;font-weight:700;
+}
+.rs-acid li::before{color:var(--acid);}
+.rs-red li::before{color:var(--red);}
+.rs-gold li::before{color:var(--gold);}
+.rs-green li::before{color:var(--leaf);}
+
+.r-ntag{
+  display:inline-block;margin-top:0.75rem;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.62rem;border-radius:2px;
+  padding:0.2rem 0.6rem;letter-spacing:0.06em;
+}
+.ntag-acid{background:var(--acid-dim);color:var(--acid);}
+.ntag-red{background:var(--red-dim);color:var(--red);}
+.ntag-gold{background:var(--gold-dim);color:var(--gold);}
+.ntag-green{background:rgba(90,158,82,0.12);color:var(--leaf);}
+
+/* ── FAQ ── */
+.faq-section{background:var(--deep);padding:7rem 0;}
+.faq-item{border-bottom:1px solid rgba(168,224,99,0.1);}
+.faq-q{
+  width:100%;background:none;border:none;
+  padding:1.3rem 0;text-align:left;
+  display:flex;justify-content:space-between;align-items:center;
+  cursor:pointer;gap:1rem;
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem;font-weight:400;color:var(--cream);
+  transition:color 0.2s;
+}
+.faq-q:hover{color:var(--acid);}
+.faq-icon{
+  width:26px;height:26px;border-radius:2px;
+  border:1px solid rgba(168,224,99,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;color:var(--acid);flex-shrink:0;
+  font-family:'IBM Plex Mono',monospace;
+  transition:transform 0.3s,background 0.3s;
+}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:var(--acid);color:var(--void);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height 0.4s ease;}
+.faq-item.open .faq-a{max-height:600px;}
+.faq-a p{font-size:0.92rem;color:var(--fog);line-height:1.8;padding-bottom:1.3rem;}
+.faq-a strong{color:var(--acid);}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--void);
+  border-top:1px solid rgba(168,224,99,0.1);
+  padding:5rem 2.5rem;text-align:center;
+}
+footer h3{
+  font-family:'Playfair Display',serif;
+  font-size:3rem;font-weight:900;font-style:italic;
+  color:var(--acid);margin-bottom:0.75rem;line-height:1;
+}
+footer p{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--fog-dim);max-width:400px;margin:0 auto;
+}
+</style>
+</head>
+<body>
+<script src="../nav.js" onload="CTNav.init('infinity-foods')" onerror="console.warn('nav.js not found')"></script>
+<style>body{padding-top:64px;}</style>
+
+
+<nav>
+  <div class="nav-logo">Brine</div>
+  <ul class="nav-links">
+    <li><a href="#what">What is Lacto</a></li>
+    <li><a href="#science">The Science</a></li>
+    <li><a href="#salt">Salt</a></li>
+    <li><a href="#method">Methods</a></li>
+    <li><a href="#recipes">Recipes</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-accent"></div>
+  <div class="hero-accent2"></div>
+  <div class="hero-content">
+    <div class="hero-mono">// A Nutritionist's Guide to Lacto-Fermented Vegetables</div>
+    <h1>
+      <span class="acid">Brine</span><br>
+      &amp; <span class="italic">time.</span>
+      <span class="small-line">sauerkraut · kimchi · pickles · fermented veg</span>
+    </h1>
+    <p class="hero-desc">The oldest food preservation method on earth. No grains to maintain, no SCOBY to feed. Just salt, vegetables, and the wild bacteria already living on them. Make a batch tonight and it's fermenting by morning.</p>
+  </div>
+  <div class="hero-bottom">
+    <div class="h-stat"><span class="h-stat-n">2</span><span class="h-stat-l">Ingredients minimum</span></div>
+    <div class="h-stat"><span class="h-stat-n">5min</span><span class="h-stat-l">Active prep</span></div>
+    <div class="h-stat"><span class="h-stat-n">3–28d</span><span class="h-stat-l">Fermentation</span></div>
+    <div class="h-stat"><span class="h-stat-n">6mo+</span><span class="h-stat-l">Fridge life</span></div>
+  </div>
+</div>
+
+<!-- WHAT IS -->
+<section class="what-section" id="what">
+  <div class="container">
+    <div class="mono-tag">The Basics</div>
+    <h2 class="headline">What is <em>lacto-fermentation?</em></h2>
+    <p class="body" style="max-width:580px;">Every vegetable is covered in naturally occurring lactic acid bacteria (LAB) — Lactobacillus and its relatives. Under normal conditions they're dormant. When you submerge vegetables in a salt brine, you create conditions where LAB thrive and everything else dies. They consume the sugars in the vegetables, produce lactic acid, and that acid preserves everything. No vinegar. No heat. No special equipment. The salt creates the conditions; the bacteria do the work.</p>
+    <p class="body" style="max-width:580px;">This is why lacto-fermented food tastes different to vinegar-pickled food — it's genuinely alive. The sourness is biological, not chemical. The complexity of flavour you get from a well-fermented sauerkraut or kimchi comes from weeks of microbial activity producing dozens of organic acids, esters, and flavour compounds.</p>
+
+    <div class="ferment-grid">
+      <div class="ferment-card fc-kraut">
+        <span class="fc-num">01</span>
+        <span class="fc-type">Sauerkraut</span>
+        <h3>Fermented Cabbage</h3>
+        <p>The simplest lacto-ferment. Cabbage + salt, massaged until the cabbage releases its own liquid. Packed into a jar, weighed down, left to ferment. Deep umami, clean acid, utterly versatile.</p>
+      </div>
+      <div class="ferment-card fc-kimchi">
+        <span class="fc-num">02</span>
+        <span class="fc-type">Kimchi</span>
+        <h3>Spiced Fermented Cabbage</h3>
+        <p>Korea's national dish. The same cabbage base as sauerkraut but with gochugaru, garlic, ginger, and spring onion. More complex microbial profile, more bioactive compounds, and one of the most flavourful things you can make at home.</p>
+      </div>
+      <div class="ferment-card fc-pickle">
+        <span class="fc-num">03</span>
+        <span class="fc-type">Fermented Pickles</span>
+        <h3>Brine-Cured Cucumbers</h3>
+        <p>Not vinegar pickles — genuinely lacto-fermented. Cucumbers submerged in a salt brine with dill and garlic, fermenting for days until they turn from bright green to olive, crunchy and deeply savoury. Incomparably better than shop-bought.</p>
+      </div>
+      <div class="ferment-card fc-carrot">
+        <span class="fc-num">04</span>
+        <span class="fc-type">Fermented Veg</span>
+        <h3>Carrots & Beyond</h3>
+        <p>Once you understand the brine ratio, you can ferment almost anything — carrots, beetroot, red onion, garlic, chilli, cauliflower, green beans. The technique is identical; the results are endlessly varied.</p>
+      </div>
+    </div>
+
+    <div class="brine-explainer">
+      <div class="be-label">What brine actually does</div>
+      <div class="be-body">
+        <p>Salt does three things simultaneously. First, it <strong>draws liquid out of the vegetables</strong> through osmosis — creating the brine that submerges them. Second, it <strong>selects for LAB</strong> — these bacteria are salt-tolerant; most spoilage bacteria and pathogens are not. Third, it <strong>firms the texture</strong> — salt strengthens pectin in cell walls, keeping fermented veg crunchy rather than mushy. The salt percentage is the single most important variable in the whole process.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SCIENCE -->
+<section class="science-section" id="science">
+  <div class="container--wide">
+    <div class="mono-tag">The Science</div>
+    <h2 class="headline">Why lacto-fermented veg is <em>genuinely exceptional</em></h2>
+    <p class="body" style="max-width:600px;">As a PT and nutritionist, this is where lacto-fermented vegetables become professionally relevant. The benefits are distinct from kefir and sourdough — they complement rather than overlap.</p>
+
+    <div class="sci-grid">
+      <div class="sci-card">
+        <span class="sci-icon">🦠</span>
+        <div class="sci-h">Probiotic Delivery</div>
+        <p class="sci-b">Lacto-fermented vegetables deliver Lactobacillus strains directly to the gut in a vegetable matrix that protects them through stomach acid better than supplements. Kimchi alone has been shown to contain 10⁸–10⁹ CFU/g — comparable to therapeutic probiotic doses — of diverse Lactobacillus, Leuconostoc, and Weissella strains.</p>
+        <div class="sci-cite">// Distinct from kefir strains — combined use provides broader microbial diversity</div>
+      </div>
+      <div class="sci-card">
+        <span class="sci-icon">🧬</span>
+        <div class="sci-h">Bioavailability Transformation</div>
+        <p class="sci-b">Fermentation dramatically increases the bioavailability of minerals in vegetables by breaking down phytic acid and oxalates — the same mechanism as sourdough. Fermented cabbage has significantly higher bioavailable vitamin C, K2, and B vitamins than raw cabbage. The LAB also synthesise folate during fermentation.</p>
+        <div class="sci-cite">// Fermentation-synthesised vitamin K2 is the same form found in grass-fed dairy</div>
+      </div>
+      <div class="sci-card">
+        <span class="sci-icon">🔥</span>
+        <div class="sci-h">Anti-inflammatory Activity</div>
+        <p class="sci-b">Multiple RCTs have shown regular kimchi consumption associated with reduced inflammatory markers including CRP, IL-6, and TNF-α. The combination of LAB, capsaicin from gochugaru, allicin from garlic, and glucosinolates from cabbage creates a genuinely multi-mechanism anti-inflammatory effect that no single supplement replicates.</p>
+        <div class="sci-cite">// Particularly relevant for clients with inflammatory conditions or metabolic dysfunction</div>
+      </div>
+      <div class="sci-card">
+        <span class="sci-icon">🧪</span>
+        <div class="sci-h">Glucosinolate Preservation</div>
+        <p class="sci-b">Cruciferous vegetables like cabbage contain glucosinolates — precursors to sulforaphane and other potent anti-cancer compounds. Cooking destroys much of the myrosinase enzyme needed to convert them. Lacto-fermentation preserves myrosinase activity, meaning fermented cabbage has superior glucosinolate bioavailability compared to cooked cabbage.</p>
+        <div class="sci-cite">// Raw cabbage has the enzyme but fermentation dramatically improves bioavailability</div>
+      </div>
+      <div class="sci-card">
+        <span class="sci-icon">🩺</span>
+        <div class="sci-h">Gut Microbiome Diversity</div>
+        <p class="sci-b">A landmark 2021 Stanford RCT directly compared high-fibre diets versus high-fermented food diets for microbiome diversity. The fermented food group showed significantly greater increases in microbiome diversity and decreases in inflammatory proteins. The effect was stronger than dietary fibre alone — and lacto-fermented vegetables were a primary component.</p>
+        <div class="sci-cite">// Sonnenburg et al., Cell 2021 — one of the most cited microbiome studies of the decade</div>
+      </div>
+      <div class="sci-card">
+        <span class="sci-icon">⚖️</span>
+        <div class="sci-h">Metabolic Health</div>
+        <p class="sci-b">Regular kimchi consumption has been associated in multiple studies with improved insulin sensitivity, reduced fasting glucose, and reduced visceral fat accumulation — independent of other dietary factors. The proposed mechanism involves short-chain fatty acid production from fermentation and direct effects of LAB on lipid metabolism and adipogenesis.</p>
+        <div class="sci-cite">// Relevant for weight management and metabolic syndrome clients</div>
+      </div>
+    </div>
+
+    <div class="vs-bar">
+      <p><strong>Lacto-fermented veg vs supplements:</strong> Probiotic supplements typically deliver 1–10 strains in a freeze-dried, often damaged state with poor gastric survival. Lacto-fermented vegetables deliver 10–30+ live, active strains in a food matrix that buffers stomach acid, along with the prebiotic fibre that feeds them, the polyphenols that potentiate their effects, and the minerals and vitamins produced during fermentation. You cannot buy this in a capsule.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SALT -->
+<section class="salt-section" id="salt">
+  <div class="container">
+    <div class="mono-tag">The Most Important Variable</div>
+    <h2 class="headline">Getting <em>salt</em> right</h2>
+    <p class="body" style="max-width:580px;">Salt percentage is the single variable that determines whether your ferment succeeds or fails. Too little and spoilage bacteria compete with LAB. Too much and you inhibit even the LAB. Weigh everything — volume measurements are not precise enough here.</p>
+    <p class="body" style="max-width:580px;">Salt percentage is calculated as a ratio of salt to total weight of vegetables (for dry-salted ferments like sauerkraut) or salt to total water weight (for brine ferments like pickles and carrot sticks).</p>
+
+    <div class="salt-grid">
+      <div class="salt-cell">
+        <span class="salt-pct">1–1.5%</span>
+        <span class="salt-label">Under-salted</span>
+        <p class="salt-desc">Fast fermentation, mushy texture, higher risk of spoilage. Too low for anything except very short ferments in cool conditions.</p>
+      </div>
+      <div class="salt-cell" style="background:var(--canopy);">
+        <span class="salt-pct" style="color:var(--lime);">2%</span>
+        <span class="salt-label">Sauerkraut & kimchi</span>
+        <p class="salt-desc">The sweet spot for dry-salted cabbage ferments. Enough to select for LAB, slow enough for complex flavour, keeps texture firm.</p>
+      </div>
+      <div class="salt-cell">
+        <span class="salt-pct">2–3%</span>
+        <span class="salt-label">Brine ferments</span>
+        <p class="salt-desc">For vegetables submerged in water brine — pickles, carrots, beetroot. 2% for faster/milder, 3% for slower/more complex.</p>
+      </div>
+      <div class="salt-cell" style="background:var(--canopy);">
+        <span class="salt-pct">3.5–5%</span>
+        <span class="salt-label">Long/warm ferments</span>
+        <p class="salt-desc">Higher salt for summer ferments, longer fermentation periods, or very firm vegetables. Slows everything down for more control.</p>
+      </div>
+      <div class="salt-cell">
+        <span class="salt-pct">5%+</span>
+        <span class="salt-label">Over-salted</span>
+        <p class="salt-desc">Fermentation stalls. Very salty result. Can be salvaged by rinsing before eating but the probiotic benefit is diminished.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:2rem; background:var(--acid-dim); border:1px solid var(--acid-border); border-radius:10px; padding:1.5rem 2rem;">
+      <div class="mono-tag" style="margin-bottom:0.75rem;">// Quick salt calculator</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.5rem;">
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--acid);margin-bottom:0.4rem;">Sauerkraut (2%)</div>
+          <div style="font-size:0.85rem;color:var(--fog);line-height:1.7;">500g cabbage → <strong style="color:var(--acid);">10g salt</strong><br>1kg cabbage → <strong style="color:var(--acid);">20g salt</strong></div>
+        </div>
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--acid);margin-bottom:0.4rem;">Brine (2%)</div>
+          <div style="font-size:0.85rem;color:var(--fog);line-height:1.7;">500ml water → <strong style="color:var(--acid);">10g salt</strong><br>1 litre water → <strong style="color:var(--acid);">20g salt</strong></div>
+        </div>
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--acid);margin-bottom:0.4rem;">Brine (3%)</div>
+          <div style="font-size:0.85rem;color:var(--fog);line-height:1.7;">500ml water → <strong style="color:var(--acid);">15g salt</strong><br>1 litre water → <strong style="color:var(--acid);">30g salt</strong></div>
+        </div>
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--acid);margin-bottom:0.4rem;">Which salt to use</div>
+          <div style="font-size:0.85rem;color:var(--fog);line-height:1.7;">Fine sea salt or kosher salt. <strong style="color:var(--red);">Never iodised</strong> — iodine inhibits LAB. Non-chlorinated water for brines.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- METHODS -->
+<section class="methods-section" id="method">
+  <div class="container--wide">
+    <div class="mono-tag">Step by step</div>
+    <h2 class="headline">How to make <em>all four</em></h2>
+    <p class="body" style="max-width:580px;">Every ferment here follows the same fundamental principle — salt, submerge, wait. The differences are in ratio, timing, and flavouring. Master sauerkraut first and everything else follows naturally.</p>
+
+    <!-- LID RULE — prominent callout -->
+    <div style="margin-bottom:3rem; display:grid; grid-template-columns:1fr 1fr; gap:1px; background:rgba(168,224,99,0.15); border:1px solid rgba(168,224,99,0.2); border-radius:12px; overflow:hidden;">
+      <div style="background:var(--canopy); padding:1.5rem 2rem;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--acid); margin-bottom:0.75rem;">// On the counter</div>
+        <div style="font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:700; color:var(--cream); margin-bottom:0.5rem;">LOOSE lid only</div>
+        <p style="font-size:0.88rem; color:var(--fog); line-height:1.7;">CO₂ is produced during fermentation and must be able to escape. A cloth, a lid resting on top, or a lid screwed finger-tight only. <strong style="color:var(--red);">Never airtight</strong> — pressure builds and jars crack or explode.</p>
+      </div>
+      <div style="background:var(--fern); padding:1.5rem 2rem;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--acid); margin-bottom:0.75rem;">// In the fridge</div>
+        <div style="font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:700; color:var(--cream); margin-bottom:0.5rem;">SEALED lid</div>
+        <p style="font-size:0.88rem; color:var(--fog); line-height:1.7;">Cold slows fermentation to almost nothing and CO₂ production drops dramatically. Seal it properly once refrigerated to keep everything fresh. This is the only time you seal it airtight.</p>
+      </div>
+    </div>
+    <div style="margin-top:-2rem; margin-bottom:3rem; background:rgba(168,224,99,0.06); border-left:3px solid var(--acid); border-radius:0 8px 8px 0; padding:1rem 1.5rem;">
+      <p style="font-size:0.85rem; color:var(--fog); line-height:1.7; margin:0;"><strong style="color:var(--acid);">The one thing that must always be sealed</strong> is the vegetables below the brine — not the jar lid. Veg submerged in brine = anaerobic = safe. Veg above the brine line = exposed to air = mould. The weight matters far more than the lid.</p>
+    </div>
+
+    <div class="method-tabs">
+      <button class="m-tab active" onclick="switchM('kraut',this)">Sauerkraut</button>
+      <button class="m-tab red" onclick="switchM('kimchi',this)">Kimchi</button>
+      <button class="m-tab gold" onclick="switchM('pickle',this)">Pickles</button>
+      <button class="m-tab green" onclick="switchM('carrot',this)">Fermented Veg</button>
+    </div>
+
+    <!-- SAUERKRAUT -->
+    <div class="m-panel active" id="m-kraut">
+      <div class="m-header">
+        <div class="m-title">Sauerkraut</div>
+        <div class="m-sub">1–4 weeks · dry-salt method · start here</div>
+      </div>
+      <div class="m-grid">
+        <div class="m-ing">
+          <h4>What you need</h4>
+          <span class="sub">Per 1kg cabbage</span>
+          <div class="i-row"><span class="i-n">White or green cabbage</span><span class="i-a i-a-acid">1kg</span></div>
+          <div class="i-row"><span class="i-n">Fine sea salt (non-iodised)</span><span class="i-a i-a-acid">20g (2%)</span></div>
+          <div class="i-row"><span class="i-n">Caraway seeds (optional)</span><span class="i-a i-a-acid">5g</span></div>
+          <div class="i-row"><span class="i-n">Wide-mouth jar (1L+)</span><span class="i-a i-a-acid">1</span></div>
+          <div class="i-row"><span class="i-n">Weight to keep veg submerged</span><span class="i-a i-a-acid">1</span></div>
+          <div class="m-note">
+            <strong>⚖️ Weigh your salt</strong>
+            20g per 1kg cabbage is your baseline. Never substitute volume measurements — a tablespoon of fine salt weighs very differently to coarse salt.
+          </div>
+        </div>
+        <div>
+          <div class="step">
+            <div class="step-num step-num-acid">1</div>
+            <div class="step-body">
+              <h4>Shred the cabbage finely</h4>
+              <p>Remove the outer leaves and set aside — you'll use one later. Shred the cabbage as finely as you can: 2–3mm strips. A mandoline is fastest but a sharp knife works perfectly. Discard the core.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num step-num-acid">2</div>
+            <div class="step-body">
+              <h4>Weigh, salt, and massage</h4>
+              <p>Weigh the shredded cabbage, calculate 2% of that weight, and add that much salt. Toss to combine, then massage firmly with your hands for 5–10 minutes. You're breaking down the cell walls to release the cabbage's own liquid. By the end you should have a significant pool of brine in the bowl.</p>
+              <div class="step-why why-acid">// The liquid released = the brine that will preserve everything. No added water needed.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num step-num-acid">3</div>
+            <div class="step-body">
+              <h4>Pack tightly into a jar</h4>
+              <p>Pack the cabbage into a clean jar in handfuls, pressing firmly down after each addition. You want to eliminate air pockets and force the brine up over the cabbage. Add caraway seeds between layers if using. Pour any brine left in the bowl into the jar.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num step-num-acid">4</div>
+            <div class="step-body">
+              <h4>Weigh down and cover</h4>
+              <p>Fold a reserved outer cabbage leaf and tuck it over the top of the shredded cabbage, pushing it down so everything stays submerged. Place a weight on top — a small zip-lock bag filled with 2% brine works well, or a smaller jar filled with water. The cabbage must stay below the brine line at all times.</p>
+              <div class="step-why why-acid">// Exposure to air = risk of mould on the surface. Submerged = anaerobic = safe fermentation.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num step-num-acid">5</div>
+            <div class="step-body">
+              <h4>Ferment at room temperature</h4>
+              <p>Cover the jar with a cloth secured with a rubber band, or rest a lid on top without screwing it down — never airtight. CO₂ produced during fermentation must be able to escape or pressure will build. Leave at room temperature, away from direct sunlight. Check daily: press the cabbage down if it rises above the brine, and skim off any white film on the surface (kahm yeast — harmless, but remove it). Start tasting from Day 5.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num step-num-acid">6</div>
+            <div class="step-body">
+              <h4>Taste, then refrigerate when ready</h4>
+              <p>Sauerkraut is ready when it tastes pleasantly sour and complex to you — anywhere from 1 to 4 weeks depending on temperature and preference. Warmer kitchens ferment faster. Once you're happy with it, seal the jar properly and refrigerate — this is the only point you seal it airtight. Fermentation slows dramatically in the cold and it keeps for 6 months or more.</p>
+              <div class="step-why why-acid">// There's no single correct endpoint. Taste it daily from week 1 and stop when you love it.</div>
+            </div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-row"><span class="tl-day tl-day-acid">Day 1–2</span><span class="tl-desc">Packed and weighted. Brine should be visible above the cabbage. No activity yet.</span><span class="tl-action">Setup</span></div>
+            <div class="tl-row"><span class="tl-day tl-day-acid">Day 3–5</span><span class="tl-desc">Bubbles appear. Brine turns cloudy. Smell shifts from fresh cabbage to pleasantly sour. This is the LAB taking over.</span><span class="tl-action">Active</span></div>
+            <div class="tl-row"><span class="tl-day tl-day-acid">Day 5–7</span><span class="tl-desc">Start tasting. Mild, lightly tangy, still crunchy. Good for those new to fermented foods.</span><span class="tl-action">Taste</span></div>
+            <div class="tl-row"><span class="tl-day tl-day-acid">Week 2</span><span class="tl-desc">Distinctly sour, complex flavour developing, colour shifting to pale yellow. Most people's sweet spot.</span><span class="tl-action">Optimal</span></div>
+            <div class="tl-row"><span class="tl-day tl-day-acid">Week 3–4</span><span class="tl-desc">Deeply sour, very complex, almost wine-like notes. Excellent for cooking.</span><span class="tl-action">Mature</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KIMCHI -->
+    <div class="m-panel" id="m-kimchi">
+      <div class="m-header">
+        <div class="m-title">Kimchi</div>
+        <div class="m-sub">3–7 days + · paste method · most complex flavour</div>
+      </div>
+      <div class="m-grid">
+        <div class="m-ing">
+          <h4>What you need</h4>
+          <span class="sub">Per 1 large napa cabbage (~1.2kg)</span>
+          <div class="i-row"><span class="i-n">Napa (Chinese) cabbage</span><span class="i-a i-a-red">1.2kg</span></div>
+          <div class="i-row"><span class="i-n">Fine sea salt</span><span class="i-a i-a-red">60g</span></div>
+          <div class="i-row"><span class="i-n">Gochugaru (Korean chilli flakes)</span><span class="i-a i-a-red">40g</span></div>
+          <div class="i-row"><span class="i-n">Garlic (minced)</span><span class="i-a i-a-red">20g</span></div>
+          <div class="i-row"><span class="i-n">Fresh ginger (grated)</span><span class="i-a i-a-red">15g</span></div>
+          <div class="i-row"><span class="i-n">Spring onions (sliced)</span><span class="i-a i-a-red">80g</span></div>
+          <div class="i-row"><span class="i-n">Fish sauce or soy sauce</span><span class="i-a i-a-red">30ml</span></div>
+          <div class="i-row"><span class="i-n">Sugar or rice flour paste</span><span class="i-a i-a-red">10g</span></div>
+          <div class="m-note red-note">
+            <strong>🌶️ Gochugaru matters</strong>
+            Regular chilli flakes are not a substitute — gochugaru has a distinct fruity, smoky heat that is fundamental to kimchi's flavour. Find it in any Asian grocery. For vegan kimchi, replace fish sauce with miso or extra soy.
+          </div>
+        </div>
+        <div>
+          <div class="step">
+            <div class="step-num step-num-red">1</div>
+            <div class="step-body">
+              <h4>Quarter and salt the cabbage</h4>
+              <p>Cut the cabbage lengthways into quarters, then into roughly 5cm pieces. Toss thoroughly with 60g salt in a large bowl. Leave for 1–2 hours, turning occasionally, until the cabbage has wilted and released significant liquid. Rinse thoroughly under cold water and squeeze out as much liquid as possible. Taste — it should be pleasantly salty, not overpowering.</p>
+              <div class="step-why why-red">// This initial salting wilts the cabbage and draws out excess water that would dilute the paste flavour.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num step-num-red">2</div>
+            <div class="step-body">
+              <h4>Make the kimchi paste</h4>
+              <p>Combine gochugaru, minced garlic, grated ginger, fish sauce, and sugar (or a small amount of cooked glutinous rice blended to a paste — this feeds fermentation and improves texture). Mix thoroughly into a vivid red paste. Wear gloves — gochugaru stains everything.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num step-num-red">3</div>
+            <div class="step-body">
+              <h4>Combine everything</h4>
+              <p>Add the squeezed cabbage and sliced spring onions to the paste. Wearing gloves, massage the paste thoroughly into every piece of cabbage — you want complete, even coverage. The mixture should be uniformly vivid red.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num step-num-red">4</div>
+            <div class="step-body">
+              <h4>Pack and ferment</h4>
+              <p>Pack tightly into a clean jar, pressing down firmly to eliminate air pockets. Leave 3–4cm headspace — kimchi expands as it ferments and produces significant CO₂. Rest the lid on top or screw it finger-tight only — <strong>not airtight</strong> while on the counter. Leave at room temperature for 1–5 days depending on taste preference and temperature.</p>
+              <div class="step-why why-red">// Taste from Day 2 — fresh kimchi (geotjeori) is mild and bright. Day 3–5 is where deep fermented complexity develops.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num step-num-red">5</div>
+            <div class="step-body">
+              <h4>Refrigerate and age</h4>
+              <p>Once it reaches your preferred sourness, seal the jar properly and transfer to the fridge — cold is when you can seal it airtight. Unlike sauerkraut, kimchi continues to develop significantly in the fridge over weeks — young kimchi (fresh, bright, crunchy) and aged kimchi (deeply sour, complex, ideal for cooking) are almost two different ingredients. Both are correct. Both are excellent.</p>
+            </div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-row"><span class="tl-day tl-day-red">Day 1</span><span class="tl-desc">Packed, lid resting loose on top — not sealed. Already fragrant. Leave at room temperature.</span><span class="tl-action">Setup</span></div>
+            <div class="tl-row"><span class="tl-day tl-day-red">Day 2–3</span><span class="tl-desc">Bubbling actively. Fresh, bright, garlicky, moderately spicy. Excellent eaten now.</span><span class="tl-action">Fresh</span></div>
+            <div class="tl-row"><span class="tl-day tl-day-red">Day 4–5</span><span class="tl-desc">Developing sourness, more complex, funkier notes. Most people's fridge point.</span><span class="tl-action">Refrigerate</span></div>
+            <div class="tl-row"><span class="tl-day tl-day-red">Week 2–4</span><span class="tl-desc">Aged kimchi — deeply sour, complex, exceptional for kimchi jjigae, fried rice, pancakes.</span><span class="tl-action">Aged</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PICKLES -->
+    <div class="m-panel" id="m-pickle">
+      <div class="m-header">
+        <div class="m-title">Fermented Pickles</div>
+        <div class="m-sub">3–7 days · wet brine method · use the freshest cucumbers</div>
+      </div>
+      <div class="m-grid">
+        <div class="m-ing">
+          <h4>What you need</h4>
+          <span class="sub">Per 1L jar</span>
+          <div class="i-row"><span class="i-n">Small cucumbers (pickling variety)</span><span class="i-a i-a-gold">500–600g</span></div>
+          <div class="i-row"><span class="i-n">Non-chlorinated water</span><span class="i-a i-a-gold">600ml</span></div>
+          <div class="i-row"><span class="i-n">Fine sea salt (2% brine)</span><span class="i-a i-a-gold">12g</span></div>
+          <div class="i-row"><span class="i-n">Fresh dill (stalks and heads)</span><span class="i-a i-a-gold">4–5 sprigs</span></div>
+          <div class="i-row"><span class="i-n">Garlic cloves (whole)</span><span class="i-a i-a-gold">4 cloves</span></div>
+          <div class="i-row"><span class="i-n">Black peppercorns</span><span class="i-a i-a-gold">10g</span></div>
+          <div class="i-row"><span class="i-n">Bay leaves</span><span class="i-a i-a-gold">2</span></div>
+          <div class="i-row"><span class="i-n">Grape leaf or oak leaf (optional)</span><span class="i-a i-a-gold">1–2</span></div>
+          <div class="m-note gold-note">
+            <strong>🥒 Cucumber choice matters</strong>
+            Use firm, fresh pickling cucumbers — not the waxy supermarket variety. Slice a small piece off the blossom end (opposite the stem) — this removes enzymes that cause softening. Grape or oak leaves contain tannins that help keep pickles crunchy.
+          </div>
+        </div>
+        <div>
+          <div class="step">
+            <div class="step-num step-num-gold">1</div>
+            <div class="step-body">
+              <h4>Make your brine</h4>
+              <p>Dissolve 12g salt in 600ml of room-temperature filtered or previously boiled water. Never use hot water — it damages the LAB on the cucumbers. Stir until fully dissolved. This is a 2% brine.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num step-num-gold">2</div>
+            <div class="step-body">
+              <h4>Prepare and pack the jar</h4>
+              <p>Trim a small slice off the blossom end of each cucumber. Pack the jar with dill, garlic, peppercorns and bay leaves first, then add cucumbers tightly — pack them in vertically, as upright as possible. The tighter the pack the less they float.</p>
+              <div class="step-why why-gold">// Cucumbers must stay fully submerged. Any part above the brine is exposed to air and will mould.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num step-num-gold">3</div>
+            <div class="step-body">
+              <h4>Pour brine, weight, cover</h4>
+              <p>Pour the brine over the cucumbers until fully submerged with at least 2cm brine above them. Add a grape or oak leaf on top if using, then a weight. Rest the lid on top without tightening, or cover with cloth — loose, not sealed. Leave at room temperature away from direct sunlight.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num step-num-gold">4</div>
+            <div class="step-body">
+              <h4>Taste from Day 3</h4>
+              <p>The brine will turn from clear to cloudy — this is the LAB working, not spoilage. Start tasting from Day 3. The cucumbers transition from bright green to olive green as they ferment — normal and correct. When they reach the sourness you want, seal the jar properly and refrigerate. The lid stays loose the entire time they're on the counter, sealed only once they go cold.</p>
+              <div class="step-why why-gold">// Cloudy brine = active fermentation. Clear brine after Day 3 = fermentation may have stalled.</div>
+            </div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-row"><span class="tl-day tl-day-gold">Day 1</span><span class="tl-desc">Clear brine, bright green cucumbers. No activity yet.</span><span class="tl-action">Setup</span></div>
+            <div class="tl-row"><span class="tl-day tl-day-gold">Day 2–3</span><span class="tl-desc">Brine turns cloudy. First bubbles. Cucumbers beginning to change colour.</span><span class="tl-action">Active</span></div>
+            <div class="tl-row"><span class="tl-day tl-day-gold">Day 3–5</span><span class="tl-desc">Olive green, lightly sour, garlicky, crunchy. Start tasting.</span><span class="tl-action">Taste</span></div>
+            <div class="tl-row"><span class="tl-day tl-day-gold">Day 5–7</span><span class="tl-desc">Fully fermented, deeply sour, complex. Refrigerate to halt.</span><span class="tl-action">Refrigerate</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FERMENTED VEG -->
+    <div class="m-panel" id="m-carrot">
+      <div class="m-header">
+        <div class="m-title">Fermented Vegetables</div>
+        <div class="m-sub">3–10 days · wet brine · endless variety</div>
+      </div>
+      <div class="m-grid">
+        <div class="m-ing">
+          <h4>What you need</h4>
+          <span class="sub">Universal brine — per 1L jar</span>
+          <div class="i-row"><span class="i-n">Vegetables of choice</span><span class="i-a i-a-green">500–700g</span></div>
+          <div class="i-row"><span class="i-n">Non-chlorinated water</span><span class="i-a i-a-green">600ml</span></div>
+          <div class="i-row"><span class="i-n">Fine sea salt</span><span class="i-a i-a-green">12–18g</span></div>
+          <div class="i-row"><span class="i-n">Aromatics of choice</span><span class="i-a i-a-green">to taste</span></div>
+          <div class="i-row"><span class="i-n">Wide-mouth jar</span><span class="i-a i-a-green">1L</span></div>
+          <div style="margin-top:1.2rem;">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--leaf);margin-bottom:0.6rem;">Vegetable guide</div>
+            <div style="font-size:0.8rem;color:var(--fog);line-height:1.8;">
+              <strong style="color:var(--cream);">Carrots</strong> — sticks or coins, 3–5 days<br>
+              <strong style="color:var(--cream);">Beetroot</strong> — thin slices, 5–7 days<br>
+              <strong style="color:var(--cream);">Red onion</strong> — rings, 2–3 days<br>
+              <strong style="color:var(--cream);">Cauliflower</strong> — florets, 4–7 days<br>
+              <strong style="color:var(--cream);">Green beans</strong> — whole, 4–6 days<br>
+              <strong style="color:var(--cream);">Garlic</strong> — cloves whole, 2–4 weeks<br>
+              <strong style="color:var(--cream);">Chilli peppers</strong> — whole or sliced, 5–7 days
+            </div>
+          </div>
+          <div class="m-note" style="border-left-color:var(--leaf);background:rgba(90,158,82,0.1);color:rgba(90,158,82,0.85);margin-top:1rem;">
+            <strong style="color:var(--leaf);">🥕 Use 2% brine for most veg</strong>
+            Harder vegetables (beetroot, carrots) can handle 3% for longer ferments. Soft veg (tomatoes, peppers) need 3–3.5% to avoid mushiness.
+          </div>
+        </div>
+        <div>
+          <div class="step">
+            <div class="step-num step-num-green">1</div>
+            <div class="step-body">
+              <h4>Prepare your vegetables</h4>
+              <p>Cut vegetables into uniform pieces — this ensures even fermentation throughout the jar. Sticks, coins, wedges, or whole small vegetables all work. Uniform size means uniform fermentation time. Harder vegetables ferment more slowly than soft ones — don't mix very hard with very soft in the same jar.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num step-num-green">2</div>
+            <div class="step-body">
+              <h4>Choose your aromatics</h4>
+              <p>This is where you get creative. Garlic and dill is the classic. But also consider: cumin and coriander seeds with carrots, chilli and lime zest with cauliflower, turmeric and black pepper with beetroot, bay and juniper with red onion. The aromatics infuse deeply over the fermentation period.</p>
+              <div class="step-why why-green">// The brine becomes the most flavourful thing in the jar — drink it, use it in dressings, add it to soups.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num step-num-green">3</div>
+            <div class="step-body">
+              <h4>Pack, brine, weight, ferment</h4>
+              <p>Pack aromatics into the jar first, then vegetables as tightly as possible — you want minimal brine headroom. Pour 2% brine over everything until fully submerged with 2cm above. Weight down. Rest the lid on top loosely or cover with cloth — never seal airtight while fermenting on the counter. Room temperature, away from sunlight.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num step-num-green">4</div>
+            <div class="step-body">
+              <h4>Taste daily from Day 3</h4>
+              <p>Different vegetables hit their peak at different times. Red onion is often ready in 2–3 days — mild, beautiful pink, excellent on everything. Carrots typically need 4–5 days. Beetroot 5–7 days. Whole garlic cloves can be left for 2–4 weeks. Refrigerate individual vegetables when they reach the flavour and texture you want.</p>
+            </div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-row"><span class="tl-day tl-day-green">Day 1–2</span><span class="tl-desc">Brine clear, no activity. Aromatics beginning to infuse.</span><span class="tl-action">Setup</span></div>
+            <div class="tl-row"><span class="tl-day tl-day-green">Day 3–4</span><span class="tl-desc">Brine cloudy, bubbling. Vegetables starting to sour. Start tasting.</span><span class="tl-action">Active</span></div>
+            <div class="tl-row"><span class="tl-day tl-day-green">Day 4–7</span><span class="tl-desc">Lightly sour, aromatic, crunchy. Ideal for most vegetables.</span><span class="tl-action">Optimal</span></div>
+            <div class="tl-row"><span class="tl-day tl-day-green">Day 7–14</span><span class="tl-desc">Deeply fermented, very sour. Excellent for cooking, dressings, mixed into grains.</span><span class="tl-action">Mature</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- RECIPES -->
+<section class="recipes-section" id="recipes">
+  <div class="container--wide">
+    <div class="mono-tag">Using your ferments</div>
+    <h2 class="headline">Recipes for <em>everything</em> you've made</h2>
+    <p class="body" style="max-width:580px;">Fermented vegetables are one of the most versatile ingredients in the kitchen. They bring acid, funk, crunch, and depth to almost anything — and unlike most condiments, they're actively improving your gut microbiome while you eat.</p>
+
+    <div class="r-intro-grid">
+
+      <!-- Kraut: Reuben-style toastie -->
+      <div class="r-card">
+        <div class="r-card-bar bar-acid"></div>
+        <div class="r-card-top"><span class="r-emoji">🥪</span><div><h3>Sauerkraut Reuben Toastie</h3><span class="r-meta">10 MIN · SERVES 1 · Sauerkraut</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">Sourdough bread, sauerkraut, mature cheese, and grainy mustard. Three fermented components in one sandwich. Add the sauerkraut cold, after toasting — heat destroys the live cultures.</p>
+          <ul class="r-ings">
+            <li><span>Sourdough bread</span><span class="r-amt-acid">2 thick slices</span></li>
+            <li><span>Sauerkraut (cold, straight from jar)</span><span class="r-amt-acid">60g</span></li>
+            <li><span>Mature cheddar or gruyère</span><span class="r-amt-acid">50g</span></li>
+            <li><span>Grainy mustard</span><span class="r-amt-acid">15g</span></li>
+            <li><span>Butter</span><span class="r-amt-acid">10g</span></li>
+          </ul>
+          <div class="r-steps-title r-steps-title-acid">Method</div>
+          <ol class="r-steps rs-acid">
+            <li>Butter the outside of both bread slices. Spread mustard on the inside of one slice. Add cheese to the inside of both.</li>
+            <li>Toast in a pan over medium heat, cheese-side down, until golden and melted — 3–4 min per side.</li>
+            <li>Open the toastie, pile on cold sauerkraut, close and serve immediately.</li>
+          </ol>
+          <span class="r-ntag ntag-acid">add kraut cold — heat destroys live cultures</span>
+        </div>
+      </div>
+
+      <!-- Kraut: Sauerkraut & potato soup -->
+      <div class="r-card">
+        <div class="r-card-bar bar-acid"></div>
+        <div class="r-card-top"><span class="r-emoji">🥣</span><div><h3>Sauerkraut & Potato Soup</h3><span class="r-meta">30 MIN · SERVES 4 · Sauerkraut</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">A deeply warming Eastern European-style soup. The sauerkraut dissolves into the broth, giving a clean, complex sourness that no amount of lemon juice could replicate.</p>
+          <ul class="r-ings">
+            <li><span>Sauerkraut (with its brine)</span><span class="r-amt-acid">300g</span></li>
+            <li><span>Waxy potatoes (diced)</span><span class="r-amt-acid">500g</span></li>
+            <li><span>Onion (sliced)</span><span class="r-amt-acid">1 large</span></li>
+            <li><span>Smoked paprika</span><span class="r-amt-acid">5g</span></li>
+            <li><span>Good chicken or veg stock</span><span class="r-amt-acid">1.2L</span></li>
+            <li><span>Bay leaves</span><span class="r-amt-acid">2</span></li>
+          </ul>
+          <div class="r-steps-title r-steps-title-acid">Method</div>
+          <ol class="r-steps rs-acid">
+            <li>Sauté onion in a little oil until soft and golden, about 8 min. Add smoked paprika and stir 1 min.</li>
+            <li>Add stock, potatoes, sauerkraut, brine and bay leaves. Simmer 20 min until potatoes are tender.</li>
+            <li>Taste and adjust — the sauerkraut provides both salt and acid so go carefully. Serve with sourdough.</li>
+          </ol>
+          <span class="r-ntag ntag-acid">cooking reduces live cultures — still high in bioactive compounds</span>
+        </div>
+      </div>
+
+      <!-- Kimchi fried rice -->
+      <div class="r-card red-card">
+        <div class="r-card-bar bar-red"></div>
+        <div class="r-card-top"><span class="r-emoji">🍳</span><div><h3>Kimchi Fried Rice</h3><span class="r-meta">15 MIN · SERVES 2 · Kimchi</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">The canonical use for aged kimchi. Use kimchi that's been in the fridge at least 2 weeks — the sourness transforms when it hits a hot pan, caramelising into something extraordinary.</p>
+          <ul class="r-ings">
+            <li><span>Aged kimchi (2+ weeks)</span><span class="r-amt-red">200g</span></li>
+            <li><span>Cooked rice (day-old, cold)</span><span class="r-amt-red">300g</span></li>
+            <li><span>Kimchi brine</span><span class="r-amt-red">30ml</span></li>
+            <li><span>Sesame oil</span><span class="r-amt-red">15ml</span></li>
+            <li><span>Soy sauce</span><span class="r-amt-red">15ml</span></li>
+            <li><span>Eggs</span><span class="r-amt-red">2</span></li>
+            <li><span>Spring onion, sesame seeds</span><span class="r-amt-red">to serve</span></li>
+          </ul>
+          <div class="r-steps-title r-steps-title-red">Method</div>
+          <ol class="r-steps rs-red">
+            <li>Heat a wok or wide pan until very hot. Add sesame oil, then kimchi. Stir-fry 3–4 min until the kimchi begins to caramelise and catches on the bottom.</li>
+            <li>Add cold rice. Press flat against the pan, let it sit undisturbed 2 min to crisp, then toss. Add soy sauce and kimchi brine.</li>
+            <li>Push rice to the side. Fry eggs in the space. Serve topped with egg, spring onion and sesame seeds.</li>
+          </ol>
+          <span class="r-ntag ntag-red">aged kimchi caramelises beautifully — fresh kimchi will not give the same result</span>
+        </div>
+      </div>
+
+      <!-- Kimchi pancakes -->
+      <div class="r-card red-card">
+        <div class="r-card-bar bar-red"></div>
+        <div class="r-card-top"><span class="r-emoji">🥞</span><div><h3>Kimchi Pancakes (Kimchijeon)</h3><span class="r-meta">20 MIN · SERVES 2 · Kimchi</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">Crispy-edged, chewy-centred savoury pancakes — one of Korea's greatest snacks. Use older, more sour kimchi for the best flavour. Eat with the dipping sauce while hot.</p>
+          <ul class="r-ings">
+            <li><span>Kimchi (roughly chopped)</span><span class="r-amt-red">200g</span></li>
+            <li><span>Plain flour</span><span class="r-amt-red">120g</span></li>
+            <li><span>Kimchi brine</span><span class="r-amt-red">60ml</span></li>
+            <li><span>Cold water</span><span class="r-amt-red">80ml</span></li>
+            <li><span>Egg</span><span class="r-amt-red">1</span></li>
+            <li><span>Soy sauce + rice vinegar + sesame oil</span><span class="r-amt-red">dipping sauce</span></li>
+          </ul>
+          <div class="r-steps-title r-steps-title-red">Method</div>
+          <ol class="r-steps rs-red">
+            <li>Mix flour, kimchi brine, cold water and egg into a batter. Fold in chopped kimchi. The batter should be thick.</li>
+            <li>Pour into a hot, oiled pan to make one large pancake or several small ones. Cook on medium-high 3–4 min until the edges are set and crispy, then flip — 2–3 min the other side.</li>
+            <li>Mix soy sauce, a splash of rice vinegar and a few drops of sesame oil for the dipping sauce. Serve immediately.</li>
+          </ol>
+          <span class="r-ntag ntag-red">kimchi brine in the batter amplifies flavour throughout</span>
+        </div>
+      </div>
+
+      <!-- Pickle: smashed cucumber salad -->
+      <div class="r-card gold-card">
+        <div class="r-card-bar bar-gold"></div>
+        <div class="r-card-top"><span class="r-emoji">🥗</span><div><h3>Pickle Brine Potato Salad</h3><span class="r-meta">20 MIN · SERVES 4 · Fermented Pickles</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">The brine left in the pickle jar is one of the most underused ingredients in fermented cooking. Tossed through warm potatoes it gives a complex, deeply savoury dressing that no vinegar can match.</p>
+          <ul class="r-ings">
+            <li><span>New potatoes</span><span class="r-amt-gold">800g</span></li>
+            <li><span>Fermented pickle brine</span><span class="r-amt-gold">80ml</span></li>
+            <li><span>Fermented pickles (sliced)</span><span class="r-amt-gold">100g</span></li>
+            <li><span>Dijon mustard</span><span class="r-amt-gold">15g</span></li>
+            <li><span>Olive oil</span><span class="r-amt-gold">40ml</span></li>
+            <li><span>Fresh dill + chives</span><span class="r-amt-gold">20g each</span></li>
+          </ul>
+          <div class="r-steps-title r-steps-title-gold">Method</div>
+          <ol class="r-steps rs-gold">
+            <li>Boil potatoes until just tender. Drain and immediately toss with pickle brine while still hot — the warm potatoes absorb it deeply.</li>
+            <li>Whisk mustard with olive oil and another 30ml pickle brine. Pour over potatoes while still warm.</li>
+            <li>Fold in sliced pickles, dill and chives. Taste — the brine provides most of the salt needed. Serve warm or at room temperature.</li>
+          </ol>
+          <span class="r-ntag ntag-gold">warm potatoes absorb brine for maximum flavour penetration</span>
+        </div>
+      </div>
+
+      <!-- Pickle: tartar sauce -->
+      <div class="r-card gold-card">
+        <div class="r-card-bar bar-gold"></div>
+        <div class="r-card-top"><span class="r-emoji">🐟</span><div><h3>Fermented Pickle Tartare</h3><span class="r-meta">5 MIN · SERVES 4 · Fermented Pickles</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">The only tartare sauce worth making. The depth of flavour from a lacto-fermented pickle versus a vinegar pickle is the difference between a good sauce and an extraordinary one.</p>
+          <ul class="r-ings">
+            <li><span>Good mayonnaise</span><span class="r-amt-gold">150g</span></li>
+            <li><span>Fermented pickles (finely chopped)</span><span class="r-amt-gold">80g</span></li>
+            <li><span>Pickle brine</span><span class="r-amt-gold">20ml</span></li>
+            <li><span>Capers (roughly chopped)</span><span class="r-amt-gold">20g</span></li>
+            <li><span>Fresh dill + chives</span><span class="r-amt-gold">10g each</span></li>
+            <li><span>Lemon zest</span><span class="r-amt-gold">½ lemon</span></li>
+          </ul>
+          <div class="r-steps-title r-steps-title-gold">Method</div>
+          <ol class="r-steps rs-gold">
+            <li>Combine all ingredients. Taste and adjust — add more brine for acidity, more mayo for richness.</li>
+            <li>Refrigerate 30 min before serving — it improves significantly as flavours meld.</li>
+            <li>Keeps up to 2 weeks refrigerated. Use on fish, as a dip, or on fermented pickle and cheese open sandwiches.</li>
+          </ol>
+          <span class="r-ntag ntag-gold">live cultures survive in cold sauce</span>
+        </div>
+      </div>
+
+      <!-- Fermented carrot: bowl -->
+      <div class="r-card green-card">
+        <div class="r-card-bar bar-green"></div>
+        <div class="r-card-top"><span class="r-emoji">🥙</span><div><h3>Fermented Veg Grain Bowl</h3><span class="r-meta">15 MIN · SERVES 2 · Fermented Veg</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">The most effortless way to eat fermented vegetables daily. A grain base, some protein, and three or four fermented vegetables from the fridge creates a complete meal with extraordinary gut health benefits.</p>
+          <ul class="r-ings">
+            <li><span>Cooked grain (farro, brown rice, quinoa)</span><span class="r-amt-green">300g</span></li>
+            <li><span>Fermented carrots</span><span class="r-amt-green">80g</span></li>
+            <li><span>Fermented red onion</span><span class="r-amt-green">40g</span></li>
+            <li><span>Sauerkraut or kimchi</span><span class="r-amt-green">60g</span></li>
+            <li><span>Protein (kefir chicken, egg, legumes)</span><span class="r-amt-green">150g</span></li>
+            <li><span>Tahini + lemon + garlic dressing</span><span class="r-amt-green">45ml</span></li>
+          </ul>
+          <div class="r-steps-title r-steps-title-green">Method</div>
+          <ol class="r-steps rs-green">
+            <li>Warm the grain if needed. Arrange in a bowl with protein.</li>
+            <li>Add fermented vegetables cold and directly from the jar alongside — never mixed in or heated.</li>
+            <li>Dress with tahini dressing (tahini + lemon + garlic + water to thin). The fermented brine provides much of the salt needed.</li>
+          </ol>
+          <span class="r-ntag ntag-green">add ferments cold — keeps all live cultures intact</span>
+        </div>
+      </div>
+
+      <!-- Fermented beetroot hummus -->
+      <div class="r-card green-card">
+        <div class="r-card-bar bar-green"></div>
+        <div class="r-card-top"><span class="r-emoji">🫶</span><div><h3>Fermented Beetroot Hummus</h3><span class="r-meta">10 MIN · SERVES 6 · Fermented Veg</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">Blending fermented beetroot into hummus transforms it — deep earthy sweetness, vivid colour, complex acidity. The live cultures partially survive blending. An exceptional dip for sourdough or crudités.</p>
+          <ul class="r-ings">
+            <li><span>Fermented beetroot slices</span><span class="r-amt-green">150g</span></li>
+            <li><span>Cooked chickpeas</span><span class="r-amt-green">400g</span></li>
+            <li><span>Tahini</span><span class="r-amt-green">60g</span></li>
+            <li><span>Garlic (1 clove)</span><span class="r-amt-green">5g</span></li>
+            <li><span>Beetroot brine</span><span class="r-amt-green">40ml</span></li>
+            <li><span>Lemon juice</span><span class="r-amt-green">30ml</span></li>
+            <li><span>Olive oil</span><span class="r-amt-green">30ml</span></li>
+          </ul>
+          <div class="r-steps-title r-steps-title-green">Method</div>
+          <ol class="r-steps rs-green">
+            <li>Blend chickpeas, tahini, garlic, lemon and olive oil until smooth. Add beetroot slices and brine.</li>
+            <li>Blend again until completely smooth and uniformly deep purple-red.</li>
+            <li>Taste and adjust — the brine provides most of the salt. Serve with a drizzle of olive oil and sourdough for dipping.</li>
+          </ol>
+          <span class="r-ntag ntag-green">brine replaces most added salt — taste before seasoning</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="container">
+    <div class="mono-tag">Common questions</div>
+    <h2 class="headline">Things beginners <em>worry about</em></h2>
+
+    <div style="margin-top:2.5rem;">
+      <div class="faq-item">
+        <button class="faq-q">There's white film on top of my sauerkraut. Is it mould? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>Almost certainly kahm yeast — a completely harmless wild yeast that forms a flat, white, sometimes wrinkled film on the surface of ferments. It's not mould (mould is fuzzy and coloured) and it doesn't affect the ferment below. Just skim it off, make sure the vegetables are well submerged, and continue fermenting. It's more common in warmer temperatures or with lower salt percentages. <strong>Actual mould</strong> — fuzzy, pink, orange, black, or green — means discard the batch.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">My vegetables aren't submerged — there's not enough brine. What do I do? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>For dry-salted ferments like sauerkraut: make a small amount of 2% brine (10g salt per 500ml water) and pour in just enough to cover the vegetables. For wet brine ferments: simply make more 2% or 3% brine and top up. The important thing is that no vegetable is exposed to air above the brine line for any extended period. If using sauerkraut, sometimes more vigorous initial massaging solves the problem — the cabbage releases more liquid the longer you work it.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How do I know if my ferment has gone bad? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>Trust your nose first. Lacto-fermented vegetables smell sour, tangy, pleasantly funky — like a good sour beer or a well-aged cheese. They should never smell rotten, putrid, or like rubbish. Visually: cloudy brine is normal and correct. Fuzzy mould in any colour other than white is a problem — discard the batch. Slimy vegetables that have completely lost their structure are over-fermented past the point of palatability but are not dangerous — use your judgement. When in doubt, throw it out — but with proper salt ratios and submerged vegetables, failure is genuinely rare.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Can I eat the brine? Is it as probiotic as the vegetables? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>Yes — the brine is arguably more probiotic by volume than the vegetables themselves, since the liquid is dense with LAB. Drink it straight, add it to dressings, use it as a base for sauces, stir it into soups at the end, or take a shot glass of it before meals. Pickle brine is also exceptionally effective for muscle cramps — the electrolytes and acidity trigger a neurological reflex that stops cramping faster than water. Several professional sports teams use it for exactly this purpose.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How long do fermented vegetables keep in the fridge? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>A long time — months, not weeks. Sauerkraut and kimchi will keep 6 months or more refrigerated. Fermented pickles 2–3 months. Fermented carrots and other hard vegetables 1–3 months. The acidity acts as a natural preservative. They continue to slowly ferment and develop in the fridge — the flavour keeps evolving. The practical limit is usually quality (they may become very sour) rather than safety. Keep them submerged in their brine and they'll last.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Does cooking fermented vegetables destroy the probiotics? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>Yes — heat above 48°C kills live bacteria. If you cook kimchi into fried rice or sauerkraut into soup, the probiotic benefit is reduced. However, the bioactive compounds, vitamins, minerals, and organic acids largely survive cooking and still provide significant benefit. Think of it as two modes: <strong>raw for probiotic benefit</strong> (add to grain bowls, sandwiches, eat alongside meals), <strong>cooked for flavour</strong> (kimchi jjigae, sauerkraut soup, kimchi fried rice). Both are worth doing — they're just doing different things for you.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">My kimchi isn't sour even after several days at room temperature. <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>A few possible causes: your kitchen is too cold (below 18°C slows fermentation significantly — move it somewhere warmer), the initial salt-wilting step didn't draw out enough liquid leaving the paste too concentrated, or the jar is airtight and CO₂ pressure is building. Check the seal is loose enough to burp CO₂. Also check you rinsed the cabbage thoroughly after the initial salting — residual salt inhibits fermentation. If nothing is happening after 3 days, try placing the jar in a slightly warmer spot and leaving it another 2–3 days before giving up.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Is fermented food safe for everyone? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>For most people, yes — and the benefits are well-evidenced. A few specific situations require caution: people with <strong>histamine intolerance</strong> may react to fermented foods as they're high in histamine; <strong>immunocompromised individuals</strong> should discuss with their GP before consuming large amounts of unpasteurised fermented food; people with <strong>SIBO</strong> (small intestinal bacterial overgrowth) may find fermented foods worsen symptoms initially. For healthy individuals, start with small amounts (2–3 tablespoons daily) and build up over 1–2 weeks to allow the gut microbiome to adjust without discomfort.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <h3>Salt & time.</h3>
+  <p>// The oldest food preservation method on earth — and the most nutritionally alive</p>
+</footer>
+
+<script>
+function switchM(type, btn) {
+  document.querySelectorAll('.m-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.m-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('m-' + type).classList.add('active');
+  btn.classList.add('active');
+}
+
+const steps = document.querySelectorAll('.step');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) setTimeout(() => e.target.classList.add('vis'), i * 70);
+  });
+}, {threshold: 0.1});
+steps.forEach(el => obs.observe(el));
+
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
+});
+</script>
+</body>
+</html>

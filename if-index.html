@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infinity Foods — A Nutritionist's Guide to Self-Sustaining Food</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void: #080808;
+  --dark: #0f0f0f;
+  --panel: #141414;
+  --border: rgba(255,255,255,0.08);
+  --fog: rgba(255,255,255,0.5);
+  --fog-dim: rgba(255,255,255,0.25);
+  --snow: #f5f5f0;
+
+  /* guide accent colours */
+  --sourdough: #c8823a;
+  --sourdough-dim: rgba(200,130,58,0.12);
+  --sourdough-border: rgba(200,130,58,0.3);
+  --kefir: #4ecdc4;
+  --kefir-dim: rgba(78,205,196,0.12);
+  --kefir-border: rgba(78,205,196,0.3);
+  --veg: #a8e063;
+  --veg-dim: rgba(168,224,99,0.12);
+  --veg-border: rgba(168,224,99,0.3);
+  --mushroom: #c8f0ff;
+  --mushroom-dim: rgba(200,240,255,0.08);
+  --mushroom-border: rgba(200,240,255,0.2);
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+body{
+  background:var(--void);
+  color:var(--snow);
+  font-family:'DM Sans',sans-serif;
+  font-weight:300;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+
+/* grain */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9999;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:0 3rem;height:60px;
+  background:rgba(8,8,8,0.95);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  font-family:'Fraunces',serif;
+  font-size:1rem;font-weight:700;
+  color:var(--snow);letter-spacing:0.04em;
+  white-space:nowrap;
+}
+.nav-logo span{font-style:italic;font-weight:300;}
+
+.nav-guides{
+  display:flex;align-items:center;gap:0.25rem;
+}
+.nav-guide{
+  text-decoration:none;
+  padding:0.4rem 0.9rem;
+  border-radius:100px;
+  font-size:0.72rem;font-weight:500;
+  letter-spacing:0.04em;
+  border:1px solid transparent;
+  transition:all 0.2s;
+  white-space:nowrap;
+}
+.nav-guide:hover{background:rgba(255,255,255,0.06);}
+.ng-sourdough{color:var(--sourdough);}
+.ng-sourdough:hover{border-color:var(--sourdough-border);background:var(--sourdough-dim);}
+.ng-kefir{color:var(--kefir);}
+.ng-kefir:hover{border-color:var(--kefir-border);background:var(--kefir-dim);}
+.ng-veg{color:var(--veg);}
+.ng-veg:hover{border-color:var(--veg-border);background:var(--veg-dim);}
+.ng-mushroom{color:var(--mushroom);}
+.ng-mushroom:hover{border-color:var(--mushroom-border);background:var(--mushroom-dim);}
+
+.nav-sep{width:1px;height:20px;background:var(--border);margin:0 0.5rem;}
+
+@media(max-width:900px){
+  nav{padding:0 1.5rem;}
+  .nav-guide{padding:0.35rem 0.6rem;font-size:0.65rem;}
+  .nav-sep{display:none;}
+}
+@media(max-width:600px){
+  .nav-guides{gap:0.1rem;}
+  .nav-guide{padding:0.3rem 0.5rem;font-size:0.6rem;}
+  .nav-logo{font-size:0.85rem;}
+}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  justify-content:center;
+  padding:9rem 6rem 6rem;
+  position:relative;overflow:hidden;
+}
+
+/* animated gradient orbs */
+.orb{
+  position:absolute;border-radius:50%;
+  filter:blur(120px);pointer-events:none;
+  animation:drift var(--d,12s) ease-in-out infinite var(--delay,0s);
+}
+.orb1{width:500px;height:500px;background:rgba(200,130,58,0.06);top:-100px;left:-100px;--d:14s;}
+.orb2{width:400px;height:400px;background:rgba(78,205,196,0.05);top:20%;right:-100px;--d:16s;--delay:2s;}
+.orb3{width:350px;height:350px;background:rgba(168,224,99,0.04);bottom:10%;left:30%;--d:18s;--delay:4s;}
+.orb4{width:300px;height:300px;background:rgba(200,240,255,0.04);bottom:-50px;right:20%;--d:13s;--delay:6s;}
+@keyframes drift{
+  0%,100%{transform:translate(0,0);}
+  33%{transform:translate(30px,-20px);}
+  66%{transform:translate(-20px,15px);}
+}
+
+.hero-content{position:relative;z-index:1;max-width:820px;}
+
+.hero-eyebrow{
+  font-size:0.72rem;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--fog-dim);margin-bottom:2rem;
+  display:flex;align-items:center;gap:1rem;
+  opacity:0;animation:up 0.8s ease forwards 0.2s;
+}
+.hero-eyebrow::before{content:'';width:24px;height:1px;background:var(--fog-dim);}
+
+.hero h1{
+  font-family:'Fraunces',serif;
+  font-size:clamp(3.5rem,9vw,8rem);
+  font-weight:900;line-height:0.88;
+  letter-spacing:-0.02em;
+  opacity:0;animation:up 0.9s ease forwards 0.4s;
+}
+.hero h1 .word-infinity{
+  font-style:italic;font-weight:300;
+  background:linear-gradient(135deg, var(--sourdough), var(--kefir), var(--veg), var(--mushroom));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero h1 .word-foods{display:block;}
+
+.hero-sub{
+  display:block;
+  font-family:'DM Sans',sans-serif;
+  font-size:0.18em;font-weight:300;
+  letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--fog-dim);margin-top:1.2rem;
+  -webkit-text-fill-color:var(--fog-dim);
+}
+
+.hero-desc{
+  font-size:1.1rem;color:var(--fog);
+  max-width:580px;line-height:1.85;
+  margin-top:3rem;
+  opacity:0;animation:up 1s ease forwards 0.7s;
+}
+
+.hero-cta{
+  display:flex;gap:1rem;flex-wrap:wrap;
+  margin-top:3rem;
+  opacity:0;animation:up 1s ease forwards 0.9s;
+}
+.cta-btn{
+  padding:0.75rem 1.8rem;border-radius:100px;
+  font-size:0.82rem;font-weight:500;letter-spacing:0.05em;
+  text-decoration:none;transition:all 0.2s;border:1px solid;
+  cursor:pointer;background:none;font-family:'DM Sans',sans-serif;
+}
+.cta-primary{
+  background:var(--snow);color:var(--void);border-color:var(--snow);
+}
+.cta-primary:hover{opacity:0.85;}
+.cta-secondary{
+  border-color:var(--border);color:var(--fog);
+}
+.cta-secondary:hover{border-color:rgba(255,255,255,0.2);color:var(--snow);}
+
+@keyframes up{
+  from{opacity:0;transform:translateY(24px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@media(max-width:768px){.hero{padding:8rem 1.5rem 4rem;}}
+
+/* ── SHARED ── */
+.section{padding:7rem 0;}
+.container{max-width:900px;margin:0 auto;padding:0 2.5rem;}
+.container--wide{max-width:1160px;margin:0 auto;padding:0 2.5rem;}
+
+.section-tag{
+  font-size:0.68rem;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--fog-dim);margin-bottom:1.2rem;
+  display:flex;align-items:center;gap:0.75rem;
+}
+.section-tag::before{content:'';width:20px;height:1px;background:var(--fog-dim);}
+
+h2.sh{
+  font-family:'Fraunces',serif;
+  font-size:clamp(2rem,4vw,3rem);
+  font-weight:700;color:var(--snow);
+  line-height:1.1;margin-bottom:1.5rem;
+  letter-spacing:-0.02em;
+}
+h2.sh em{font-style:italic;font-weight:300;}
+
+p.body{font-size:1rem;line-height:1.85;color:var(--fog);margin-bottom:1.2rem;}
+
+.divider{height:1px;background:linear-gradient(to right,transparent,var(--border),transparent);}
+
+/* ── WHAT IS INFINITY FOOD ── */
+.what-section{background:var(--dark);padding:7rem 0;}
+
+.infinity-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:1px;margin-top:3rem;
+  background:var(--border);
+  border:1px solid var(--border);
+  border-radius:16px;overflow:hidden;
+}
+.inf-cell{
+  background:var(--panel);
+  padding:2rem;
+  transition:background 0.2s;
+}
+.inf-cell:hover{background:#1a1a1a;}
+.inf-icon{font-size:2rem;margin-bottom:1rem;display:block;}
+.inf-title{
+  font-family:'Fraunces',serif;
+  font-size:1.1rem;font-weight:700;
+  color:var(--snow);margin-bottom:0.5rem;
+}
+.inf-body{font-size:0.87rem;color:var(--fog);line-height:1.75;}
+
+/* ── FOUR GUIDES ── */
+.guides-section{padding:7rem 0;}
+
+.guides-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1.5rem;margin-top:3rem;
+}
+@media(max-width:700px){.guides-grid{grid-template-columns:1fr;}}
+
+.guide-card{
+  border-radius:20px;
+  padding:2.5rem;
+  position:relative;overflow:hidden;
+  text-decoration:none;
+  display:block;
+  transition:transform 0.3s,box-shadow 0.3s;
+  border:1px solid;
+}
+.guide-card:hover{transform:translateY(-6px);}
+
+.gc-sourdough{
+  background:linear-gradient(135deg,rgba(200,130,58,0.1),rgba(200,130,58,0.04));
+  border-color:rgba(200,130,58,0.2);
+}
+.gc-sourdough:hover{box-shadow:0 20px 60px rgba(200,130,58,0.1);}
+.gc-kefir{
+  background:linear-gradient(135deg,rgba(78,205,196,0.1),rgba(78,205,196,0.04));
+  border-color:rgba(78,205,196,0.2);
+}
+.gc-kefir:hover{box-shadow:0 20px 60px rgba(78,205,196,0.08);}
+.gc-veg{
+  background:linear-gradient(135deg,rgba(168,224,99,0.1),rgba(168,224,99,0.04));
+  border-color:rgba(168,224,99,0.2);
+}
+.gc-veg:hover{box-shadow:0 20px 60px rgba(168,224,99,0.08);}
+.gc-mushroom{
+  background:linear-gradient(135deg,rgba(200,240,255,0.08),rgba(200,240,255,0.02));
+  border-color:rgba(200,240,255,0.15);
+}
+.gc-mushroom:hover{box-shadow:0 20px 60px rgba(200,240,255,0.06);}
+
+.gc-num{
+  position:absolute;top:1.5rem;right:2rem;
+  font-family:'Fraunces',serif;font-size:5rem;font-weight:900;
+  opacity:0.04;color:var(--snow);line-height:1;
+  font-style:italic;
+}
+.gc-tag{
+  font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;
+  font-weight:500;margin-bottom:1rem;display:block;
+}
+.gc-sourdough .gc-tag{color:var(--sourdough);}
+.gc-kefir .gc-tag{color:var(--kefir);}
+.gc-veg .gc-tag{color:var(--veg);}
+.gc-mushroom .gc-tag{color:var(--mushroom);}
+
+.guide-card h3{
+  font-family:'Fraunces',serif;
+  font-size:1.8rem;font-weight:700;
+  color:var(--snow);margin-bottom:0.5rem;
+  line-height:1.1;letter-spacing:-0.02em;
+}
+.guide-card h3 em{font-style:italic;font-weight:300;}
+.guide-card p{font-size:0.88rem;color:var(--fog);line-height:1.75;margin-bottom:1.5rem;}
+
+.gc-specs{
+  display:flex;flex-direction:column;gap:0;
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:8px;overflow:hidden;margin-bottom:1.5rem;
+}
+.gc-spec{
+  display:flex;justify-content:space-between;
+  padding:0.4rem 0.8rem;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+  font-size:0.78rem;
+}
+.gc-spec:last-child{border-bottom:none;}
+.gc-spec-k{color:var(--fog-dim);}
+.gc-spec-v{font-weight:500;}
+.gc-sourdough .gc-spec-v{color:var(--sourdough);}
+.gc-kefir .gc-spec-v{color:var(--kefir);}
+.gc-veg .gc-spec-v{color:var(--veg);}
+.gc-mushroom .gc-spec-v{color:var(--mushroom);}
+
+.gc-btn{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  font-size:0.78rem;font-weight:500;letter-spacing:0.06em;
+  text-transform:uppercase;
+  padding:0.5rem 1.2rem;border-radius:100px;
+  border:1px solid;transition:all 0.2s;
+}
+.gc-sourdough .gc-btn{color:var(--sourdough);border-color:rgba(200,130,58,0.3);}
+.gc-sourdough:hover .gc-btn{background:rgba(200,130,58,0.15);}
+.gc-kefir .gc-btn{color:var(--kefir);border-color:rgba(78,205,196,0.3);}
+.gc-kefir:hover .gc-btn{background:rgba(78,205,196,0.12);}
+.gc-veg .gc-btn{color:var(--veg);border-color:rgba(168,224,99,0.3);}
+.gc-veg:hover .gc-btn{background:rgba(168,224,99,0.1);}
+.gc-mushroom .gc-btn{color:var(--mushroom);border-color:rgba(200,240,255,0.2);}
+.gc-mushroom:hover .gc-btn{background:rgba(200,240,255,0.06);}
+
+/* ── BENEFITS ── */
+.benefits-section{background:var(--dark);padding:7rem 0;}
+
+.benefits-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1.5rem;margin-top:3rem;
+}
+@media(max-width:700px){.benefits-grid{grid-template-columns:1fr;}}
+
+.benefit-card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:16px;padding:2rem;
+  transition:background 0.2s,transform 0.2s;
+}
+.benefit-card:hover{background:#1a1a1a;transform:translateY(-3px);}
+.benefit-icon{font-size:1.8rem;margin-bottom:1rem;display:block;}
+.benefit-title{
+  font-family:'Fraunces',serif;
+  font-size:1.1rem;font-weight:700;
+  color:var(--snow);margin-bottom:0.5rem;
+}
+.benefit-body{font-size:0.87rem;color:var(--fog);line-height:1.75;}
+
+/* ── TOGETHER ── */
+.together-section{padding:7rem 0;}
+
+.together-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:3rem;align-items:center;margin-top:3rem;
+}
+@media(max-width:700px){.together-grid{grid-template-columns:1fr;}}
+
+.synergy-list{
+  display:flex;flex-direction:column;gap:1px;
+  border:1px solid var(--border);border-radius:14px;overflow:hidden;
+}
+.syn-row{
+  display:grid;grid-template-columns:auto 1fr;
+  gap:1rem;padding:1.1rem 1.5rem;
+  background:var(--panel);
+  border-bottom:1px solid var(--border);
+  align-items:center;
+  transition:background 0.2s;
+}
+.syn-row:last-child{border-bottom:none;}
+.syn-row:hover{background:#1a1a1a;}
+.syn-icons{font-size:1.2rem;white-space:nowrap;}
+.syn-desc{font-size:0.87rem;color:var(--fog);line-height:1.65;}
+.syn-desc strong{color:var(--snow);}
+
+.cost-card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:16px;padding:2rem;
+}
+.cost-card h4{
+  font-family:'Fraunces',serif;
+  font-size:1.2rem;font-weight:700;
+  color:var(--snow);margin-bottom:1.5rem;
+}
+.cost-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:0.75rem 0;border-bottom:1px solid var(--border);
+  font-size:0.88rem;
+}
+.cost-row:last-of-type{border-bottom:none;}
+.cost-item{color:var(--fog);}
+.cost-val{
+  font-family:'Fraunces',serif;font-size:1rem;font-weight:700;color:var(--snow);
+}
+.cost-note{
+  margin-top:1.2rem;
+  padding:0.8rem 1rem;
+  background:rgba(255,255,255,0.04);
+  border-radius:8px;
+  font-size:0.8rem;color:var(--fog-dim);line-height:1.65;font-style:italic;
+}
+
+/* ── WHERE TO START ── */
+.start-section{background:var(--dark);padding:7rem 0;}
+
+.start-steps{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;margin-top:3rem;
+  background:var(--border);
+  border:1px solid var(--border);
+  border-radius:16px;overflow:hidden;
+}
+@media(max-width:700px){.start-steps{grid-template-columns:1fr 1fr;}}
+@media(max-width:400px){.start-steps{grid-template-columns:1fr;}}
+
+.start-step{
+  background:var(--panel);
+  padding:2rem 1.5rem;
+  position:relative;
+}
+.start-step:hover{background:#1a1a1a;}
+.ss-num{
+  font-family:'Fraunces',serif;font-size:3rem;font-weight:900;font-style:italic;
+  opacity:0.08;color:var(--snow);line-height:1;margin-bottom:0.75rem;
+}
+.ss-week{
+  font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--fog-dim);margin-bottom:0.4rem;display:block;
+  font-weight:500;
+}
+.ss-title{
+  font-family:'Fraunces',serif;font-size:1rem;font-weight:700;
+  color:var(--snow);margin-bottom:0.4rem;
+}
+.ss-body{font-size:0.82rem;color:var(--fog);line-height:1.65;}
+.ss-dot{
+  width:8px;height:8px;border-radius:50%;
+  display:inline-block;margin-right:0.4rem;vertical-align:middle;
+}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--void);
+  border-top:1px solid var(--border);
+  padding:6rem 2.5rem;
+  text-align:center;
+}
+.footer-logo{
+  font-family:'Fraunces',serif;
+  font-size:3.5rem;font-weight:900;
+  letter-spacing:-0.02em;
+  color:var(--snow);
+  margin-bottom:0.5rem;
+}
+.footer-logo em{
+  font-style:italic;font-weight:300;
+  background:linear-gradient(135deg, var(--sourdough), var(--kefir), var(--veg), var(--mushroom));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.footer-sub{
+  font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--fog-dim);margin-bottom:3rem;
+}
+.footer-guides{
+  display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;
+  margin-bottom:3rem;
+}
+.footer-guide{
+  text-decoration:none;
+  padding:0.5rem 1.2rem;border-radius:100px;
+  font-size:0.75rem;font-weight:500;letter-spacing:0.04em;
+  border:1px solid;transition:all 0.2s;
+}
+.fg-sourdough{color:var(--sourdough);border-color:rgba(200,130,58,0.25);}
+.fg-sourdough:hover{background:rgba(200,130,58,0.1);}
+.fg-kefir{color:var(--kefir);border-color:rgba(78,205,196,0.25);}
+.fg-kefir:hover{background:rgba(78,205,196,0.08);}
+.fg-veg{color:var(--veg);border-color:rgba(168,224,99,0.25);}
+.fg-veg:hover{background:rgba(168,224,99,0.08);}
+.fg-mushroom{color:var(--mushroom);border-color:rgba(200,240,255,0.2);}
+.fg-mushroom:hover{background:rgba(200,240,255,0.06);}
+.footer-credit{
+  font-size:0.78rem;color:var(--fog-dim);
+}
+</style>
+</head>
+<body>
+<script src="../nav.js" onload="CTNav.init('infinity-foods')" onerror="console.warn('nav.js not found')"></script>
+<style>body{padding-top:64px;}</style>
+
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Infinity <span>Foods</span></div>
+  <div class="nav-guides">
+    <a href="sourdough-starter-guide.html" class="nav-guide ng-sourdough">Sourdough</a>
+    <a href="kefir-guide.html" class="nav-guide ng-kefir">Kefir</a>
+    <a href="lacto-veg-guide.html" class="nav-guide ng-veg">Fermented Veg</a>
+    <a href="mushroom-guide.html" class="nav-guide ng-mushroom">Mushrooms</a>
+    <a href="hot-sauce-guide.html" class="nav-guide" style="color:#d42b1a;">Hot Sauce</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="orb orb4"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">A Nutritionist's Complete Guide</div>
+    <h1>
+      <span class="word-infinity">Infinity</span>
+      <span class="word-foods">Foods.
+        <span class="hero-sub">sourdough · kefir · fermented vegetables · mushrooms</span>
+      </span>
+    </h1>
+    <p class="hero-desc">Four self-sustaining food systems that cost almost nothing to run, produce indefinitely, and deliver more nutritional value than almost anything you can buy. Start one. Start all four. Feed yourself and your clients for life.</p>
+    <div class="hero-cta">
+      <a href="#guides" class="cta-btn cta-primary">Explore the guides</a>
+      <a href="#start" class="cta-btn cta-secondary">Where to begin</a>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT IS AN INFINITY FOOD -->
+<section class="what-section" id="what">
+  <div class="container">
+    <div class="section-tag">The concept</div>
+    <h2 class="sh">What is an <em>infinity food?</em></h2>
+    <p class="body" style="max-width:580px;">An infinity food is a living food system that produces indefinitely from a single starting investment. You buy the culture or spawn once. After that, it regenerates itself with every batch. A sourdough starter fed for a year costs less per week than a single slice of artisan bread. Kefir grains reproduce with every ferment. Fermented vegetables make themselves from salt and whatever produce you have. Mushroom mycelium clones itself.</p>
+    <p class="body" style="max-width:580px;">The nutritional case is equally compelling. These four foods together cover probiotic diversity, prebiotic fibre, complete protein, beta-glucans, fermentation-enhanced mineral bioavailability, vitamin D synthesis, and the gut-brain axis — without a single supplement. What makes them truly extraordinary is that the nutritional benefit compounds over time: a mature sourdough starter, aged kefir grains, or home-grown mushrooms consumed within hours of harvest deliver bioactives at levels that commercially produced equivalents simply cannot match.</p>
+
+    <div class="infinity-grid">
+      <div class="inf-cell">
+        <span class="inf-icon">♾️</span>
+        <div class="inf-title">Self-sustaining</div>
+        <p class="inf-body">Every culture, grain, and spawn regenerates itself. Buy once, produce forever. A sourdough starter fed for a decade is the same investment as one made last week.</p>
+      </div>
+      <div class="inf-cell">
+        <span class="inf-icon">🦠</span>
+        <div class="inf-title">Genuinely alive</div>
+        <p class="inf-body">Unlike processed foods, supplements, or pasteurised products — these are living systems. The nutritional benefit is active, not passive. The bacteria are alive when they reach your gut.</p>
+      </div>
+      <div class="inf-cell">
+        <span class="inf-icon">📈</span>
+        <div class="inf-title">Improves over time</div>
+        <p class="inf-body">A mature kefir culture is more diverse than a new one. An aged sourdough starter has more complex flavour. A shiitake log produces more each year. These systems get better with age.</p>
+      </div>
+      <div class="inf-cell">
+        <span class="inf-icon">💰</span>
+        <div class="inf-title">Essentially free to run</div>
+        <p class="inf-body">After the initial setup, the ongoing cost is flour, milk, salt, and vegetable scraps. The four guides together cost less per week than a single kombucha from a café.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- THE FOUR GUIDES -->
+<section class="guides-section" id="guides">
+  <div class="container--wide">
+    <div class="section-tag">The collection</div>
+    <h2 class="sh">Four guides. <em>One system.</em></h2>
+    <p class="body" style="max-width:580px;">Each guide is complete in itself — full science, method, recipes, and FAQ. Together they form a complete nutritional ecosystem covering gut health, immunity, cognitive function, bone health, metabolic health, and more. Start wherever makes sense for you.</p>
+
+    <div class="guides-grid">
+
+      <a href="sourdough-starter-guide.html" class="guide-card gc-sourdough">
+        <span class="gc-num">01</span>
+        <span class="gc-tag">Fermented Bread</span>
+        <h3>Sour<em>dough</em></h3>
+        <p>A living starter that transforms flour and water into the most nutritionally complex bread possible. Reduces gluten, unlocks minerals, lowers glycaemic response, and produces a loaf that improves with the age of your culture.</p>
+        <div class="gc-specs">
+          <div class="gc-spec"><span class="gc-spec-k">Setup time</span><span class="gc-spec-v">7 days</span></div>
+          <div class="gc-spec"><span class="gc-spec-k">Daily effort</span><span class="gc-spec-v">5 minutes</span></div>
+          <div class="gc-spec"><span class="gc-spec-k">Cost to run</span><span class="gc-spec-v">~$1–2 / week flour</span></div>
+          <div class="gc-spec"><span class="gc-spec-k">Lifespan</span><span class="gc-spec-v">Indefinite</span></div>
+        </div>
+        <span class="gc-btn">Open guide →</span>
+      </a>
+
+      <a href="kefir-guide.html" class="guide-card gc-kefir">
+        <span class="gc-num">02</span>
+        <span class="gc-tag">Fermented Dairy & Water</span>
+        <h3><em>Kefir</em></h3>
+        <p>Milk and water kefir grains that produce 30–50 live probiotic strains per batch — more microbial diversity than any supplement or commercial product. The grains grow with every batch and last indefinitely.</p>
+        <div class="gc-specs">
+          <div class="gc-spec"><span class="gc-spec-k">First batch</span><span class="gc-spec-v">24 hours</span></div>
+          <div class="gc-spec"><span class="gc-spec-k">Daily effort</span><span class="gc-spec-v">3 minutes</span></div>
+          <div class="gc-spec"><span class="gc-spec-k">Cost to run</span><span class="gc-spec-v">~$4–6 / week milk</span></div>
+          <div class="gc-spec"><span class="gc-spec-k">Lifespan</span><span class="gc-spec-v">Indefinite</span></div>
+        </div>
+        <span class="gc-btn">Open guide →</span>
+      </a>
+
+      <a href="lacto-veg-guide.html" class="guide-card gc-veg">
+        <span class="gc-num">03</span>
+        <span class="gc-tag">Lacto-Fermentation</span>
+        <h3>Fermented <em>Veg</em></h3>
+        <p>Salt, vegetables, and wild bacteria. Sauerkraut, kimchi, fermented pickles, and carrots — each a dense probiotic food that keeps for months and improves gut diversity in ways that complement kefir's strains.</p>
+        <div class="gc-specs">
+          <div class="gc-spec"><span class="gc-spec-k">Active prep</span><span class="gc-spec-v">5–15 minutes</span></div>
+          <div class="gc-spec"><span class="gc-spec-k">Ferment time</span><span class="gc-spec-v">3–28 days</span></div>
+          <div class="gc-spec"><span class="gc-spec-k">Cost to run</span><span class="gc-spec-v">~$2–5 / batch</span></div>
+          <div class="gc-spec"><span class="gc-spec-k">Fridge life</span><span class="gc-spec-v">6+ months</span></div>
+        </div>
+        <span class="gc-btn">Open guide →</span>
+      </a>
+
+      <a href="mushroom-guide.html" class="guide-card gc-mushroom">
+        <span class="gc-num">04</span>
+        <span class="gc-tag">Functional Cultivation</span>
+        <h3><em>Mush</em>rooms</h3>
+        <p>Oyster, shiitake, lion's mane, and king oyster — grown indoors on bags or outdoors on logs. Beta-glucans, NGF stimulators, ergothioneine, and vitamin D synthesis. The most bioactive foods you can grow at home.</p>
+        <div class="gc-specs">
+          <div class="gc-spec"><span class="gc-spec-k">First harvest</span><span class="gc-spec-v">2–3 weeks (bags)</span></div>
+          <div class="gc-spec"><span class="gc-spec-k">Active effort</span><span class="gc-spec-v">5 min / day misting</span></div>
+          <div class="gc-spec"><span class="gc-spec-k">Setup cost</span><span class="gc-spec-v">~$25–40</span></div>
+          <div class="gc-spec"><span class="gc-spec-k">Lifespan</span><span class="gc-spec-v">3–5 years (logs)</span></div>
+        </div>
+        <span class="gc-btn">Open guide →</span>
+      </a>
+
+      <a href="hot-sauce-guide.html" class="guide-card" style="background:linear-gradient(135deg,rgba(212,43,26,0.1),rgba(212,43,26,0.04));border-color:rgba(212,43,26,0.2);text-decoration:none;display:block;border-radius:20px;padding:2.5rem;position:relative;overflow:hidden;transition:transform 0.3s,box-shadow 0.3s;">
+        <span class="gc-num">05</span>
+        <span style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:500;margin-bottom:1rem;display:block;color:#d42b1a;">Fermented Condiment</span>
+        <h3 style="font-family:'Fraunces',serif;font-size:1.8rem;font-weight:700;color:var(--snow);margin-bottom:0.5rem;line-height:1.1;letter-spacing:-0.02em;">Hot <em style="font-style:italic;font-weight:300;">Sauce</em></h3>
+        <p style="font-size:0.88rem;color:var(--fog);line-height:1.75;margin-bottom:1.5rem;">Lacto-fermented chilli mash, brine-fermented whole chillis, and vinegar-based sauces — covering every method, every heat level. The most flavourful condiment you'll ever make, with genuine probiotic and capsaicin benefits.</p>
+        <div class="gc-specs">
+          <div class="gc-spec"><span class="gc-spec-k">Ferment time</span><span class="gc-spec-v" style="color:#d42b1a;">2 weeks – 6 months</span></div>
+          <div class="gc-spec"><span class="gc-spec-k">Active prep</span><span class="gc-spec-v" style="color:#d42b1a;">15–30 minutes</span></div>
+          <div class="gc-spec"><span class="gc-spec-k">Cost per batch</span><span class="gc-spec-v" style="color:#d42b1a;">~$5–10</span></div>
+          <div class="gc-spec"><span class="gc-spec-k">Shelf life</span><span class="gc-spec-v" style="color:#d42b1a;">6–12 months</span></div>
+        </div>
+        <span style="display:inline-flex;align-items:center;gap:0.5rem;font-size:0.78rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;padding:0.5rem 1.2rem;border-radius:100px;border:1px solid rgba(212,43,26,0.3);color:#d42b1a;transition:all 0.2s;">Open guide →</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BENEFITS -->
+<section class="benefits-section" id="benefits">
+  <div class="container--wide">
+    <div class="section-tag">Why this matters</div>
+    <h2 class="sh">The case for <em>infinity foods</em></h2>
+    <p class="body" style="max-width:580px;">As a PT and nutritionist, these four systems give you something you can genuinely recommend to every client — not as an expensive supplement protocol, but as a sustainable, deeply evidenced, accessible practice that compounds in value over time.</p>
+
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <span class="benefit-icon">🧬</span>
+        <div class="benefit-title">Unmatched probiotic diversity</div>
+        <p class="benefit-body">Home kefir delivers 30–50 live strains. Lacto-fermented vegetables deliver 10–30 distinct strains that complement kefir's profile. Commercial probiotics deliver 1–10 strains, freeze-dried, with poor gastric survival. There is no supplement equivalent to this combination.</p>
+      </div>
+      <div class="benefit-card">
+        <span class="benefit-icon">💊</span>
+        <div class="benefit-title">Beyond what supplements can do</div>
+        <p class="benefit-body">Beta-glucans from fresh mushrooms, hericenones from lion's mane, kefiran from kefir grains, lactic acid from fermentation — these are bioactive compounds in food matrices that protect them through digestion in ways isolated supplements cannot replicate. The food is the delivery mechanism.</p>
+      </div>
+      <div class="benefit-card">
+        <span class="benefit-icon">💰</span>
+        <div class="benefit-title">Extraordinary cost efficiency</div>
+        <p class="benefit-body">Running all four systems costs roughly $15–25 per week in raw materials — milk, flour, vegetables, salt. A single high-quality probiotic supplement costs more. A single bag of artisan sourdough costs more than a week of home baking. These are the most cost-efficient nutritional interventions available.</p>
+      </div>
+      <div class="benefit-card">
+        <span class="benefit-icon">🌍</span>
+        <div class="benefit-title">Genuinely sustainable</div>
+        <p class="benefit-body">No packaging beyond glass jars. No supply chains beyond your local grocery. No expiry dates on living cultures. Spent mushroom substrate becomes garden mulch. Sourdough discard becomes pancakes, crackers, and pasta. These systems produce almost zero waste.</p>
+      </div>
+      <div class="benefit-card">
+        <span class="benefit-icon">🧠</span>
+        <div class="benefit-title">Gut-brain axis support</div>
+        <p class="benefit-body">The 2021 Stanford RCT showed fermented foods outperformed high-fibre diets for microbiome diversity and inflammation reduction. Lion's mane NGF stimulation is evidenced in multiple RCTs. Kefir LAB produce GABA and serotonin precursors. Together these represent the most evidence-based dietary intervention for the gut-brain axis.</p>
+      </div>
+      <div class="benefit-card">
+        <span class="benefit-icon">🏋️</span>
+        <div class="benefit-title">Performance & recovery</div>
+        <p class="benefit-body">Fermentation-enhanced protein bioavailability from kefir and sourdough. Ergothioneine from king oyster accumulating in mitochondria. Beta-glucan-driven immune resilience during training blocks. Mineral bioavailability from fermented foods supporting bone density. The performance applications are substantive and underutilised in sports nutrition.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HOW THEY WORK TOGETHER -->
+<section class="together-section" id="together">
+  <div class="container--wide">
+    <div class="section-tag">The full picture</div>
+    <h2 class="sh">How they work <em>together</em></h2>
+    <p class="body" style="max-width:580px;">Each system is complete on its own. Combined, they create a nutritional ecosystem where each element complements and amplifies the others — covering gut health from multiple angles simultaneously.</p>
+
+    <div class="together-grid">
+      <div class="synergy-list">
+        <div class="syn-row">
+          <span class="syn-icons">🍞 + 🥛</span>
+          <div class="syn-desc"><strong>Sourdough + Kefir</strong> — kefir marinated chicken on sourdough toast. Fermented dairy protein with enhanced amino acid bioavailability on slow-release, low-GI fermented bread. Two fermented foods in one meal.</div>
+        </div>
+        <div class="syn-row">
+          <span class="syn-icons">🥛 + 🥬</span>
+          <div class="syn-desc"><strong>Kefir + Fermented Veg</strong> — kefir and kimchi cover completely different probiotic strains. Daily consumption of both creates broader microbiome diversity than either alone. This is the combination the Stanford study used.</div>
+        </div>
+        <div class="syn-row">
+          <span class="syn-icons">🍄 + 🥬</span>
+          <div class="syn-desc"><strong>Mushrooms + Fermented Veg</strong> — mushroom chitin feeds different gut bacteria than plant prebiotic fibre. Together they cover a wider range of the microbiome than either alone — prebiotic coverage from two structurally distinct fibre types.</div>
+        </div>
+        <div class="syn-row">
+          <span class="syn-icons">🍄 + 🥛</span>
+          <div class="syn-desc"><strong>Lion's Mane + Kefir</strong> — the gut-brain axis combination. Lion's mane NGF stimulation paired with kefir's GABA precursors and vagus nerve pathway support. The brain boost bowl in the mushroom guide uses both.</div>
+        </div>
+        <div class="syn-row">
+          <span class="syn-icons">🍞 + 🥬</span>
+          <div class="syn-desc"><strong>Sourdough + Fermented Veg</strong> — the classic pairing. Sauerkraut on sourdough, kimchi alongside a sourdough loaf, pickle on a sourdough reuben. The acidity of both complement each other and together deliver prebiotic fibre and live cultures in one sitting.</div>
+        </div>
+        <div class="syn-row">
+          <span class="syn-icons">🍞+🥛+🥬+🍄</span>
+          <div class="syn-desc"><strong>All four together</strong> — a grain bowl with fermented veg, kefir dressing, mushrooms, and sourdough croutons covers more nutritional bases than any single supplement protocol — for approximately $4 in ingredients.</div>
+        </div>
+      </div>
+
+      <div class="cost-card">
+        <h4>Weekly running cost — all four</h4>
+        <div class="cost-row">
+          <span class="cost-item" style="color:var(--sourdough);">Sourdough starter</span>
+          <span class="cost-val">~$1–2 <span style="font-size:0.72rem;font-weight:300;color:var(--fog-dim);">/ week flour</span></span>
+        </div>
+        <div class="cost-row">
+          <span class="cost-item" style="color:var(--kefir);">Milk kefir (daily 300ml)</span>
+          <span class="cost-val">~$5–7 <span style="font-size:0.72rem;font-weight:300;color:var(--fog-dim);">/ week milk</span></span>
+        </div>
+        <div class="cost-row">
+          <span class="cost-item" style="color:var(--kefir);">Water kefir</span>
+          <span class="cost-val">~$0.50 <span style="font-size:0.72rem;font-weight:300;color:var(--fog-dim);">/ week sugar</span></span>
+        </div>
+        <div class="cost-row">
+          <span class="cost-item" style="color:var(--veg);">Fermented veg batch</span>
+          <span class="cost-val">~$3–6 <span style="font-size:0.72rem;font-weight:300;color:var(--fog-dim);">/ batch (lasts weeks)</span></span>
+        </div>
+        <div class="cost-row">
+          <span class="cost-item" style="color:var(--mushroom);">Mushroom bag (misting only)</span>
+          <span class="cost-val">~$0 <span style="font-size:0.72rem;font-weight:300;color:var(--fog-dim);">running cost</span></span>
+        </div>
+        <div class="cost-row" style="border-top:1px solid rgba(255,255,255,0.1);margin-top:0.5rem;padding-top:1rem;">
+          <span class="cost-item"><strong style="color:var(--snow);">Total weekly</strong></span>
+          <span class="cost-val" style="font-size:1.2rem;">~$12–18</span>
+        </div>
+        <div class="cost-note">Compare: a single probiotic supplement costs $30–80/month. A loaf of artisan sourdough costs $10–14. A punnet of shiitake mushrooms costs $6–8. Running all four infinity food systems costs less per week than most people spend on coffee.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WHERE TO START -->
+<section class="start-section" id="start">
+  <div class="container--wide">
+    <div class="section-tag">Getting started</div>
+    <h2 class="sh">Where to <em>begin</em></h2>
+    <p class="body" style="max-width:580px;">Don't try to start all four at once — you'll overwhelm yourself. Each one has a short learning curve that flattens quickly. Here's the recommended sequence based on effort, speed of reward, and how each builds on the last.</p>
+
+    <div class="start-steps">
+      <div class="start-step">
+        <div class="ss-num">1</div>
+        <span class="ss-week"><span class="ss-dot" style="background:var(--kefir);"></span>Week 1</span>
+        <div class="ss-title">Start kefir</div>
+        <p class="ss-body">Order milk kefir grains online. Your first batch is ready in 24 hours. Immediate reward, almost zero effort, and the daily habit is just 3 minutes. You'll understand fermentation within a week.</p>
+      </div>
+      <div class="start-step">
+        <div class="ss-num">2</div>
+        <span class="ss-week"><span class="ss-dot" style="background:var(--sourdough);"></span>Week 2</span>
+        <div class="ss-title">Start sourdough</div>
+        <p class="ss-body">Begin your starter while your kefir habit is forming. 7 days of daily feeding, then your first loaf. By the time it's ready you'll have been drinking kefir for 2 weeks.</p>
+      </div>
+      <div class="start-step">
+        <div class="ss-num">3</div>
+        <span class="ss-week"><span class="ss-dot" style="background:var(--veg);"></span>Week 3</span>
+        <div class="ss-title">Ferment some veg</div>
+        <p class="ss-body">Make your first sauerkraut. Salt, cabbage, a jar. By Week 5 it's ready and you'll have three fermented food habits running in parallel with almost no additional effort.</p>
+      </div>
+      <div class="start-step">
+        <div class="ss-num">4</div>
+        <span class="ss-week"><span class="ss-dot" style="background:var(--mushroom);"></span>Week 4+</span>
+        <div class="ss-title">Order a mushroom block</div>
+        <p class="ss-body">Buy a ready-to-fruit oyster mushroom block online. Mist twice daily. Harvest within 2 weeks. Once you've seen how it works, move to inoculating your own substrate.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:2.5rem;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:2rem;">
+      <p style="font-size:0.92rem;color:var(--fog);line-height:1.85;margin:0;">
+        <strong style="color:var(--snow);">The honest expectation:</strong> within 4 weeks of starting this sequence you'll be producing kefir daily, baking sourdough weekly, have a jar of sauerkraut fermenting, and mushrooms pinning on the counter. The total time investment across all four is about 20–30 minutes per week once each system is established. The cost is less than a single café breakfast. The nutritional return is measurable, evidence-based, and genuinely difficult to replicate with any supplement protocol.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Infinity <em>Foods</em></div>
+  <div class="footer-sub">A nutritionist's guide to self-sustaining food systems</div>
+  <div class="footer-guides">
+    <a href="sourdough-starter-guide.html" class="footer-guide fg-sourdough">Sourdough Guide</a>
+    <a href="kefir-guide.html" class="footer-guide fg-kefir">Kefir Guide</a>
+    <a href="lacto-veg-guide.html" class="footer-guide fg-veg">Fermented Veg Guide</a>
+    <a href="mushroom-guide.html" class="footer-guide fg-mushroom">Mushroom Guide</a>
+    <a href="hot-sauce-guide.html" class="footer-guide" style="color:#d42b1a;border-color:rgba(212,43,26,0.25);">Hot Sauce Guide</a>
+  </div>
+  <div class="footer-credit">Designed for practitioners who want to give their clients something that lasts.</div>
+</footer>
+
+<script>
+// Smooth scroll for internal links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target) target.scrollIntoView({behavior:'smooth'});
+  });
+});
+</script>
+</body>
+</html>

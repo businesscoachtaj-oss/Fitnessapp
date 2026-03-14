@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Culture — A Nutritionist's Kefir Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void: #080f1a;
+  --deep: #0d1b2e;
+  --navy: #112240;
+  --slate: #1e3a5f;
+  --glass: rgba(255,255,255,0.06);
+  --glass-border: rgba(255,255,255,0.1);
+  --fog: rgba(255,255,255,0.55);
+  --snow: #f0f4f8;
+  --ice: #ccd9e8;
+  --sky: #7eb8d4;
+  --aqua: #4ecdc4;
+  --aqua-dim: rgba(78,205,196,0.15);
+  --aqua-border: rgba(78,205,196,0.3);
+  --milk: #f5f0e8;
+  --milk-dim: rgba(245,240,232,0.08);
+  --gold: #e8c87a;
+  --gold-dim: rgba(232,200,122,0.15);
+  --rose: #e88a7a;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+body{
+  background:var(--void);
+  color:var(--snow);
+  font-family:'Outfit',sans-serif;
+  font-weight:300;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+
+/* grain */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9999;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.2rem 3rem;
+  background:rgba(8,15,26,0.85);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--glass-border);
+}
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem;font-weight:600;
+  color:var(--snow);letter-spacing:0.08em;
+}
+.nav-logo span{color:var(--aqua);}
+.nav-links{display:flex;gap:1.5rem;list-style:none;}
+.nav-links a{
+  text-decoration:none;font-size:0.72rem;
+  letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--ice);opacity:0.6;transition:opacity 0.2s,color 0.2s;
+}
+.nav-links a:hover{opacity:1;color:var(--aqua);}
+@media(max-width:768px){nav{padding:1rem 1.5rem;}.nav-links{display:none;}}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  justify-content:center;align-items:flex-start;
+  padding:8rem 6rem 6rem;
+  position:relative;overflow:hidden;
+}
+
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 80% at 80% 50%, rgba(78,205,196,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 20% 80%, rgba(30,58,95,0.8) 0%, transparent 70%),
+    linear-gradient(135deg, var(--void) 0%, var(--deep) 100%);
+}
+
+.hero-orb{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(80px);
+  pointer-events:none;
+}
+.orb1{width:500px;height:500px;background:rgba(78,205,196,0.04);top:-100px;right:-100px;animation:drift 12s ease-in-out infinite;}
+.orb2{width:300px;height:300px;background:rgba(126,184,212,0.05);bottom:100px;left:200px;animation:drift 16s ease-in-out infinite reverse;}
+
+@keyframes drift{
+  0%,100%{transform:translate(0,0);}
+  50%{transform:translate(30px,-20px);}
+}
+
+.hero-content{position:relative;z-index:1;max-width:680px;}
+
+.hero-eyebrow{
+  font-size:0.72rem;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--aqua);margin-bottom:2rem;
+  display:flex;align-items:center;gap:1rem;
+  opacity:0;animation:slideIn 0.8s ease forwards 0.3s;
+}
+.hero-eyebrow::before{content:'';width:30px;height:1px;background:var(--aqua);}
+
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3.5rem,8vw,6.5rem);
+  font-weight:400;line-height:1;
+  color:var(--snow);margin-bottom:0.3rem;
+  opacity:0;animation:slideIn 0.9s ease forwards 0.5s;
+}
+.hero h1 em{font-style:italic;color:var(--aqua);}
+.hero h1 .sub-word{display:block;font-size:0.45em;letter-spacing:0.25em;text-transform:uppercase;color:var(--ice);opacity:0.5;margin-top:0.5rem;font-family:'Outfit',sans-serif;font-weight:300;}
+
+.hero-desc{
+  font-size:1.05rem;color:var(--fog);
+  max-width:480px;line-height:1.8;margin-top:2rem;margin-bottom:3rem;
+  opacity:0;animation:slideIn 1s ease forwards 0.7s;
+}
+
+.hero-pills{
+  display:flex;gap:0.75rem;flex-wrap:wrap;
+  opacity:0;animation:slideIn 1s ease forwards 0.9s;
+}
+.pill{
+  padding:0.45rem 1rem;border-radius:100px;
+  font-size:0.75rem;letter-spacing:0.06em;
+  border:1px solid var(--glass-border);
+  color:var(--ice);background:var(--glass);
+}
+.pill.highlight{border-color:var(--aqua-border);color:var(--aqua);background:var(--aqua-dim);}
+
+.hero-stats{
+  position:absolute;right:6rem;bottom:6rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;
+  background:var(--glass-border);border:1px solid var(--glass-border);
+  border-radius:16px;overflow:hidden;z-index:1;
+  opacity:0;animation:slideIn 1s ease forwards 1.1s;
+}
+.h-stat{
+  background:rgba(8,15,26,0.8);
+  backdrop-filter:blur(10px);
+  padding:1.2rem 1.5rem;text-align:center;
+}
+.h-stat-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.8rem;font-weight:600;
+  color:var(--aqua);display:block;line-height:1;
+}
+.h-stat-label{
+  font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--ice);opacity:0.5;margin-top:0.3rem;display:block;
+}
+
+@media(max-width:900px){.hero{padding:7rem 2rem 4rem;}.hero-stats{position:relative;right:auto;bottom:auto;margin-top:3rem;width:fit-content;}}
+@media(max-width:600px){
+  .hero-stats{grid-template-columns:1fr 1fr;width:100%;}
+  /* shelf life side-by-side → stack */
+  .shelf-grid{grid-template-columns:1fr !important;}
+  /* transfer cards min-width fix */
+}
+
+@keyframes slideIn{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* ── SHARED ── */
+.section{padding:7rem 0;}
+.container{max-width:880px;margin:0 auto;padding:0 2.5rem;}
+.container--wide{max-width:1120px;margin:0 auto;padding:0 2.5rem;}
+
+.tag{
+  display:inline-flex;align-items:center;gap:0.6rem;
+  font-size:0.68rem;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--aqua);font-weight:500;margin-bottom:1.2rem;
+}
+.tag::before{content:'';width:20px;height:1px;background:var(--aqua);}
+
+.tag-gold{color:var(--gold);}
+.tag-gold::before{background:var(--gold);}
+
+h2.st{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2rem,4vw,3rem);
+  font-weight:400;color:var(--snow);line-height:1.15;margin-bottom:1.5rem;
+}
+h2.st em{font-style:italic;color:var(--aqua);}
+h2.st em.gold{color:var(--gold);}
+
+p.bt{font-size:1rem;line-height:1.85;color:var(--fog);margin-bottom:1.2rem;}
+
+.glass-card{
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:16px;
+  backdrop-filter:blur(8px);
+}
+
+.divider{height:1px;background:linear-gradient(to right,transparent,var(--glass-border),transparent);}
+
+/* ── WHAT IS SECTION ── */
+.what-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1.5rem;margin-top:3rem;
+}
+@media(max-width:640px){.what-grid{grid-template-columns:1fr;}}
+
+.what-card{
+  border-radius:20px;padding:2.5rem;
+  position:relative;overflow:hidden;
+  transition:transform 0.3s ease;
+}
+.what-card:hover{transform:translateY(-4px);}
+
+.what-card-milk{
+  background:linear-gradient(135deg,rgba(245,240,232,0.07),rgba(245,240,232,0.03));
+  border:1px solid rgba(245,240,232,0.12);
+}
+.what-card-water{
+  background:linear-gradient(135deg,rgba(78,205,196,0.08),rgba(78,205,196,0.03));
+  border:1px solid rgba(78,205,196,0.15);
+}
+
+.what-card::before{
+  content:'';position:absolute;
+  top:-40px;right:-40px;
+  width:150px;height:150px;
+  border-radius:50%;
+  opacity:0.05;
+}
+.what-card-milk::before{background:var(--milk);}
+.what-card-water::before{background:var(--aqua);}
+
+.wc-type{
+  font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;
+  font-weight:500;margin-bottom:1rem;display:block;
+}
+.wc-type-milk{color:rgba(245,240,232,0.5);}
+.wc-type-water{color:var(--aqua);opacity:0.7;}
+
+.what-card h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.6rem;font-weight:400;
+  margin-bottom:0.75rem;line-height:1.2;
+}
+.what-card-milk h3{color:var(--milk);}
+.what-card-water h3{color:var(--aqua);}
+
+.what-card p{font-size:0.92rem;color:var(--fog);line-height:1.8;margin-bottom:0.75rem;}
+.what-card p:last-child{margin-bottom:0;}
+
+.compare-row{
+  display:flex;align-items:center;gap:0.6rem;
+  padding:0.4rem 0;border-bottom:1px solid var(--glass-border);
+  font-size:0.83rem;color:var(--fog);
+}
+.compare-row:last-child{border-bottom:none;}
+.compare-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.dot-milk{background:var(--milk);}
+.dot-water{background:var(--aqua);}
+
+/* ── SCIENCE ── */
+.science-section{
+  background:linear-gradient(180deg,var(--deep) 0%,var(--void) 100%);
+  padding:7rem 0;
+}
+
+.sci-cards{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1.5rem;margin-top:3rem;
+}
+@media(max-width:700px){.sci-cards{grid-template-columns:1fr;}}
+
+.sci-card{
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:16px;padding:2rem;
+  position:relative;overflow:hidden;
+  transition:background 0.3s,transform 0.3s;
+}
+.sci-card:hover{background:rgba(255,255,255,0.08);transform:translateY(-4px);}
+.sci-card::after{
+  content:'';position:absolute;
+  bottom:0;left:0;right:0;height:2px;
+  background:var(--aqua);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 0.4s ease;
+}
+.sci-card:hover::after{transform:scaleX(1);}
+
+.sci-icon{font-size:1.8rem;margin-bottom:1.2rem;display:block;}
+.sci-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem;font-weight:600;
+  color:var(--aqua);margin-bottom:0.75rem;
+}
+.sci-body{font-size:0.88rem;color:rgba(240,244,248,0.65);line-height:1.8;}
+.sci-cite{
+  margin-top:1rem;padding-top:1rem;
+  border-top:1px solid var(--glass-border);
+  font-size:0.78rem;color:var(--aqua);
+  font-style:italic;opacity:0.8;
+}
+
+.sci-vs{
+  margin-top:2.5rem;
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:12px;padding:1.5rem 2rem;
+}
+.sci-vs p{font-size:0.88rem;color:rgba(240,244,248,0.55);line-height:1.8;margin:0;}
+.sci-vs strong{color:var(--aqua);}
+
+/* ── METHOD TABS ── */
+.method-tabs{
+  display:flex;gap:0.5rem;margin-bottom:3rem;
+}
+.method-tab{
+  padding:0.6rem 1.5rem;border-radius:100px;
+  border:1px solid var(--glass-border);
+  background:none;cursor:pointer;
+  font-family:'Outfit',sans-serif;
+  font-size:0.82rem;letter-spacing:0.08em;
+  color:var(--ice);transition:all 0.2s;
+}
+.method-tab:hover{border-color:var(--aqua);color:var(--aqua);}
+.method-tab.active{background:var(--aqua);border-color:var(--aqua);color:var(--void);font-weight:500;}
+
+.method-panel{display:none;}
+.method-panel.active{display:block;}
+
+/* Method layout */
+.method-grid{
+  display:grid;grid-template-columns:300px 1fr;
+  gap:3rem;align-items:start;
+}
+@media(max-width:720px){
+  .method-grid{grid-template-columns:1fr;}
+  .ing-card{position:static !important;top:auto !important;}
+  .cycle-row{grid-template-columns:1fr !important;gap:0.4rem !important;}
+  .cycle-action{text-align:left !important;}
+}
+
+.method-panel-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2rem;font-weight:400;
+  color:var(--snow);margin-bottom:0.4rem;
+}
+.method-panel-sub{
+  font-size:0.82rem;color:var(--fog);
+  font-style:italic;margin-bottom:2rem;
+}
+
+.ing-card{
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:14px;padding:1.8rem;
+  position:sticky;top:90px;
+}
+.ing-card h4{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;font-weight:600;
+  color:var(--snow);margin-bottom:0.3rem;
+}
+.ing-card .sub{
+  font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--ice);opacity:0.4;margin-bottom:1.5rem;display:block;
+}
+.ing-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:0.5rem 0;border-bottom:1px solid var(--glass-border);
+  font-size:0.88rem;
+}
+.ing-row:last-of-type{border-bottom:none;}
+.ing-n{color:var(--fog);}
+.ing-a{
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.95rem;color:var(--aqua);
+}
+
+.grain-note{
+  margin-top:1.2rem;
+  background:var(--aqua-dim);
+  border-left:2px solid var(--aqua);
+  border-radius:0 8px 8px 0;
+  padding:0.8rem 1rem;
+  font-size:0.82rem;color:rgba(78,205,196,0.85);
+  line-height:1.6;
+}
+.grain-note strong{color:var(--aqua);display:block;margin-bottom:0.2rem;}
+
+.m-step{
+  display:flex;gap:1.5rem;margin-bottom:2rem;
+  opacity:0;transform:translateX(-12px);
+  transition:opacity 0.5s,transform 0.5s;
+}
+.m-step.visible{opacity:1;transform:translateX(0);}
+
+.m-step-num{
+  flex-shrink:0;width:34px;height:34px;
+  border-radius:50%;
+  background:var(--aqua);color:var(--void);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.9rem;font-weight:600;margin-top:2px;
+}
+.m-step-gold .m-step-num{background:var(--gold);color:var(--void);}
+
+.m-step-body h4{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.05rem;font-weight:600;
+  color:var(--snow);margin-bottom:0.3rem;
+}
+.m-step-body p{font-size:0.9rem;color:var(--fog);line-height:1.75;}
+.m-why{
+  margin-top:0.5rem;font-size:0.8rem;
+  color:var(--aqua);font-style:italic;
+  background:var(--aqua-dim);
+  padding:0.4rem 0.8rem;border-radius:5px;
+  display:inline-block;line-height:1.55;
+}
+.m-why-gold{color:var(--gold);background:var(--gold-dim);}
+
+/* Timeline */
+.cycle-card{
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:14px;overflow:hidden;
+  margin-top:2rem;
+}
+.cycle-row{
+  display:grid;grid-template-columns:110px 1fr auto;
+  align-items:center;gap:1.5rem;
+  padding:1rem 1.5rem;
+  border-bottom:1px solid var(--glass-border);
+  transition:background 0.2s;
+}
+.cycle-row:last-child{border-bottom:none;}
+.cycle-row:hover{background:var(--glass);}
+.cycle-time{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1rem;font-weight:600;color:var(--aqua);
+}
+.cycle-time-gold{color:var(--gold);}
+.cycle-desc{font-size:0.87rem;color:var(--fog);line-height:1.6;}
+.cycle-action{
+  font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--ice);opacity:0.4;white-space:nowrap;
+  text-align:right;
+}
+
+/* Grain care */
+.care-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:1.2rem;margin-top:2.5rem;
+}
+.care-card{
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:12px;padding:1.5rem;
+  transition:background 0.2s,transform 0.2s;
+}
+.care-card:hover{background:rgba(255,255,255,0.08);transform:translateY(-3px);}
+.care-icon{font-size:1.5rem;margin-bottom:0.75rem;display:block;}
+.care-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1rem;font-weight:600;color:var(--snow);margin-bottom:0.4rem;
+}
+.care-body{font-size:0.83rem;color:var(--fog);line-height:1.65;}
+
+/* ── RECIPES ── */
+.r-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:1.5rem;margin-top:2.5rem;
+}
+
+.r-card{
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:16px;overflow:hidden;
+  transition:transform 0.25s,background 0.25s;
+}
+.r-card:hover{transform:translateY(-4px);background:rgba(255,255,255,0.08);}
+
+.r-card-top{
+  padding:1.5rem 1.5rem 0;
+  display:flex;align-items:flex-start;gap:1rem;
+}
+.r-emoji{font-size:2rem;flex-shrink:0;margin-top:2px;}
+.r-card-top h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem;font-weight:400;color:var(--snow);margin-bottom:0.15rem;
+}
+.r-meta{font-size:0.72rem;color:var(--ice);opacity:0.45;letter-spacing:0.07em;}
+
+.r-card-body{padding:1rem 1.5rem 1.5rem;}
+.r-desc{font-size:0.86rem;color:var(--fog);line-height:1.7;margin-bottom:1rem;font-style:italic;}
+
+.r-ings{list-style:none;margin-bottom:1rem;}
+.r-ings li{
+  display:flex;justify-content:space-between;
+  font-size:0.83rem;padding:0.35rem 0;
+  border-bottom:1px solid var(--glass-border);
+  color:rgba(240,244,248,0.7);
+}
+.r-ings li:last-child{border-bottom:none;}
+.r-amt{color:var(--aqua);font-family:'Cormorant Garamond',serif;}
+.r-amt-gold{color:var(--gold);}
+
+.r-steps-title{
+  font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--aqua);font-weight:500;margin-bottom:0.6rem;
+}
+.r-steps-title-gold{color:var(--gold);}
+
+.r-steps{list-style:none;counter-reset:rs;}
+.r-steps li{
+  counter-increment:rs;
+  font-size:0.83rem;color:rgba(240,244,248,0.65);
+  line-height:1.65;padding:0.3rem 0 0.3rem 1.3rem;
+  position:relative;
+}
+.r-steps li::before{
+  content:counter(rs);
+  position:absolute;left:0;
+  color:var(--aqua);font-family:'Cormorant Garamond',serif;
+  font-size:0.82rem;font-weight:600;
+}
+.r-steps-gold li::before{color:var(--gold);}
+
+.r-ntag{
+  display:inline-block;margin-top:0.8rem;
+  font-size:0.7rem;background:var(--aqua-dim);
+  color:var(--aqua);border-radius:100px;
+  padding:0.2rem 0.7rem;letter-spacing:0.06em;
+}
+.r-ntag-gold{background:var(--gold-dim);color:var(--gold);}
+
+/* ── FAQ ── */
+.faq-section{background:var(--deep);padding:7rem 0;}
+
+.faq-item{border-bottom:1px solid var(--glass-border);}
+.faq-q{
+  width:100%;background:none;border:none;
+  padding:1.4rem 0;text-align:left;
+  display:flex;justify-content:space-between;align-items:center;
+  cursor:pointer;gap:1rem;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;color:var(--snow);
+  transition:color 0.2s;
+}
+.faq-q:hover{color:var(--aqua);}
+.faq-icon{
+  width:28px;height:28px;border-radius:50%;
+  border:1px solid var(--glass-border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;color:var(--aqua);flex-shrink:0;
+  transition:transform 0.3s,background 0.3s;
+}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:var(--aqua);color:var(--void);border-color:var(--aqua);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height 0.4s ease;}
+.faq-item.open .faq-a{max-height:500px;}
+.faq-a p{font-size:0.93rem;color:var(--fog);line-height:1.8;padding-bottom:1.4rem;}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--void);
+  border-top:1px solid var(--glass-border);
+  padding:5rem 2.5rem;text-align:center;
+}
+footer h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.5rem;font-style:italic;font-weight:400;
+  color:var(--aqua);margin-bottom:0.75rem;
+}
+footer p{color:var(--fog);font-size:0.88rem;opacity:0.4;max-width:400px;margin:0 auto;}
+</style>
+</head>
+<body>
+<script src="../nav.js" onload="CTNav.init('infinity-foods')" onerror="console.warn('nav.js not found')"></script>
+<style>body{padding-top:64px;}</style>
+
+
+<nav>
+  <div class="nav-logo">Cultur<span>e</span></div>
+  <ul class="nav-links">
+    <li><a href="#what">What is Kefir</a></li>
+    <li><a href="#science">The Science</a></li>
+    <li><a href="#method">Method</a></li>
+    <li><a href="#care">Grain Care</a></li>
+    <li><a href="#milk-recipes">Milk Recipes</a></li>
+    <li><a href="#water-recipes">Water Recipes</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">A Nutritionist's Guide</div>
+    <h1>
+      <em>Living</em> cultures,
+      <span class="sub-word">milk &amp; water kefir — complete guide</span>
+    </h1>
+    <p class="hero-desc">Two fermented drinks, one set of grains, and more probiotic diversity than almost anything else you can make at home. Here's everything you need to know.</p>
+    <div class="hero-pills">
+      <span class="pill highlight">24–48 hr turnaround</span>
+      <span class="pill">Indefinitely self-sustaining</span>
+      <span class="pill">30+ probiotic strains</span>
+      <span class="pill">Beginner friendly</span>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="h-stat"><span class="h-stat-num">30+</span><span class="h-stat-label">Probiotic strains</span></div>
+    <div class="h-stat"><span class="h-stat-num">24h</span><span class="h-stat-label">First batch</span></div>
+    <div class="h-stat"><span class="h-stat-num">2</span><span class="h-stat-label">Ingredients</span></div>
+    <div class="h-stat"><span class="h-stat-num">∞</span><span class="h-stat-label">Grain lifespan</span></div>
+  </div>
+</div>
+
+<!-- WHAT IS -->
+<section class="section" id="what">
+  <div class="container">
+    <div class="tag">The Basics</div>
+    <h2 class="st">Two drinks. <em>One culture.</em></h2>
+    <p class="bt" style="max-width:580px;">Kefir is made using kefir grains — a symbiotic matrix of bacteria and yeast held together in a polysaccharide structure called kefiran. They look like small, rubbery cauliflower florets. You add them to milk or sugar water, leave them for 24–48 hours, strain them out, and drink the fermented liquid. The grains go straight back in for the next batch.</p>
+    <p class="bt" style="max-width:580px;">They are not actually grains at all — no gluten, no grain. The name refers purely to their appearance. They're a living culture, and like your sourdough starter, they grow over time and last indefinitely.</p>
+
+    <div class="what-grid">
+      <div class="what-card what-card-milk">
+        <span class="wc-type wc-type-milk">Type 01</span>
+        <h3>Milk Kefir</h3>
+        <p>Made by fermenting cow's, goat's or sheep's milk with milk kefir grains. The result is a tangy, slightly thick, drinkable cultured dairy product — similar to thin yoghurt but with a far more diverse microbial profile.</p>
+        <p>The fermentation breaks down lactose (making it more tolerable for many lactose-sensitive people), partially digests the milk proteins, and produces a rich array of LAB and wild yeasts.</p>
+        <div style="margin-top:1rem;">
+          <div class="compare-row"><span class="compare-dot dot-milk"></span>Rich, slightly tangy, creamy</div>
+          <div class="compare-row"><span class="compare-dot dot-milk"></span>Higher protein and fat content</div>
+          <div class="compare-row"><span class="compare-dot dot-milk"></span>Strongest probiotic density</div>
+          <div class="compare-row"><span class="compare-dot dot-milk"></span>Ready in 24–36 hours</div>
+          <div class="compare-row"><span class="compare-dot dot-milk"></span>Works with full-fat, semi, oat or coconut milk</div>
+        </div>
+      </div>
+      <div class="what-card what-card-water">
+        <span class="wc-type wc-type-water">Type 02</span>
+        <h3>Water Kefir</h3>
+        <p>Made using water kefir grains (different from milk grains) fermented in sugar water. The result is a light, slightly fizzy, refreshing drink that can be flavoured with fruit, ginger, or citrus in a second fermentation for natural carbonation.</p>
+        <p>Completely dairy-free. Lower in probiotic diversity than milk kefir but still remarkable — and far more accessible for clients who are vegan or lactose intolerant.</p>
+        <div style="margin-top:1rem;">
+          <div class="compare-row"><span class="compare-dot dot-water"></span>Light, fizzy, refreshing</div>
+          <div class="compare-row"><span class="compare-dot dot-water"></span>Dairy-free and vegan</div>
+          <div class="compare-row"><span class="compare-dot dot-water"></span>Naturally carbonated (2nd ferment)</div>
+          <div class="compare-row"><span class="compare-dot dot-water"></span>Ready in 24–48 hours</div>
+          <div class="compare-row"><span class="compare-dot dot-water"></span>Endless flavour combinations</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SCIENCE -->
+<section class="science-section" id="science">
+  <div class="container--wide">
+    <div class="tag">The Science</div>
+    <h2 class="st">Why kefir is <em>exceptional</em></h2>
+    <p class="bt" style="max-width:600px;">As a PT and nutritionist, this is the part you'll want to understand deeply — because kefir's benefits are unusually well-evidenced compared to most "health" foods.</p>
+    <div class="sci-cards">
+      <div class="sci-card">
+        <span class="sci-icon">🦠</span>
+        <div class="sci-title">Probiotic Diversity</div>
+        <p class="sci-body">Commercial kefir contains 1–5 strains. Home-fermented kefir from live grains regularly yields 30–50 distinct strains of Lactobacillus, Leuconostoc, Acetobacter, and wild yeasts including Saccharomyces. This diversity is what makes it genuinely superior to any supplement or commercial product.</p>
+        <div class="sci-cite">Probiotic density: 10⁷–10⁹ CFU/ml — comparable to or exceeding high-dose probiotic capsules.</div>
+      </div>
+      <div class="sci-card">
+        <span class="sci-icon">🧬</span>
+        <div class="sci-title">Gut Barrier & Immunity</div>
+        <p class="sci-body">Kefiran — the polysaccharide that makes up the grain matrix — is itself bioactive. It crosses into the gut lining and has been shown in studies to modulate immune response, reduce intestinal permeability, and suppress certain inflammatory markers including IL-6 and TNF-α.</p>
+        <div class="sci-cite">Kefiran has demonstrated direct anti-inflammatory effects independent of the probiotic strains it harbours.</div>
+      </div>
+      <div class="sci-card">
+        <span class="sci-icon">🥛</span>
+        <div class="sci-title">Lactose & Protein</div>
+        <p class="sci-body">Lactase produced during fermentation breaks down 25–50% of lactose, making milk kefir well-tolerated by most lactose-sensitive individuals. Simultaneously, casein proteins are partially hydrolysed, improving their digestibility and amino acid availability — relevant for your protein-focused clients.</p>
+        <div class="sci-cite">Studies show milk kefir is tolerated by up to 70% of lactose-intolerant individuals who cannot tolerate regular milk.</div>
+      </div>
+      <div class="sci-card">
+        <span class="sci-icon">🧪</span>
+        <div class="sci-title">Antimicrobial Activity</div>
+        <p class="sci-body">Kefir produces bacteriocins, hydrogen peroxide, and organic acids that actively inhibit pathogenic bacteria including H. pylori, Salmonella, E. coli, and Staphylococcus aureus. This makes it genuinely useful as a food-based intervention in gut dysbiosis cases.</p>
+        <div class="sci-cite">Kefir's antimicrobial properties have been demonstrated in vitro against 15+ pathogenic species.</div>
+      </div>
+      <div class="sci-card">
+        <span class="sci-icon">💪</span>
+        <div class="sci-title">Bone Health & Minerals</div>
+        <p class="sci-body">The fermentation process increases bioavailability of calcium, magnesium, and phosphorus from milk. For a PT context: kefir's combination of highly bioavailable calcium, vitamin K2 (produced by LAB), and magnesium makes it an underrated bone health intervention — particularly relevant for female clients over 35.</p>
+        <div class="sci-cite">Fermentation-enhanced mineral bioavailability has been shown to meaningfully exceed that of unfermented dairy.</div>
+      </div>
+      <div class="sci-card">
+        <span class="sci-icon">🧠</span>
+        <div class="sci-title">Gut-Brain Axis</div>
+        <p class="sci-body">Emerging research on the gut-brain axis positions kefir as one of the more interesting dietary tools for mood and cognitive function. The LAB strains in kefir produce GABA precursors, serotonin precursors, and short-chain fatty acids that influence the vagus nerve pathway — a live area of research with meaningful early results.</p>
+        <div class="sci-cite">Several RCTs have shown regular kefir consumption associated with reduced anxiety scores and improved sleep quality.</div>
+      </div>
+    </div>
+    <div class="sci-vs">
+      <p><strong>Kefir vs yoghurt:</strong> Yoghurt typically contains 2–7 bacterial strains added after pasteurisation. Home kefir contains 30–50+ live strains that actively colonise and ferment. The matrix structure of kefir grains also means the microorganisms are delivered in a protected, biofilm-like environment that improves survival through stomach acid — giving them a meaningfully better chance of reaching the colon alive.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- METHOD -->
+<section class="section" id="method">
+  <div class="container--wide">
+    <div class="tag">The Method</div>
+    <h2 class="st">How to make <em>both</em></h2>
+    <p class="bt" style="max-width:580px;">Pick your starting point. Milk kefir is the richer, more nutritionally dense option. Water kefir is the gateway if you're dairy-free or want something lighter. Both use different grains — you can't substitute one for the other.</p>
+
+    <div class="method-tabs">
+      <button class="method-tab active" onclick="switchMethod('milk',this)">🥛 Milk Kefir</button>
+      <button class="method-tab" onclick="switchMethod('water',this)">💧 Water Kefir</button>
+    </div>
+
+    <!-- MILK METHOD -->
+    <div class="method-panel active" id="method-milk">
+      <div class="method-panel-title">Milk Kefir</div>
+      <div class="method-panel-sub">24–36 hours · Daily routine · Lasts indefinitely</div>
+
+      <div class="method-grid">
+        <div class="ing-card">
+          <h4>What you need</h4>
+          <span class="sub">Per batch · weigh everything</span>
+          <div class="ing-row"><span class="ing-n">Milk kefir grains</span><span class="ing-a">8g</span></div>
+          <div class="ing-row"><span class="ing-n">Whole milk (ideally organic)</span><span class="ing-a">300ml</span></div>
+          <div class="ing-row"><span class="ing-n">Glass jar (500ml+)</span><span class="ing-a">1</span></div>
+          <div class="ing-row"><span class="ing-n">Fine mesh strainer</span><span class="ing-a">1</span></div>
+          <div class="ing-row"><span class="ing-n">Cloth or loose lid</span><span class="ing-a">1</span></div>
+
+          <div style="margin-top:1.2rem; background:rgba(78,205,196,0.08); border-radius:10px; padding:1rem; border:1px solid var(--aqua-border);">
+            <div style="font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--aqua);font-weight:500;margin-bottom:0.75rem;">⚖️ Scaling your batch</div>
+            <div style="font-size:0.82rem;color:var(--fog);line-height:1.6;margin-bottom:0.6rem;">Your ratio: <strong style="color:var(--aqua);">8g grains = 300ml milk</strong></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--glass-border);border-radius:7px;overflow:hidden;">
+              <div style="padding:0.5rem 0.75rem;border-bottom:1px solid var(--glass-border);font-size:0.78rem;color:var(--aqua);font-weight:500;">Grains</div>
+              <div style="padding:0.5rem 0.75rem;border-bottom:1px solid var(--glass-border);border-left:1px solid var(--glass-border);font-size:0.78rem;color:var(--aqua);font-weight:500;">Milk</div>
+              <div style="padding:0.45rem 0.75rem;border-bottom:1px solid var(--glass-border);font-size:0.8rem;color:var(--fog);">8g</div>
+              <div style="padding:0.45rem 0.75rem;border-bottom:1px solid var(--glass-border);border-left:1px solid var(--glass-border);font-size:0.8rem;color:var(--fog);">300ml</div>
+              <div style="padding:0.45rem 0.75rem;border-bottom:1px solid var(--glass-border);font-size:0.8rem;color:var(--fog);">16g</div>
+              <div style="padding:0.45rem 0.75rem;border-bottom:1px solid var(--glass-border);border-left:1px solid var(--glass-border);font-size:0.8rem;color:var(--fog);">600ml</div>
+              <div style="padding:0.45rem 0.75rem;font-size:0.8rem;color:var(--fog);">24g</div>
+              <div style="padding:0.45rem 0.75rem;border-left:1px solid var(--glass-border);font-size:0.8rem;color:var(--fog);">900ml</div>
+            </div>
+            <div style="font-size:0.75rem;color:var(--fog);margin-top:0.6rem;opacity:0.6;font-style:italic;">As your grains grow you can scale up naturally — just keep the ratio.</div>
+          </div>
+
+          <div class="grain-note" style="margin-top:1rem;">
+            <strong>♻️ The grains are permanent</strong>
+            Every batch, you strain them out and put them straight back in with fresh milk. They are never used up — they grow over time. Within a few weeks you'll have more than you need and will be giving them away.
+          </div>
+          <div class="grain-note" style="margin-top:0.75rem;">
+            <strong>🌱 Where to get grains</strong>
+            Buy live grains online (not dried — dried grains need several batches to fully revive). Many kefir makers give excess grains away for free in local food or fermentation groups. Search "kefir grains [your city]" — there's usually someone nearby.
+          </div>
+        </div>
+
+        <div>
+          <div class="m-step">
+            <div class="m-step-num">1</div>
+            <div class="m-step-body">
+              <h4>Add grains to milk</h4>
+              <p>Place 8g of milk kefir grains into a clean glass jar. Pour over 300ml of room-temperature whole milk. This ratio — <strong>8g grains per 300ml milk</strong> — is your baseline. Too little milk and the grains ferment it too quickly and over-acidify; too much and it under-ferments. Scale up as your grains grow but always keep the same ratio.</p>
+              <div class="m-why">🥛 Why whole milk? Higher fat content feeds the grains better and produces a richer, creamier kefir. You can use semi-skimmed but the grains will be less active over time.</div>
+            </div>
+          </div>
+          <div class="m-step">
+            <div class="m-step-num">2</div>
+            <div class="m-step-body">
+              <h4>Cover loosely and leave at room temperature</h4>
+              <p>Cover the jar with a cloth secured with an elastic band, or a loose lid — never airtight, as CO₂ is produced during fermentation. Leave at room temperature (ideally 20–24°C) for 24–36 hours. A warm kitchen speeds things up; a cool one slows them down.</p>
+            </div>
+          </div>
+          <div class="m-step">
+            <div class="m-step-num">3</div>
+            <div class="m-step-body">
+              <h4>Taste and strain when ready</h4>
+              <p>After 24 hours, taste it. It should be mildly tangy and fairly pourable — 24 hours is actually the <em>thinnest and mildest</em> point, not the thickest. The longer it ferments, the thicker and tangier it becomes as the bacteria progressively coagulate the casein proteins. If it's still very milky and bland, leave another 6–12 hours. Pour through a fine mesh strainer into a clean jar or bottle, stirring gently to help it through.</p>
+              <div class="m-why">⏰ Counterintuitively: 24 hrs = thinnest and mildest. 36 hrs = balanced, noticeably thicker. 48 hrs = thick, strongly tangy, least lactose. The bacteria coagulate proteins over time — thickness builds with fermentation, not the other way around.</div>
+            </div>
+          </div>
+          <div class="m-step">
+            <div class="m-step-num">4</div>
+            <div class="m-step-body">
+              <h4>Return grains immediately</h4>
+              <p>The grains left in the strainer go straight back into the jar with fresh milk. That's it — your next batch has already started. The finished kefir goes into the fridge and keeps for 2–3 weeks, though it continues to ferment slowly even cold.</p>
+            </div>
+          </div>
+          <div class="m-step">
+            <div class="m-step-num">5</div>
+            <div class="m-step-body">
+              <h4>Second fermentation (optional but recommended)</h4>
+              <p>For more flavour complexity and natural effervescence: after straining, seal the kefir in a flip-top bottle with a piece of fruit, a strip of lemon peel, or a vanilla pod. Leave at room temperature for 6–12 hours. Open carefully over a sink — it will be fizzy. Refrigerate after.</p>
+              <div class="m-why">🫧 The second ferment consumes remaining sugars, increases carbonation, builds flavour, and further reduces lactose. This is where kefir gets genuinely exciting.</div>
+            </div>
+          </div>
+
+          <div class="cycle-card">
+            <div class="cycle-row">
+              <span class="cycle-time">Day 1, 8am</span>
+              <span class="cycle-desc">Add fresh milk to grains. Cover, leave on counter.</span>
+              <span class="cycle-action">2 min</span>
+            </div>
+            <div class="cycle-row">
+              <span class="cycle-time">Day 2, 8am</span>
+              <span class="cycle-desc">Strain. Kefir into fridge. Grains back in jar with fresh milk immediately.</span>
+              <span class="cycle-action">3 min</span>
+            </div>
+            <div class="cycle-row">
+              <span class="cycle-time">Every day</span>
+              <span class="cycle-desc">Repeat. You now have a continuous daily supply of fresh kefir.</span>
+              <span class="cycle-action">Ongoing</span>
+            </div>
+            <div class="cycle-row">
+              <span class="cycle-time">Going away?</span>
+              <span class="cycle-desc">Put grains in milk in the fridge. They'll keep 1–2 weeks without straining. Strain on return, discard that batch, then resume normally.</span>
+              <span class="cycle-action">No stress</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WATER METHOD -->
+    <div class="method-panel" id="method-water">
+      <div class="method-panel-title">Water Kefir</div>
+      <div class="method-panel-sub">24–48 hours · Every 2 days · Lasts indefinitely</div>
+
+      <div class="method-grid">
+        <div class="ing-card">
+          <h4>What you need</h4>
+          <span class="sub">Per batch · weigh everything</span>
+          <div class="ing-row"><span class="ing-n">Water kefir grains</span><span class="ing-a">25g</span></div>
+          <div class="ing-row"><span class="ing-n">Filtered water (non-chlorinated)</span><span class="ing-a">1 litre</span></div>
+          <div class="ing-row"><span class="ing-n">White sugar (plain, not raw)</span><span class="ing-a">60g</span></div>
+          <div class="ing-row"><span class="ing-n">Unsulphured dried fruit</span><span class="ing-a">15g</span></div>
+          <div class="ing-row"><span class="ing-n">Mineral-rich sea salt</span><span class="ing-a">1g</span></div>
+          <div class="ing-row"><span class="ing-n">Glass jar (1.5L+)</span><span class="ing-a">1</span></div>
+
+          <div style="margin-top:1.2rem; background:rgba(232,200,122,0.08); border-radius:10px; padding:1rem; border:1px solid rgba(232,200,122,0.25);">
+            <div style="font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:0.75rem;">⚖️ Scaling your batch</div>
+            <div style="font-size:0.82rem;color:var(--fog);line-height:1.6;margin-bottom:0.6rem;">Ratio: <strong style="color:var(--gold);">25g grains per litre of water</strong></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border:1px solid var(--glass-border);border-radius:7px;overflow:hidden;">
+              <div style="padding:0.45rem 0.6rem;border-bottom:1px solid var(--glass-border);font-size:0.72rem;color:var(--gold);font-weight:500;">Grains</div>
+              <div style="padding:0.45rem 0.6rem;border-bottom:1px solid var(--glass-border);border-left:1px solid var(--glass-border);font-size:0.72rem;color:var(--gold);font-weight:500;">Water</div>
+              <div style="padding:0.45rem 0.6rem;border-bottom:1px solid var(--glass-border);border-left:1px solid var(--glass-border);font-size:0.72rem;color:var(--gold);font-weight:500;">Sugar</div>
+              <div style="padding:0.4rem 0.6rem;border-bottom:1px solid var(--glass-border);font-size:0.78rem;color:var(--fog);">25g</div>
+              <div style="padding:0.4rem 0.6rem;border-bottom:1px solid var(--glass-border);border-left:1px solid var(--glass-border);font-size:0.78rem;color:var(--fog);">1L</div>
+              <div style="padding:0.4rem 0.6rem;border-bottom:1px solid var(--glass-border);border-left:1px solid var(--glass-border);font-size:0.78rem;color:var(--fog);">60g</div>
+              <div style="padding:0.4rem 0.6rem;font-size:0.78rem;color:var(--fog);">50g</div>
+              <div style="padding:0.4rem 0.6rem;border-left:1px solid var(--glass-border);font-size:0.78rem;color:var(--fog);">2L</div>
+              <div style="padding:0.4rem 0.6rem;border-left:1px solid var(--glass-border);font-size:0.78rem;color:var(--fog);">120g</div>
+            </div>
+            <div style="font-size:0.75rem;color:var(--fog);margin-top:0.6rem;opacity:0.6;font-style:italic;">Sugar is consumed during fermentation — very little remains in the finished drink.</div>
+          </div>
+
+          <div class="grain-note" style="margin-top:1rem; border-left-color: var(--gold); background: var(--gold-dim); color: rgba(232,200,122,0.85);">
+            <strong style="color:var(--gold);">💧 Water matters</strong>
+            Chlorinated tap water inhibits the grains. Use filtered, bottled, or leave tap water uncovered overnight. The dried fruit (15g) and salt (1g) provide essential minerals — don't skip these.
+          </div>
+        </div>
+
+        <div>
+          <div class="m-step m-step-gold">
+            <div class="m-step-num">1</div>
+            <div class="m-step-body">
+              <h4>Make your sugar water</h4>
+              <p>Dissolve 60g plain white sugar in 1 litre of room-temperature filtered water. Stir until fully dissolved. Don't use honey (antimicrobial), coconut sugar (too mineral-heavy initially), or artificial sweeteners. Plain white sugar gives the grains the cleanest fuel.</p>
+              <div class="m-why m-why-gold">🌱 The grains consume most of the sugar during fermentation — the finished drink contains very little residual sugar, especially after a longer ferment.</div>
+            </div>
+          </div>
+          <div class="m-step m-step-gold">
+            <div class="m-step-num">2</div>
+            <div class="m-step-body">
+              <h4>Add grains, fruit and minerals</h4>
+              <p>Add 25g water kefir grains to the sugar water. Add 15g of unsulphured dried fruit (apricots, figs, or raisins work well) — these provide minerals the grains need to stay healthy. Add 1g mineral-rich sea salt and a slice of lemon. Cover loosely.</p>
+            </div>
+          </div>
+          <div class="m-step m-step-gold">
+            <div class="m-step-num">3</div>
+            <div class="m-step-body">
+              <h4>Ferment 24–48 hours</h4>
+              <p>Leave at room temperature. After 24 hours you should see bubbles rising — the grains are active. 24 hours gives a lighter, sweeter result. 48 hours gives a tangier, less sweet, more fermented drink. Taste and decide what you prefer.</p>
+            </div>
+          </div>
+          <div class="m-step m-step-gold">
+            <div class="m-step-num">4</div>
+            <div class="m-step-body">
+              <h4>Strain and second ferment</h4>
+              <p>Strain into a clean jar, removing the grains and fruit. Return grains to fresh sugar water immediately. For the finished water kefir: pour into a flip-top bottle with fresh fruit juice, sliced ginger, berries, or citrus. Seal airtight and leave at room temperature 12–24 hours.</p>
+              <div class="m-why m-why-gold">🫧 The second ferment is where water kefir transforms — it builds natural carbonation and creates genuinely interesting flavours. Mango and ginger, blueberry and lemon, raspberry and mint all work brilliantly.</div>
+            </div>
+          </div>
+          <div class="m-step m-step-gold">
+            <div class="m-step-num">5</div>
+            <div class="m-step-body">
+              <h4>Refrigerate and enjoy</h4>
+              <p>After the second ferment, refrigerate. Always open over the sink and open slowly — it can be very fizzy. Drink within 1–2 weeks, though it keeps longer. The flavour continues evolving in the fridge.</p>
+            </div>
+          </div>
+
+          <div class="cycle-card">
+            <div class="cycle-row">
+              <span class="cycle-time cycle-time-gold">Day 1</span>
+              <span class="cycle-desc">Mix sugar water, add grains and fruit. Cover, leave on counter.</span>
+              <span class="cycle-action">5 min</span>
+            </div>
+            <div class="cycle-row">
+              <span class="cycle-time cycle-time-gold">Day 2–3</span>
+              <span class="cycle-desc">Strain. Grains back into fresh sugar water. Kefir into flip-top bottle with flavourings for 2nd ferment.</span>
+              <span class="cycle-action">5 min</span>
+            </div>
+            <div class="cycle-row">
+              <span class="cycle-time cycle-time-gold">+12–24 hrs</span>
+              <span class="cycle-desc">2nd ferment complete. Refrigerate. Open carefully — it will be fizzy.</span>
+              <span class="cycle-action">1 min</span>
+            </div>
+            <div class="cycle-row">
+              <span class="cycle-time cycle-time-gold">Going away?</span>
+              <span class="cycle-desc">Store grains in sugar water in the fridge for up to 3 weeks. Refresh with one batch before resuming normally.</span>
+              <span class="cycle-action">No stress</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- GRAIN CARE -->
+<section class="section" id="care" style="background:var(--deep);">
+  <div class="container">
+    <div class="tag">Keeping your grains alive</div>
+    <h2 class="st">Grain <em>care</em></h2>
+    <p class="bt" style="max-width:580px;">The grains are the culture — they're what you're protecting and growing. They're remarkably resilient, but a few things will damage or kill them.</p>
+
+    <div class="care-grid">
+      <div class="care-card">
+        <span class="care-icon">🌡️</span>
+        <div class="care-title">Temperature</div>
+        <p class="care-body">Ideal fermentation temp is 20–26°C. Below 15°C slows them significantly; above 30°C can damage the grain structure over time. Never use boiling or very hot milk — it kills the culture on contact.</p>
+      </div>
+      <div class="care-card">
+        <span class="care-icon">🧼</span>
+        <div class="care-title">Cleaning</div>
+        <p class="care-body">Never use soap or antibacterial products on the strainer or jar you use for grains — residue kills bacteria. Rinse with hot water only. The jar they ferment in doesn't need cleaning between batches.</p>
+      </div>
+      <div class="care-card">
+        <span class="care-icon">🚫</span>
+        <div class="care-title">Metal</div>
+        <p class="care-body">Avoid prolonged contact with metal — reactive metals like copper, zinc, or aluminium can harm the grains. Use glass jars and plastic or wooden spoons. A fine mesh stainless steel strainer used briefly is fine.</p>
+      </div>
+      <div class="care-card">
+        <span class="care-icon">🚿</span>
+        <div class="care-title">Never rinse the grains</div>
+        <p class="care-body">This is the most common beginner mistake. The instinct is to rinse them clean between batches — but you'd be washing off the active microbial community living on the grain surface. Tap water (chlorinated) is particularly damaging. Just strain and return them straight to fresh milk. They self-regulate — no cleaning needed.</p>
+      </div>
+      <div class="care-card">
+        <span class="care-icon">🧼</span>
+        <div class="care-title">Cleaning your equipment</div>
+        <p class="care-body">Never use soap or antibacterial products on anything that touches the grains — residue kills bacteria. Rinse jars and strainers with hot water only. The fermentation jar doesn't need cleaning between batches at all — just pour in the fresh milk and go.</p>
+      </div>
+      <div class="care-card">
+        <span class="care-icon">🚫</span>
+        <div class="care-title">Metal</div>
+        <p class="care-body">Avoid prolonged contact with reactive metals — copper, zinc, or aluminium can harm the grains. Use glass jars and plastic or silicone spoons. A fine stainless steel strainer used briefly is fine — it's extended contact that's the issue.</p>
+      </div>
+      <div class="care-card">
+        <span class="care-icon">📈</span>
+        <div class="care-title">Growth</div>
+        <p class="care-body">Healthy grains grow with every batch — they'll roughly double in volume over a few weeks. When you have too many, give them away, blend into smoothies, or compost. Smaller grains are more active than very large ones — break up big clumps with clean hands.</p>
+      </div>
+      <div class="care-card">
+        <span class="care-icon">❄️</span>
+        <div class="care-title">Taking a break</div>
+        <p class="care-body">Short break (1–2 weeks): submerge grains in fresh milk, seal, refrigerate. Discard that milk on return and start a fresh batch. Long break: freeze grains in a small amount of milk in a zip-lock bag — they'll keep for months and revive with 3–5 fresh batches.</p>
+      </div>
+      <div class="care-card">
+        <span class="care-icon">⚠️</span>
+        <div class="care-title">Signs of trouble</div>
+        <p class="care-body">Healthy grains are white/yellowish, rubbery, and smell pleasantly sour. Discard and start fresh if you see: pink or orange discolouration, black spots, a putrid (not sour) smell, or grains that have gone slimy and lost their shape.</p>
+      </div>
+    </div>
+
+    <!-- TRANSFERRING GRAINS -->
+    <div style="margin-top:3rem;">
+      <div class="tag">Sharing your culture</div>
+      <h2 class="st" style="font-size:1.8rem; margin-bottom:1rem;">Giving grains <em>to someone else</em></h2>
+      <p class="bt" style="max-width:580px;">Your grains will outgrow your needs within weeks. Here's how to transfer them cleanly depending on timing and distance.</p>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap:1.2rem; margin-top:1.5rem;">
+        <div class="care-card" style="border-color:var(--aqua-border);">
+          <span class="care-icon">🤝</span>
+          <div class="care-title" style="color:var(--aqua);">Same day / next day</div>
+          <p class="care-body">Spoon the grains into a small jar with enough milk to fully submerge them. Seal it. The recipient puts it straight in the fridge or starts a batch immediately. Simplest and best option — no prep needed.</p>
+        </div>
+        <div class="care-card" style="border-color:var(--aqua-border);">
+          <span class="care-icon">📅</span>
+          <div class="care-title" style="color:var(--aqua);">Within a week</div>
+          <p class="care-body">Same as above — grains submerged in milk in a sealed jar will keep happily in the fridge for up to a week. Tell the recipient to discard that first batch of milk and start fresh when they're ready. The grains will be fine.</p>
+        </div>
+        <div class="care-card" style="border-color:var(--aqua-border);">
+          <span class="care-icon">📮</span>
+          <div class="care-title" style="color:var(--aqua);">Posting or longer distance</div>
+          <p class="care-body">Two methods: <strong>Dry:</strong> coat grains in powdered milk, spread on baking paper, dry at room temp 24–48 hrs until hard. Bag and send — keeps weeks to months. Recipient rehydrates in fresh milk, changing daily for 3–5 days. <strong>Frozen:</strong> freeze in a small amount of milk in a zip-lock — keeps months, revives in a few batches.</p>
+        </div>
+        <div class="care-card" style="border-color:rgba(255,255,255,0.15);">
+          <span class="care-icon">💬</span>
+          <div class="care-title">Tell them this</div>
+          <p class="care-body">The first 2–3 batches after any transfer, storage, or revival will likely be weak or slow — that's completely normal, not a sign the grains are dead. Give them a few cycles to settle into their new environment before judging the result.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SHELF LIFE -->
+    <div style="margin-top:3rem;">
+      <div class="tag">Timing & shelf life</div>
+      <h2 class="st" style="font-size:1.8rem; margin-bottom:1rem;">How long does <em>everything</em> last?</h2>
+      <p class="bt" style="max-width:580px;">Two distinct questions — how long can the grains sit in milk before it's over-fermented, and how long does finished kefir last once you've strained them out.</p>
+
+      <div class="shelf-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:1.5rem;">
+
+        <div class="glass-card" style="padding:2rem;">
+          <div style="font-size:0.68rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--aqua);font-weight:500;margin-bottom:1rem;">Grains in milk — fermentation window</div>
+          <div style="display:flex;flex-direction:column;gap:0;border:1px solid var(--glass-border);border-radius:10px;overflow:hidden;">
+            <div style="display:grid;grid-template-columns:100px 1fr 80px;gap:0;">
+              <div style="padding:0.5rem 0.9rem;border-bottom:1px solid var(--glass-border);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(78,205,196,0.5);">Time</div>
+              <div style="padding:0.5rem 0.9rem;border-bottom:1px solid var(--glass-border);border-left:1px solid var(--glass-border);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(78,205,196,0.5);">Result</div>
+              <div style="padding:0.5rem 0.9rem;border-bottom:1px solid var(--glass-border);border-left:1px solid var(--glass-border);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(78,205,196,0.5);">Texture</div>
+            </div>
+            <div style="display:grid;grid-template-columns:100px 1fr 80px;gap:0;">
+              <div style="padding:0.7rem 0.9rem;border-bottom:1px solid var(--glass-border);font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:var(--aqua);">24 hrs RT</div>
+              <div style="padding:0.7rem 0.9rem;border-bottom:1px solid var(--glass-border);border-left:1px solid var(--glass-border);font-size:0.82rem;color:var(--fog);">Mildest, most lactose remaining — gentle introduction</div>
+              <div style="padding:0.7rem 0.9rem;border-bottom:1px solid var(--glass-border);border-left:1px solid var(--glass-border);font-size:0.78rem;color:var(--ice);opacity:0.6;">Thinnest</div>
+            </div>
+            <div style="display:grid;grid-template-columns:100px 1fr 80px;gap:0;">
+              <div style="padding:0.7rem 0.9rem;border-bottom:1px solid var(--glass-border);font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:var(--aqua);">36 hrs RT</div>
+              <div style="padding:0.7rem 0.9rem;border-bottom:1px solid var(--glass-border);border-left:1px solid var(--glass-border);font-size:0.82rem;color:var(--fog);">Balanced tang, noticeably thicker — most people's sweet spot</div>
+              <div style="padding:0.7rem 0.9rem;border-bottom:1px solid var(--glass-border);border-left:1px solid var(--glass-border);font-size:0.78rem;color:var(--aqua);">Medium</div>
+            </div>
+            <div style="display:grid;grid-template-columns:100px 1fr 80px;gap:0;">
+              <div style="padding:0.7rem 0.9rem;border-bottom:1px solid var(--glass-border);font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:var(--aqua);">48 hrs RT</div>
+              <div style="padding:0.7rem 0.9rem;border-bottom:1px solid var(--glass-border);border-left:1px solid var(--glass-border);font-size:0.82rem;color:var(--fog);">Strongly tangy, least lactose — approaching loose yoghurt</div>
+              <div style="padding:0.7rem 0.9rem;border-bottom:1px solid var(--glass-border);border-left:1px solid var(--glass-border);font-size:0.78rem;color:var(--aqua);font-weight:500;">Thickest</div>
+            </div>
+            <div style="display:grid;grid-template-columns:100px 1fr 80px;gap:0;">
+              <div style="padding:0.7rem 0.9rem;border-bottom:1px solid var(--glass-border);font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:var(--gold);">72+ hrs RT</div>
+              <div style="padding:0.7rem 0.9rem;border-bottom:1px solid var(--glass-border);border-left:1px solid var(--glass-border);font-size:0.82rem;color:var(--fog);">Very sharp, likely separating into curds and whey</div>
+              <div style="padding:0.7rem 0.9rem;border-bottom:1px solid var(--glass-border);border-left:1px solid var(--glass-border);font-size:0.78rem;color:var(--gold);">Separating</div>
+            </div>
+            <div style="display:grid;grid-template-columns:100px 1fr 80px;gap:0;">
+              <div style="padding:0.7rem 0.9rem;border-bottom:1px solid var(--glass-border);font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:var(--aqua);">3–5 days fridge</div>
+              <div style="padding:0.7rem 0.9rem;border-bottom:1px solid var(--glass-border);border-left:1px solid var(--glass-border);font-size:0.82rem;color:var(--fog);">Slow cold ferment — deliberately mild, useful technique</div>
+              <div style="padding:0.7rem 0.9rem;border-bottom:1px solid var(--glass-border);border-left:1px solid var(--glass-border);font-size:0.78rem;color:var(--ice);opacity:0.6;">Thin–med</div>
+            </div>
+            <div style="display:grid;grid-template-columns:100px 1fr 80px;gap:0;">
+              <div style="padding:0.7rem 0.9rem;font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:var(--gold);">7+ days fridge</div>
+              <div style="padding:0.7rem 0.9rem;border-left:1px solid var(--glass-border);font-size:0.82rem;color:var(--fog);">Grains getting hungry — refresh regardless of how it tastes</div>
+              <div style="padding:0.7rem 0.9rem;border-left:1px solid var(--glass-border);font-size:0.78rem;color:var(--gold);">Refresh</div>
+            </div>
+          </div>
+          <div style="margin-top:1rem;background:var(--aqua-dim);border-left:2px solid var(--aqua);border-radius:0 6px 6px 0;padding:0.7rem 0.9rem;font-size:0.82rem;color:rgba(78,205,196,0.85);line-height:1.6;">
+            💡 <strong>The key thing to know:</strong> thickness builds with fermentation time, not the other way around. 24 hours is your thinnest and mildest result. 36–48 hours is where real thickness develops as bacteria coagulate the casein proteins. For even thicker results, strain finished kefir through muslin in the fridge for a few hours — the whey drains off and you're left with something close to a soft kefir cream cheese.
+          </div>
+          <p style="font-size:0.8rem;color:var(--fog);margin-top:0.75rem;opacity:0.6;font-style:italic;">RT = room temperature. Cold dramatically slows fermentation — use the fridge deliberately to control pace and flavour.</p>
+        </div>
+
+        <div class="glass-card" style="padding:2rem;">
+          <div style="font-size:0.68rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--aqua);font-weight:500;margin-bottom:1rem;">Finished kefir — after straining</div>
+          <div style="display:flex;flex-direction:column;gap:0;border:1px solid var(--glass-border);border-radius:10px;overflow:hidden;">
+            <div style="display:grid;grid-template-columns:90px 1fr;gap:0;">
+              <div style="padding:0.7rem 0.9rem;border-bottom:1px solid var(--glass-border);font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:var(--aqua);">Days 1–5</div>
+              <div style="padding:0.7rem 0.9rem;border-bottom:1px solid var(--glass-border);border-left:1px solid var(--glass-border);font-size:0.82rem;color:var(--fog);">At its best — fresh, balanced, drink straight</div>
+            </div>
+            <div style="display:grid;grid-template-columns:90px 1fr;gap:0;">
+              <div style="padding:0.7rem 0.9rem;border-bottom:1px solid var(--glass-border);font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:var(--aqua);">Days 5–14</div>
+              <div style="padding:0.7rem 0.9rem;border-bottom:1px solid var(--glass-border);border-left:1px solid var(--glass-border);font-size:0.82rem;color:var(--fog);">Tangier, slightly thinner — still excellent, great for smoothies, cooking, marinades</div>
+            </div>
+            <div style="display:grid;grid-template-columns:90px 1fr;gap:0;">
+              <div style="padding:0.7rem 0.9rem;border-bottom:1px solid var(--glass-border);font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:var(--gold);">Days 14–21</div>
+              <div style="padding:0.7rem 0.9rem;border-bottom:1px solid var(--glass-border);border-left:1px solid var(--glass-border);font-size:0.82rem;color:var(--fog);">Quite sharp — best used in cooking, baking, or marinades rather than drinking</div>
+            </div>
+            <div style="display:grid;grid-template-columns:90px 1fr;gap:0;">
+              <div style="padding:0.7rem 0.9rem;font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:var(--gold);">Beyond 3 wks</div>
+              <div style="padding:0.7rem 0.9rem;border-left:1px solid var(--glass-border);font-size:0.82rem;color:var(--fog);">Use your nose — sour is fine, putrid is not. Any discolouration: discard</div>
+            </div>
+          </div>
+          <div style="margin-top:1rem;background:var(--aqua-dim);border-left:2px solid var(--aqua);border-radius:0 6px 6px 0;padding:0.7rem 0.9rem;font-size:0.82rem;color:rgba(78,205,196,0.85);line-height:1.6;">
+            💡 With a daily 300ml batch you'll accumulate kefir faster than you drink it. Use the older batches for cooking and the fresh ones for drinking — nothing is wasted.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MILK KEFIR RECIPES -->
+<section class="section" id="milk-recipes">
+  <div class="container--wide">
+    <div class="tag">Milk kefir in the kitchen</div>
+    <h2 class="st">Milk kefir <em>recipes</em></h2>
+    <p class="bt" style="max-width:580px;">Beyond drinking it straight — which is genuinely the easiest option — milk kefir is an outstanding cooking ingredient. Its acidity, protein content, and fermentation character make it far more versatile than yoghurt.</p>
+
+    <div class="r-grid">
+
+      <div class="r-card">
+        <div class="r-card-top"><span class="r-emoji">🥤</span><div><h3>Plain Kefir Drink</h3><span class="r-meta">1 MIN · SERVES 1</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">The foundation. Before you cook with it, learn to drink it. Start with a shorter ferment (24 hrs) if you're new to sour flavours — then work up to longer ferments as your palate adjusts.</p>
+          <ul class="r-ings">
+            <li><span>Fresh milk kefir (24–36 hr ferment)</span><span class="r-amt">200ml</span></li>
+            <li><span>Raw honey (optional)</span><span class="r-amt">5g</span></li>
+            <li><span>Cinnamon or vanilla (optional)</span><span class="r-amt">pinch</span></li>
+          </ul>
+          <div class="r-steps-title">Method</div>
+          <ol class="r-steps">
+            <li>Pour cold kefir into a glass. Swirl in honey and cinnamon if using.</li>
+            <li>Drink first thing in the morning on an empty stomach for maximum gut colonisation benefit.</li>
+          </ol>
+          <span class="r-ntag">best absorbed on an empty stomach</span>
+        </div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-card-top"><span class="r-emoji">🫐</span><div><h3>Kefir & Berry Smoothie</h3><span class="r-meta">5 MIN · SERVES 1–2</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">A high-protein, high-probiotic breakfast smoothie that will keep your clients fuelled for hours. The kefir provides a protein base with far better bioavailability than protein powder.</p>
+          <ul class="r-ings">
+            <li><span>Milk kefir</span><span class="r-amt">250ml</span></li>
+            <li><span>Frozen mixed berries</span><span class="r-amt">150g</span></li>
+            <li><span>Banana (frozen)</span><span class="r-amt">½</span></li>
+            <li><span>Chia seeds</span><span class="r-amt">15g</span></li>
+            <li><span>Spinach (optional)</span><span class="r-amt">handful</span></li>
+            <li><span>Raw honey</span><span class="r-amt">5g</span></li>
+          </ul>
+          <div class="r-steps-title">Method</div>
+          <ol class="r-steps">
+            <li>Blend all ingredients until smooth. Drink immediately or refrigerate up to 24 hours.</li>
+            <li>For extra protein, add 15g of nut butter or hemp seeds.</li>
+          </ol>
+          <span class="r-ntag">↑ antioxidants + probiotic + complete amino acids</span>
+        </div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-card-top"><span class="r-emoji">🥞</span><div><h3>Kefir Pancakes</h3><span class="r-meta">15 MIN · SERVES 2</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">The acidity of kefir reacts with baking soda to create the fluffiest pancakes imaginable. These are noticeably superior to buttermilk pancakes — lighter crumb, better flavour, and meaningfully more nutritious.</p>
+          <ul class="r-ings">
+            <li><span>Milk kefir</span><span class="r-amt">240ml</span></li>
+            <li><span>Plain flour</span><span class="r-amt">160g</span></li>
+            <li><span>Egg</span><span class="r-amt">1</span></li>
+            <li><span>Butter (melted)</span><span class="r-amt">30g</span></li>
+            <li><span>Sugar</span><span class="r-amt">15g</span></li>
+            <li><span>Baking soda</span><span class="r-amt">5g</span></li>
+            <li><span>Salt</span><span class="r-amt">pinch</span></li>
+          </ul>
+          <div class="r-steps-title">Method</div>
+          <ol class="r-steps">
+            <li>Whisk kefir, egg, butter together. Fold in flour, baking soda, sugar and salt until just combined — lumps are fine. Do not overmix.</li>
+            <li>Cook in a buttered pan over medium heat. The batter will bubble — flip when bubbles break on the surface, about 2–3 min per side.</li>
+          </ol>
+          <span class="r-ntag">kefir-baking soda reaction = exceptional lift</span>
+        </div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-card-top"><span class="r-emoji">🍗</span><div><h3>Kefir Marinated Chicken</h3><span class="r-meta">10 MIN + OVERNIGHT · SERVES 4</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">The lactic acid in kefir is one of the best natural meat tenderisers available. An overnight kefir marinade produces chicken that is extraordinarily tender, moist all the way through, and deeply flavoured — better than any commercial marinade.</p>
+          <ul class="r-ings">
+            <li><span>Milk kefir</span><span class="r-amt">300ml</span></li>
+            <li><span>Chicken thighs or breast</span><span class="r-amt">800g</span></li>
+            <li><span>Garlic (crushed)</span><span class="r-amt">4 cloves</span></li>
+            <li><span>Lemon zest + juice</span><span class="r-amt">1 lemon</span></li>
+            <li><span>Smoked paprika + cumin</span><span class="r-amt">3g each</span></li>
+            <li><span>Salt + black pepper</span><span class="r-amt">generous</span></li>
+            <li><span>Fresh herbs (thyme, rosemary)</span><span class="r-amt">few sprigs</span></li>
+          </ul>
+          <div class="r-steps-title">Method</div>
+          <ol class="r-steps">
+            <li>Mix all marinade ingredients. Coat chicken thoroughly, cover, and refrigerate overnight (minimum 4 hrs).</li>
+            <li>Remove chicken from marinade, shake off excess. Grill, roast at 200°C or pan-sear. The kefir will char slightly on the outside — this is correct and delicious.</li>
+            <li>Rest 5 min before serving. Internal temperature 74°C+.</li>
+          </ol>
+          <span class="r-ntag">lactic acid tenderisation = superior protein texture</span>
+        </div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-card-top"><span class="r-emoji">🍦</span><div><h3>Kefir Frozen Yoghurt</h3><span class="r-meta">10 MIN + FREEZE · SERVES 4</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">A high-protein, probiotic-rich frozen dessert that tastes genuinely indulgent. Note that freezing reduces (but doesn't eliminate) live bacterial cultures — the nutritional benefits are partially maintained.</p>
+          <ul class="r-ings">
+            <li><span>Milk kefir (full-fat)</span><span class="r-amt">500ml</span></li>
+            <li><span>Raw honey or maple syrup</span><span class="r-amt">80ml</span></li>
+            <li><span>Vanilla extract</span><span class="r-amt">5g</span></li>
+            <li><span>Pinch of salt</span><span class="r-amt">tiny</span></li>
+            <li><span>Fruit of choice (optional)</span><span class="r-amt">200g</span></li>
+          </ul>
+          <div class="r-steps-title">Method</div>
+          <ol class="r-steps">
+            <li>Whisk kefir, honey, vanilla and salt together. Fold in fruit if using.</li>
+            <li>Pour into a shallow tray and freeze 4 hours, scraping with a fork every hour for a granita texture, OR churn in an ice cream maker for 20 min for a creamier result.</li>
+            <li>Serve straight from the freezer — it softens quickly.</li>
+          </ol>
+          <span class="r-ntag">partial probiotic survival through freezing</span>
+        </div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-card-top"><span class="r-emoji">🫙</span><div><h3>Kefir Cream Cheese</h3><span class="r-meta">5 MIN + DRAIN OVERNIGHT</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">Strain your kefir overnight and you get a thick, spreadable cream cheese with a beautiful tang. Higher in protein than commercial cream cheese, with active cultures still present. Use on sourdough, crackers, or as a base for dips.</p>
+          <ul class="r-ings">
+            <li><span>Milk kefir (36–48 hr ferment)</span><span class="r-amt">500ml</span></li>
+            <li><span>Salt</span><span class="r-amt">3g</span></li>
+            <li><span>Fresh herbs / lemon zest (optional)</span><span class="r-amt">to taste</span></li>
+          </ul>
+          <div class="r-steps-title">Method</div>
+          <ol class="r-steps">
+            <li>Line a fine mesh strainer with muslin or a clean cloth over a bowl. Pour in kefir. Cover and refrigerate overnight (8–12 hrs).</li>
+            <li>The liquid that drains off (whey) is nutritious — save it for smoothies or bread making. The solid left in the cloth is your kefir cream cheese.</li>
+            <li>Season with salt and stir in herbs or lemon zest. Store in the fridge up to a week.</li>
+          </ol>
+          <span class="r-ntag">concentrated protein + active cultures</span>
+        </div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-card-top"><span class="r-emoji">🥗</span><div><h3>Kefir Ranch Dressing</h3><span class="r-meta">5 MIN · MAKES 300ML</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">A live, probiotic-rich dressing that replaces the dead, ultra-processed version. Use on salads, as a dip, or drizzled over roasted vegetables. The kefir base makes it lighter and more complex than mayo-based versions.</p>
+          <ul class="r-ings">
+            <li><span>Milk kefir</span><span class="r-amt">200ml</span></li>
+            <li><span>Mayonnaise</span><span class="r-amt">45g</span></li>
+            <li><span>Garlic (minced)</span><span class="r-amt">1 clove</span></li>
+            <li><span>Fresh dill + chives</span><span class="r-amt">8g each</span></li>
+            <li><span>Lemon juice</span><span class="r-amt">15g</span></li>
+            <li><span>Salt + white pepper</span><span class="r-amt">to taste</span></li>
+          </ul>
+          <div class="r-steps-title">Method</div>
+          <ol class="r-steps">
+            <li>Whisk all ingredients together until smooth. Taste and adjust seasoning.</li>
+            <li>Refrigerate at least 30 min before serving — the flavour improves significantly as it rests.</li>
+            <li>Keeps up to 1 week in the fridge. Stir before each use.</li>
+          </ol>
+          <span class="r-ntag">live cultures survive in cold dressing</span>
+        </div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-card-top"><span class="r-emoji">🍞</span><div><h3>Kefir Soda Bread</h3><span class="r-meta">10 MIN + 40 MIN BAKE</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">No yeast, no starter, no wait. The acidity of kefir activates baking soda for a rapid rise. A dense, tender loaf ready in under an hour — and as with sourdough, the fermented dairy base genuinely improves the nutritional profile over regular bread.</p>
+          <ul class="r-ings">
+            <li><span>Milk kefir</span><span class="r-amt">350ml</span></li>
+            <li><span>Plain flour</span><span class="r-amt">450g</span></li>
+            <li><span>Baking soda</span><span class="r-amt">5g</span></li>
+            <li><span>Salt</span><span class="r-amt">5g</span></li>
+            <li><span>Seeds or oats (optional topping)</span><span class="r-amt">handful</span></li>
+          </ul>
+          <div class="r-steps-title">Method</div>
+          <ol class="r-steps">
+            <li>Mix flour, baking soda and salt. Make a well, pour in kefir. Mix quickly with a fork until it comes together — don't overwork.</li>
+            <li>Shape into a round on a floured surface. Score a deep cross on top. Scatter seeds or oats if using.</li>
+            <li>Bake at 200°C for 35–40 min until hollow when tapped underneath. Cool on a rack before cutting.</li>
+          </ol>
+          <span class="r-ntag">kefir acidity activates soda — no wait required</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WATER KEFIR RECIPES -->
+<section class="section" id="water-recipes" style="background:var(--deep);">
+  <div class="container--wide">
+    <div class="tag tag-gold">Water kefir in the kitchen</div>
+    <h2 class="st">Water kefir <em class="gold">recipes</em></h2>
+    <p class="bt" style="max-width:580px;">Water kefir is primarily a drink — but a spectacularly versatile one. The second fermentation is where the real creativity happens. These recipes are mostly flavour combinations for second-ferment bottles, plus a few culinary uses.</p>
+
+    <div class="r-grid">
+
+      <div class="r-card">
+        <div class="r-card-top"><span class="r-emoji">🍋</span><div><h3>Lemon & Ginger Fizz</h3><span class="r-meta">2ND FERMENT · 12–18 HRS</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">The classic water kefir combination. Clean, bright, genuinely refreshing, and naturally more carbonated than any commercial kombucha. This is your baseline second-ferment recipe — nail this and everything else follows.</p>
+          <ul class="r-ings">
+            <li><span>First-ferment water kefir</span><span class="r-amt">750ml</span></li>
+            <li><span>Fresh ginger (sliced thin)</span><span class="r-amt">3cm piece</span></li>
+            <li><span>Lemon juice + zest</span><span class="r-amt">1 lemon</span></li>
+            <li><span>Honey (optional)</span><span class="r-amt">5g</span></li>
+          </ul>
+          <div class="r-steps-title r-steps-title-gold">Method</div>
+          <ol class="r-steps r-steps-gold">
+            <li>Add ginger, lemon juice, zest and honey to a flip-top bottle.</li>
+            <li>Pour in strained first-ferment kefir. Seal tightly. Leave at room temperature 12–18 hours.</li>
+            <li>Refrigerate. Open very carefully over a sink — burp the cap slowly. Strain out ginger before serving over ice.</li>
+          </ol>
+          <span class="r-ntag r-ntag-gold">natural carbonation + anti-inflammatory ginger</span>
+        </div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-card-top"><span class="r-emoji">🫐</span><div><h3>Blueberry & Mint</h3><span class="r-meta">2ND FERMENT · 12–24 HRS</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">A beautiful deep-purple sparkling drink. The blueberries give both colour and natural sugar for the second fermentation — the result is lightly sweet, floral, and incredibly drinkable.</p>
+          <ul class="r-ings">
+            <li><span>First-ferment water kefir</span><span class="r-amt">750ml</span></li>
+            <li><span>Fresh or frozen blueberries</span><span class="r-amt">80g</span></li>
+            <li><span>Fresh mint leaves</span><span class="r-amt">8–10 leaves</span></li>
+            <li><span>Lime juice</span><span class="r-amt">½ lime</span></li>
+          </ul>
+          <div class="r-steps-title r-steps-title-gold">Method</div>
+          <ol class="r-steps r-steps-gold">
+            <li>Lightly muddle blueberries and mint in the bottle. Add lime juice.</li>
+            <li>Pour in kefir, seal, and second-ferment 12–24 hrs at room temp.</li>
+            <li>Strain through a fine mesh before serving. Serve over ice with a sprig of mint.</li>
+          </ol>
+          <span class="r-ntag r-ntag-gold">anthocyanins from blueberries + probiotic</span>
+        </div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-card-top"><span class="r-emoji">🥭</span><div><h3>Mango & Turmeric</h3><span class="r-meta">2ND FERMENT · 12–18 HRS</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">Tropical, slightly spiced, and golden. The turmeric doesn't add much flavour but its curcumin bioavailability is significantly improved when combined with fermented foods — a useful detail for anti-inflammatory focused clients.</p>
+          <ul class="r-ings">
+            <li><span>First-ferment water kefir</span><span class="r-amt">750ml</span></li>
+            <li><span>Mango juice or fresh mango purée</span><span class="r-amt">100ml</span></li>
+            <li><span>Ground turmeric</span><span class="r-amt">3g</span></li>
+            <li><span>Black pepper (pinch)</span><span class="r-amt">tiny</span></li>
+            <li><span>Lime juice</span><span class="r-amt">½ lime</span></li>
+          </ul>
+          <div class="r-steps-title r-steps-title-gold">Method</div>
+          <ol class="r-steps r-steps-gold">
+            <li>Add mango, turmeric, black pepper and lime to bottle. Pour in kefir, seal.</li>
+            <li>Second-ferment 12–18 hrs. The mango provides plenty of sugar for carbonation.</li>
+            <li>Refrigerate. Shake gently before opening. Strain if desired.</li>
+          </ol>
+          <span class="r-ntag r-ntag-gold">black pepper enhances curcumin absorption 20x</span>
+        </div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-card-top"><span class="r-emoji">🍎</span><div><h3>Apple & Cinnamon</h3><span class="r-meta">2ND FERMENT · 18–24 HRS</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">An autumn-spiced sparkling water kefir reminiscent of a fermented apple cider. The cinnamon slows the carbonation slightly so this can ferment a bit longer without becoming dangerously fizzy.</p>
+          <ul class="r-ings">
+            <li><span>First-ferment water kefir</span><span class="r-amt">750ml</span></li>
+            <li><span>Apple juice (cloudy, unfiltered)</span><span class="r-amt">100ml</span></li>
+            <li><span>Cinnamon stick</span><span class="r-amt">1</span></li>
+            <li><span>Slice of fresh apple</span><span class="r-amt">2–3 slices</span></li>
+            <li><span>Cloves (optional)</span><span class="r-amt">2</span></li>
+          </ul>
+          <div class="r-steps-title r-steps-title-gold">Method</div>
+          <ol class="r-steps r-steps-gold">
+            <li>Add cinnamon, apple slices, cloves and apple juice to bottle. Pour in kefir, seal.</li>
+            <li>Second-ferment 18–24 hrs. The apple juice feeds a slower, steadier carbonation.</li>
+            <li>Remove cinnamon stick before refrigerating — it will continue to infuse and can become overpowering.</li>
+          </ol>
+          <span class="r-ntag r-ntag-gold">polyphenols from unfiltered apple juice preserved</span>
+        </div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-card-top"><span class="r-emoji">🌹</span><div><h3>Hibiscus & Berry Soda</h3><span class="r-meta">2ND FERMENT · 12–18 HRS</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">A deep crimson, vibrantly tart sparkling drink that looks stunning in a glass. Hibiscus is extraordinarily high in anthocyanins and has demonstrated blood pressure-lowering effects in clinical trials — a genuinely functional drink.</p>
+          <ul class="r-ings">
+            <li><span>First-ferment water kefir</span><span class="r-amt">750ml</span></li>
+            <li><span>Dried hibiscus flowers</span><span class="r-amt">10g</span></li>
+            <li><span>Mixed berry juice or fresh raspberries</span><span class="r-amt">80ml / 60g</span></li>
+            <li><span>Honey</span><span class="r-amt">5g</span></li>
+          </ul>
+          <div class="r-steps-title r-steps-title-gold">Method</div>
+          <ol class="r-steps r-steps-gold">
+            <li>Steep hibiscus flowers in a small amount of boiling water (about 30ml), cool to room temp, then strain the hibiscus liquid into the bottle.</li>
+            <li>Add berries and honey. Pour in kefir, seal, and second-ferment 12–18 hrs.</li>
+            <li>Strain and serve over ice. Stunning colour, exceptional flavour.</li>
+          </ol>
+          <span class="r-ntag r-ntag-gold">hibiscus anthocyanins + blood pressure research</span>
+        </div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-card-top"><span class="r-emoji">🥒</span><div><h3>Cucumber, Lime & Basil</h3><span class="r-meta">2ND FERMENT · 12 HRS</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">The most refreshing water kefir combination. Light on natural sugar so carbonation is gentler — a short 12-hour second ferment is sufficient. Incredibly clean and palate-cleansing.</p>
+          <ul class="r-ings">
+            <li><span>First-ferment water kefir</span><span class="r-amt">750ml</span></li>
+            <li><span>Cucumber slices</span><span class="r-amt">5–6 slices</span></li>
+            <li><span>Lime juice</span><span class="r-amt">1 lime</span></li>
+            <li><span>Fresh basil leaves</span><span class="r-amt">6–8 leaves</span></li>
+          </ul>
+          <div class="r-steps-title r-steps-title-gold">Method</div>
+          <ol class="r-steps r-steps-gold">
+            <li>Add cucumber, lime juice and bruised basil to bottle. Pour in kefir, seal.</li>
+            <li>Second-ferment just 12 hours — cucumber has low sugar so carbonation will be lighter.</li>
+            <li>Strain and serve immediately over ice. Don't leave beyond 12 hrs or the cucumber flavour can become bitter.</li>
+          </ol>
+          <span class="r-ntag r-ntag-gold">hydrating + electrolytes from mineral-rich grains</span>
+        </div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-card-top"><span class="r-emoji">🫚</span><div><h3>Water Kefir Salad Dressing</h3><span class="r-meta">5 MIN · MAKES ~150ML</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">A light, probiotic vinaigrette. The acidity of the water kefir replaces vinegar entirely — it's more complex, less harsh, and contains live cultures. Works on any green salad or as a marinade for fish.</p>
+          <ul class="r-ings">
+            <li><span>Plain water kefir (first ferment)</span><span class="r-amt">60ml</span></li>
+            <li><span>Extra virgin olive oil</span><span class="r-amt">80ml</span></li>
+            <li><span>Dijon mustard</span><span class="r-amt">5g</span></li>
+            <li><span>Garlic (minced)</span><span class="r-amt">½ clove</span></li>
+            <li><span>Honey</span><span class="r-amt">3g</span></li>
+            <li><span>Salt + black pepper</span><span class="r-amt">to taste</span></li>
+          </ul>
+          <div class="r-steps-title r-steps-title-gold">Method</div>
+          <ol class="r-steps r-steps-gold">
+            <li>Whisk mustard, garlic, honey and kefir together until emulsified.</li>
+            <li>Slowly whisk in olive oil until smooth and combined.</li>
+            <li>Season, taste, adjust. Keeps 5 days refrigerated. Shake before use.</li>
+          </ol>
+          <span class="r-ntag r-ntag-gold">live culture dressing — no heat = cultures preserved</span>
+        </div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-card-top"><span class="r-emoji">🧃</span><div><h3>Water Kefir Popsicles</h3><span class="r-meta">10 MIN + FREEZE · MAKES 6</span></div></div>
+        <div class="r-card-body">
+          <p class="r-desc">Naturally sparkling popsicles — the CO₂ creates a lighter, icier texture than regular juice popsicles. A genuinely brilliant way to get fermented foods into children (or adults who won't drink kefir straight).</p>
+          <ul class="r-ings">
+            <li><span>Second-ferment water kefir (any flavour)</span><span class="r-amt">400ml</span></li>
+            <li><span>Fresh fruit (sliced)</span><span class="r-amt">200g</span></li>
+            <li><span>Honey (optional)</span><span class="r-amt">15g</span></li>
+          </ul>
+          <div class="r-steps-title r-steps-title-gold">Method</div>
+          <ol class="r-steps r-steps-gold">
+            <li>Layer sliced fruit into popsicle moulds. Pour in kefir to fill.</li>
+            <li>Add a drizzle of honey if needed. Insert sticks and freeze 4+ hours until solid.</li>
+            <li>Run under warm water briefly to release. Eat immediately or store frozen for up to 1 month.</li>
+          </ol>
+          <span class="r-ntag r-ntag-gold">some probiotic survival through freezing</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="container">
+    <div class="tag">Common questions</div>
+    <h2 class="st">Things beginners <em>worry</em> about</h2>
+
+    <div style="margin-top:2.5rem;">
+      <div class="faq-item">
+        <button class="faq-q">Should I rinse the grains between batches? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>No — and this is one of the most common beginner mistakes. Rinsing washes off the active microbial community living on the grain surface, which is precisely what you want to keep. Chlorinated tap water is particularly damaging. Just strain the grains out and put them straight back into fresh milk — no rinsing, no cleaning. The only exception is if you suspect genuine contamination, in which case you're better off starting fresh entirely.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Can I use protein milk like Rokeby Farms? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>Yes, but with caveats. Ultra-filtered protein milks have been processed to concentrate protein and reduce lactose — which means significantly less food for the grains. A single batch will likely still work, but used daily the grains will weaken over time from under-nutrition. The smarter approach: use regular whole milk for the grains (which they thrive in) and add unflavoured whey or casein protein to the finished kefir after straining. You get the full probiotic benefit of a healthy ferment plus the protein hit, without compromising the culture. Worth noting — whole milk kefir already has better protein bioavailability than protein milk due to fermentation-driven casein hydrolysis, so you're not losing much.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How do I give some grains to a friend? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>Depends on timing. Same day or next day: spoon grains into a small jar with enough milk to submerge them, seal it, done — they start a batch immediately or refrigerate. Within a week: same method, the grains keep happily in milk in the fridge. Tell them to discard that first batch of milk and start fresh. Posting or longer distance: either dry the grains (coat in powdered milk, air dry 24–48 hrs until hard, bag and send — keeps weeks to months, recipient rehydrates in fresh milk changing daily for 3–5 days) or freeze them in a small amount of milk in a zip-lock bag. Either way, tell the recipient that the first 2–3 batches after transfer will likely be weak — that's completely normal while the grains settle into a new environment.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How long can the grains stay in the milk before it's too fermented to drink? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>At room temperature: 24–48 hours is your drinkable window. After 72 hours it becomes very sharp and starts separating into curds and whey — still edible and great for cooking, but not pleasant to drink straight. In the fridge it's a different story — cold dramatically slows fermentation, and grains left submerged in milk in the fridge will produce a milder, slowly fermented kefir over 3–5 days. Beyond 7 days in the fridge the grains start to get hungry and weaken, so refresh them with a new batch regardless of whether you strain it or not.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How long does finished kefir last once the grains are out? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>Sealed in a bottle in the fridge, finished kefir keeps for 2–3 weeks, sometimes longer. The acidity creates a self-preserving environment. It continues to slowly ferment even cold — Days 1–5 is when it's at its freshest and most balanced for drinking straight. Days 5–14 it's tangier and slightly thinner, still excellent in smoothies, marinades and cooking. Days 14–21 it's quite sharp — best used in baking or cooking rather than drinking. Beyond 3 weeks, use your nose: sour is fine, putrid is not. Any discolouration means discard. Practically speaking, with a daily 300ml batch you'll accumulate kefir faster than you can drink it — use the older batches for cooking and the fresh ones for drinking.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Is kefir thickest after 24 hours? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>Actually the opposite — 24 hours is your thinnest and mildest result. Thickness builds progressively as fermentation time increases, because the bacteria are gradually coagulating the casein proteins in the milk. At 24 hours those proteins are only partially broken down, so the kefir is fairly pourable and mild. By 36 hours it's noticeably thicker and properly tangy — most people's sweet spot. By 48 hours it's at its thickest, strongly sour, and approaching a loose yoghurt consistency. Beyond that it risks separating into curds and whey entirely. So if you want thicker kefir, ferment longer — don't strain earlier. And for even thicker results, strain the finished kefir through muslin in the fridge for a few hours: the whey drains off and you're left with something close to a soft kefir cream cheese.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">My milk kefir is very thin and not tangy. What's wrong? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>Almost always under-fermentation — you've strained it too early, your kitchen is too cold, or your grain-to-milk ratio is too low. Remember: 24 hours is the thinnest and mildest point, not the thickest. Leave it a full 36 hours and you'll notice a significant difference in both texture and tang. New grains bought online also take 3–5 batches to fully activate — your first few results will be weak regardless of timing while the culture settles in.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">My milk kefir has separated into liquid and curds. Is it ruined? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>Not ruined — just over-fermented. The liquid is whey and the solids are kefir curds. Both are perfectly edible and nutritious. Whisk them back together or strain the curds to make kefir cream cheese. Next time, strain a few hours earlier or use less grains. Over-fermentation is common in warm weather.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Can I use non-dairy milk for milk kefir grains? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>Yes, with caveats. Oat milk and coconut milk work reasonably well, though the grains will weaken over time without the proteins and sugars of animal milk. If you want to use non-dairy long-term, give the grains a "rest" batch in regular dairy milk every 3–4 batches to keep them strong. Alternatively, switch to water kefir grains — they're naturally dairy-free and purpose-built for the job.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">My water kefir isn't carbonating in the second ferment. <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>A few possible causes: the grains are under-active (give them a few more first-ferment cycles), there isn't enough natural sugar in your flavouring to feed carbonation, your bottle seal isn't airtight, or your kitchen is too cold. Try adding about 10ml of fruit juice or a small raisin to the second-ferment bottle — this gives the yeast a reliable sugar source to produce CO₂.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How much kefir should I drink per day? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>Start with 100–150ml per day and build up over 1–2 weeks. Introducing large amounts too quickly can cause temporary bloating or digestive changes as your gut microbiome adjusts — this is normal but uncomfortable. Once adapted, 200–300ml daily is a reasonable maintenance dose for most people. For clients with compromised immunity or serious gut conditions, start smaller and advise them to consult their GP.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Are the grains interchangeable — can I use milk grains for water kefir? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>No — they're distinct cultures adapted to completely different environments. Milk kefir grains are adapted to a protein-rich, lactose-based medium. Water kefir grains are adapted to a sugar-water environment. Putting milk grains in sugar water (or vice versa) will not produce good kefir and will degrade the grains over time.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Is kefir safe during pregnancy? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>Pasteurised milk kefir made at home is generally considered safe in pregnancy, and the probiotic benefits are well-studied in this context. However, home-fermented products carry a small theoretical risk if something goes wrong with the fermentation. Advise pregnant clients to discuss with their midwife or GP. Water kefir is lower risk in this regard as there is no dairy involved.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">My bottle exploded in the fridge. What happened? <span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>The second fermentation produced more CO₂ than the bottle could handle. This usually happens with very active grains, high-sugar flavourings, or leaving the second ferment too long at warm temperatures. To prevent: burp the bottle (open briefly) after 12 hours, use less high-sugar flavourings, shorten the second ferment, or refrigerate earlier. Always use bottles designed for carbonated drinks — regular glass jars are not pressure-safe.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <h3>Drink your cultures.</h3>
+  <p>Kefir is the most effortless fermented food you can make — and arguably the most nutritionally impactful.</p>
+</footer>
+
+<script>
+function switchMethod(type, btn) {
+  document.querySelectorAll('.method-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.method-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('method-' + type).classList.add('active');
+  btn.classList.add('active');
+}
+
+const steps = document.querySelectorAll('.m-step');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 80);
+  });
+}, { threshold: 0.1 });
+steps.forEach(el => obs.observe(el));
+
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
+});
+</script>
+</body>
+</html>
